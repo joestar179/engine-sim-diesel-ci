@@ -1,0 +1,40 @@
+name: Windows diesel/turbo CI
+
+on:
+  push:
+    branches: [ main, ci-bootstrap ]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build-test-package:
+    runs-on: windows-2022
+    timeout-minutes: 60
+
+    steps:
+      - name: Checkout enhancement overlay
+        uses: actions/checkout@v4
+
+      - name: Build, regression-compare, runtime-smoke, package
+        id: ci
+        shell: powershell
+        run: .\tools\windows_ci.ps1
+
+      - name: Upload test evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: engine-sim-test-evidence
+          path: _ci/logs
+          if-no-files-found: warn
+
+      - name: Upload audited Windows runtime
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: engine-sim-diesel-windows-x64
+          path: _ci/engine-sim-diesel-windows-x64.zip
+          if-no-files-found: error
