@@ -18,8 +18,8 @@ rep('        m_nBurntFuel += mass;\n        if (dt > 0.0) {',
 p.write_text(s,encoding='utf-8')
 p=root/'test/runtime_engine_smoke.cpp'
 s=p.read_text(encoding='utf-8')
-run_anchor='    simulator.getStarterMotor()->m_enabled = true;\\n'
-if run_anchor not in s: raise SystemExit('starter enable anchor missing')
+run_anchor='    constexpr int frames = 180; // 3 seconds at 60 Hz\\n'
+if run_anchor not in s: raise SystemExit('runtime loop anchor missing')
 s=s.replace(run_anchor, '    engine->getIgnitionModule()->m_enabled = true;\\n' + run_anchor, 1)
 a='        << " | max_turbo_rpm=" << maxTurboRpm\n        << "\\n";'
 b='        << " | max_turbo_rpm=" << maxTurboRpm\n        << " | injected_fuel_g=" << engine->getDirectInjectedFuelMass() * 1000.0\n        << " | burned_fuel_g=" << engine->getDirectBurnedFuelMass() * 1000.0\n        << " | max_ci_temp_K=" << engine->getMaxCompressionIgnitionTemperature()\n        << " | max_ci_pressure_MPa=" << engine->getMaxCompressionIgnitionPressure() / 1.0e6\n        << "\\n";'
