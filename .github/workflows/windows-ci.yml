@@ -18,6 +18,18 @@ jobs:
       - name: Checkout enhancement overlay
         uses: actions/checkout@v4
 
+      - name: Restore deterministic CI seed
+        shell: powershell
+        run: |
+          $parts = 1..5 | ForEach-Object { ".ci/seed.part{0:D2}.b64" -f $_ }
+          $b64 = ($parts | ForEach-Object { (Get-Content $_ -Raw).Trim() }) -join ''
+          [IO.File]::WriteAllBytes("$env:RUNNER_TEMP\seed.zip", [Convert]::FromBase64String($b64))
+          $hash = (Get-FileHash "$env:RUNNER_TEMP\seed.zip" -Algorithm SHA256).Hash.ToLowerInvariant()
+          if ($hash -ne '47d987cfeb1f90b53fa203eda2a1a669cd660b5838a9c49b83389d1c1ba8fd23') { throw "CI seed SHA256 mismatch: $hash" }
+          Expand-Archive -Force "$env:RUNNER_TEMP\seed.zip" "$env:RUNNER_TEMP\seed"
+          Copy-Item -Recurse -Force "$env:RUNNER_TEMP\seed\engine-sim-diesel-ci-seed\*" "$env:GITHUB_WORKSPACE"
+          Copy-Item -Force "$env:RUNNER_TEMP\seed\engine-sim-diesel-ci-seed\.gitignore" "$env:GITHUB_WORKSPACE\.gitignore"
+
       - name: Build, regression-compare, runtime-smoke, package
         id: ci
         shell: powershell
