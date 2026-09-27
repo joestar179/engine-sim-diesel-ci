@@ -17,53 +17,12 @@ jobs:
     steps:
       - name: Checkout enhancement overlay
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
       - name: Enforce failure-loop guard
         shell: powershell
         run: |
           python .ci/guard_failure_loops.py .
           if ($LASTEXITCODE -ne 0) { throw "failure-loop guard rejected repository state" }
-
-      - name: Recover retired generic V1 as readable text only
-        shell: powershell
-        run: |
-          $ErrorActionPreference = 'Stop'
-          $ref = 'e4fd0476f02ddcc22e40394f6b68501f8dc553f5'
-          New-Item -ItemType Directory -Force '_ci/recovery' | Out-Null
-          $parts = @()
-          foreach ($n in 0..3) {
-            $path = ".ci/generic_v1.part{0:D2}.b64" -f $n
-            $spec = $ref + ':' + $path
-            $parts += (git show $spec).Trim()
-          }
-          $bytes = [Convert]::FromBase64String(($parts -join ''))
-          [IO.File]::WriteAllBytes('_ci/recovery/generic_v1_core.patch.gz', $bytes)
-          @'
-          import pathlib, zlib
-          src = pathlib.Path('_ci/recovery/generic_v1_core.patch.gz').read_bytes()
-          if src[:2] != b'\x1f\x8b': raise SystemExit('historical recovery is not gzip data')
-          flg=src[3]; p=10
-          if flg & 4:
-              xlen=src[p] | (src[p+1] << 8); p += 2 + xlen
-          if flg & 8: p=src.index(0,p)+1
-          if flg & 16: p=src.index(0,p)+1
-          if flg & 2: p += 2
-          data=zlib.decompress(src[p:-8], -zlib.MAX_WBITS)
-          out=pathlib.Path('_ci/recovery/generic_v1_core.patch')
-          out.write_bytes(data)
-          text=data.decode('utf-8')
-          if len(text) < 1000: raise SystemExit('recovered readable generic V1 patch unexpectedly small')
-          print(f'recovered readable generic V1 patch: {len(text)} characters, {text.count(chr(10))+1} lines')
-          '@ | python -
-
-      - name: Upload readable generic V1 recovery
-        uses: actions/upload-artifact@v4
-        with:
-          name: generic-v1-readable-recovery
-          path: _ci/recovery/generic_v1_core.patch
-          if-no-files-found: error
 
       - name: Restore deterministic CI seed
         shell: powershell
@@ -105,7 +64,7 @@ jobs:
           if-no-files-found: warn
 
       - name: Upload audited Windows runtime
-        if: success()
+        if: ${{ false }}
         uses: actions/upload-artifact@v4
         with:
           name: engine-sim-diesel-windows-x64
