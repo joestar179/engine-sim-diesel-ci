@@ -9,6 +9,13 @@ $runtime = Join-Path $work 'runtime'
 $logs = Join-Path $work 'logs'
 New-Item -ItemType Directory -Force -Path $work,$logs | Out-Null
 
+# Preserve the reconstructed overlay for full-source audit and deterministic repair.
+# This is diagnostic evidence only; it does not alter the source being built.
+$auditZip = Join-Path $logs 'reconstructed-overlay.zip'
+if (Test-Path $auditZip) { Remove-Item -Force $auditZip }
+$overlayAuditItems = Get-ChildItem -Force $overlay | Where-Object { $_.Name -notin @('.git','_ci') }
+Compress-Archive -Path $overlayAuditItems.FullName -DestinationPath $auditZip -CompressionLevel Optimal
+
 $rootPin = '56725cc012581282567900b15871018d55b7ab42'
 $piranhaPin = '432f0b122bb1663b686c553c7e7269300afac3bc'
 $deltaPin = 'b7d0a046733b924d12706baf1e5e59ba427aa7b1'
