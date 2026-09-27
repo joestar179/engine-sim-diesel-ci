@@ -103,6 +103,8 @@ if ($LASTEXITCODE -ne 0) { throw 'overlay static audit failed' }
 Write-Host '=== Apply one clean enhancement patch ==='
 python (Join-Path $overlay 'tools\apply_ce_enhancement.py') $source
 if ($LASTEXITCODE -ne 0) { throw 'enhancement patch failed' }
+python (Join-Path $overlay '.ci\full_turbo_topology_patch.py') $source
+if ($LASTEXITCODE -ne 0) { throw 'full turbo topology patch failed' }
 New-Item -ItemType Directory -Force -Path (Join-Path $source 'assets\engines\alco') | Out-Null
 Copy-Item -Force (Join-Path $overlay 'assets\engines\alco\alco_251d_diesel_turbo.mr') (Join-Path $source 'assets\engines\alco\alco_251d_diesel_turbo.mr')
 Copy-Item -Force (Join-Path $overlay 'assets\alco_main.mr') (Join-Path $source 'assets\alco_main.mr')
