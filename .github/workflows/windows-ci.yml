@@ -17,12 +17,44 @@ jobs:
     steps:
       - name: Checkout enhancement overlay
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Enforce failure-loop guard
         shell: powershell
         run: |
           python .ci/guard_failure_loops.py .
           if ($LASTEXITCODE -ne 0) { throw "failure-loop guard rejected repository state" }
+
+      - name: Recover retired generic V1 as readable text only
+        shell: powershell
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $ref = 'e4fd0476f02ddcc22e40394f6b68501f8dc553f5'
+          New-Item -ItemType Directory -Force '_ci/recovery' | Out-Null
+          $parts = @()
+          foreach ($n in 0..3) {
+            $path = ".ci/generic_v1.part{0:D2}.b64" -f $n
+            $spec = $ref + ':' + $path
+            $parts += (git show $spec).Trim()
+          }
+          $bytes = [Convert]::FromBase64String(($parts -join ''))
+          [IO.File]::WriteAllBytes('_ci/recovery/generic_v1_core.patch.gz', $bytes)
+          $input = [IO.File]::OpenRead('_ci/recovery/generic_v1_core.patch.gz')
+          $gzip = New-Object IO.Compression.GZipStream($input, [IO.Compression.CompressionMode]::Decompress)
+          $output = [IO.File]::Create('_ci/recovery/generic_v1_core.patch')
+          $gzip.CopyTo($output)
+          $output.Dispose(); $gzip.Dispose(); $input.Dispose()
+          $text = [IO.File]::ReadAllText('_ci/recovery/generic_v1_core.patch')
+          if ($text.Length -lt 1000) { throw 'Recovered readable generic V1 patch is unexpectedly small' }
+          Write-Host "Recovered readable generic V1 patch: $($text.Length) characters"
+
+      - name: Upload readable generic V1 recovery
+        uses: actions/upload-artifact@v4
+        with:
+          name: generic-v1-readable-recovery
+          path: _ci/recovery/generic_v1_core.patch
+          if-no-files-found: error
 
       - name: Restore deterministic CI seed
         shell: powershell
