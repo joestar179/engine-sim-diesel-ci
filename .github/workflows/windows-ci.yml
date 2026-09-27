@@ -40,14 +40,23 @@ jobs:
           }
           $bytes = [Convert]::FromBase64String(($parts -join ''))
           [IO.File]::WriteAllBytes('_ci/recovery/generic_v1_core.patch.gz', $bytes)
-          $input = [IO.File]::OpenRead('_ci/recovery/generic_v1_core.patch.gz')
-          $gzip = New-Object IO.Compression.GZipStream($input, [IO.Compression.CompressionMode]::Decompress)
-          $output = [IO.File]::Create('_ci/recovery/generic_v1_core.patch')
-          $gzip.CopyTo($output)
-          $output.Dispose(); $gzip.Dispose(); $input.Dispose()
-          $text = [IO.File]::ReadAllText('_ci/recovery/generic_v1_core.patch')
-          if ($text.Length -lt 1000) { throw 'Recovered readable generic V1 patch is unexpectedly small' }
-          Write-Host "Recovered readable generic V1 patch: $($text.Length) characters"
+          @'
+          import pathlib, zlib
+          src = pathlib.Path('_ci/recovery/generic_v1_core.patch.gz').read_bytes()
+          if src[:2] != b'\x1f\x8b': raise SystemExit('historical recovery is not gzip data')
+          flg=src[3]; p=10
+          if flg & 4:
+              xlen=src[p] | (src[p+1] << 8); p += 2 + xlen
+          if flg & 8: p=src.index(0,p)+1
+          if flg & 16: p=src.index(0,p)+1
+          if flg & 2: p += 2
+          data=zlib.decompress(src[p:-8], -zlib.MAX_WBITS)
+          out=pathlib.Path('_ci/recovery/generic_v1_core.patch')
+          out.write_bytes(data)
+          text=data.decode('utf-8')
+          if len(text) < 1000: raise SystemExit('recovered readable generic V1 patch unexpectedly small')
+          print(f'recovered readable generic V1 patch: {len(text)} characters, {text.count(chr(10))+1} lines')
+          '@ | python -
 
       - name: Upload readable generic V1 recovery
         uses: actions/upload-artifact@v4
