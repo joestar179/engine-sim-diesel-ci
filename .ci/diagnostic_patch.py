@@ -40,3 +40,29 @@ p.write_text(s.replace(a,b,1),encoding='utf-8')
 print('CI combustion diagnostics applied')
 
 exec(compile((root/'.ci/turbo_arch_patch.py').read_text(encoding='utf-8'), '.ci/turbo_arch_patch.py', 'exec'))
+
+# Normalize the pinned Delta Studio D3DX linkage for distributable RelWithDebInfo builds.
+p=root/'tools/windows_ci.ps1'
+s=p.read_text(encoding='utf-8')
+anchor='if ($actualDelta -ne $deltaPin) { throw "wrong Delta commit: $actualDelta" }\n'
+fix=r'''if ($actualDelta -ne $deltaPin) { throw "wrong Delta commit: $actualDelta" }
+
+# Delta Studio b7d0a046 links retail and debug D3DX libraries unconditionally.
+# RelWithDebInfo must use only the redistributable retail imports.
+$deltaCmake = Join-Path $source 'dependencies\\submodules\\delta-studio\\CMakeLists.txt'
+$deltaText = [IO.File]::ReadAllText($deltaCmake)
+foreach ($debugImport in @(
+    '    ${D3DX_LIBS}/d3dx9d.lib',
+    '    ${D3DX_LIBS}/d3dx10d.lib',
+    '    ${D3DX_LIBS}/d3dx11d.lib'
+)) {
+    if (-not $deltaText.Contains($debugImport)) { throw "Expected pinned Delta D3DX debug import missing: $debugImport" }
+    $deltaText = $deltaText.Replace("$debugImport`r`n", '').Replace("$debugImport`n", '')
+}
+[IO.File]::WriteAllText($deltaCmake, $deltaText, (New-Object System.Text.UTF8Encoding($false)))
+Write-Host 'Normalized pinned Delta D3DX linkage to retail imports only.'
+'''
+if anchor not in s: raise SystemExit('windows_ci Delta pin anchor missing')
+s=s.replace(anchor,fix,1)
+p.write_text(s,encoding='utf-8')
+print('CI packaging linkage fix applied')
