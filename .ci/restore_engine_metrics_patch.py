@@ -1,6 +1,9 @@
 from pathlib import Path
+import sys
 
-root = Path('.')
+if len(sys.argv) != 2:
+    raise SystemExit('usage: restore_engine_metrics_patch.py <engine-sim-source>')
+root = Path(sys.argv[1])
 p = root / 'src/engine.cpp'
 s = p.read_text(encoding='utf-8')
 
