@@ -22,7 +22,7 @@ run_anchor='    constexpr int frames = 180; // 3 seconds at 60 Hz\n'
 if run_anchor not in s: raise SystemExit('runtime loop anchor missing')
 s=s.replace(run_anchor, '    engine->getIgnitionModule()->m_enabled = true;\n' + run_anchor, 1)
 a='        << " | max_turbo_rpm=" << maxTurboRpm\n        << "\\n";'
-b='        << " | max_turbo_rpm=" << maxTurboRpm\n        << " | injected_fuel_g=" << engine->getDirectInjectedFuelMass() * 1000.0\n        << " | burned_fuel_g=" << engine->getDirectBurnedFuelMass() * 1000.0\n        << " | max_ci_temp_K=" << engine->getMaxCompressionIgnitionTemperature()\n        << " | max_ci_pressure_MPa=" << engine->getMaxCompressionIgnitionPressure() / 1.0e6\n        << "\\n";'
+b='        << " | max_turbo_rpm=" << maxTurboRpm\n        << " | injected_fuel_g=" << engine->getDirectInjectedFuelMass() * 1000.0\n        << " | burned_fuel_g=" << engine->getDirectBurnedFuelMass() * 1000.0\n        << " | max_ci_temp_K=" << engine->getMaxCompressionIgnitionTemperature()\n        << " | max_ci_pressure_MPa=" << engine->getMaxCompressionIgnitionPressure() / 1.0e6\n        << " | final_compressor_pr=" << engine->getCompressorPressureRatio()\n        << " | final_compressor_power_W=" << engine->getCompressorPower()\n        << " | final_exhaust_pressure_kPa=" << engine->getExhaustSystem(0)->getSystem()->pressure() / 1000.0\n        << " | final_exhaust_temp_K=" << engine->getExhaustSystem(0)->getSystem()->temperature()\n        << "\\n";'
 if a not in s: raise SystemExit('runtime telemetry anchor missing')
 p.write_text(s.replace(a,b,1),encoding='utf-8')
 print('CI combustion diagnostics applied')
