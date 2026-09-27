@@ -78,6 +78,8 @@ if ($LASTEXITCODE -ne 0) { throw 'enhancement patch failed' }
 """
 insert=anchor+"""python (Join-Path $overlay '.ci\\full_turbo_topology_patch.py') $source
 if ($LASTEXITCODE -ne 0) { throw 'full turbo topology patch failed' }
+python (Join-Path $overlay '.ci\\restore_engine_metrics_patch.py') $source
+if ($LASTEXITCODE -ne 0) { throw 'Engine metrics restoration patch failed' }
 """
 if anchor not in s: raise SystemExit('windows_ci enhancement-application anchor missing')
 if "full_turbo_topology_patch.py" not in s:
