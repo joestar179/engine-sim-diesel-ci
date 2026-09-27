@@ -120,3 +120,11 @@ if audit_anchor in s and "patched-turbo-core.zip" not in s:
 
 p.write_text(s,encoding='utf-8')
 print('CI full in-series turbo topology hook applied after seed restore')
+
+# Configure the ALCO validation engine as one consumer of the generic core.
+exec(compile(
+    (root/'.ci/generic_v1_alco_asset_patch.py').read_text(encoding='utf-8'),
+    '.ci/generic_v1_alco_asset_patch.py',
+    'exec'
+))
+
