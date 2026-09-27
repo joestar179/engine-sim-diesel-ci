@@ -35,7 +35,9 @@ Forbidden for implementation patches:
 - split encoded payload parts;
 - self-extracting patch blobs.
 
-Exception: the pre-existing deterministic CI seed archive may remain encoded because it is a binary repository bootstrap artifact, not an iterative source patch.
+Exceptions:
+- the deterministic CI seed archive may remain encoded because it is a binary bootstrap artifact, not an iterative source patch;
+- the pre-policy legacy files `.ci/turbo_arch_patch.py` and `.ci/full_turbo_topology_patch.py` are temporarily grandfathered only so the accepted baseline remains reproducible. They may be converted to readable form, but no new opaque patch runner may be introduced.
 
 ## 3. Stage gates
 
@@ -122,3 +124,10 @@ The generic turbo implementation transport has already failed more than twice us
 Therefore that strategy is retired.
 
 The next implementation must use readable repository source/patch files and must pass patch-integrity/post-condition checks before compilation is allowed.
+
+
+## 11. Enforcement boundary
+
+CI automatically enforces repository-state rules such as banned opaque payload transports and retired mechanisms.
+
+The two-attempt budget is a development-process rule because CI has read-only repository permissions and cannot safely mutate a cross-run attempt counter. Every repeated failure must therefore be entered in `docs/FAILURE_ATTEMPT_LOG.md`; if the same signature reaches attempt 2, the next entry must use a different strategy/layer or be a diagnostic-only step.
