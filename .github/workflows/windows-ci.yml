@@ -18,6 +18,12 @@ jobs:
       - name: Checkout enhancement overlay
         uses: actions/checkout@v4
 
+      - name: Enforce failure-loop guard
+        shell: powershell
+        run: |
+          python .ci/guard_failure_loops.py .
+          if ($LASTEXITCODE -ne 0) { throw "failure-loop guard rejected repository state" }
+
       - name: Restore deterministic CI seed
         shell: powershell
         run: |
