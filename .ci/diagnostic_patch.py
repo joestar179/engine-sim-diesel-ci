@@ -16,11 +16,16 @@ rep('    if (!m_engine->isCompressionIgnition()) return;\n    const auto result 
 rep('        m_nBurntFuel += mass;\n        if (dt > 0.0) {',
     '        m_nBurntFuel += mass;\n        m_engine->recordDirectBurnedFuelMass(mass);\n        if (dt > 0.0) {')
 # Temporary architecture audit: expose the generated turbo implementation in CI logs.
-for needle in ('TurbochargerModel::step', 'setTurbocharger', 'getCompressorPressureRatio'):
-    pos=s.find(needle)
-    if pos >= 0:
-        print('--- TURBO SOURCE CONTEXT:', needle, '---')
-        print(s[max(0,pos-2200):pos+5200].replace('\\\\n','\\n'))
+for needle in ('void Engine::updateTurbo', 'm_turbocharger.step', 'TurbochargerModel::step'):
+    positions=[]
+    start=0
+    while True:
+        pos=s.find(needle,start)
+        if pos < 0: break
+        positions.append(pos); start=pos+1
+    for pos in positions:
+        print('--- TURBO SOURCE CONTEXT:', needle, pos, '---')
+        print(s[max(0,pos-5000):pos+12000].replace('\\\\n','\\n'))
 
 p.write_text(s,encoding='utf-8')
 p=root/'test/runtime_engine_smoke.cpp'
