@@ -32,6 +32,18 @@ jobs:
           python .ci/diagnostic_patch.py
           if ($LASTEXITCODE -ne 0) { throw "diagnostic patch failed" }
 
+      - name: Snapshot reconstructed overlay
+        shell: powershell
+        run: |
+          Compress-Archive -Path assets,include,src,test,tools -DestinationPath "$env:RUNNER_TEMP\reconstructed-overlay.zip" -CompressionLevel Optimal
+
+      - name: Upload reconstructed overlay
+        uses: actions/upload-artifact@v4
+        with:
+          name: reconstructed-overlay
+          path: ${{ runner.temp }}\reconstructed-overlay.zip
+          if-no-files-found: error
+
       - name: Build, regression-compare, runtime-smoke, package
         id: ci
         shell: powershell
