@@ -80,44 +80,12 @@ insert=anchor+"""python (Join-Path $overlay '.ci\\full_turbo_topology_patch.py')
 if ($LASTEXITCODE -ne 0) { throw 'full turbo topology patch failed' }
 python (Join-Path $overlay '.ci\\restore_engine_metrics_patch.py') $source
 if ($LASTEXITCODE -ne 0) { throw 'Engine metrics restoration patch failed' }
-python (Join-Path $overlay '.ci\\generic_forced_induction_v1_patch.py') $source
-if ($LASTEXITCODE -ne 0) { throw 'generic forced-induction V1 patch failed' }
 """
 if anchor not in s: raise SystemExit('windows_ci enhancement-application anchor missing')
 if "full_turbo_topology_patch.py" not in s:
     s=s.replace(anchor,insert,1)
 
-# Preserve the exact generated core after all topology/telemetry patches so
-# architecture work is performed against the code CI actually compiles.
-audit_anchor = "if ($LASTEXITCODE -ne 0) { throw 'generic forced-induction V1 patch failed' }\n"
-audit = audit_anchor + r"""
-$coreAudit = Join-Path $logs 'generic-forced-induction-v1-core.zip'
-$coreAuditFiles = @(
-    (Join-Path $source 'include\\intake.h'),
-    (Join-Path $source 'src\\intake.cpp'),
-    (Join-Path $source 'include\\exhaust_system.h'),
-    (Join-Path $source 'src\\exhaust_system.cpp'),
-    (Join-Path $source 'include\\engine.h'),
-    (Join-Path $source 'src\\engine.cpp'),
-    (Join-Path $source 'include\\combustion_chamber.h'),
-    (Join-Path $source 'src\\combustion_chamber.cpp'),
-    (Join-Path $source 'src\\piston_engine_simulator.cpp'),
-    (Join-Path $source 'include\\turbocharger_model.h'),
-    (Join-Path $source 'src\\turbocharger_model.cpp'),
-    (Join-Path $source 'include\\turbo_group.h'),
-    (Join-Path $source 'src\\turbo_group.cpp'),
-    (Join-Path $source 'scripting\\include\\engine_node.h'),
-    (Join-Path $source 'es\\objects\\objects.mr'),
-    (Join-Path $source 'test\\diesel_turbo_model_tests.cpp'),
-    (Join-Path $source 'test\\runtime_engine_smoke.cpp')
-)
-if (Test-Path $coreAudit) { Remove-Item -Force $coreAudit }
-Compress-Archive -Path $coreAuditFiles -DestinationPath $coreAudit -CompressionLevel Optimal
-Write-Host 'Captured generic forced-induction V1 core for architecture audit.'
-"""
-if audit_anchor in s and "patched-turbo-core.zip" not in s:
-    s=s.replace(audit_anchor,audit,1)
-
+# Preserve the exact generated core only after a readable generic V1 implementation is added.
 p.write_text(s,encoding='utf-8')
 print('CI full in-series turbo topology hook applied after seed restore')
 
