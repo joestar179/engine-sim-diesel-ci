@@ -29,6 +29,8 @@ jobs:
           Expand-Archive -Force "$env:RUNNER_TEMP\seed.zip" "$env:RUNNER_TEMP\seed"
           Copy-Item -Recurse -Force "$env:RUNNER_TEMP\seed\engine-sim-diesel-ci-seed\*" "$env:GITHUB_WORKSPACE"
           Copy-Item -Force "$env:RUNNER_TEMP\seed\engine-sim-diesel-ci-seed\.gitignore" "$env:GITHUB_WORKSPACE\.gitignore"
+          python .ci/diagnostic_patch.py
+          if ($LASTEXITCODE -ne 0) { throw "diagnostic patch failed" }
 
       - name: Build, regression-compare, runtime-smoke, package
         id: ci
