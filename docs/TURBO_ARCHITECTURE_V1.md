@@ -1,165 +1,266 @@
-# Turbocharged Gas-Path Architecture V1 — LOCKED
+# Generic Forced-Induction / Turbocharged Gas-Path Architecture V1 — LOCKED
 
 Status: **LOCKED FOR IMPLEMENTATION**
 
-This document is the implementation contract for generic turbocharged-engine support. Changes to this topology require a deliberate architecture revision; calibration changes must not change the flow graph.
+This document is the implementation contract for generic turbocharged-engine support in Engine Simulator. The ALCO 251-D is one validation case only. The core architecture must also support future automotive petrol and diesel engines without engine-specific C++ changes.
 
-## 1. Design objective
+Changes to this topology require a deliberate architecture revision. Calibration changes must not change the flow graph.
 
-Turbocharging must be a real, in-series thermodynamic subsystem. It must not be implemented as:
+## 1. Design scope
+
+The forced-induction core is **combustion-system agnostic**.
+
+It must support, through script configuration:
+- spark-ignition and compression-ignition engines;
+- port-injected, direct-injected, carbureted, or other existing/future fuel systems;
+- throttled and unthrottled air paths;
+- fixed-geometry and variable-geometry turbines;
+- wastegated and non-wastegated turbines;
+- single, parallel, twin-scroll and future sequential turbo arrangements;
+- charge-air cooling or no charge-air cooling;
+- compressor bypass / blow-off valves where required;
+- naturally aspirated engines with all new systems disabled.
+
+Turbocharging must not be implemented as:
 - an imposed intake-pressure multiplier;
 - an exhaust-pressure observer;
 - a power multiplier;
+- a fuel-system surrogate;
 - an engine-specific ALCO special case.
 
-All new behavior is disabled by default so existing spark-ignition engines retain their original path and behavior.
+The turbo subsystem owns **gas flow, thermodynamics and turbo shaft dynamics**. It exposes air/exhaust state to the engine's existing combustion and control systems; it does not dictate how fuel or ignition are implemented.
 
-## 2. Locked gas-path topology
+## 2. Reusable component graph
 
-### Air side
+The architecture is a graph of reusable gas volumes, flow restrictions, rotating machines and optional control valves.
+
+A turbo installation consists of one or more **Turbo Groups**. Each Turbo Group owns one turbo shaft and connects one or more exhaust runner groups to one or more intake/charge paths.
+
+The initial implementation may instantiate one Turbo Group, but no core data structure may assume that an engine can only ever have one.
+
+Examples enabled by the graph:
+
+```text
+Single turbo:
+all cylinders → one turbine → one shaft → one compressor
+
+Parallel twin turbo:
+bank A → turbine A → shaft A → compressor A ┐
+bank B → turbine B → shaft B → compressor B ├→ shared or separate charge plenums
+
+Twin-scroll:
+runner group A → turbine inlet channel A ┐
+runner group B → turbine inlet channel B ├→ one turbine rotor / one shaft
+                                     (pulse separation retained upstream)
+
+Sequential:
+runner/manifold routing + control valves → turbo A and/or turbo B
+```
+
+## 3. Locked air-side topology
+
+Canonical turbocharged path:
 
 ```text
 Ambient reservoir
     ↓
-Compressor inlet restriction / filter
+optional inlet/filter restriction
     ↓
 COMPRESSOR
     ↓
-Compressor-discharge gas volume
+compressor-discharge gas volume
     ↓
-AFTERCOOLER / intercooler heat removal
+optional intercooler / aftercooler
     ↓
-Charge-air plenum / intake manifold
+optional throttle / air-control valve
     ↓
-Existing intake runner system
+charge-air plenum / intake manifold
     ↓
-Existing intake-valve flow
+existing intake runner system
+    ↓
+existing intake-valve flow
     ↓
 Cylinder
 ```
+
+The throttle / air-control element is optional and engine-defined:
+- conventional SI engines may use it for load control;
+- many diesels omit it during normal operation;
+- future engines may use an air valve for shutdown, EGR management or other purposes.
+
+The forced-induction core must not reinterpret throttle position as diesel fueling.
 
 For naturally aspirated engines, the original Engine Simulator atmosphere → intake path remains unchanged.
 
-The compressor must transfer actual gas mass. Charge pressure must emerge from compressor flow into the charge volume minus cylinder consumption; it must not be written directly as a supply pressure.
+### Compressor requirements
 
-At zero turbo speed, the compressor cannot create pressure rise. A configurable passive-flow path must permit cranking / naturally aspirated airflow through the compressor installation.
+The compressor must transfer **actual gas mass**. Charge pressure must emerge from:
+- compressor delivery;
+- charge-system volume;
+- restrictions;
+- cooler losses;
+- cylinder consumption.
 
-### Fuel side
+Charge pressure must never be written directly as a target supply pressure.
+
+At zero turbo speed:
+- the compressor cannot create pressure rise;
+- the installation must still permit configurable passive/naturally aspirated airflow for cranking and low-speed operation.
+
+Required compressor behavior:
+- corrected-flow / capacity approximation or map;
+- pressure-ratio capability versus corrected speed and flow;
+- efficiency behavior;
+- surge boundary or stable reduced-order surrogate;
+- choke/maximum-flow boundary;
+- compressor torque/power debited from its actual shaft;
+- discharge temperature from compressor work and efficiency.
+
+## 4. Fuel and combustion-system boundary
+
+**Fuel delivery is not part of the turbo topology.**
+
+The forced-induction subsystem exposes physical state such as:
+- manifold pressure and temperature;
+- charge-air mass flow;
+- trapped air / oxygen estimate;
+- compressor state;
+- exhaust state.
+
+The engine's configured control/combustion system decides how those states influence fuel.
+
+Examples:
 
 ```text
-Operator speed/load command
-    ↓
-Governor / rack command
-    ↓
-Air / smoke / boost fuel limiter
-    ↓
-Direct injector
-    ↓
-Cylinder
+Mechanical diesel:
+operator command → governor → rack → optional smoke/air limiter → direct injector
+
+Electronic diesel:
+pedal/load request → ECU torque request → air/smoke/EGT limiters → direct injector
+
+Port-injected petrol:
+pedal → throttle / ECU → fuel metering in intake/port → spark control
+
+Direct-injected petrol:
+pedal → throttle / ECU → DI fuel command → spark control
 ```
 
-Fuel remains separate from the air path until injection into the cylinder. Turbocharging never injects fuel into the intake.
+A generic air/fuel or smoke limiter interface may consume forced-induction state, but it is optional and must not be hard-wired into the turbo model.
 
-### Exhaust side
+Turbocharging never assumes that fuel is injected into either the intake or the cylinder.
+
+## 5. Locked exhaust-side topology
+
+Canonical turbocharged path:
 
 ```text
 Cylinder
     ↓
-Existing exhaust-valve / port flow
+existing exhaust-valve / port flow
     ↓
-Existing per-cylinder head runner + primary
+existing per-cylinder head runner + primary
     ↓
-NEW shared pre-turbine manifold GasSystem
+configured runner group / pulse group
     ↓
-Turbine nozzle / swallowing-capacity restriction
+dedicated pre-turbine manifold or scroll GasSystem
+    ↓
+turbine swallowing-capacity / nozzle restriction
     ↓
 TURBINE ROTOR energy extraction
     ↓
-Existing ExhaustSystem gas volume (post-turbine exhaust)
+post-turbine exhaust GasSystem
     ↓
-Existing outlet restriction / silencer equivalent
+existing downstream exhaust restriction / silencer equivalent
     ↓
 Atmosphere
 ```
 
-The original `ExhaustSystem::m_system` is **post-turbine**. It must never be repurposed as the entire turbine-inlet manifold.
+The original `ExhaustSystem::m_system` remains **downstream of the turbine** for turbocharged configurations. It must not be repurposed as the turbine-inlet manifold.
 
-The new pre-turbine manifold represents only the actual manifold/header volume joining the primaries to the turbine.
+The dedicated pre-turbine manifold represents only real pre-turbine plumbing:
+- manifold/header volume;
+- turbine scroll/inlet volume where represented;
+- pulse-group separation where configured.
 
-## 3. Turbo shaft
+For turbo-disabled engines, the original runner → ExhaustSystem path is retained exactly.
 
-One shaft couples turbine and compressor:
+## 6. Turbo shaft abstraction
+
+Each Turbo Group owns one shaft:
 
 ```text
 turbine torque
 - compressor torque
-- shaft/bearing friction
+- bearing / windage / friction torque
 = shaft inertia × angular acceleration
 ```
 
-The shaft owns:
+A shaft owns:
 - angular speed;
 - inertia;
 - friction/drag;
-- maximum allowed speed.
+- maximum allowed speed;
+- attached turbine(s), normally one in V1;
+- attached compressor(s), normally one in V1.
 
-Turbine and compressor power are computed from the same shaft state during each fluid substep.
+The data model must use references/indices rather than a single engine-global turbo assumption so future compound or multi-turbo layouts do not require an architectural rewrite.
 
-## 4. Turbine model
+Turbine and compressor power are evaluated from the same shaft state during each fluid substep.
 
-The turbine is both:
-1. a gas-flow restriction; and
-2. an energy extractor.
+## 7. Turbine model
+
+The turbine is simultaneously:
+1. a gas-flow restriction;
+2. an energy extractor;
+3. a torque source for its shaft.
 
 Required inputs:
-- pre-turbine pressure and temperature;
-- post-turbine pressure;
+- turbine-inlet gas state;
+- turbine-outlet pressure/state;
 - shaft speed;
-- turbine swallowing-capacity / effective-nozzle parameter;
-- turbine efficiency behavior.
+- swallowing-capacity / effective-nozzle behavior;
+- turbine efficiency behavior;
+- optional geometry/control state.
 
 The same gas transfer that determines turbine mass flow must determine:
-- pressure ratio;
-- enthalpy drop;
+- turbine pressure ratio;
+- gas enthalpy drop;
 - turbine shaft power;
 - post-turbine gas state.
 
-Energy must be removed from gas crossing the turbine boundary, not later from an arbitrary exhaust reservoir.
+Energy is removed from the gas crossing the turbine boundary, not later from an unrelated reservoir.
 
 At zero shaft speed, exhaust may still pass through the turbine and produce starting torque.
 
-## 5. Compressor model
+### Fixed geometry and VGT/VNT
 
-The compressor is both:
-1. an air-flow device; and
-2. a shaft-power consumer.
+The core exposes turbine effective flow capacity as a physical parameter.
 
-Required behavior:
-- corrected mass-flow / capacity approximation;
-- pressure-ratio capability as a function of shaft speed and flow;
-- efficiency approximation;
-- choke boundary;
-- surge boundary or stable reduced-order surrogate;
-- zero pressure rise at zero shaft speed;
-- compressor torque debited from the same shaft.
+For a fixed-geometry turbine it is fixed/map-derived.
 
-Compressor discharge temperature follows compressor work and efficiency.
+For VGT/VNT it may be varied by a generic actuator/controller:
+```text
+control command → vane position → effective swallowing capacity / efficiency behavior
+```
 
-## 6. Charge-air cooling
+VGT is optional and disabled unless configured.
 
-The aftercooler operates on actual compressor-discharge gas.
+## 8. Charge-air cooling
 
-Minimum V1 model:
+Charge-air cooling is a reusable optional component operating on actual compressor-discharge gas.
+
+Minimum V1 behavior:
 - configurable effectiveness;
-- heat removal from compressor-discharge/charge gas;
+- heat removal from real flowing/stored charge gas;
 - no mass creation/destruction;
+- optional configurable pressure loss;
 - no arbitrary pressure multiplication.
 
-Pressure loss may be added as a generic configurable restriction, defaulting to zero.
+The core names this generically as charge-air cooling; engine definitions may call the physical device an intercooler or aftercooler.
 
-## 7. Optional bypass / control devices
+## 9. Optional flow-control branches
 
-These are generic capabilities and are **disabled by default**.
+All are generic and **disabled by default**.
 
 ### Wastegate
 
@@ -169,142 +270,203 @@ pre-turbine manifold
     └── wastegate bypass → post-turbine exhaust
 ```
 
-Required configurable properties:
+Configurable:
 - enabled;
-- control/opening command;
-- effective flow capacity;
-- actuator response time.
+- actuator/control command;
+- effective flow capacity/area;
+- response rate / time constant;
+- optional control source (boost, exhaust pressure, ECU/controller command).
 
-No wastegate is assumed for a specific engine unless its definition enables one.
-
-### Compressor bypass / blow-off valve
+### Compressor bypass / blow-off / recirculation valve
 
 ```text
 compressor discharge / charge plenum
-    → optional bypass
-    → compressor inlet / atmosphere
+    → bypass valve
+    → compressor inlet or atmosphere
 ```
 
-Required configurable properties:
+Configurable:
 - enabled;
-- opening criterion / command;
+- recirculating or vent-to-atmosphere destination;
+- opening criterion/command;
 - effective flow capacity;
-- actuator response.
+- response rate.
 
-Disabled for engines that do not use one.
+This is useful for throttled petrol engines and other surge-sensitive layouts, but is not assumed for diesels.
 
-## 8. Fuel-air limiting
+### Future routing/control valves
 
-Governor-requested fuel is not automatically guaranteed.
+The graph must permit additional flow branches without rewriting the turbine/compressor models, including:
+- sequential-turbo routing valves;
+- charge-path bypasses;
+- exhaust brake / backpressure devices;
+- EGR branches.
 
-Actual permitted fuel may be limited by generic configurable constraints:
-- available trapped air / oxygen;
-- smoke-equivalence-ratio limit;
-- boost / manifold pressure;
-- engine speed;
-- optional exhaust-temperature protection.
+These are not required for V1 implementation unless configured, but the graph must not preclude them.
 
-These limits are separate from the governor.
+## 10. Geometry and state ownership
 
-## 9. State ownership and geometry
-
-The following states are distinct and must not be aliased:
+The following physical states are distinct and must not be silently aliased:
 
 1. cylinder gas;
 2. per-cylinder exhaust runner/primary;
-3. shared pre-turbine manifold;
-4. post-turbine ExhaustSystem;
-5. ambient exhaust reservoir;
-6. compressor inlet / ambient;
-7. compressor discharge;
-8. charge-air plenum;
-9. existing intake runner;
-10. cylinder intake charge.
+3. each configured pre-turbine manifold/scroll;
+4. each turbine outlet/post-turbine exhaust volume;
+5. exhaust ambient reservoir;
+6. compressor inlet/ambient state;
+7. each compressor-discharge volume;
+8. each charge-air cooling stage;
+9. each charge plenum/intake manifold;
+10. existing intake runner;
+11. cylinder intake charge.
 
-Geometry exposed through normal engine definitions where practical:
-- pre-turbine manifold volume;
-- pre-turbine manifold characteristic area;
-- turbine swallowing capacity / effective area;
+Script-exposed geometry/parameters should include where practical:
+- runner-to-turbo grouping;
+- pre-turbine manifold/scroll volume and characteristic area;
+- turbine swallowing-capacity/effective-area parameters or map;
 - compressor inlet restriction;
-- compressor discharge volume;
+- compressor characteristics/map approximation;
+- compressor-discharge volume;
 - charge-plenum volume;
-- aftercooler effectiveness / optional pressure loss;
-- optional wastegate capacity;
-- optional compressor-bypass capacity.
+- cooler effectiveness and pressure loss;
+- throttle/air-valve placement/control where applicable;
+- wastegate properties;
+- compressor-bypass properties;
+- VGT actuator properties;
+- shaft inertia/friction/max speed.
 
-Unknown dimensions are calibration values and must be labelled as such.
+Unknown dimensions remain calibration values and must be labelled as such.
 
-## 10. Backward compatibility
+## 11. Controller boundary
 
-When turbocharging is disabled:
+Turbo physics and boost control are separate.
+
+The physical model exposes states and actuator inputs.
+
+Possible controllers include:
+- passive pressure-actuated wastegate;
+- electronic boost controller;
+- VGT controller;
+- mechanical diesel governor plus smoke limiter;
+- petrol ECU using throttle, wastegate, fueling and ignition;
+- no controller for a free-floating fixed-geometry turbo.
+
+No controller may bypass the physical flow/shaft model by directly assigning boost pressure or turbo speed.
+
+Dyno RPM hold remains external test-bench behavior and is unrelated to engine boost/governor control.
+
+## 12. Backward compatibility
+
+When forced induction is disabled:
 - cylinder → runner → existing ExhaustSystem path is exactly the original Engine Simulator path;
 - atmosphere → existing Intake path is exactly the original path;
-- no additional turbo gas volumes influence SI engines;
-- optional valves are inactive;
+- existing SI throttle/fueling behavior is preserved;
+- no turbo gas volumes influence the engine;
+- optional valves/actuators are inactive;
 - existing scripts parse unchanged.
 
-## 11. Numerical rules
+New parameters default to disabled/pass-through behavior.
 
-- No pressure or temperature state may be imposed merely to force target boost.
-- Flow must remain bounded at zero/near-zero pressure difference.
-- Turbine and compressor cannot transfer more mass than their source systems contain.
-- Turbine cannot extract more gas energy than is physically available.
-- Compressor cannot consume more shaft energy than the shaft/turbine can supply during the substep.
+## 13. Numerical rules
+
+- No pressure, temperature, airflow, torque or power state is imposed merely to hit a target output.
+- Flow remains bounded near zero pressure difference and through reverse-flow conditions.
+- Flow devices cannot transfer more mass than source systems contain.
+- Turbines cannot extract more energy than is available in the transferred gas.
+- Compressors debit real shaft energy and cannot create pressure rise from a stationary shaft.
 - Shaft speed is bounded by configured maximum speed.
-- Reverse flow must remain numerically stable.
-- Cranking and low-RPM airflow must remain possible.
+- Passive cranking/low-RPM airflow remains possible.
+- Optional closed valves do not leak unless configured.
+- Multi-turbo groups are updated deterministically within each fluid substep.
 
-## 12. Required telemetry
+## 14. Required telemetry
 
-At minimum:
+At minimum, per relevant group/device:
 - cylinder pressure/temperature at exhaust-valve opening;
 - per-cylinder runner peak pressure/temperature;
-- pre-turbine manifold pressure/temperature;
+- pre-turbine manifold/scroll pressure and temperature;
 - turbine mass flow;
 - turbine pressure ratio;
 - turbine power;
+- wastegate flow where enabled;
 - post-turbine pressure/temperature;
 - turbo shaft speed;
 - compressor mass flow;
 - compressor pressure ratio;
 - compressor power;
 - compressor-discharge temperature;
+- cooler inlet/outlet temperature and pressure;
 - charge-plenum pressure/temperature;
-- cylinder/intake air flow or trapped air estimate;
-- requested fuel and limited/actual injected fuel.
+- bypass-valve flow where enabled;
+- cylinder/intake air flow or trapped-air estimate.
 
-## 13. Validation gates
+Fuel telemetry belongs to the engine control/combustion layer but should be logged alongside turbo state for validation.
 
-Implementation is not accepted until all applicable gates pass:
+## 15. Validation matrix
 
+Implementation is not accepted until all applicable gates pass.
+
+### Generic/core gates
 1. Build succeeds.
-2. Existing baseline regression comparison passes.
+2. Existing upstream regression comparison passes.
 3. Turbo-disabled SI path remains unchanged.
-4. Turbo-enabled engine starts and idles without artificial boost.
-5. Exhaust blowdown reaches the runner and dedicated pre-turbine manifold.
-6. Turbine restriction creates physically causal pre/post pressure difference.
-7. Turbine power accelerates the shared shaft.
-8. Compressor consumes shaft power and transfers real air mass.
+4. Zero exhaust energy produces no shaft acceleration/boost.
+5. Exhaust blowdown reaches the correct configured pre-turbine group.
+6. Turbine restriction creates causal pre/post pressure difference.
+7. Turbine power accelerates the correct shaft.
+8. Compressor consumes shaft power and transfers actual air mass.
 9. Charge pressure emerges from mass balance, not a forced boundary.
-10. Increasing load/fuel increases exhaust energy, turbine power, shaft speed and charge flow in a physically consistent direction.
-11. Wastegate/bypass disabled paths have no effect.
-12. Longer loaded/notch validation is stable before detailed calibration.
+10. Wastegate disabled path is inert; enabled path bypasses real exhaust mass.
+11. Compressor bypass disabled path is inert; enabled path transfers real charge mass.
+12. VGT disabled/fixed path is unchanged; variable geometry changes swallowing capacity causally.
+13. Multi-group routing keeps gas and shaft states isolated except at explicitly shared plenums.
+14. Cranking and low-RPM passive airflow remain stable.
 
-## 14. ALCO 251-D validation configuration
+### Petrol validation case
+A representative turbo SI engine must eventually demonstrate:
+- existing throttle/load behavior preserved;
+- compressor response to throttle transients;
+- optional bypass/BOV preventing or reducing modeled surge where configured;
+- wastegate/VGT boost control without direct boost assignment.
 
-The ALCO 251-D is a validation case, not an architectural dependency.
+### Diesel validation case
+A representative turbo diesel must eventually demonstrate:
+- unthrottled/passive cranking airflow;
+- fuel control separate from charge-air path;
+- air/smoke limiting able to consume actual trapped-air/boost state;
+- stable governor/boost interaction.
 
-For the initial ALCO configuration:
-- direct diesel injection: enabled;
-- fixed-geometry turbo path: enabled;
-- aftercooler: enabled;
+### Loaded transient gate
+Increasing engine load/fuel/airflow must produce a physically consistent chain:
+```text
+combustion/exhaust energy
+→ pre-turbine state
+→ turbine mass flow and power
+→ shaft acceleration
+→ compressor mass flow/work
+→ charge state
+→ changed cylinder air mass
+```
+
+Detailed calibration is not allowed until this chain is stable.
+
+## 16. Initial ALCO 251-D validation configuration
+
+The ALCO 251-D is **only the first validation engine**.
+
+Initial configuration:
+- compression ignition/direct injection: enabled by the engine's combustion layer;
+- fixed-geometry turbo group: enabled;
+- charge-air aftercooler: enabled;
+- conventional throttle in charge path: disabled;
 - wastegate: disabled unless documentation supports one;
-- compressor bypass/blow-off valve: disabled unless documentation supports one;
-- pre-turbine manifold dimensions: calibration/estimated until sourced;
+- compressor bypass/BOV: disabled unless documentation supports one;
+- VGT: disabled;
+- pre-turbine geometry: calibration/estimated until sourced;
 - turbine/compressor map parameters: calibration/estimated until sourced.
 
-No documented ALCO physical specification may be altered solely to force target power, boost, RPM, or sound.
+No documented ALCO physical specification may be altered solely to force target power, boost, RPM or sound.
 
 ---
 
-**Architecture freeze rule:** implementation patches may change equations, data structures, numerical stabilization and script exposure as required, but they may not change the gas-path ordering above without revising this document first.
+**Architecture freeze rule:** implementation patches may change equations, data structures, numerical stabilization and script exposure as required, but they may not change the component ordering, ownership boundaries, multi-group capability or combustion-system independence above without revising this document first.
