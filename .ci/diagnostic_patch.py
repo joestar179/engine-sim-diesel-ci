@@ -66,3 +66,21 @@ if anchor not in s: raise SystemExit('windows_ci Delta pin anchor missing')
 s=s.replace(anchor,fix,1)
 p.write_text(s,encoding='utf-8')
 print('CI packaging linkage fix applied')
+
+
+# Seed restore overwrites tools/windows_ci.ps1. Re-insert the full topology
+# application step here, after restore, so the generated source definitely
+# receives the in-series compressor/turbine gas-path patch.
+p=root/'tools/windows_ci.ps1'
+s=p.read_text(encoding='utf-8')
+anchor="""python (Join-Path $overlay 'tools\\apply_ce_enhancement.py') $source
+if ($LASTEXITCODE -ne 0) { throw 'enhancement patch failed' }
+"""
+insert=anchor+"""python (Join-Path $overlay '.ci\\full_turbo_topology_patch.py') $source
+if ($LASTEXITCODE -ne 0) { throw 'full turbo topology patch failed' }
+"""
+if anchor not in s: raise SystemExit('windows_ci enhancement-application anchor missing')
+if "full_turbo_topology_patch.py" not in s:
+    s=s.replace(anchor,insert,1)
+p.write_text(s,encoding='utf-8')
+print('CI full in-series turbo topology hook applied after seed restore')
