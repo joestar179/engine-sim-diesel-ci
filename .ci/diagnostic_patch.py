@@ -80,6 +80,35 @@ insert=anchor+"""python (Join-Path $overlay '.ci\\full_turbo_topology_patch.py')
 if ($LASTEXITCODE -ne 0) { throw 'full turbo topology patch failed' }
 python (Join-Path $overlay '.ci\\restore_engine_metrics_patch.py') $source
 if ($LASTEXITCODE -ne 0) { throw 'Engine metrics restoration patch failed' }
+
+if ($env:SOURCE_CAPTURE_ONLY -eq '1') {
+    $capture = Join-Path $logs 'current-turbo-core.zip'
+    if (Test-Path $capture) { Remove-Item -Force $capture }
+    $captureFiles = @(
+        (Join-Path $source 'CMakeLists.txt'),
+        (Join-Path $source 'include\intake.h'),
+        (Join-Path $source 'src\intake.cpp'),
+        (Join-Path $source 'include\exhaust_system.h'),
+        (Join-Path $source 'src\exhaust_system.cpp'),
+        (Join-Path $source 'include\engine.h'),
+        (Join-Path $source 'src\engine.cpp'),
+        (Join-Path $source 'include\combustion_chamber.h'),
+        (Join-Path $source 'src\combustion_chamber.cpp'),
+        (Join-Path $source 'src\piston_engine_simulator.cpp'),
+        (Join-Path $source 'include\turbocharger_model.h'),
+        (Join-Path $source 'src\turbocharger_model.cpp'),
+        (Join-Path $source 'scripting\include\engine_node.h'),
+        (Join-Path $source 'es\objects\objects.mr'),
+        (Join-Path $source 'test\diesel_turbo_model_tests.cpp'),
+        (Join-Path $source 'test\runtime_engine_smoke.cpp')
+    )
+    foreach ($f in $captureFiles) {
+        if (-not (Test-Path $f)) { throw "source capture file missing: $f" }
+    }
+    Compress-Archive -Path $captureFiles -DestinationPath $capture -CompressionLevel Optimal
+    Write-Host 'Captured exact current turbo core source.'
+    exit 0
+}
 """
 if anchor not in s: raise SystemExit('windows_ci enhancement-application anchor missing')
 if "full_turbo_topology_patch.py" not in s:
