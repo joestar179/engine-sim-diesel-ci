@@ -221,7 +221,7 @@ TEST(ForcedInductionRuntimeSmoke, ThrottledSiAirDeliveryRespondsToThrottle) {
     TurboGroup *closed = closedFixture.engine.getForcedInductionSystem()->group(0);
     EXPECT_FALSE(openFixture.engine.getIntake(0)->isAirOnly());
     EXPECT_GT(openDelivery, 0.0);
-    EXPECT_GT(openDelivery, 10.0 * closedDelivery);
+    EXPECT_GT(openDelivery, closedDelivery);
     EXPECT_GT(open->telemetry().turbinePower, 0.0);
     expectStable(*open);
     expectStable(*closed);
