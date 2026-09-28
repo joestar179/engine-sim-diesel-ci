@@ -55,9 +55,12 @@ GATE2_BLOCK = SOURCE_CAPTURE_TAIL + r'''
 if ($env:CORE_COMPILE_ONLY -eq '1') {
     Write-Host '=== Gate 2: configure enhanced core only ==='
     $configureLog = Join-Path $logs 'gate2-configure.log'
+    $previousErrorActionPreference = $ErrorActionPreference
+    $ErrorActionPreference = 'Continue'
     & $cmakeExe -S $source -B $enhancedBuild @commonConfigure 2>&1 |
         Tee-Object -FilePath $configureLog
     $configureCode = $LASTEXITCODE
+    $ErrorActionPreference = $previousErrorActionPreference
     if ($configureCode -ne 0) { throw "Gate 2 configure failed with exit code $configureCode" }
 
     Write-Host '=== Gate 2: compile and link scoped targets only ==='
@@ -69,9 +72,11 @@ if ($env:CORE_COMPILE_ONLY -eq '1') {
         'engine-sim-runtime-smoke'
     )
     $buildLog = Join-Path $logs 'gate2-build.log'
+    $ErrorActionPreference = 'Continue'
     & $cmakeExe --build $enhancedBuild --config RelWithDebInfo --target $gate2Targets --parallel 2>&1 |
         Tee-Object -FilePath $buildLog
     $buildCode = $LASTEXITCODE
+    $ErrorActionPreference = $previousErrorActionPreference
     if ($buildCode -ne 0) { throw "Gate 2 scoped build failed with exit code $buildCode" }
 
     $expectedOutputs = @(
@@ -119,6 +124,8 @@ def verify_postconditions(text: str) -> None:
         "if ($env:CORE_COMPILE_ONLY -eq '1')",
         "'engine-sim-script-interpreter'",
         "'engine-sim-runtime-smoke'",
+        "$ErrorActionPreference = 'Continue'",
+        "$ErrorActionPreference = $previousErrorActionPreference",
         "Gate 2 core compile and link: PASS",
         "GATE 2 CORE COMPILE AND LINK PASSED",
     )

@@ -14,6 +14,12 @@ Decision: **strategy retired**. No further encoded/compressed generic implementa
 
 Replacement strategy: use readable repository patch/source files with explicit anchors and post-condition checks before compilation.
 
+## Gate 2 incident: PowerShell transcript capture
+
+Failure signature: `configure | CMake developer warning promoted to NativeCommandError | CI logging/harness layer`
+
+- Attempt 1 — Windows workflow run 50 reached enhanced configure after all source preconditions and topology post-conditions passed. CMake emitted a developer warning on stderr while its output was piped through `Tee-Object`; global `ErrorActionPreference = Stop` converted that stderr record into a terminating `NativeCommandError` before CMake's exit status could be evaluated. The generated source did not reach compilation. The repair keeps transcript capture but temporarily uses `ErrorActionPreference = Continue` only around the two native CMake commands, restores the original setting immediately afterward, and checks each native exit code explicitly. Result: run 50 failed in the harness layer; one evidence-based repair is allowed.
+
 ## Logging rule
 
 For each future repeated failure, record:
