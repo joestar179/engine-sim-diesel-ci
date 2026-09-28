@@ -37,6 +37,8 @@ jobs:
           Copy-Item -Force "$env:RUNNER_TEMP\seed\engine-sim-diesel-ci-seed\.gitignore" "$env:GITHUB_WORKSPACE\.gitignore"
           python .ci/diagnostic_patch.py
           if ($LASTEXITCODE -ne 0) { throw "diagnostic patch failed" }
+          python tools/enable_gate2_compile.py tools/windows_ci.ps1
+          if ($LASTEXITCODE -ne 0) { throw "Gate 2 CI adapter failed" }
 
       - name: Snapshot reconstructed overlay
         shell: powershell
@@ -50,18 +52,18 @@ jobs:
           path: ${{ runner.temp }}\reconstructed-overlay.zip
           if-no-files-found: error
 
-      - name: Capture exact generated turbo core
+      - name: Gate 2 core compile and link
         id: ci
         shell: powershell
         env:
-          SOURCE_CAPTURE_ONLY: '1'
+          CORE_COMPILE_ONLY: '1'
         run: .\tools\windows_ci.ps1
 
-      - name: Upload test evidence
+      - name: Upload Gate 2 evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: engine-sim-test-evidence
+          name: engine-sim-gate2-core-compile
           path: _ci/logs
           if-no-files-found: warn
 
