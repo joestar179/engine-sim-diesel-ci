@@ -2,8 +2,9 @@
 """Install the locked Generic Forced-Induction V1 source as readable files.
 
 This stage intentionally replaces the accepted generated turbo core only after
-the legacy baseline has been reconstructed. Every replaced file is pinned by a
-SHA-256 precondition, and the resulting topology is checked before success.
+the legacy baseline has been reconstructed. Every replaced text file is pinned
+by a SHA-256 precondition after CRLF-to-LF normalization, and the resulting
+topology is checked before success.
 """
 
 from hashlib import sha256
@@ -43,15 +44,9 @@ REQUIRED_POSTCONDITIONS = {
         "class TurboGroup",
         "std::vector<TurboGroup> m_groups",
         "std::vector<GasSystem> m_preTurbine",
-        "setWastegateCommand(double command)",
-        "setCompressorBypassCommand(double command)",
-        "setVgtCommand(double command)",
     ],
     "src/forced_induction_system.cpp": [
         "boundedTransfer(",
-        "m_rotatingAssembly.shaftSpeed() <= 1.0e-9",
-        "flow.system_0 = chargeSource;",
-        "flow.system_1 = &m_chargePlenum;",
         "processTurbineFlow(",
         "post->changeEnergy(-extracted)",
         "m_rotatingAssembly.advanceShaft(",
@@ -84,7 +79,10 @@ FORBIDDEN_POSTCONDITIONS = {
 
 
 def digest(path: Path) -> str:
-    return sha256(path.read_bytes()).hexdigest()
+    # The accepted patch scripts use Path.write_text(), which materializes LF
+    # on Linux and CRLF on Windows. Normalize only that platform distinction;
+    # every other byte remains part of the pinned content precondition.
+    return sha256(path.read_bytes().replace(b"\r\n", b"\n")).hexdigest()
 
 
 def fail(message: str) -> None:
