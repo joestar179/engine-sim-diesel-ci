@@ -80,6 +80,8 @@ insert=anchor+"""python (Join-Path $overlay '.ci\\full_turbo_topology_patch.py')
 if ($LASTEXITCODE -ne 0) { throw 'full turbo topology patch failed' }
 python (Join-Path $overlay '.ci\\restore_engine_metrics_patch.py') $source
 if ($LASTEXITCODE -ne 0) { throw 'Engine metrics restoration patch failed' }
+python (Join-Path $overlay 'tools\\apply_forced_induction_v1.py') $source
+if ($LASTEXITCODE -ne 0) { throw 'readable Generic Forced-Induction V1 application failed' }
 
 if ($env:SOURCE_CAPTURE_ONLY -eq '1') {
     $capture = Join-Path $logs 'current-turbo-core.zip'
@@ -90,6 +92,8 @@ if ($env:SOURCE_CAPTURE_ONLY -eq '1') {
         (Join-Path $source 'src/intake.cpp'),
         (Join-Path $source 'include/exhaust_system.h'),
         (Join-Path $source 'src/exhaust_system.cpp'),
+        (Join-Path $source 'include/forced_induction_system.h'),
+        (Join-Path $source 'src/forced_induction_system.cpp'),
         (Join-Path $source 'include/engine.h'),
         (Join-Path $source 'src/engine.cpp'),
         (Join-Path $source 'include/combustion_chamber.h'),

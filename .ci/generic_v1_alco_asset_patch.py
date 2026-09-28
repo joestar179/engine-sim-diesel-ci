@@ -12,6 +12,7 @@ insert=anchor+'''\n        // GENERIC FORCED-INDUCTION INSTALLATION GEOMETRY. Th
         turbo_compressor_discharge_volume: 15 * units.L,
         turbo_charge_plenum_volume: 50 * units.L,
         turbo_charge_area: 400 * units.cm2,
+        aftercooler_enabled: true,
         // Zero asks the generic model to derive stable flow capacities from
         // turbo_design_mass_flow rather than imposing arbitrary airflow.
         turbo_inlet_flow_rate: 0.0,
