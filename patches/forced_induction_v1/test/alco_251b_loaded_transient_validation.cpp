@@ -7,9 +7,11 @@
 
 #include <algorithm>
 #include <cmath>
+#include <fstream>
 #include <functional>
 #include <iostream>
 #include <set>
+#include <sstream>
 #include <stdexcept>
 #include <string>
 
@@ -43,8 +45,14 @@ struct Runtime {
 
     void load(const char *script) {
         compiler.initialize();
-        require(compiler.compile(script), "configuration",
-            "16-251B reference script did not compile");
+        if (!compiler.compile(script)) {
+            std::ifstream errorLog("error_log.log");
+            std::ostringstream details;
+            details << errorLog.rdbuf();
+            throw ValidationFailure(
+                "configuration",
+                "16-251B reference script did not compile: " + details.str());
+        }
         auto output = compiler.execute();
         engine = output.engine;
         require(engine != nullptr, "configuration",

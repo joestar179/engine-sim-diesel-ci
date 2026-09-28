@@ -39,6 +39,12 @@ Failure signature: `static audit | missing seed-owned files | audit invocation l
 - Attempt 1 — Running the legacy overlay audit against the generated upstream source reported overlay-only files as missing.
 - Attempt 2 — Running it against the pre-seed repository reported seed-owned generated files as missing. The evidence shows this audit is only valid after CI seed restoration and is not a local Gate 6 source audit. No further use is allowed in this layer; Gate 6 instead relies on the dedicated readable-application pre/post-conditions, failure-loop guard, diff checks, and scoped Windows build/test.
 
+## Gate 6 incident: 16-251B script compilation
+
+Failure signature: `runtime setup | 16-251B reference script did not compile | MR configuration layer`
+
+- Attempt 1 — Windows run 56 configured and built the scoped executable, discovered exactly two tests, and both stopped during compilation of `assets/alco_16_251b_main.mr`. The Piranha compiler wrote the detailed parse/type error only to a working-directory `error_log.log`, which was not in the CI artifact. The next commit changes only the Gate 6 harness to include that existing compiler log in the failing test output. This is diagnostic evidence collection, not an MR, physics, topology or calibration repair.
+
 ## Logging rule
 
 For each future repeated failure, record:
