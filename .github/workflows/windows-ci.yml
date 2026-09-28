@@ -38,7 +38,7 @@ jobs:
           python .ci/diagnostic_patch.py
           if ($LASTEXITCODE -ne 0) { throw "diagnostic patch failed" }
           python tools/enable_gate2_compile.py tools/windows_ci.ps1
-          if ($LASTEXITCODE -ne 0) { throw "Gate 2 CI adapter failed" }
+          if ($LASTEXITCODE -ne 0) { throw "validation gate CI adapter failed" }
 
       - name: Snapshot reconstructed overlay
         shell: powershell
@@ -52,18 +52,18 @@ jobs:
           path: ${{ runner.temp }}\reconstructed-overlay.zip
           if-no-files-found: error
 
-      - name: Gate 2 core compile and link
+      - name: Gate 3 architecture invariant tests
         id: ci
         shell: powershell
         env:
-          CORE_COMPILE_ONLY: '1'
+          ARCHITECTURE_TESTS_ONLY: '1'
         run: .\tools\windows_ci.ps1
 
-      - name: Upload Gate 2 evidence
+      - name: Upload Gate 3 evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: engine-sim-gate2-core-compile
+          name: engine-sim-gate3-architecture-invariants
           path: _ci/logs
           if-no-files-found: warn
 

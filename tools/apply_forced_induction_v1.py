@@ -37,6 +37,7 @@ EXPECTED_BASELINE = {
 NEW_FILES = {
     "include/forced_induction_system.h",
     "src/forced_induction_system.cpp",
+    "test/forced_induction_invariant_tests.cpp",
 }
 
 REQUIRED_POSTCONDITIONS = {
@@ -65,6 +66,15 @@ REQUIRED_POSTCONDITIONS = {
         "turbo_pre_turbine_volume",
         "compressor_bypass_recirculates",
         "vgt_time_constant",
+    ],
+    "test/forced_induction_invariant_tests.cpp": [
+        "ForcedInductionDisabledPathInvariant",
+        "ForcedInductionCompressorInvariant",
+        "ForcedInductionTurbineInvariant",
+        "ForcedInductionEnergyInvariant",
+        "ForcedInductionOptionalDeviceInvariant",
+        "ForcedInductionMultiGroupInvariant",
+        "ForcedInductionMassBalanceInvariant",
     ],
 }
 

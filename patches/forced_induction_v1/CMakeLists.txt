@@ -316,6 +316,7 @@ add_executable(engine-sim-test
     test/gas_system_tests.cpp
     test/gas_system_diesel_tests.cpp
     test/diesel_turbo_model_tests.cpp
+    test/forced_induction_invariant_tests.cpp
     test/function_test.cpp
     test/synthesizer_tests.cpp
 )
@@ -335,4 +336,3 @@ if (PIRANHA_ENABLED)
     add_executable(engine-sim-runtime-smoke test/runtime_engine_smoke.cpp)
     target_link_libraries(engine-sim-runtime-smoke engine-sim engine-sim-script-interpreter)
 endif ()
-
