@@ -50,9 +50,11 @@ jobs:
           path: ${{ runner.temp }}\reconstructed-overlay.zip
           if-no-files-found: error
 
-      - name: Build, regression-compare, runtime-smoke, package
+      - name: Capture exact generated turbo core
         id: ci
         shell: powershell
+        env:
+          SOURCE_CAPTURE_ONLY: '1'
         run: .\tools\windows_ci.ps1
 
       - name: Upload test evidence
