@@ -86,21 +86,21 @@ if ($env:SOURCE_CAPTURE_ONLY -eq '1') {
     if (Test-Path $capture) { Remove-Item -Force $capture }
     $captureFiles = @(
         (Join-Path $source 'CMakeLists.txt'),
-        (Join-Path $source 'include\intake.h'),
-        (Join-Path $source 'src\intake.cpp'),
-        (Join-Path $source 'include\exhaust_system.h'),
-        (Join-Path $source 'src\exhaust_system.cpp'),
-        (Join-Path $source 'include\engine.h'),
-        (Join-Path $source 'src\engine.cpp'),
-        (Join-Path $source 'include\combustion_chamber.h'),
-        (Join-Path $source 'src\combustion_chamber.cpp'),
-        (Join-Path $source 'src\piston_engine_simulator.cpp'),
-        (Join-Path $source 'include\turbocharger_model.h'),
-        (Join-Path $source 'src\turbocharger_model.cpp'),
-        (Join-Path $source 'scripting\include\engine_node.h'),
-        (Join-Path $source 'es\objects\objects.mr'),
-        (Join-Path $source 'test\diesel_turbo_model_tests.cpp'),
-        (Join-Path $source 'test\runtime_engine_smoke.cpp')
+        (Join-Path $source 'include/intake.h'),
+        (Join-Path $source 'src/intake.cpp'),
+        (Join-Path $source 'include/exhaust_system.h'),
+        (Join-Path $source 'src/exhaust_system.cpp'),
+        (Join-Path $source 'include/engine.h'),
+        (Join-Path $source 'src/engine.cpp'),
+        (Join-Path $source 'include/combustion_chamber.h'),
+        (Join-Path $source 'src/combustion_chamber.cpp'),
+        (Join-Path $source 'src/piston_engine_simulator.cpp'),
+        (Join-Path $source 'include/turbocharger_model.h'),
+        (Join-Path $source 'src/turbocharger_model.cpp'),
+        (Join-Path $source 'scripting/include/engine_node.h'),
+        (Join-Path $source 'es/objects/objects.mr'),
+        (Join-Path $source 'test/diesel_turbo_model_tests.cpp'),
+        (Join-Path $source 'test/runtime_engine_smoke.cpp')
     )
     foreach ($f in $captureFiles) {
         if (-not (Test-Path $f)) { throw "source capture file missing: $f" }
