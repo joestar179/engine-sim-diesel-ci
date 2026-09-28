@@ -1,0 +1,1007 @@
+import "engine_sim.mr"
+
+units units()
+constants constants()
+impulse_response_library ir_lib()
+
+/*
+    ALCO 16-251B V16 - native diesel/turbo reference configuration
+    Source model: MI1016B-v7 locomotive-load configuration
+    ------------------------------------------------
+    Target:
+      Classic 251B V16 locomotive prime mover, 2400 BHP at 1000 rpm (RS-27, RSD-15,
+      RSD-17, C-424; also the classic WDM-2 lineage).
+
+    VERIFIED / HIGH-CONFIDENCE PHYSICAL DATA
+      - four-stroke, direct-injection, turbocharged, charge-air cooled diesel
+      - 16 cylinders, 45-degree V
+      - bore: 9.000 in / 228.6 mm
+      - stroke: 10.500 in / 266.7 mm
+      - total displacement: ~175.14 L / 10,687.5 in^3
+      - compression ratio: 13.0:1 (MI-1016B)
+      - engine rating: 2400 BHP at 1000 rpm
+      - rated output in MI-1016B: 2400 BHP
+      - BMEP at 2400 BHP / 1000 rpm: ~177.85 psi / 12.26 bar
+      - rated torque: ~12,605 lb-ft / 17,091 Nm
+      - normal idle: ~400 rpm
+      - eight shared crankpins, nine main bearings
+      - side-by-side connecting rods on each crankpin
+      - crankpin diameter: 6.000 in (MI-1016B)
+      - main journal diameter: 8.500 in (MI-1016B)
+      - piston pin diameter: 3.750 in (MI-1016B)
+      - piston + connecting-rod assembly: 145 lb / 65.77 kg (MI-1016B)
+      - V16 crankshaft + extension assembly: 3800 lb / 1723.65 kg (MI-1016B)
+      - Model 710 turbocharger mass: ~1200 lb / 544.3 kg (MI-1016B)
+      - exhaust manifold assembly mass: ~1750 lb / 793.8 kg (MI-1016B)
+      - aftercooler mass: ~350 lb / 158.8 kg (MI-1016B)
+      - firing order (MI-1016B):
+          1R-1L-5R-5L-7R-7L-3R-3L-8R-8L-4R-4L-2R-2L-6R-6L
+      - crankshaft rotation: CCW viewed from power-take-off / generator end
+      - cylinders numbered from free/turbo end: 1R/1L nearest turbo
+      - two intake + two exhaust valves per cylinder
+      - valve diameter: 2.85 in
+      - maximum valve lift: ~0.85 in
+      - MI-1016B identifies the classic cam timing/overlap arrangement;
+        140-degree overlap versions also exist as later scavenging/fuel-economy
+        modifications
+      - V12 and V16 251 exhaust manifolds are four-branch insulated pulse
+        manifolds; pulse spacing is intentional to increase turbocharger output
+      - MI-1016B specifies the ALCO Model 710 turbocharger for the V16
+      - dry engine weight: 40,300 lb / 18,280 kg (MI-1016B)
+      - MI-1016B includes detailed component/assembly drawings; relevant
+        geometry is used below where Engine Simulator can represent it
+
+    DERIVED VALUES
+      - displacement/cylinder: 10.946 L
+      - clearance volume at 13.0:1: ~912.19 cc/cylinder
+      - firing interval: 45 crank degrees
+      - post-turbo pulse frequency:
+          400 rpm idle  -> ~53.3 Hz
+          1000 rpm full -> ~133.3 Hz
+
+    FAMILY-DERIVED / NOT 16B-SPECIFIC
+      - connecting-rod length 533 mm is published for a later 251-F and retained
+        here because the 251 family preserved the 9 x 10.5 in power geometry.
+
+    NATIVE DIESEL / FORCED-INDUCTION REPRESENTATION
+      - fuel is injected directly into an air-only cylinder over finite crank angle;
+      - ignition delay and premixed/diffusion burn fractions are explicit;
+      - four insulated pulse branches retain separate pre-turbine GasSystem states;
+      - all four branches feed one Model 710 turbine and one physical shaft;
+      - the compressor transfers real gas through a real aftercooler volume;
+      - the original ExhaustSystem below is downstream of the turbine.
+
+    REMAINING CALIBRATION VALUES
+      - exact classic-16B compressor map, boost curve, exhaust branch dimensions,
+        injector delivery curve and lift-vs-angle cam card were not found.
+      - injection/burn duration, turbo gas-path volumes, flow capacities, rotating
+        inertia, runner lengths and flow coefficients remain explicit estimates.
+      - MI-1016B describes pump/nozzle operation and timing procedure, but refers
+        overhaul/calibration data to MI-1000 and turbo maps to MI-1003.
+
+    POWER-CALIBRATION RULE
+      Do not alter bore, stroke, compression ratio, bank angle, firing order,
+      crank phasing, or rated speed to chase dyno power. First test at 1000 rpm.
+      If output misses the 2400-BHP target, change only the marked
+      turbo/intake/fuel-flow calibration parameters.
+*/
+
+label cycle(2 * 360 * units.deg)
+label bank_angle(45 * units.deg)
+
+private node alco_16_251b_wires {
+    output r1: ignition_wire();
+    output r2: ignition_wire();
+    output r3: ignition_wire();
+    output r4: ignition_wire();
+    output r5: ignition_wire();
+    output r6: ignition_wire();
+    output r7: ignition_wire();
+    output r8: ignition_wire();
+
+    output l1: ignition_wire();
+    output l2: ignition_wire();
+    output l3: ignition_wire();
+    output l4: ignition_wire();
+    output l5: ignition_wire();
+    output l6: ignition_wire();
+    output l7: ignition_wire();
+    output l8: ignition_wire();
+}
+
+/*
+    MI-1016B 16-cylinder firing order:
+      1R 1L 5R 5L 7R 7L 3R 3L 8R 8L 4R 4L 2R 2L 6R 6L
+
+    Every firing event is 45 crank degrees apart.
+*/
+public node alco_16_251b_combustion_scheduler {
+    input wires;
+    input timing_curve;
+    input rev_limit: 1125 * units.rpm;
+
+    alias output __out:
+        ignition_module(
+            timing_curve: timing_curve,
+            rev_limit: rev_limit,
+            limiter_duration: 0.25
+        )
+            .connect_wire(wires.r1,  0 * units.deg)
+            .connect_wire(wires.l1, 45 * units.deg)
+            .connect_wire(wires.r5, 90 * units.deg)
+            .connect_wire(wires.l5,135 * units.deg)
+            .connect_wire(wires.r7,180 * units.deg)
+            .connect_wire(wires.l7,225 * units.deg)
+            .connect_wire(wires.r3,270 * units.deg)
+            .connect_wire(wires.l3,315 * units.deg)
+            .connect_wire(wires.r8,360 * units.deg)
+            .connect_wire(wires.l8,405 * units.deg)
+            .connect_wire(wires.r4,450 * units.deg)
+            .connect_wire(wires.l4,495 * units.deg)
+            .connect_wire(wires.r2,540 * units.deg)
+            .connect_wire(wires.l2,585 * units.deg)
+            .connect_wire(wires.r6,630 * units.deg)
+            .connect_wire(wires.l6,675 * units.deg);
+}
+
+/*
+    Two camshafts per bank, with cylinder-number-specific phases.
+    The classic 16B uses a 123-degree OVERLAP cam specification. That published
+    number is not the same thing as Engine Simulator's duration_at_50_thou or
+    automotive LSA, so it is not inserted blindly as a lobe-separation value.
+
+    Until a true 16B lift-vs-crank-angle card is found, the lobe SHAPE remains
+    a conservative simulator translation while the cylinder phasing is exact.
+*/
+public node alco_16_251b_camshaft_builder {
+    input intake_lobe_profile;
+    input exhaust_lobe_profile;
+
+    input intake_lobe_center: 112 * units.deg;
+    input exhaust_lobe_center: 112 * units.deg;
+    input advance: 0 * units.deg;
+    input base_radius: 2.25 * units.inch;
+
+    output intake_cam_R: _intake_R;
+    output exhaust_cam_R: _exhaust_R;
+    output intake_cam_L: _intake_L;
+    output exhaust_cam_L: _exhaust_L;
+
+    camshaft_parameters params(
+        advance: advance,
+        base_radius: base_radius
+    )
+
+    camshaft _intake_R(params, lobe_profile: intake_lobe_profile)
+    camshaft _exhaust_R(params, lobe_profile: exhaust_lobe_profile)
+    camshaft _intake_L(params, lobe_profile: intake_lobe_profile)
+    camshaft _exhaust_L(params, lobe_profile: exhaust_lobe_profile)
+
+    label rot360(360 * units.deg)
+
+    // Right bank cylinder firing phases in physical cylinder order 1..8:
+    // 1=0, 2=540, 3=270, 4=450, 5=90, 6=630, 7=180, 8=360.
+    _exhaust_R
+        .add_lobe((rot360 - exhaust_lobe_center) +   0 * units.deg)
+        .add_lobe((rot360 - exhaust_lobe_center) + 540 * units.deg)
+        .add_lobe((rot360 - exhaust_lobe_center) + 270 * units.deg)
+        .add_lobe((rot360 - exhaust_lobe_center) + 450 * units.deg)
+        .add_lobe((rot360 - exhaust_lobe_center) +  90 * units.deg)
+        .add_lobe((rot360 - exhaust_lobe_center) + 630 * units.deg)
+        .add_lobe((rot360 - exhaust_lobe_center) + 180 * units.deg)
+        .add_lobe((rot360 - exhaust_lobe_center) + 360 * units.deg)
+
+    _intake_R
+        .add_lobe((rot360 + intake_lobe_center) +   0 * units.deg)
+        .add_lobe((rot360 + intake_lobe_center) + 540 * units.deg)
+        .add_lobe((rot360 + intake_lobe_center) + 270 * units.deg)
+        .add_lobe((rot360 + intake_lobe_center) + 450 * units.deg)
+        .add_lobe((rot360 + intake_lobe_center) +  90 * units.deg)
+        .add_lobe((rot360 + intake_lobe_center) + 630 * units.deg)
+        .add_lobe((rot360 + intake_lobe_center) + 180 * units.deg)
+        .add_lobe((rot360 + intake_lobe_center) + 360 * units.deg)
+
+    // Left bank is the same crankpin sequence, 45 crank degrees later.
+    _exhaust_L
+        .add_lobe((rot360 - exhaust_lobe_center) +  45 * units.deg)
+        .add_lobe((rot360 - exhaust_lobe_center) + 585 * units.deg)
+        .add_lobe((rot360 - exhaust_lobe_center) + 315 * units.deg)
+        .add_lobe((rot360 - exhaust_lobe_center) + 495 * units.deg)
+        .add_lobe((rot360 - exhaust_lobe_center) + 135 * units.deg)
+        .add_lobe((rot360 - exhaust_lobe_center) + 675 * units.deg)
+        .add_lobe((rot360 - exhaust_lobe_center) + 225 * units.deg)
+        .add_lobe((rot360 - exhaust_lobe_center) + 405 * units.deg)
+
+    _intake_L
+        .add_lobe((rot360 + intake_lobe_center) +  45 * units.deg)
+        .add_lobe((rot360 + intake_lobe_center) + 585 * units.deg)
+        .add_lobe((rot360 + intake_lobe_center) + 315 * units.deg)
+        .add_lobe((rot360 + intake_lobe_center) + 495 * units.deg)
+        .add_lobe((rot360 + intake_lobe_center) + 135 * units.deg)
+        .add_lobe((rot360 + intake_lobe_center) + 675 * units.deg)
+        .add_lobe((rot360 + intake_lobe_center) + 225 * units.deg)
+        .add_lobe((rot360 + intake_lobe_center) + 405 * units.deg)
+}
+
+private node alco_251_power_assembly_head {
+    input intake_camshaft;
+    input exhaust_camshaft;
+    input flip_display: false;
+
+    // 10.946 L swept volume / (13.0 - 1) = 912.19 cc clearance volume.
+    input chamber_volume: 912.19 * units.cc;
+
+    /*
+        Effective ES port geometry.
+        Period ALCO material confirms the common 251 power-assembly concept and
+        the 2.85-in / 0.85-in four-valve arrangement, but no trustworthy 16B
+        bench-flow sheet was found. These values are intentionally retained near
+        the successful first 6-251 model rather than using automotive-scale ports.
+    */
+    input intake_runner_volume: 3.5 * units.L;
+    input intake_runner_cross_section_area: 80 * units.cm2;
+    input exhaust_runner_volume: 3.0 * units.L;
+    input exhaust_runner_cross_section_area: 70 * units.cm2;
+
+    input flow_attenuation: 1.0;
+    input lift_scale: 1.0;
+
+    alias output __out: head;
+
+    function intake_flow(50 * units.thou)
+    intake_flow
+        .add_flow_sample(0   * lift_scale, 0    * flow_attenuation)
+        .add_flow_sample(50  * lift_scale, 120  * flow_attenuation)
+        .add_flow_sample(100 * lift_scale, 235  * flow_attenuation)
+        .add_flow_sample(150 * lift_scale, 345  * flow_attenuation)
+        .add_flow_sample(200 * lift_scale, 455  * flow_attenuation)
+        .add_flow_sample(250 * lift_scale, 555  * flow_attenuation)
+        .add_flow_sample(300 * lift_scale, 650  * flow_attenuation)
+        .add_flow_sample(350 * lift_scale, 735  * flow_attenuation)
+        .add_flow_sample(400 * lift_scale, 810  * flow_attenuation)
+        .add_flow_sample(450 * lift_scale, 875  * flow_attenuation)
+        .add_flow_sample(500 * lift_scale, 930  * flow_attenuation)
+        .add_flow_sample(550 * lift_scale, 975  * flow_attenuation)
+        .add_flow_sample(600 * lift_scale, 1015 * flow_attenuation)
+        .add_flow_sample(650 * lift_scale, 1045 * flow_attenuation)
+        .add_flow_sample(700 * lift_scale, 1070 * flow_attenuation)
+        .add_flow_sample(750 * lift_scale, 1090 * flow_attenuation)
+        .add_flow_sample(800 * lift_scale, 1105 * flow_attenuation)
+        .add_flow_sample(850 * lift_scale, 1115 * flow_attenuation)
+
+    function exhaust_flow(50 * units.thou)
+    exhaust_flow
+        .add_flow_sample(0   * lift_scale, 0   * flow_attenuation)
+        .add_flow_sample(50  * lift_scale, 105 * flow_attenuation)
+        .add_flow_sample(100 * lift_scale, 205 * flow_attenuation)
+        .add_flow_sample(150 * lift_scale, 300 * flow_attenuation)
+        .add_flow_sample(200 * lift_scale, 390 * flow_attenuation)
+        .add_flow_sample(250 * lift_scale, 475 * flow_attenuation)
+        .add_flow_sample(300 * lift_scale, 550 * flow_attenuation)
+        .add_flow_sample(350 * lift_scale, 620 * flow_attenuation)
+        .add_flow_sample(400 * lift_scale, 680 * flow_attenuation)
+        .add_flow_sample(450 * lift_scale, 730 * flow_attenuation)
+        .add_flow_sample(500 * lift_scale, 775 * flow_attenuation)
+        .add_flow_sample(550 * lift_scale, 810 * flow_attenuation)
+        .add_flow_sample(600 * lift_scale, 840 * flow_attenuation)
+        .add_flow_sample(650 * lift_scale, 865 * flow_attenuation)
+        .add_flow_sample(700 * lift_scale, 885 * flow_attenuation)
+        .add_flow_sample(750 * lift_scale, 900 * flow_attenuation)
+        .add_flow_sample(800 * lift_scale, 910 * flow_attenuation)
+        .add_flow_sample(850 * lift_scale, 915 * flow_attenuation)
+
+    generic_cylinder_head head(
+        chamber_volume: chamber_volume,
+        intake_runner_volume: intake_runner_volume,
+        intake_runner_cross_section_area: intake_runner_cross_section_area,
+        exhaust_runner_volume: exhaust_runner_volume,
+        exhaust_runner_cross_section_area: exhaust_runner_cross_section_area,
+        intake_port_flow: intake_flow,
+        exhaust_port_flow: exhaust_flow,
+        valvetrain: standard_valvetrain(
+            intake_camshaft: intake_camshaft,
+            exhaust_camshaft: exhaust_camshaft
+        ),
+        flip_display: flip_display
+    )
+}
+
+public node alco_16_251b_v16 {
+    alias output __out: engine;
+
+    alco_16_251b_wires wires()
+
+    /*
+        Diesel No. 2 chemistry approximation. molecular_afr is the simulator's
+        stoichiometric O2/fuel molar ratio, not the familiar mass AFR.
+    */
+    fuel diesel_fuel(
+        name: "Diesel No. 2 [C12H23 approximation]",
+        molecular_mass: 167.3 * units.g,
+        energy_density: 45.5 * units.kJ / units.g,
+        density: 0.84 * units.kg / units.L,
+        molecular_afr: 17.75,
+        max_burning_efficiency: 0.88,
+        burning_efficiency_randomness: 0.08,
+        low_efficiency_attenuation: 0.75,
+        max_turbulence_effect: 2.0,
+        max_dilution_effect: 5.0
+    )
+
+    engine engine(
+        name: "ALCO 16-251B V16 [MI-1016B / 2400 BHP @ 1000 rpm]",
+        /*
+            STARTING CALIBRATION, not a claimed ALCO starter specification.
+            Engine Simulator's stock governor has a hard-coded low-speed branch
+            below half minimum governed speed (200 rpm here) that effectively
+            leaves the intake near its closed-throttle position. Therefore the
+            starter target is set to 250 rpm so the governor can begin opening
+            the main intake and combustion can carry the engine to 400-rpm idle.
+            This 250-rpm target is a simulator accommodation, not a claimed
+            ALCO factory cranking-speed specification.
+        */
+        starter_speed: 250 * units.rpm,
+        starter_torque: 15000 * units.lb_ft,
+
+        // Rated engine speed is 1000 rpm; overspeed trip in railway service is
+        // materially higher, so the combustion limiter is set separately below.
+        redline: 1000 * units.rpm,
+        dyno_min_speed: 400 * units.rpm,
+        dyno_max_speed: 1000 * units.rpm,
+        dyno_hold_step: 100 * units.rpm,
+
+        fuel: diesel_fuel,
+
+        // Native compression ignition. Fuel quantity is per cylinder event.
+        // MI-1016B confirms individual rack-controlled jerk pumps and closed
+        // hydraulic nozzles with positive cutoff. MI-1000 data is still needed
+        // to replace the rate/duration values below with factory curves.
+        compression_ignition: true,
+        max_fuel_mass_per_cycle: 0.80 * units.g,
+        injection_duration: 24 * units.deg,
+        ignition_delay: 4 * units.deg,
+        combustion_duration: 50 * units.deg,
+        premixed_burn_fraction: 0.18,
+        autoignition_temperature: 550 * units.K,
+        autoignition_pressure: 1.0 * units.MPa,
+
+        // One fixed-geometry Model 710 turbo, four pulse-separated inlet
+        // channels, one shaft, one compressor, and a water aftercooler.
+        // MI-1016B confirms topology and hardware; map/volume numbers remain
+        // configuration estimates until MI-1003 or measured maps are sourced.
+        turbo_enabled: true,
+        turbo_shaft_inertia: 1.50 * units.kg * units.m * units.m,
+        turbo_friction_torque: 25 * units.Nm,
+        turbo_max_speed: 24000 * units.rpm,
+        turbo_max_pressure_ratio: 2.20,
+        compressor_efficiency: 0.70,
+        turbine_efficiency: 0.68,
+        aftercooler_effectiveness: 0.65,
+        turbo_design_mass_flow: 3.20 * units.kg / units.sec,
+        turbine_design_pressure_ratio: 1.80,
+        turbine_design_temperature: 800 * units.K,
+        turbo_pre_turbine_volume: 60 * units.L,
+        turbo_pre_turbine_area: circle_area(8 * units.inch),
+        turbo_inlet_channel_count: 4,
+        turbo_compressor_inlet_volume: 50 * units.L,
+        turbo_compressor_discharge_volume: 40 * units.L,
+        turbo_cooler_volume: 80 * units.L,
+        turbo_charge_plenum_volume: 160 * units.L,
+        turbo_charge_area: 700 * units.cm2,
+        turbo_inlet_flow_rate: 0.0,
+        turbo_passive_compressor_flow_rate: 0.0,
+        turbo_cooler_flow_rate: 0.0,
+        turbo_charge_flow_rate: 0.0,
+        turbo_turbine_flow_rate: 0.0,
+        aftercooler_enabled: true,
+        aftercooler_pressure_loss: 0.0,
+        turbo_throttle_enabled: false,
+        wastegate_enabled: false,
+        wastegate_flow_rate: 0.0,
+        wastegate_position: 0.0,
+        compressor_bypass_enabled: false,
+        compressor_bypass_flow_rate: 0.0,
+        compressor_bypass_position: 0.0,
+        compressor_bypass_recirculates: true,
+        vgt_enabled: false,
+        vgt_position: 1.0,
+        vgt_min_flow_factor: 0.25,
+
+        // Procedural excitation only: cylinder pressure rise, exhaust pulses,
+        // shaft speed and compressor work. No ALCO-specific recorded sample.
+        audio_low_speed_full_strength: 80 * units.rpm,
+        audio_low_speed_exponent: 1.0,
+        combustion_audio_gain: 0.0025,
+        turbo_tone_audio_gain: 6000.0,
+        turbo_noise_audio_gain: 2500.0,
+        compressor_blade_count: 12,
+
+        // Native locomotive speed governor commands the fuel rack, never the
+        // intake path. Gains remain simulator calibration values.
+        throttle: diesel_governor(
+            min_speed: 400 * units.rpm,
+            max_speed: 1000 * units.rpm,
+            min_v: -2.0,
+            max_v: 2.0,
+            k_s: 0.008,
+            k_d: 120.0,
+            gamma: 1.5,
+            starting_rack: 0.20
+        ),
+
+        /*
+            Sound starting point based on the first 6-251 model that tested best:
+            strong low-frequency body, restrained but present high-frequency
+            derivative content, no model-specific recorded sample.
+        */
+        simulation_frequency: 4000,
+        hf_gain: 0.122,
+        noise: 1.0,
+        jitter: 0.06
+    )
+
+    // HARD GEOMETRY
+    label stroke(10.5 * units.inch)
+    label bore(9.0 * units.inch)
+
+    /*
+        ROTATING / RECIPROCATING MASS MODEL.
+        MI-1016B gives 145 lb for the complete piston + connecting-rod assembly
+        and 3800 lb for the V16 crankshaft + extension assembly.
+        The manual does not split the 145 lb between piston and rod, so the
+        25.0 / 40.77 kg split below is a simulator allocation preserving the
+        MANUAL-BACKED 65.77 kg combined total.
+    */
+    label rod_length(533 * units.mm) // family-derived; exact 16B C-C length not dimensioned in the scan
+    label piston_mass(25.0 * units.kg)
+    label rod_mass(40.770 * units.kg)
+    label compression_height(5.0 * units.inch)
+
+    // MI-1016B: crankshaft + extension assembly = 3800 lb.
+    label crank_mass(1723.65 * units.kg)
+
+    /*
+        The engine is directly coupled to the main generator. This is NOT an
+        ALCO flywheel mass: it is an explicit generator-equivalent rotational
+        inertia surrogate so the locomotive prime mover does not accelerate like
+        a bare crankshaft.
+    */
+    label flywheel_mass(450 * units.kg)
+    label flywheel_radius(28 * units.inch)
+
+    label crank_moment(
+        disk_moment_of_inertia(mass: crank_mass, radius: stroke / 2)
+    )
+    label flywheel_moment(
+        disk_moment_of_inertia(mass: flywheel_mass, radius: flywheel_radius)
+    )
+    label accessory_moment(
+        disk_moment_of_inertia(mass: 350 * units.kg, radius: 16 * units.inch)
+    )
+
+    /*
+        45-degree V geometry follows the same stock-ES-compatible arrangement
+        used by other 45-degree shared-journal V engines:
+          R bank +22.5 deg
+          L bank -22.5 deg
+        Eight physical crankpins are shared by R/L cylinders.
+    */
+    crankshaft c0(
+        throw: stroke / 2,
+        flywheel_mass: flywheel_mass,
+        mass: crank_mass,
+        friction_torque: 800 * units.lb_ft,
+        moment_of_inertia: crank_moment + flywheel_moment + accessory_moment,
+        position_x: 0.0,
+        position_y: 0.0,
+
+        /*
+            Engine Simulator V-engine reference correction:
+            for the first bank at -V/2, crank reference TDC is
+            90 deg - V/2. For the ALCO 45-deg V this is 67.5 deg.
+            The previous 135-deg value shifted the combustion schedule
+            relative to true piston TDC and could suppress low-speed torque.
+        */
+        tdc: 90 * units.deg - (bank_angle / 2.0)
+    )
+
+    /*
+        Crankpin phases are the RIGHT-bank firing phases modulo 360 degrees.
+        Physical cylinder order 1..8:
+          1=0, 2=180, 3=270, 4=90, 5=90, 6=270, 7=180, 8=0.
+        Each pin carries one right-bank and one left-bank rod side-by-side.
+    */
+    rod_journal rj1(angle:   0 * units.deg)
+    rod_journal rj2(angle: 180 * units.deg)
+    rod_journal rj3(angle: 270 * units.deg)
+    rod_journal rj4(angle:  90 * units.deg)
+    rod_journal rj5(angle:  90 * units.deg)
+    rod_journal rj6(angle: 270 * units.deg)
+    rod_journal rj7(angle: 180 * units.deg)
+    rod_journal rj8(angle:   0 * units.deg)
+
+    c0
+        .add_rod_journal(rj1)
+        .add_rod_journal(rj2)
+        .add_rod_journal(rj3)
+        .add_rod_journal(rj4)
+        .add_rod_journal(rj5)
+        .add_rod_journal(rj6)
+        .add_rod_journal(rj7)
+        .add_rod_journal(rj8)
+
+    piston_parameters piston_params(
+        mass: piston_mass,
+        blowby: 0,
+        compression_height: compression_height,
+        wrist_pin_position: 0 * units.mm,
+        displacement: 0.0
+    )
+
+    connecting_rod_parameters rod_params(
+        mass: rod_mass,
+        moment_of_inertia: rod_moment_of_inertia(
+            mass: rod_mass,
+            length: rod_length
+        ),
+        center_of_mass: 0.0,
+        length: rod_length
+    )
+
+    cylinder_bank_parameters bank_params(
+        bore: bore,
+        deck_height: stroke / 2 + rod_length + compression_height,
+        display_depth: 1.0
+    )
+
+    /*
+        Existing downstream intake runner/plenum system. The native TurboGroup
+        supplies this object from its charge plenum; no atmospheric pressure or
+        boost boundary is imposed here. Compression-ignition mode keeps it
+        air-only and unthrottled.
+    */
+    intake intake_common(
+        plenum_volume: 160 * units.L,
+        plenum_cross_section_area: 700 * units.cm2,
+        intake_flow_rate: k_carb(22000),
+        runner_flow_rate: k_carb(2100),
+        runner_length: 28 * units.inch,
+        idle_flow_rate: k_carb(0),
+        idle_throttle_plate_position: 0.0,
+        throttle_gamma: 1.0,
+        molecular_afr: 17.75,
+        velocity_decay: 0.30
+    )
+
+    /*
+        FOUR-BRANCH NATIVE TURBINE ROUTING.
+
+        MI-1016B hardware:
+          16 cylinder-head elbows -> 16 tee castings -> nine intermediate pipe
+          types -> four groups of four cylinders -> four-opening outlet casting
+          -> single Model 710 turbocharger.
+
+        Even-pulse grouping for the MI-1016B firing order:
+          R branch A: 1R, 7R, 8R, 2R
+          R branch B: 5R, 3R, 4R, 6R
+          L branch A: 1L, 7L, 8L, 2L
+          L branch B: 5L, 3L, 4L, 6L
+        Each branch receives one pulse every 180 crank degrees.
+
+        Each branch below is assigned to a separate pre-turbine scroll/channel.
+        One TurboGroup consumes all four streams through the same turbine rotor.
+        exhaust_r_a is also the single original ExhaustSystem volume selected as
+        the common post-turbine outlet. Dimensions and flow rates remain estimates.
+    */
+    exhaust_system_parameters exhaust_params(
+        collector_cross_section_area: circle_area(12.0 * units.inch),
+        outlet_flow_rate: k_carb(26000),
+        primary_tube_length: 54 * units.inch,
+        primary_flow_rate: k_carb(2400),
+        velocity_decay: 0.40,
+        backflow_atmospheric_mixing: 0.05
+    )
+
+    exhaust_system exhaust_r_a(
+        exhaust_params,
+        length: 96 * units.inch,
+        audio_volume: 0.60,
+        turbo_scroll_index: 0,
+        impulse_response: ir_lib.minimal_muffling_01
+    )
+
+    exhaust_system exhaust_r_b(
+        exhaust_params,
+        length: 96 * units.inch,
+        audio_volume: 0.60,
+        turbo_scroll_index: 1,
+        impulse_response: ir_lib.minimal_muffling_01
+    )
+
+    exhaust_system exhaust_l_a(
+        exhaust_params,
+        length: 96 * units.inch,
+        audio_volume: 0.60,
+        turbo_scroll_index: 2,
+        impulse_response: ir_lib.minimal_muffling_01
+    )
+
+    exhaust_system exhaust_l_b(
+        exhaust_params,
+        length: 96 * units.inch,
+        audio_volume: 0.60,
+        turbo_scroll_index: 3,
+        impulse_response: ir_lib.minimal_muffling_01
+    )
+
+    /*
+        Match Engine Simulator's shared-journal V-engine convention:
+        first/firing-reference bank at -V/2, second bank at +V/2.
+        With negative crank rotation in the stock starter implementation,
+        the second bank reaches its corresponding TDC 45 crank degrees later,
+        matching the MI-1016B R/L alternating firing sequence.
+    */
+    cylinder_bank bank_R(bank_params, angle: -bank_angle / 2.0)
+    cylinder_bank bank_L(bank_params, angle:  bank_angle / 2.0)
+
+    // Effective path length increases toward the generator end.
+    label p1(42 * units.inch)
+    label p2(46 * units.inch)
+    label p3(50 * units.inch)
+    label p4(54 * units.inch)
+    label p5(58 * units.inch)
+    label p6(62 * units.inch)
+    label p7(66 * units.inch)
+    label p8(70 * units.inch)
+
+    bank_R
+        .add_cylinder(
+            piston: piston(piston_params, blowby: k_28inH2O(0.20)),
+            connecting_rod: connecting_rod(rod_params),
+            rod_journal: rj1,
+            intake: intake_common,
+            exhaust_system: exhaust_r_a,
+            ignition_wire: wires.r1,
+            primary_length: p1,
+            sound_attenuation: 0.94
+        )
+        .add_cylinder(
+            piston: piston(piston_params, blowby: k_28inH2O(0.20)),
+            connecting_rod: connecting_rod(rod_params),
+            rod_journal: rj2,
+            intake: intake_common,
+            exhaust_system: exhaust_r_a,
+            ignition_wire: wires.r2,
+            primary_length: p2,
+            sound_attenuation: 0.96
+        )
+        .add_cylinder(
+            piston: piston(piston_params, blowby: k_28inH2O(0.20)),
+            connecting_rod: connecting_rod(rod_params),
+            rod_journal: rj3,
+            intake: intake_common,
+            exhaust_system: exhaust_r_b,
+            ignition_wire: wires.r3,
+            primary_length: p3,
+            sound_attenuation: 0.98
+        )
+        .add_cylinder(
+            piston: piston(piston_params, blowby: k_28inH2O(0.20)),
+            connecting_rod: connecting_rod(rod_params),
+            rod_journal: rj4,
+            intake: intake_common,
+            exhaust_system: exhaust_r_b,
+            ignition_wire: wires.r4,
+            primary_length: p4,
+            sound_attenuation: 1.00
+        )
+        .add_cylinder(
+            piston: piston(piston_params, blowby: k_28inH2O(0.20)),
+            connecting_rod: connecting_rod(rod_params),
+            rod_journal: rj5,
+            intake: intake_common,
+            exhaust_system: exhaust_r_b,
+            ignition_wire: wires.r5,
+            primary_length: p5,
+            sound_attenuation: 1.00
+        )
+        .add_cylinder(
+            piston: piston(piston_params, blowby: k_28inH2O(0.20)),
+            connecting_rod: connecting_rod(rod_params),
+            rod_journal: rj6,
+            intake: intake_common,
+            exhaust_system: exhaust_r_b,
+            ignition_wire: wires.r6,
+            primary_length: p6,
+            sound_attenuation: 0.98
+        )
+        .add_cylinder(
+            piston: piston(piston_params, blowby: k_28inH2O(0.20)),
+            connecting_rod: connecting_rod(rod_params),
+            rod_journal: rj7,
+            intake: intake_common,
+            exhaust_system: exhaust_r_a,
+            ignition_wire: wires.r7,
+            primary_length: p7,
+            sound_attenuation: 0.96
+        )
+        .add_cylinder(
+            piston: piston(piston_params, blowby: k_28inH2O(0.20)),
+            connecting_rod: connecting_rod(rod_params),
+            rod_journal: rj8,
+            intake: intake_common,
+            exhaust_system: exhaust_r_a,
+            ignition_wire: wires.r8,
+            primary_length: p8,
+            sound_attenuation: 0.94
+        )
+
+    bank_L
+        .add_cylinder(
+            piston: piston(piston_params, blowby: k_28inH2O(0.20)),
+            connecting_rod: connecting_rod(rod_params),
+            rod_journal: rj1,
+            intake: intake_common,
+            exhaust_system: exhaust_l_a,
+            ignition_wire: wires.l1,
+            primary_length: p1,
+            sound_attenuation: 0.94
+        )
+        .add_cylinder(
+            piston: piston(piston_params, blowby: k_28inH2O(0.20)),
+            connecting_rod: connecting_rod(rod_params),
+            rod_journal: rj2,
+            intake: intake_common,
+            exhaust_system: exhaust_l_a,
+            ignition_wire: wires.l2,
+            primary_length: p2,
+            sound_attenuation: 0.96
+        )
+        .add_cylinder(
+            piston: piston(piston_params, blowby: k_28inH2O(0.20)),
+            connecting_rod: connecting_rod(rod_params),
+            rod_journal: rj3,
+            intake: intake_common,
+            exhaust_system: exhaust_l_b,
+            ignition_wire: wires.l3,
+            primary_length: p3,
+            sound_attenuation: 0.98
+        )
+        .add_cylinder(
+            piston: piston(piston_params, blowby: k_28inH2O(0.20)),
+            connecting_rod: connecting_rod(rod_params),
+            rod_journal: rj4,
+            intake: intake_common,
+            exhaust_system: exhaust_l_b,
+            ignition_wire: wires.l4,
+            primary_length: p4,
+            sound_attenuation: 1.00
+        )
+        .add_cylinder(
+            piston: piston(piston_params, blowby: k_28inH2O(0.20)),
+            connecting_rod: connecting_rod(rod_params),
+            rod_journal: rj5,
+            intake: intake_common,
+            exhaust_system: exhaust_l_b,
+            ignition_wire: wires.l5,
+            primary_length: p5,
+            sound_attenuation: 1.00
+        )
+        .add_cylinder(
+            piston: piston(piston_params, blowby: k_28inH2O(0.20)),
+            connecting_rod: connecting_rod(rod_params),
+            rod_journal: rj6,
+            intake: intake_common,
+            exhaust_system: exhaust_l_b,
+            ignition_wire: wires.l6,
+            primary_length: p6,
+            sound_attenuation: 0.98
+        )
+        .add_cylinder(
+            piston: piston(piston_params, blowby: k_28inH2O(0.20)),
+            connecting_rod: connecting_rod(rod_params),
+            rod_journal: rj7,
+            intake: intake_common,
+            exhaust_system: exhaust_l_a,
+            ignition_wire: wires.l7,
+            primary_length: p7,
+            sound_attenuation: 0.96
+        )
+        .add_cylinder(
+            piston: piston(piston_params, blowby: k_28inH2O(0.20)),
+            connecting_rod: connecting_rod(rod_params),
+            rod_journal: rj8,
+            intake: intake_common,
+            exhaust_system: exhaust_l_a,
+            ignition_wire: wires.l8,
+            primary_length: p8,
+            sound_attenuation: 0.94
+        )
+
+    engine
+        .add_cylinder_bank(bank_R)
+        .add_cylinder_bank(bank_L)
+
+    engine.add_crankshaft(c0)
+
+    /*
+        CAM / VALVE-GEAR CALIBRATION
+        MI-1016B drawings confirm one camshaft per bank. Each cylinder section
+        carries intake, exhaust and fuel-pump cams. One intake valve lever and one
+        exhaust valve lever each actuate a PAIR of valves through an equalizing
+        yoke, so Engine Simulator's single intake / single exhaust event per
+        cylinder is an appropriate kinematic abstraction for the four-valve head.
+
+        Manual service data:
+          - valve lash: 0.034 in
+          - valve timing check at the pushrod end: 0.429-0.466 in movement at
+            the specified No.1R timing position
+
+        The scan does not provide a complete lift-vs-crank-angle table or enough
+        rocker-ratio geometry to convert that check into an exact .050-in cam
+        profile, so the shapes below remain explicit calibration values.
+    */
+    harmonic_cam_lobe intake_lobe(
+        duration_at_50_thou: 230 * units.deg,
+        gamma: 1.15,
+        lift: 0.85 * units.inch,
+        steps: 128
+    )
+
+    harmonic_cam_lobe exhaust_lobe(
+        duration_at_50_thou: 236 * units.deg,
+        gamma: 1.15,
+        lift: 0.85 * units.inch,
+        steps: 128
+    )
+
+    alco_16_251b_camshaft_builder camshaft(
+        intake_lobe_profile: intake_lobe,
+        exhaust_lobe_profile: exhaust_lobe,
+        intake_lobe_center: 112 * units.deg,
+        exhaust_lobe_center: 112 * units.deg,
+        base_radius: 2.25 * units.inch
+    )
+
+    bank_R.set_cylinder_head(
+        alco_251_power_assembly_head(
+            intake_camshaft: camshaft.intake_cam_R,
+            exhaust_camshaft: camshaft.exhaust_cam_R,
+            chamber_volume: 912.19 * units.cc,
+            flow_attenuation: 1.0
+        )
+    )
+
+    bank_L.set_cylinder_head(
+        alco_251_power_assembly_head(
+            intake_camshaft: camshaft.intake_cam_L,
+            exhaust_camshaft: camshaft.exhaust_cam_L,
+            chamber_volume: 912.19 * units.cc,
+            flow_attenuation: 1.0,
+            flip_display: true
+        )
+    )
+
+    /*
+        Native start-of-injection schedule. MI-1016B supplies the mechanical
+        point-of-injection alignment procedure but not its crank-angle table;
+        the high-20-degree region remains family-derived calibration rather than
+        a claimed factory 16-251B curve.
+    */
+    function timing_curve(100 * units.rpm)
+    timing_curve
+        .add_sample(0    * units.rpm, 22.0 * units.deg)
+        .add_sample(200  * units.rpm, 23.0 * units.deg)
+        .add_sample(400  * units.rpm, 24.0 * units.deg)
+        .add_sample(600  * units.rpm, 25.0 * units.deg)
+        .add_sample(800  * units.rpm, 26.0 * units.deg)
+        .add_sample(1000 * units.rpm, 27.0 * units.deg)
+        .add_sample(1100 * units.rpm, 27.0 * units.deg)
+
+    engine.add_ignition_module(
+        alco_16_251b_combustion_scheduler(
+            wires: wires,
+            timing_curve: timing_curve,
+            // WDM-2 overspeed-trip references are ~1120-1160 rpm.
+            rev_limit: 1125 * units.rpm
+        )
+    )
+}
+
+/*
+    LOCOMOTIVE LOAD / DIESEL-ELECTRIC SURROGATE
+    ------------------------------------------------
+    Engine Simulator v0.1.14a has no electrical generator / traction-motor
+    model, but its stock clutch + transmission + vehicle system can still
+    provide a physically meaningful load and vehicle-speed simulation.
+
+    Mapping used here:
+      engine crankshaft -> clutch = main-generator electrical load/current limit
+      transmission ratios          = virtual electrical transition / field ranges
+      vehicle rotating mass        = locomotive + trailing train translational mass
+      diff ratio                   = representative WDM-2 traction-motor gear ratio
+
+    IMPORTANT: the transmission ratios below are NOT real mechanical gears.
+    A diesel-electric locomotive does not mechanically lock engine rpm to wheel
+    rpm. They are calibration ratios chosen only so the stock ES drivetrain can
+    approximate the changing generator/motor speed relationship over the
+    locomotive's operating range.
+*/
+private node alco_251b_generator_traction_transmission {
+    alias output __out: transmission;
+
+    /*
+        CALIBRATION / DERIVED:
+        11,800 lb-ft at 1000 rpm = ~1.675 MW (~2278 metric hp), close to the
+        WDM-2 traction-transmission input figure. With the first virtual range,
+        1092-mm wheels and a 65:18 final ratio, this also gives ~298 kN wheel
+        force, approximately the published 30.4-tonne starting tractive effort.
+
+        The clutch therefore acts as the generator / traction-current torque
+        ceiling. Clutch slip during launch is the stock-simulator surrogate for
+        electrical slip between generator speed and wheel speed.
+    */
+    transmission transmission(
+        max_clutch_torque: 11800 * units.lb_ft
+    )
+
+    /*
+        VIRTUAL ELECTRICAL TRANSITION RANGES.
+        Including the 65:18 final drive, effective overall ratios are:
+          range 1 = 10.17  -> ~20 km/h at 1000 engine rpm
+          range 2 =  6.80  -> ~30 km/h at 1000 engine rpm
+          range 3 =  4.60  -> ~45 km/h at 1000 engine rpm
+          range 4 =  3.20  -> ~64 km/h at 1000 engine rpm
+          range 5 =  2.30  -> ~89 km/h at 1000 engine rpm
+          range 6 =  1.72  -> ~120 km/h at 1000 engine rpm
+
+        Shift progressively upward as road speed rises. These represent
+        generator/traction-motor transition or field-weakening regions, not a
+        locomotive mechanical gearbox.
+    */
+    transmission.add_gear(2.8163076923)
+    transmission.add_gear(1.8830769231)
+    transmission.add_gear(1.2738461538)
+    transmission.add_gear(0.8861538462)
+    transmission.add_gear(0.6369230769)
+    transmission.add_gear(0.4763076923)
+}
+
+private node alco_251b_locomotive_consist {
+    /*
+        DOCUMENTED representative WDM-2 locomotive values:
+          service mass: 112.8 t
+          wheel diameter: 1092 mm
+          traction-motor gearing: 65:18 used for this representative setup
+
+        USER SCENARIO:
+          trailing_mass = 200 t
+          total simulated moving mass = 312.8 t
+
+        CALIBRATION:
+          rolling resistance and aerodynamic coefficient are simplified stock-ES
+          equivalents. ES has only constant rolling resistance plus frontal drag;
+          it does not implement a full rail Davis resistance equation or grades.
+    */
+    input locomotive_mass: 112800 * units.kg;
+    input trailing_mass: 200000 * units.kg;
+    input rolling_resistance_force: 6200 * units.N;
+
+    alias output __out:
+        vehicle(
+            mass: locomotive_mass + trailing_mass,
+            drag_coefficient: 0.90,
+            cross_sectional_area: (2864 * units.mm) * (4185 * units.mm),
+            diff_ratio: 65.0 / 18.0,
+            tire_radius: 1092 * units.mm / 2.0,
+            rolling_resistance: rolling_resistance_force
+        );
+}
+
+public node main {
+    set_engine(alco_16_251b_v16())
+    set_transmission(alco_251b_generator_traction_transmission())
+    set_vehicle(alco_251b_locomotive_consist())
+}
+
+main()

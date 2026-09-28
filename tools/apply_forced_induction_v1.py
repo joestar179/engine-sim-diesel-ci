@@ -30,6 +30,7 @@ EXPECTED_BASELINE = {
     "src/combustion_chamber.cpp": "a3d83f572cfc8376d020eb4d9e44a3f423e121fce8b9b0f3be54a95f97abb8e1",
     "src/piston_engine_simulator.cpp": "daab65c2ee3006ca97afdffd1ef97e5ad388524282ad2c74f93d4d3299592e72",
     "scripting/include/engine_node.h": "14fc19f2dc1dc1a53053366081d3fae4f57ab0bed872c693378204b6f5a0d536",
+    "scripting/include/exhaust_system_node.h": "7ae7e4bf9d5e8aa66defff9031d62a925791b29c5c949e3a0d6542aa61cfd690",
     "es/objects/objects.mr": "7b371b5fc5e2acf80e64d40a367fc0145b10239d497ae0b32392f398d6a40bea",
     "test/runtime_engine_smoke.cpp": "84e9e4027ef24029577979c41612165ce4811856dafd4a9b1acc924c72e32152",
 }
@@ -37,6 +38,9 @@ EXPECTED_BASELINE = {
 NEW_FILES = {
     "include/forced_induction_system.h",
     "src/forced_induction_system.cpp",
+    "assets/alco_16_251b_main.mr",
+    "assets/engines/alco/alco_16_251b_native.mr",
+    "test/alco_251b_loaded_transient_validation.cpp",
     "test/alco_integration_validation.cpp",
     "test/forced_induction_invariant_tests.cpp",
     "test/forced_induction_runtime_smoke_tests.cpp",
@@ -68,6 +72,32 @@ REQUIRED_POSTCONDITIONS = {
         "turbo_pre_turbine_volume",
         "compressor_bypass_recirculates",
         "vgt_time_constant",
+        "getTurboScrollIndex()",
+        "exhaustScrollIndices.push_back(",
+    ],
+    "scripting/include/exhaust_system_node.h": [
+        "getTurboScrollIndex()",
+        'addInput("turbo_scroll_index"',
+    ],
+    "es/objects/objects.mr": [
+        "input turbo_scroll_index: -1",
+        "turbo_scroll_index: turbo_scroll_index",
+    ],
+    "assets/engines/alco/alco_16_251b_native.mr": [
+        "compression_ignition: true",
+        "throttle: diesel_governor(",
+        "turbo_inlet_channel_count: 4",
+        "turbo_scroll_index: 0",
+        "turbo_scroll_index: 3",
+        "aftercooler_enabled: true",
+        "exhaust_system: exhaust_r_a",
+        "exhaust_system: exhaust_l_b",
+    ],
+    "test/alco_251b_loaded_transient_validation.cpp": [
+        "requireNative251B(",
+        "loadedCausalChain(",
+        "stableRelease(",
+        "GATE6_FAIL classification=",
     ],
     "test/forced_induction_invariant_tests.cpp": [
         "ForcedInductionDisabledPathInvariant",
@@ -99,6 +129,9 @@ REQUIRED_POSTCONDITIONS = {
         "engine-sim-integration-validation",
         "AlcoIntegrationValidation.NullNaturallyAspiratedSi",
         "AlcoIntegrationValidation.AftercoolerActualCharge",
+        "engine-sim-loaded-transient-validation",
+        "Alco251BLoadedTransient.CausalChain",
+        "Alco251BLoadedTransient.StableRelease",
     ],
 }
 
@@ -109,6 +142,12 @@ FORBIDDEN_POSTCONDITIONS = {
     "src/intake.cpp": ["recordTurboCompressorFlow", "compressorOperatingPoint("],
     "include/engine.h": ["m_turbocharger", "m_turboExhaustMoles", "m_lastTurboOutput"],
     "src/engine.cpp": ["recordTurboExhaustFlow", "recordTurboCompressorFlow"],
+    "assets/engines/alco/alco_16_251b_native.mr": [
+        "Diesel combustion surrogate",
+        "Stock Engine Simulator cannot model compressor pressure ratio",
+        "exhaust_system: exhaust,",
+        "throttle: governor(",
+    ],
 }
 
 

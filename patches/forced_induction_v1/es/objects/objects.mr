@@ -728,6 +728,7 @@ public node exhaust_system_parameters {
     input primary_flow_rate: k_carb(100.0);
     input audio_volume: 1.0;
     input velocity_decay: 1.0;
+    input turbo_scroll_index: -1;
 }
 
 private node _exhaust_system => __engine_sim__exhaust_system {
@@ -738,6 +739,7 @@ private node _exhaust_system => __engine_sim__exhaust_system {
     input primary_flow_rate [float];
     input audio_volume [float];
     input velocity_decay [float];
+    input turbo_scroll_index [int];
     input impulse_response [impulse_response];
     alias output __out [exhaust_system_channel];
 }
@@ -751,6 +753,7 @@ public node exhaust_system {
     input primary_flow_rate: parameters.primary_flow_rate;
     input audio_volume: parameters.audio_volume;
     input velocity_decay: parameters.velocity_decay;
+    input turbo_scroll_index: parameters.turbo_scroll_index;
     input impulse_response;
     alias output __out [_exhaust_system]:
         _exhaust_system(
@@ -761,6 +764,7 @@ public node exhaust_system {
             primary_flow_rate: primary_flow_rate,
             audio_volume: audio_volume,
             velocity_decay: velocity_decay,
+            turbo_scroll_index: turbo_scroll_index,
             impulse_response: impulse_response
         );
 }
@@ -792,4 +796,3 @@ public node transmission => __engine_sim__transmission {
     input max_clutch_torque [float]: 1000 * units.lb_ft;
     alias output __out [transmission_channel];
 }
-

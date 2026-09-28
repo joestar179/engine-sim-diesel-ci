@@ -340,6 +340,11 @@ if (PIRANHA_ENABLED)
     add_executable(engine-sim-integration-validation test/alco_integration_validation.cpp)
     target_link_libraries(engine-sim-integration-validation engine-sim engine-sim-script-interpreter)
 
+    add_executable(engine-sim-loaded-transient-validation
+        test/alco_251b_loaded_transient_validation.cpp)
+    target_link_libraries(engine-sim-loaded-transient-validation
+        engine-sim engine-sim-script-interpreter)
+
     set(ALCO_INTEGRATION_TESTS
         AlcoIntegrationValidation.NullNaturallyAspiratedSi
         AlcoIntegrationValidation.PassiveCranking
@@ -366,4 +371,18 @@ if (PIRANHA_ENABLED)
     set_tests_properties(${ALCO_INTEGRATION_TESTS} PROPERTIES
         WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
         LABELS "AlcoIntegrationValidation")
+
+    set(ALCO_251B_LOADED_TRANSIENT_TESTS
+        Alco251BLoadedTransient.CausalChain
+        Alco251BLoadedTransient.StableRelease
+    )
+    add_test(NAME Alco251BLoadedTransient.CausalChain
+        COMMAND engine-sim-loaded-transient-validation
+            alco-251b-causal assets/alco_16_251b_main.mr)
+    add_test(NAME Alco251BLoadedTransient.StableRelease
+        COMMAND engine-sim-loaded-transient-validation
+            alco-251b-release assets/alco_16_251b_main.mr)
+    set_tests_properties(${ALCO_251B_LOADED_TRANSIENT_TESTS} PROPERTIES
+        WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
+        LABELS "Alco251BLoadedTransient")
 endif ()

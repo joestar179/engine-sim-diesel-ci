@@ -48,6 +48,26 @@ namespace es_script {
             parameters.exhaustSystemCount = (int)exhaustSystems.size();
             parameters.intakeCount = (int)intakes.size();
             parameters.throttle = m_throttle->generate();
+
+            // The legacy script adapter still creates one TurboGroup, but
+            // each script exhaust object may now select its physical inlet
+            // channel. This exposes pulse grouping without coupling the core
+            // model to ALCO, cylinder count, or a particular scroll count.
+            if (parameters.turbocharger.enabled
+                && parameters.forcedInduction.groups.empty()) {
+                parameters.turbocharger.exhaustSystemIndices.clear();
+                parameters.turbocharger.exhaustScrollIndices.clear();
+                int exhaustIndex = 0;
+                for (const ExhaustSystemNode *exhaust : exhaustSystems) {
+                    parameters.turbocharger.exhaustSystemIndices.push_back(exhaustIndex++);
+                    const int configuredScroll = exhaust->getTurboScrollIndex();
+                    parameters.turbocharger.exhaustScrollIndices.push_back(
+                        configuredScroll >= 0 ? configuredScroll : 0);
+                }
+                if (!parameters.turbocharger.exhaustSystemIndices.empty()) {
+                    parameters.turbocharger.postTurbineExhaustIndex = 0;
+                }
+            }
             engine->initialize(parameters);
 
             {
@@ -243,4 +263,3 @@ namespace es_script {
 } /* namespace es_script */
 
 #endif /* ATG_ENGINE_SIM_ENGINE_NODE_H */
-

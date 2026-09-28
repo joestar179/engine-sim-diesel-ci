@@ -26,6 +26,19 @@ Failure signature: `runtime smoke | unjustified 10x open/closed delivery ratio |
 
 - Attempt 1 — Windows workflow run 53 compiled and linked the unchanged production core and passed four of five generic runtime smokes. The throttled-SI fixture delivered `0.00215828` kg through the open path and `0.00182856` kg through the closed path: the required causal ordering was present, but the test additionally demanded a 10x ratio that is not an architecture invariant and conflicts with Gate 4's no-performance-target scope. The repair removes only the magnitude multiplier and retains the directional assertion `openDelivery > closedDelivery`. Production code, geometry and calibration remain unchanged. Strategy remains allowed for one evidence-based test-layer repair.
 
+## Gate 6 incident: loaded-transient source post-condition
+
+Failure signature: `patch/application integrity | missing Alco251B token in loaded-transient source | verification layer`
+
+- Attempt 1 — Exact-source reconstruction copied every readable file, then rejected the new test because the application post-condition searched the C++ source for the CTest suite name `Alco251B`; that name correctly exists in CMake, while the source identifies the invariant as `requireNative251B`. The repair changes only the mismatched verification token. A fresh upstream reconstruction then passed all application preconditions and post-conditions. Strategy remains allowed; no production or calibration value changed.
+
+## Gate 6 diagnostic incident: legacy static-audit scope
+
+Failure signature: `static audit | missing seed-owned files | audit invocation layer`
+
+- Attempt 1 — Running the legacy overlay audit against the generated upstream source reported overlay-only files as missing.
+- Attempt 2 — Running it against the pre-seed repository reported seed-owned generated files as missing. The evidence shows this audit is only valid after CI seed restoration and is not a local Gate 6 source audit. No further use is allowed in this layer; Gate 6 instead relies on the dedicated readable-application pre/post-conditions, failure-loop guard, diff checks, and scoped Windows build/test.
+
 ## Logging rule
 
 For each future repeated failure, record:

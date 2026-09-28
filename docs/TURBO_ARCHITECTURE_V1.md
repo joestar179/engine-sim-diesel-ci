@@ -450,20 +450,24 @@ combustion/exhaust energy
 
 Detailed calibration is not allowed until this chain is stable.
 
-## 16. Initial ALCO 251-D validation configuration
+## 16. Initial ALCO reference validation configuration
 
-The ALCO 251-D is **only the first validation engine**.
+The ALCO 16-251B is the primary loaded diesel/turbo reference engine. The
+previous 6-251D remains a secondary integration/regression case. Neither is an
+architectural dependency.
 
-Initial configuration:
+Primary 16-251B configuration:
 - compression ignition/direct injection: enabled by the engine's combustion layer;
-- fixed-geometry turbo group: enabled;
+- one fixed-geometry Model 710 turbo group: enabled;
+- four pulse-separated pre-turbine branches feeding the one turbine/shaft;
 - charge-air aftercooler: enabled;
 - conventional throttle in charge path: disabled;
-- wastegate: disabled unless documentation supports one;
-- compressor bypass/BOV: disabled unless documentation supports one;
+- wastegate: disabled (the available ALCO manual describes automatic free-floating operation);
+- compressor bypass/BOV: disabled unless further documentation supports one;
 - VGT: disabled;
-- pre-turbine geometry: calibration/estimated until sourced;
-- turbine/compressor map parameters: calibration/estimated until sourced.
+- documented bore, stroke, compression ratio, firing order and rotating masses remain configuration data;
+- injection-rate details remain calibration/estimated until MI-1000 or equivalent data is sourced;
+- pre-turbine geometry and Model 710 compressor/turbine maps remain calibration/estimated until MI-1003, measured maps or equivalent data is sourced.
 
 No documented ALCO physical specification may be altered solely to force target power, boost, RPM or sound.
 

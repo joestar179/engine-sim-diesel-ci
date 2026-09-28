@@ -52,18 +52,18 @@ jobs:
           path: ${{ runner.temp }}\reconstructed-overlay.zip
           if-no-files-found: error
 
-      - name: Gate 5 ALCO integration validation
+      - name: Gate 6 native 16-251B loaded-transient validation
         id: ci
         shell: powershell
         env:
-          ALCO_INTEGRATION_ONLY: '1'
+          ALCO_251B_LOADED_TRANSIENT_ONLY: '1'
         run: .\tools\windows_ci.ps1
 
-      - name: Upload Gate 5 evidence
+      - name: Upload Gate 6 evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: engine-sim-gate5-alco-integration
+          name: engine-sim-gate6-alco-251b-loaded-transient
           path: _ci/logs
           if-no-files-found: warn
 
