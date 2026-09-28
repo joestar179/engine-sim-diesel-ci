@@ -38,6 +38,7 @@ NEW_FILES = {
     "include/forced_induction_system.h",
     "src/forced_induction_system.cpp",
     "test/forced_induction_invariant_tests.cpp",
+    "test/forced_induction_runtime_smoke_tests.cpp",
 }
 
 REQUIRED_POSTCONDITIONS = {
@@ -75,6 +76,13 @@ REQUIRED_POSTCONDITIONS = {
         "ForcedInductionOptionalDeviceInvariant",
         "ForcedInductionMultiGroupInvariant",
         "ForcedInductionMassBalanceInvariant",
+    ],
+    "test/forced_induction_runtime_smoke_tests.cpp": [
+        "NaturallyAspiratedSiKeepsOriginalStablePath",
+        "ThrottledSiAirDeliveryRespondsToThrottle",
+        "UnthrottledAirPathTransitionsFromPassiveToPoweredFlow",
+        "ParallelGroupsRemainIndependentWhileFeedingSharedIntake",
+        "TwinScrollRoutingRetainsPulseSeparationOnOneShaft",
     ],
 }
 

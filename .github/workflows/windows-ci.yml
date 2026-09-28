@@ -52,18 +52,18 @@ jobs:
           path: ${{ runner.temp }}\reconstructed-overlay.zip
           if-no-files-found: error
 
-      - name: Gate 3 architecture invariant tests
+      - name: Gate 4 generic runtime smoke tests
         id: ci
         shell: powershell
         env:
-          ARCHITECTURE_TESTS_ONLY: '1'
+          GENERIC_RUNTIME_SMOKE_ONLY: '1'
         run: .\tools\windows_ci.ps1
 
-      - name: Upload Gate 3 evidence
+      - name: Upload Gate 4 evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: engine-sim-gate3-architecture-invariants
+          name: engine-sim-gate4-generic-runtime-smoke
           path: _ci/logs
           if-no-files-found: warn
 

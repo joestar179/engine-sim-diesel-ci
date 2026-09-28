@@ -317,6 +317,7 @@ add_executable(engine-sim-test
     test/gas_system_diesel_tests.cpp
     test/diesel_turbo_model_tests.cpp
     test/forced_induction_invariant_tests.cpp
+    test/forced_induction_runtime_smoke_tests.cpp
     test/function_test.cpp
     test/synthesizer_tests.cpp
 )

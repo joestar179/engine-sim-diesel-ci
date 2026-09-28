@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
-"""Enable bounded Gate 2 and Gate 3 paths in reconstructed Windows CI.
+"""Enable bounded Gate 2 through Gate 4 paths in reconstructed Windows CI.
 
 The deterministic seed owns tools/windows_ci.ps1, so this readable adapter is
 applied after seed reconstruction.  It accepts exactly the Gate 1-verified
 script. Gate 2 compiles only scoped targets. Gate 3 builds the unit-test target
-and runs exactly the seven forced-induction architecture-invariant tests. Both
-paths exit before simulation, GUI build, packaging, or tuning.
+and runs exactly the seven forced-induction architecture-invariant tests. Gate
+4 runs exactly five generic synthetic runtime smokes. All paths exit before
+ALCO runtime, GUI build, packaging, or tuning.
 """
 
 from hashlib import sha256
@@ -30,7 +31,7 @@ Write-Host "Pristine baseline CTest exit code: $baselineCtestCode (failures are 
 """
 
 
-GATED_BASELINE_BLOCK = """if ($env:CORE_COMPILE_ONLY -ne '1' -and $env:ARCHITECTURE_TESTS_ONLY -ne '1') {
+GATED_BASELINE_BLOCK = """if ($env:CORE_COMPILE_ONLY -ne '1' -and $env:ARCHITECTURE_TESTS_ONLY -ne '1' -and $env:GENERIC_RUNTIME_SMOKE_ONLY -ne '1') {
     Write-Host '=== Establish pristine upstream test baseline ==='
     & $cmakeExe -S $source -B $baselineBuild @commonConfigure
     if ($LASTEXITCODE -ne 0) { throw 'baseline configure failed' }
@@ -166,6 +167,68 @@ if ($env:ARCHITECTURE_TESTS_ONLY -eq '1') {
     Write-Host '=== GATE 3 ARCHITECTURE INVARIANTS PASSED ==='
     exit 0
 }
+
+if ($env:GENERIC_RUNTIME_SMOKE_ONLY -eq '1') {
+    Write-Host '=== Gate 4: configure generic runtime smoke tests ==='
+    $configureLog = Join-Path $logs 'gate4-configure.log'
+    $previousErrorActionPreference = $ErrorActionPreference
+    $ErrorActionPreference = 'Continue'
+    & $cmakeExe -S $source -B $enhancedBuild @commonConfigure 2>&1 |
+        Tee-Object -FilePath $configureLog
+    $configureCode = $LASTEXITCODE
+    $ErrorActionPreference = $previousErrorActionPreference
+    if ($configureCode -ne 0) { throw "Gate 4 configure failed with exit code $configureCode" }
+
+    Write-Host '=== Gate 4: build unit-test target only ==='
+    $buildLog = Join-Path $logs 'gate4-build.log'
+    $ErrorActionPreference = 'Continue'
+    & $cmakeExe --build $enhancedBuild --config RelWithDebInfo --target engine-sim-test --parallel 2>&1 |
+        Tee-Object -FilePath $buildLog
+    $buildCode = $LASTEXITCODE
+    $ErrorActionPreference = $previousErrorActionPreference
+    if ($buildCode -ne 0) { throw "Gate 4 test build failed with exit code $buildCode" }
+
+    $testBinary = Join-Path $enhancedBuild 'RelWithDebInfo\engine-sim-test.exe'
+    if (-not (Test-Path $testBinary)) { throw "Gate 4 expected test binary missing: $testBinary" }
+
+    $testFilter = 'ForcedInductionRuntimeSmoke'
+    $listLog = Join-Path $logs 'gate4-test-list.log'
+    $ErrorActionPreference = 'Continue'
+    $listOutput = & $ctestExe --test-dir $enhancedBuild -C RelWithDebInfo -N -R $testFilter 2>&1 |
+        Tee-Object -FilePath $listLog
+    $listCode = $LASTEXITCODE
+    $ErrorActionPreference = $previousErrorActionPreference
+    if ($listCode -ne 0) { throw "Gate 4 test discovery failed with exit code $listCode" }
+    $countMatch = [regex]::Match(($listOutput -join "`n"), 'Total Tests:\s+(\d+)')
+    if (-not $countMatch.Success -or [int]$countMatch.Groups[1].Value -ne 5) {
+        throw "Gate 4 expected exactly 5 generic runtime smoke tests"
+    }
+
+    Write-Host '=== Gate 4: run generic runtime smoke tests only ==='
+    $testLog = Join-Path $logs 'gate4-tests.log'
+    $testXml = Join-Path $logs 'gate4-runtime-smoke.xml'
+    $ErrorActionPreference = 'Continue'
+    & $ctestExe --test-dir $enhancedBuild -C RelWithDebInfo --output-on-failure --output-junit $testXml -R $testFilter 2>&1 |
+        Tee-Object -FilePath $testLog
+    $testCode = $LASTEXITCODE
+    $ErrorActionPreference = $previousErrorActionPreference
+    if ($testCode -ne 0) { throw "Gate 4 generic runtime smoke tests failed with exit code $testCode" }
+
+    $evidence = Join-Path $logs 'gate4-generic-runtime-smoke.txt'
+    @(
+        'Gate 4 generic runtime smoke tests: PASS',
+        "Pinned upstream: $actualRoot",
+        'Configuration: Visual Studio 2022 x64 RelWithDebInfo',
+        "CTest filter: $testFilter",
+        'Synthetic scenarios discovered and passed: 5',
+        'ALCO calibration/runtime: not run',
+        'Full validation suite: not run',
+        'GUI/app target and runtime packaging: not run'
+    ) | Set-Content -Path $evidence -Encoding utf8
+
+    Write-Host '=== GATE 4 GENERIC RUNTIME SMOKE PASSED ==='
+    exit 0
+}
 '''
 
 
@@ -182,9 +245,10 @@ def replace_exactly_once(text: str, old: str, new: str, label: str) -> str:
 
 def verify_postconditions(text: str) -> None:
     required = (
-        "if ($env:CORE_COMPILE_ONLY -ne '1' -and $env:ARCHITECTURE_TESTS_ONLY -ne '1')",
+        "if ($env:CORE_COMPILE_ONLY -ne '1' -and $env:ARCHITECTURE_TESTS_ONLY -ne '1' -and $env:GENERIC_RUNTIME_SMOKE_ONLY -ne '1')",
         "if ($env:CORE_COMPILE_ONLY -eq '1')",
         "if ($env:ARCHITECTURE_TESTS_ONLY -eq '1')",
+        "if ($env:GENERIC_RUNTIME_SMOKE_ONLY -eq '1')",
         "'engine-sim-script-interpreter'",
         "'engine-sim-runtime-smoke'",
         "$ErrorActionPreference = 'Continue'",
@@ -194,6 +258,9 @@ def verify_postconditions(text: str) -> None:
         "Gate 3 expected exactly 7 architecture-invariant tests",
         "Gate 3 architecture-invariant tests: PASS",
         "GATE 3 ARCHITECTURE INVARIANTS PASSED",
+        "Gate 4 expected exactly 5 generic runtime smoke tests",
+        "Gate 4 generic runtime smoke tests: PASS",
+        "GATE 4 GENERIC RUNTIME SMOKE PASSED",
     )
     for token in required:
         if token not in text:
@@ -217,7 +284,7 @@ def verify_postconditions(text: str) -> None:
             raise RuntimeError(f"post-condition failed: Gate 2 contains forbidden action {token!r}")
 
     start = text.index("if ($env:ARCHITECTURE_TESTS_ONLY -eq '1')")
-    end = text.find(end_anchor, start)
+    end = text.find("if ($env:GENERIC_RUNTIME_SMOKE_ONLY -eq '1')", start)
     if end < 0:
         raise RuntimeError("post-condition failed: could not delimit Gate 3 branch")
     gate3 = text[start:end]
@@ -240,6 +307,33 @@ def verify_postconditions(text: str) -> None:
     for token in forbidden_gate3:
         if token in gate3:
             raise RuntimeError(f"post-condition failed: Gate 3 contains forbidden action {token!r}")
+
+    start = text.index("if ($env:GENERIC_RUNTIME_SMOKE_ONLY -eq '1')")
+    end = text.find(end_anchor, start)
+    if end < 0:
+        raise RuntimeError("post-condition failed: could not delimit Gate 4 branch")
+    gate4 = text[start:end]
+    required_gate4 = (
+        "--target engine-sim-test",
+        "-N -R $testFilter",
+        "--output-junit $testXml -R $testFilter",
+        "[int]$countMatch.Groups[1].Value -ne 5",
+        "'ALCO calibration/runtime: not run'",
+    )
+    for token in required_gate4:
+        if token not in gate4:
+            raise RuntimeError(f"post-condition failed: Gate 4 lacks required action {token!r}")
+    forbidden_gate4 = (
+        "engine-sim-app",
+        "engine-sim-script-smoke.exe' stock",
+        "engine-sim-runtime-smoke.exe' stock",
+        "assets/alco_main.mr",
+        "package_runtime.ps1",
+        "Compress-Archive -Path (Join-Path $runtime",
+    )
+    for token in forbidden_gate4:
+        if token in gate4:
+            raise RuntimeError(f"post-condition failed: Gate 4 contains forbidden action {token!r}")
 
 
 def main() -> int:
@@ -267,7 +361,7 @@ def main() -> int:
     )
     verify_postconditions(text)
     target.write_text(text, encoding="utf-8", newline="\n")
-    print("Gate 2/3 scoped CI paths enabled; post-conditions PASS")
+    print("Gate 2/3/4 scoped CI paths enabled; post-conditions PASS")
     return 0
 
 
