@@ -336,4 +336,34 @@ if (PIRANHA_ENABLED)
 
     add_executable(engine-sim-runtime-smoke test/runtime_engine_smoke.cpp)
     target_link_libraries(engine-sim-runtime-smoke engine-sim engine-sim-script-interpreter)
+
+    add_executable(engine-sim-integration-validation test/alco_integration_validation.cpp)
+    target_link_libraries(engine-sim-integration-validation engine-sim engine-sim-script-interpreter)
+
+    set(ALCO_INTEGRATION_TESTS
+        AlcoIntegrationValidation.NullNaturallyAspiratedSi
+        AlcoIntegrationValidation.PassiveCranking
+        AlcoIntegrationValidation.ExhaustToScroll
+        AlcoIntegrationValidation.TurbineAcceleratesShaft
+        AlcoIntegrationValidation.CompressorChangesCharge
+        AlcoIntegrationValidation.FuelControlSeparation
+        AlcoIntegrationValidation.AftercoolerActualCharge
+    )
+    add_test(NAME AlcoIntegrationValidation.NullNaturallyAspiratedSi
+        COMMAND engine-sim-integration-validation null-si assets/main.mr)
+    add_test(NAME AlcoIntegrationValidation.PassiveCranking
+        COMMAND engine-sim-integration-validation alco-passive-cranking assets/alco_main.mr)
+    add_test(NAME AlcoIntegrationValidation.ExhaustToScroll
+        COMMAND engine-sim-integration-validation alco-exhaust-routing assets/alco_main.mr)
+    add_test(NAME AlcoIntegrationValidation.TurbineAcceleratesShaft
+        COMMAND engine-sim-integration-validation alco-turbine-shaft assets/alco_main.mr)
+    add_test(NAME AlcoIntegrationValidation.CompressorChangesCharge
+        COMMAND engine-sim-integration-validation alco-compressor-charge assets/alco_main.mr)
+    add_test(NAME AlcoIntegrationValidation.FuelControlSeparation
+        COMMAND engine-sim-integration-validation alco-control-separation assets/alco_main.mr)
+    add_test(NAME AlcoIntegrationValidation.AftercoolerActualCharge
+        COMMAND engine-sim-integration-validation alco-aftercooler assets/alco_main.mr)
+    set_tests_properties(${ALCO_INTEGRATION_TESTS} PROPERTIES
+        WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
+        LABELS "AlcoIntegrationValidation")
 endif ()

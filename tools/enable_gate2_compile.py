@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
-"""Enable bounded Gate 2 through Gate 4 paths in reconstructed Windows CI.
+"""Enable bounded Gate 2 through Gate 5 paths in reconstructed Windows CI.
 
 The deterministic seed owns tools/windows_ci.ps1, so this readable adapter is
 applied after seed reconstruction.  It accepts exactly the Gate 1-verified
 script. Gate 2 compiles only scoped targets. Gate 3 builds the unit-test target
 and runs exactly the seven forced-induction architecture-invariant tests. Gate
-4 runs exactly five generic synthetic runtime smokes. All paths exit before
-ALCO runtime, GUI build, packaging, or tuning.
+4 runs exactly five generic synthetic runtime smokes. Gate 5 runs one real
+upstream SI null and six ALCO integration checks. All paths exit before the
+full regression suite, GUI build, packaging, or tuning.
 """
 
 from hashlib import sha256
@@ -31,7 +32,7 @@ Write-Host "Pristine baseline CTest exit code: $baselineCtestCode (failures are 
 """
 
 
-GATED_BASELINE_BLOCK = """if ($env:CORE_COMPILE_ONLY -ne '1' -and $env:ARCHITECTURE_TESTS_ONLY -ne '1' -and $env:GENERIC_RUNTIME_SMOKE_ONLY -ne '1') {
+GATED_BASELINE_BLOCK = """if ($env:CORE_COMPILE_ONLY -ne '1' -and $env:ARCHITECTURE_TESTS_ONLY -ne '1' -and $env:GENERIC_RUNTIME_SMOKE_ONLY -ne '1' -and $env:ALCO_INTEGRATION_ONLY -ne '1') {
     Write-Host '=== Establish pristine upstream test baseline ==='
     & $cmakeExe -S $source -B $baselineBuild @commonConfigure
     if ($LASTEXITCODE -ne 0) { throw 'baseline configure failed' }
@@ -229,6 +230,75 @@ if ($env:GENERIC_RUNTIME_SMOKE_ONLY -eq '1') {
     Write-Host '=== GATE 4 GENERIC RUNTIME SMOKE PASSED ==='
     exit 0
 }
+
+if ($env:ALCO_INTEGRATION_ONLY -eq '1') {
+    Write-Host '=== Gate 5: install ALCO validation configuration ==='
+    New-Item -ItemType Directory -Force -Path (Join-Path $source 'assets\engines\alco') | Out-Null
+    Copy-Item -Force (Join-Path $overlay 'assets\engines\alco\alco_251d_diesel_turbo.mr') (Join-Path $source 'assets\engines\alco\alco_251d_diesel_turbo.mr')
+    Copy-Item -Force (Join-Path $overlay 'assets\alco_main.mr') (Join-Path $source 'assets\alco_main.mr')
+
+    Write-Host '=== Gate 5: configure ALCO integration validation ==='
+    $configureLog = Join-Path $logs 'gate5-configure.log'
+    $previousErrorActionPreference = $ErrorActionPreference
+    $ErrorActionPreference = 'Continue'
+    & $cmakeExe -S $source -B $enhancedBuild @commonConfigure 2>&1 |
+        Tee-Object -FilePath $configureLog
+    $configureCode = $LASTEXITCODE
+    $ErrorActionPreference = $previousErrorActionPreference
+    if ($configureCode -ne 0) { throw "Gate 5 configure failed with exit code $configureCode" }
+
+    Write-Host '=== Gate 5: build integration target only ==='
+    $buildLog = Join-Path $logs 'gate5-build.log'
+    $ErrorActionPreference = 'Continue'
+    & $cmakeExe --build $enhancedBuild --config RelWithDebInfo --target engine-sim-integration-validation --parallel 2>&1 |
+        Tee-Object -FilePath $buildLog
+    $buildCode = $LASTEXITCODE
+    $ErrorActionPreference = $previousErrorActionPreference
+    if ($buildCode -ne 0) { throw "Gate 5 integration build failed with exit code $buildCode" }
+
+    $testBinary = Join-Path $enhancedBuild 'RelWithDebInfo\engine-sim-integration-validation.exe'
+    if (-not (Test-Path $testBinary)) { throw "Gate 5 expected test binary missing: $testBinary" }
+
+    $testFilter = '^AlcoIntegrationValidation\.'
+    $listLog = Join-Path $logs 'gate5-test-list.log'
+    $ErrorActionPreference = 'Continue'
+    $listOutput = & $ctestExe --test-dir $enhancedBuild -C RelWithDebInfo -N -R $testFilter 2>&1 |
+        Tee-Object -FilePath $listLog
+    $listCode = $LASTEXITCODE
+    $ErrorActionPreference = $previousErrorActionPreference
+    if ($listCode -ne 0) { throw "Gate 5 test discovery failed with exit code $listCode" }
+    $countMatch = [regex]::Match(($listOutput -join "`n"), 'Total Tests:\s+(\d+)')
+    if (-not $countMatch.Success -or [int]$countMatch.Groups[1].Value -ne 7) {
+        throw "Gate 5 expected exactly 7 isolated integration tests"
+    }
+
+    Write-Host '=== Gate 5: run ALCO integration validation only ==='
+    $testLog = Join-Path $logs 'gate5-tests.log'
+    $testXml = Join-Path $logs 'gate5-alco-integration.xml'
+    $ErrorActionPreference = 'Continue'
+    & $ctestExe --test-dir $enhancedBuild -C RelWithDebInfo --output-on-failure --output-junit $testXml -R $testFilter 2>&1 |
+        Tee-Object -FilePath $testLog
+    $testCode = $LASTEXITCODE
+    $ErrorActionPreference = $previousErrorActionPreference
+    if ($testCode -ne 0) { throw "Gate 5 ALCO integration validation failed with exit code $testCode" }
+
+    $evidence = Join-Path $logs 'gate5-alco-integration.txt'
+    @(
+        'Gate 5 ALCO integration validation: PASS',
+        "Pinned upstream: $actualRoot",
+        'Configuration: Visual Studio 2022 x64 RelWithDebInfo',
+        'Null model: pinned upstream assets/main.mr (Subaru EJ25 SI)',
+        'Full model: assets/alco_main.mr (ALCO 6-251D CI + fixed-geometry turbo + aftercooler)',
+        "CTest filter: $testFilter",
+        'Isolated integration cases discovered and passed: 7',
+        'Boost/power calibration: not performed',
+        'Full validation suite: not run',
+        'GUI/app target and runtime packaging: not run'
+    ) | Set-Content -Path $evidence -Encoding utf8
+
+    Write-Host '=== GATE 5 ALCO INTEGRATION VALIDATION PASSED ==='
+    exit 0
+}
 '''
 
 
@@ -245,10 +315,11 @@ def replace_exactly_once(text: str, old: str, new: str, label: str) -> str:
 
 def verify_postconditions(text: str) -> None:
     required = (
-        "if ($env:CORE_COMPILE_ONLY -ne '1' -and $env:ARCHITECTURE_TESTS_ONLY -ne '1' -and $env:GENERIC_RUNTIME_SMOKE_ONLY -ne '1')",
+        "if ($env:CORE_COMPILE_ONLY -ne '1' -and $env:ARCHITECTURE_TESTS_ONLY -ne '1' -and $env:GENERIC_RUNTIME_SMOKE_ONLY -ne '1' -and $env:ALCO_INTEGRATION_ONLY -ne '1')",
         "if ($env:CORE_COMPILE_ONLY -eq '1')",
         "if ($env:ARCHITECTURE_TESTS_ONLY -eq '1')",
         "if ($env:GENERIC_RUNTIME_SMOKE_ONLY -eq '1')",
+        "if ($env:ALCO_INTEGRATION_ONLY -eq '1')",
         "'engine-sim-script-interpreter'",
         "'engine-sim-runtime-smoke'",
         "$ErrorActionPreference = 'Continue'",
@@ -261,6 +332,9 @@ def verify_postconditions(text: str) -> None:
         "Gate 4 expected exactly 5 generic runtime smoke tests",
         "Gate 4 generic runtime smoke tests: PASS",
         "GATE 4 GENERIC RUNTIME SMOKE PASSED",
+        "Gate 5 expected exactly 7 isolated integration tests",
+        "Gate 5 ALCO integration validation: PASS",
+        "GATE 5 ALCO INTEGRATION VALIDATION PASSED",
     )
     for token in required:
         if token not in text:
@@ -309,7 +383,7 @@ def verify_postconditions(text: str) -> None:
             raise RuntimeError(f"post-condition failed: Gate 3 contains forbidden action {token!r}")
 
     start = text.index("if ($env:GENERIC_RUNTIME_SMOKE_ONLY -eq '1')")
-    end = text.find(end_anchor, start)
+    end = text.find("if ($env:ALCO_INTEGRATION_ONLY -eq '1')", start)
     if end < 0:
         raise RuntimeError("post-condition failed: could not delimit Gate 4 branch")
     gate4 = text[start:end]
@@ -334,6 +408,33 @@ def verify_postconditions(text: str) -> None:
     for token in forbidden_gate4:
         if token in gate4:
             raise RuntimeError(f"post-condition failed: Gate 4 contains forbidden action {token!r}")
+
+    start = text.index("if ($env:ALCO_INTEGRATION_ONLY -eq '1')")
+    end = text.find("\n" + end_anchor, start)
+    if end < 0:
+        raise RuntimeError("post-condition failed: could not delimit Gate 5 branch")
+    gate5 = text[start:end]
+    required_gate5 = (
+        "--target engine-sim-integration-validation",
+        "assets/main.mr (Subaru EJ25 SI)",
+        "assets\\alco_main.mr",
+        "-N -R $testFilter",
+        "--output-junit $testXml -R $testFilter",
+        "[int]$countMatch.Groups[1].Value -ne 7",
+        "'Boost/power calibration: not performed'",
+    )
+    for token in required_gate5:
+        if token not in gate5:
+            raise RuntimeError(f"post-condition failed: Gate 5 lacks required action {token!r}")
+    forbidden_gate5 = (
+        "engine-sim-app",
+        "engine-sim-script-smoke.exe' stock",
+        "package_runtime.ps1",
+        "Compress-Archive -Path (Join-Path $runtime",
+    )
+    for token in forbidden_gate5:
+        if token in gate5:
+            raise RuntimeError(f"post-condition failed: Gate 5 contains forbidden action {token!r}")
 
 
 def main() -> int:
@@ -361,7 +462,7 @@ def main() -> int:
     )
     verify_postconditions(text)
     target.write_text(text, encoding="utf-8", newline="\n")
-    print("Gate 2/3/4 scoped CI paths enabled; post-conditions PASS")
+    print("Gate 2/3/4/5 scoped CI paths enabled; post-conditions PASS")
     return 0
 
 

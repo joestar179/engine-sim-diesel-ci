@@ -37,6 +37,7 @@ EXPECTED_BASELINE = {
 NEW_FILES = {
     "include/forced_induction_system.h",
     "src/forced_induction_system.cpp",
+    "test/alco_integration_validation.cpp",
     "test/forced_induction_invariant_tests.cpp",
     "test/forced_induction_runtime_smoke_tests.cpp",
 }
@@ -83,6 +84,21 @@ REQUIRED_POSTCONDITIONS = {
         "UnthrottledAirPathTransitionsFromPassiveToPoweredFlow",
         "ParallelGroupsRemainIndependentWhileFeedingSharedIntake",
         "TwinScrollRoutingRetainsPulseSeparationOnOneShaft",
+    ],
+    "test/alco_integration_validation.cpp": [
+        "nullNaturallyAspiratedSi(",
+        "alcoPassiveCranking(",
+        "alcoExhaustToScroll(",
+        "alcoTurbineAcceleratesShaft(",
+        "alcoCompressorChangesCharge(",
+        "alcoFuelControlSeparation(",
+        "alcoAftercoolerActualCharge(",
+        "GATE5_FAIL classification=",
+    ],
+    "CMakeLists.txt": [
+        "engine-sim-integration-validation",
+        "AlcoIntegrationValidation.NullNaturallyAspiratedSi",
+        "AlcoIntegrationValidation.AftercoolerActualCharge",
     ],
 }
 

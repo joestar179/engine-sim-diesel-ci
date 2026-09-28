@@ -52,18 +52,18 @@ jobs:
           path: ${{ runner.temp }}\reconstructed-overlay.zip
           if-no-files-found: error
 
-      - name: Gate 4 generic runtime smoke tests
+      - name: Gate 5 ALCO integration validation
         id: ci
         shell: powershell
         env:
-          GENERIC_RUNTIME_SMOKE_ONLY: '1'
+          ALCO_INTEGRATION_ONLY: '1'
         run: .\tools\windows_ci.ps1
 
-      - name: Upload Gate 4 evidence
+      - name: Upload Gate 5 evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: engine-sim-gate4-generic-runtime-smoke
+          name: engine-sim-gate5-alco-integration
           path: _ci/logs
           if-no-files-found: warn
 
