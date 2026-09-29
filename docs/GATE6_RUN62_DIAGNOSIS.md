@@ -145,3 +145,32 @@ content by the readable application tool.
 
 Order: 6B first, then 6A, as separate CI runs. A repair in either layer is
 proposed only after its classification exists.
+
+## 6. Gate 6B result — Run 63
+
+Run 63 (`36607531113`) classified `FIXTURE_INVALID` because the dyno holds the
+crank at `+62.83 rad/s` while the simulator's forward direction is negative
+(starter `-26.18 rad/s`; `isSpinningCw()` is `v_theta <= 0`). The Run 62
+fixture runs the 16-251B in reverse. Full numbers are in
+`docs/FAILURE_ATTEMPT_LOG.md`.
+
+The governor sees only `|speed|`, so the control evidence stands:
+
+- the governor model and MR constants match exactly (shadow divergence 0);
+- the release command sets error to exactly 0 and the rack stays at 1.0,
+  reproducing Run 62;
+- no wind-up or persistent state (rate 0.003/s at 5τ after release);
+- with a real negative error the rack retreats at the predicted rate.
+
+Control diagnosis: the Run 62 release failure is caused by the test fixture
+(release target equals the held speed), not by governor logic.
+
+Consequence for combustion: Run 62's combustion observation was also made
+with the engine turning backwards, so it cannot be interpreted until the
+fixture direction is corrected. Gate 6A should not run on the reversed
+fixture.
+
+Proposed next step (not authorized): one test-layer fixture correction shared
+by both loaded tests — hold the dyno in the simulator's forward direction and
+release to a target different from the held speed — confirmed first by
+re-running Gate 6B, then Gate 6A. No production, MR or calibration change.

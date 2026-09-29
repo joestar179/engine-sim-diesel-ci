@@ -383,6 +383,13 @@ docs/GATE6_RUN62_DIAGNOSIS.md). Do not reselect
 ALCO_251B_LOADED_TRANSIENT_ONLY=1 unchanged. Gate 6A (combustion
 observability) is proposed but not authorized.
 
+Gate 6B Run 63 result: evidence complete, classification FIXTURE_INVALID.
+The Run 62 dyno fixture holds the engine at +600 rpm, which is reverse
+rotation in this simulator. The control failure is explained by the fixture
+(release target equals held speed); the governor itself behaves correctly.
+Do not run Gate 6A or any loaded test on the reversed fixture. The proposed
+test-layer fixture correction is awaiting user authorization.
+
 The Windows environment used Visual Studio 2022 x64 RelWithDebInfo, CMake
 3.31.12, Boost 1.78, SDL2/SDL2_image through vcpkg, winflexbison3, Piranha
 enabled, Discord disabled and DTV disabled.
