@@ -18,6 +18,7 @@ class ExhaustSystem : public Part {
             double primaryFlowRate;
             double velocityDecay;
             double audioVolume;
+            double backflowAtmosphericMixing = 0.0;
             ImpulseResponse *impulseResponse;
         };
 
@@ -38,6 +39,7 @@ class ExhaustSystem : public Part {
         inline double getCollectorCrossSectionArea() const { return m_collectorCrossSectionArea; }
         inline double getPrimaryTubeLength() const { return m_primaryTubeLength; }
         inline double getVelocityDecay() const { return m_velocityDecay; }
+        inline double getBackflowAtmosphericMixing() const { return m_backflowAtmosphericMixing; }
         inline ImpulseResponse *getImpulseResponse() const { return m_impulseResponse; }
 
         inline GasSystem *getSystem() { return &m_system; }
@@ -57,10 +59,10 @@ class ExhaustSystem : public Part {
         double m_outletFlowRate;
         double m_audioVolume;
         double m_velocityDecay;
+        double m_backflowAtmosphericMixing;
         int m_index;
 
         double m_flow;
 };
 
 #endif /* ATG_ENGINE_SIM_EXHAUST_SYSTEM_H */
-

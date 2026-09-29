@@ -60,7 +60,13 @@ REQUIRED_POSTCONDITIONS = {
     ],
     "include/exhaust_system.h": [
         "This is always the original downstream ExhaustSystem volume",
+        "getBackflowAtmosphericMixing()",
         "GasSystem m_system;",
+    ],
+    "src/exhaust_system.cpp": [
+        "std::clamp(params.backflowAtmosphericMixing, 0.0, 1.0)",
+        "airMix.p_o2 = 0.25 * m_backflowAtmosphericMixing",
+        "m_flow = GasSystem::flow(flowParams)",
     ],
     "src/combustion_chamber.cpp": [
         "m_engine->getExhaustDestination(exhaust)",
@@ -77,9 +83,12 @@ REQUIRED_POSTCONDITIONS = {
     ],
     "scripting/include/exhaust_system_node.h": [
         "getTurboScrollIndex()",
+        'addInput("backflow_atmospheric_mixing"',
         'addInput("turbo_scroll_index"',
     ],
     "es/objects/objects.mr": [
+        "input backflow_atmospheric_mixing: 0.0",
+        "backflow_atmospheric_mixing: backflow_atmospheric_mixing",
         "input turbo_scroll_index: -1",
         "turbo_scroll_index: turbo_scroll_index",
     ],
@@ -107,6 +116,8 @@ REQUIRED_POSTCONDITIONS = {
         "ForcedInductionOptionalDeviceInvariant",
         "ForcedInductionMultiGroupInvariant",
         "ForcedInductionMassBalanceInvariant",
+        "backflow.backflowAtmosphericMixing = 1.0",
+        "EXPECT_GT(mixedBoundary.getSystem()->n_o2(), 0.0)",
     ],
     "test/forced_induction_runtime_smoke_tests.cpp": [
         "NaturallyAspiratedSiKeepsOriginalStablePath",
