@@ -38,6 +38,13 @@ void requireFinite(double value, const char *message) {
     require(std::isfinite(value), "thermodynamics", message);
 }
 
+std::string runtimeErrorDetails() {
+    std::ifstream errorLog("error_log.log");
+    std::ostringstream details;
+    details << errorLog.rdbuf();
+    return details.str();
+}
+
 struct Runtime {
     es_script::Compiler compiler;
     Engine *engine = nullptr;
@@ -55,8 +62,12 @@ struct Runtime {
         }
         auto output = compiler.execute();
         engine = output.engine;
-        require(engine != nullptr, "configuration",
-            "reference script produced no engine");
+        if (engine == nullptr) {
+            throw ValidationFailure(
+                "configuration",
+                "reference script produced no engine: "
+                    + runtimeErrorDetails());
+        }
         require(output.vehicle != nullptr && output.transmission != nullptr,
             "configuration", "reference load model is missing");
         simulator = engine->createSimulator(output.vehicle, output.transmission);

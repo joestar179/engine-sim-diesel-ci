@@ -57,6 +57,14 @@ Reclassification: `public script-library/native-donor mismatch | obsolete engine
 
 New evidence: a normalized comparison against the exact official v0.1.14a distribution shows that the reconstructed donor's `es/actions/actions.mr` consumes `[engine]` at `set_engine`, `_add_crankshaft` and `_add_ignition_module`, while both the reconstructed object library and official v0.1.14a expose `[engine_channel]`. The next strategy is a pinned, readable three-boundary compatibility patch. It is gated first by an unmodified official v0.1.14a naturally aspirated SI script, then by the existing 16-251B tests. Unsupported v0.1.14a Wankel and other native APIs are intentionally not copied into the older native donor.
 
+- Compatibility attempt 1 — Windows run 60 verified the exact release archive and unmodified Kohler CH750 hash, built successfully, and passed `V014aCompatibility.StockSiLoads`: two-cylinder SI, forced induction disabled, original exhaust routing. The subsequent ALCO tests reported the old line-602 port error only because the connector-published commit was assembled on a stale local tree and omitted the already-accepted backflow files. That result does not consume another MR-configuration attempt.
+
+## Gate 6 incident: connector commit tree omitted accepted parent files
+
+Failure signature: `publication | connector tree based on stale local equivalent commit | commit-construction layer`
+
+- Attempt 1 — Commit `15106c8628e1a574ae6b12a999f0c91e85cea1ce` used remote parent `b3ccaf7...` but supplied the base tree SHA from stale local commit `d1312d9`. Run 60 therefore lost the accepted backflow changes and reproduced line 602 `R0030` after the stock SI gate passed. The repair reconstructs the commit from the actual remote `b3ccaf7` tree and merges the six intended compatibility files. No model, physics, topology or calibration change is allowed in this repair.
+
 ## Logging rule
 
 For each future repeated failure, record:

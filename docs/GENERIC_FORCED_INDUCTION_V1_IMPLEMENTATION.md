@@ -52,6 +52,9 @@ turbine torque - compressor torque - bearing/friction torque
 - A runner cannot feed two groups without a future explicit routing valve.
 - With no enabled groups, no forced-induction gas volume is connected and the
   original intake and exhaust paths are retained.
+- The v0.1.14a `backflow_atmospheric_mixing` exhaust input is retained. Its
+  default of zero preserves the pinned classic exhaust boundary; nonzero values
+  alter the composition only of real pressure-driven atmospheric backflow.
 - The forced-induction core contains no diesel, governor, rack, injection,
   ignition or ALCO-specific logic.
 

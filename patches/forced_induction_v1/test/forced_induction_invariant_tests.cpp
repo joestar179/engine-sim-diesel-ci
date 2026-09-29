@@ -116,6 +116,7 @@ TEST(ForcedInductionDisabledPathInvariant, TurboDisabledSiUsesOriginalRoutes) {
 
     EXPECT_FALSE(fixture.engine.getForcedInductionSystem()->enabled());
     EXPECT_EQ(fixture.engine.getExhaustDestination(exhaust), exhaust->getSystem());
+    EXPECT_DOUBLE_EQ(exhaust->getBackflowAtmosphericMixing(), 0.0);
     EXPECT_FALSE(intake->hasForcedInductionFeed());
     EXPECT_FALSE(intake->isAirOnly());
 
@@ -123,6 +124,26 @@ TEST(ForcedInductionDisabledPathInvariant, TurboDisabledSiUsesOriginalRoutes) {
     const double before = intake->getSystem()->n();
     intake->process(1.0e-3);
     EXPECT_GT(intake->getSystem()->n(), before);
+
+    // The v0.1.14a exhaust option is inert by default and, when enabled,
+    // changes only the composition of real pressure-driven boundary backflow.
+    ExhaustSystem::Parameters backflow{};
+    backflow.length = 2.0;
+    backflow.collectorCrossSectionArea = 0.010;
+    backflow.outletFlowRate = GasSystem::k_28inH2O(500.0);
+    backflow.primaryTubeLength = 1.0;
+    backflow.primaryFlowRate = 0.20;
+    backflow.backflowAtmosphericMixing = 1.0;
+    ExhaustSystem mixedBoundary;
+    mixedBoundary.initialize(backflow);
+    mixedBoundary.getSystem()->reset(
+        0.80 * AmbientPressure,
+        AmbientTemperature,
+        GasSystem::Mix{});
+    const double exhaustMolesBefore = mixedBoundary.getSystem()->n();
+    mixedBoundary.process(1.0e-3);
+    EXPECT_GT(mixedBoundary.getSystem()->n(), exhaustMolesBefore);
+    EXPECT_GT(mixedBoundary.getSystem()->n_o2(), 0.0);
 }
 
 TEST(ForcedInductionCompressorInvariant, PassiveAtRestAndRealPoweredFlowWhenSpinning) {
