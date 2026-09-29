@@ -73,6 +73,34 @@ Failure signature: `runtime setup | compiled entry script produced no engine and
 
 - Attempt 1 — In corrected run 61 the exact official v0.1.14a Kohler null passed, and the 16-251B script compiled, but both ALCO cases returned no engine with an empty runtime-error string. The root `assets/alco_16_251b_main.mr` contained only an import, while the `main()` invocation was inside the imported definition module. Existing Engine Simulator entry scripts invoke `main()` in the root compilation unit. The repair moves only that invocation to the root entry file and adds application postconditions; the engine definition, calibration, gas path and C++ physics remain unchanged.
 
+Result — Windows run 62 compiled and executed the 16-251B script, produced an `Engine`, created a simulator and reached both loaded-transient assertions. The entrypoint incident is closed.
+
+## Gate 6 incident: 16-251B burned-fuel response
+
+Failure signature: `loaded transient | higher rack and direct injection do not increase burned fuel | combustion layer`
+
+- Attempt 1 / evidence only — Windows run 62 passed the exact official v0.1.14a naturally aspirated SI null, then loaded the 16-251B and entered its causal transient. The ordered assertions prove that the high notch command increased fuel rack and direct injected mass. The next assertion failed exactly: `GATE6_FAIL classification=combustion mode=alco-251b-causal reason=higher direct injection did not increase burned fuel`. Later exhaust, turbine, shaft, compressor and charge assertions were not evaluated, so this run does not prove or disprove dynamic 16-251B turbo causality. No repair, calibration change or retry was made.
+
+Status: **implementation stopped by user instruction after this failure**. Before any future repair, collect combustion-state evidence that distinguishes no combustion from a missing incremental response. Do not change starter torque, compression ratio, injection/burn calibration, turbo calibration or assertion thresholds to hide the result.
+
+## Gate 6 incident: 16-251B rack release
+
+Failure signature: `loaded transient release | rack does not retreat within five-second release window | control layer`
+
+- Attempt 1 / evidence only — The independent Windows run 62 release case loaded and ran the same 16-251B sequence. Its first release assertion failed exactly: `GATE6_FAIL classification=control mode=alco-251b-release reason=fuel rack did not retreat after notch release`. Injection, turbine-power and shaft-release assertions were not evaluated after that failure. No repair, gain change, timeout change or retry was made.
+
+Status: **implementation stopped by user instruction after this failure**. A future diagnosis must capture target speed, held speed, rack, governor error and controller state through command release before deciding whether the cause is wind-up, command mapping, persistent state or a fixture assumption. Keep this investigation separate from combustion and turbo physics.
+
+Run 62 evidence: workflow `36584792845`; artifact `engine-sim-gate6-alco-251b-loaded-transient` (ID `11041298653`, SHA-256 `664eedb81b9b94253a0bf4cb5efc84b167996107d609e6e4e73266ba1707c389`). The official v0.1.14a stock SI null passed in 1.09 seconds; the two 16-251B cases failed in 21.90 and 30.15 seconds respectively.
+
+## Handover incident: transient worktree loss
+
+Failure signature: `handover | uncommitted temporary worktree unavailable on continuation | workspace persistence layer`
+
+- Attempt 1 — The first `CLAUDE.md` draft existed only as an untracked file in a temporary worktree. On the next turn that worktree was no longer present. The remote implementation commit and all CI artifacts were intact. No implementation was repeated or changed. The handover was reconstructed in a fresh worktree checked out directly from remote commit `71fff99ee8b78666107f006028c223933ab41f55`, and is being committed immediately as documentation-only work.
+
+Decision: do not leave future handover or failure evidence uncommitted across turns. This incident is operational, not an Engine Simulator implementation failure.
+
 ## Logging rule
 
 For each future repeated failure, record:
