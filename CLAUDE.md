@@ -413,6 +413,12 @@ DirectX End-User Runtime install. Run 36618461297 resolved D3DX, then
 packaging stopped on the driver-provided vulkan-1.dll. Stopped; a single
 packaging strategy change (report all unresolved DLLs at once, treat
 driver-provided DLLs as documented prerequisites) awaits user authorization.
+The user then built the review source locally; the engines run in the GUI.
+Their local evidence (docs/FAILURE_ATTEMPT_LOG.md, "User local-run evidence")
+corrects the Run 64 record: the held dyno locked the crank, and without it the
+16-251B starts and runs. It shows the 16-251B burning 42 % of injected fuel
+(6-251D: 88 %), a turbo shaft stalled near 200 rpm by the 25 N m friction
+calibration, and an out-of-bounds audio array for 16 cylinders. No repair made.
 
 The Windows environment used Visual Studio 2022 x64 RelWithDebInfo, CMake
 3.31.12, Boost 1.78, SDL2/SDL2_image through vcpkg, winflexbison3, Piranha

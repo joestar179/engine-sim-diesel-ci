@@ -149,6 +149,26 @@ Failure signature: `packaging | unresolved DLL dependency (driver-provided vulka
 
 Proposed strategy change (not authorized): one packaging-only change that (1) makes the review build report every unresolved dependency in a single pass instead of stopping at the first, and (2) treats GPU-driver-provided DLLs (`vulkan-1.dll`) like the System32 D3DX runtime: a documented prerequisite in `STATUS.txt`, not bundled. No source, build or production change.
 
+## User local-run evidence (review source built on the user's Windows machine)
+
+Evidence supplied by the user from their own build of the review-source snapshot (not CI):
+
+- GUI: default engine works. Both ALCO engines crank and run. The 16-251B sounds as if only one bank fires; audio is rough; some gauges and the engine-name line appear drawn twice (not visible in a screenshot; the GUI ran at about 29.5 FPS at a 4000 Hz simulation frequency). No GUI file is modified by any patch in this overlay.
+- `engine-sim-runtime-smoke` (no dyno, starter then release, speed control 0 = 400 rpm target):
+  - 16-251B: cranked to 345 rpm, then ran unaided to 482.7 rpm; max rack 0.329; injected 34.32 g, burned 14.53 g (42 %); peak CI 2044 K / 5.81 MPa; turbo 197 rpm; compressor PR 1.00006; turbine max 2.05 kW, max PR 1.044, max inlet 107.7 kPa; final pre/post-turbine 101.96/101.33 kPa, 759/529 K.
+  - 6-251D: cranked to 345 rpm, ran to 636.6 rpm; max rack 0.377; injected 17.93 g, burned 15.79 g (88 %); peak CI 4111 K / 8.43 MPa; turbo 319 rpm; turbine max 6.14 kW, max PR 1.075, max inlet 109.4 kPa.
+- `engine-sim-governor-observability` trace (corrected fixture, dyno hold at -62.83 rad/s): during the 3 s starter phase the crank stayed within ±0.035 rad/s. The held dyno locks the crank near zero and overpowers the 15,000 lb-ft starter (20,000 lb-ft dyno limit).
+
+Findings:
+
+1. **Correction to the Run 64 record:** "the engine did not keep running after forward cranking" was wrong. The dyno hold locked the crank; the starter never turned it. Without the dyno the 16-251B starts and runs. The dyno with a negative target holds ~0; with a positive target it drives the crank in reverse (Run 63). A valid loaded fixture needs the upstream `Dynamometer` behaviour, which is in the user's source tree (`src/dynamometer.cpp`).
+2. **Combustion:** the 16-251B burns 42 % of injected fuel versus 88 % for the 6-251D, and its peak cylinder temperature is half. This quantitatively supports the user's "one bank firing" observation and hypothesis C1 (injection phased away from TDC for some cylinders). Per-cylinder evidence is still required.
+3. **Turbo:** routing is not end-of-manifold: pre-turbine pressure and temperature exceed post-turbine values in both engines. The shaft stalls because `TurbochargerModel::advanceShaft` divides turbine power by `max(|w|, 0.01*maxSpeed)` (25.1 rad/s for 24,000 rpm) and applies a constant `turbo_friction_torque` of 25 N m. Below 240 rpm the shaft needs about 628 W of turbine power just to balance friction, and at 10,000 rpm it would need about 26 kW. The measured peak turbine power was 2 kW. The 25 N m value is an MR calibration estimate, not a sourced value.
+4. **Audio (16 cylinders):** `PistonEngineSimulator::writeToSynthesizer` writes `static double lastValveLift[8]` for every cylinder index; cylinders 9-16 write out of bounds (undefined behaviour). The 6-251D is unaffected.
+5. The 6-251D peak cylinder temperature of 4111 K is physically too high; noted for later combustion work.
+
+No repair was made.
+
 ## Handover incident: transient worktree loss
 
 Failure signature: `handover | uncommitted temporary worktree unavailable on continuation | workspace persistence layer`
