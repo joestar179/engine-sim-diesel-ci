@@ -52,18 +52,18 @@ jobs:
           path: ${{ runner.temp }}\reconstructed-overlay.zip
           if-no-files-found: error
 
-      - name: Gate 6B 16-251B governor observability
+      - name: Review build (GUI app, tools, source snapshot; not validated)
         id: ci
         shell: powershell
         env:
-          ALCO_251B_GOVERNOR_OBSERVABILITY_ONLY: '1'
+          REVIEW_BUILD_ONLY: '1'
         run: .\tools\windows_ci.ps1
 
-      - name: Upload Gate 6B evidence
+      - name: Upload review build
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: engine-sim-gate6b-alco-251b-governor-observability
+          name: engine-sim-diesel-review-build
           path: _ci/logs
           if-no-files-found: warn
 

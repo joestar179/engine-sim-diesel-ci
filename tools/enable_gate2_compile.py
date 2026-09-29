@@ -34,7 +34,7 @@ Write-Host "Pristine baseline CTest exit code: $baselineCtestCode (failures are 
 """
 
 
-GATED_BASELINE_BLOCK = """if ($env:CORE_COMPILE_ONLY -ne '1' -and $env:ARCHITECTURE_TESTS_ONLY -ne '1' -and $env:GENERIC_RUNTIME_SMOKE_ONLY -ne '1' -and $env:ALCO_INTEGRATION_ONLY -ne '1' -and $env:ALCO_251B_LOADED_TRANSIENT_ONLY -ne '1' -and $env:ALCO_251B_GOVERNOR_OBSERVABILITY_ONLY -ne '1') {
+GATED_BASELINE_BLOCK = """if ($env:CORE_COMPILE_ONLY -ne '1' -and $env:ARCHITECTURE_TESTS_ONLY -ne '1' -and $env:GENERIC_RUNTIME_SMOKE_ONLY -ne '1' -and $env:ALCO_INTEGRATION_ONLY -ne '1' -and $env:ALCO_251B_LOADED_TRANSIENT_ONLY -ne '1' -and $env:ALCO_251B_GOVERNOR_OBSERVABILITY_ONLY -ne '1' -and $env:REVIEW_BUILD_ONLY -ne '1') {
     Write-Host '=== Establish pristine upstream test baseline ==='
     & $cmakeExe -S $source -B $baselineBuild @commonConfigure
     if ($LASTEXITCODE -ne 0) { throw 'baseline configure failed' }
@@ -535,6 +535,140 @@ if ($env:ALCO_251B_GOVERNOR_OBSERVABILITY_ONLY -eq '1') {
     Write-Host "=== GATE 6B GOVERNOR OBSERVABILITY EVIDENCE COMPLETE: $classification ==="
     exit 0
 }
+
+if ($env:REVIEW_BUILD_ONLY -eq '1') {
+    Write-Host '=== Review build: install ALCO 6-251D secondary assets used by the packager ==='
+    New-Item -ItemType Directory -Force -Path (Join-Path $source 'assets\engines\alco') | Out-Null
+    Copy-Item -Force (Join-Path $overlay 'assets\engines\alco\alco_251d_diesel_turbo.mr') (Join-Path $source 'assets\engines\alco\alco_251d_diesel_turbo.mr')
+    Copy-Item -Force (Join-Path $overlay 'assets\alco_main.mr') (Join-Path $source 'assets\alco_main.mr')
+
+    Write-Host '=== Review build: snapshot the reconstructed source before building ==='
+    $reviewSource = Join-Path $work 'review-source\engine-sim'
+    if (Test-Path (Join-Path $work 'review-source')) { Remove-Item -Recurse -Force (Join-Path $work 'review-source') }
+    robocopy $source $reviewSource /E /XD .git /NFL /NDL /NJH /NJS /NP | Out-Null
+    if ($LASTEXITCODE -ge 8) { throw "Review source snapshot failed with robocopy code $LASTEXITCODE" }
+    $configureLines = ($commonConfigure | ForEach-Object { "    $_" }) -join "`r`n"
+    @(
+        'Engine Simulator diesel / Generic Forced-Induction V1 - reconstructed review source',
+        '',
+        "Overlay commit: $env:GITHUB_SHA",
+        "Native donor: ange-yaghi/engine-sim $actualRoot (v0.1.11a-6-g56725cc); Piranha $actualPiranha; Delta Studio $actualDelta",
+        'All accepted diesel, pre-V1 topology, metrics-restore and readable V1 patches are already applied.',
+        'Build outputs are not included. This is NOT v0.1.14a native source.',
+        '',
+        'Toolchain used by CI: Visual Studio 2022 x64, CMake 3.31.x (CMake 4 is not supported by this tree),',
+        'Boost 1.78 (msvc-14.3, static), SDL2 + SDL2_image via vcpkg (x64-windows), winflexbison3.',
+        '',
+        'Configure (from this folder):',
+        '  cmake -S . -B build <options below>',
+        $configureLines,
+        'Build:',
+        '  cmake --build build --config RelWithDebInfo --target engine-sim-app',
+        '',
+        'Known state: see STATUS.txt in the runtime package and docs/FAILURE_ATTEMPT_LOG.md in the overlay repository.'
+    ) | Set-Content -Path (Join-Path $work 'review-source\BUILDING.txt') -Encoding utf8
+    $sourceZip = Join-Path $logs 'engine-sim-diesel-review-source.zip'
+    if (Test-Path $sourceZip) { Remove-Item -Force $sourceZip }
+    Compress-Archive -Path (Join-Path $work 'review-source\*') -DestinationPath $sourceZip -CompressionLevel Optimal
+    Write-Host "Review source snapshot: $sourceZip"
+
+    Write-Host '=== Review build: configure ==='
+    $configureLog = Join-Path $logs 'review-configure.log'
+    $previousErrorActionPreference = $ErrorActionPreference
+    $ErrorActionPreference = 'Continue'
+    & $cmakeExe -S $source -B $enhancedBuild @commonConfigure 2>&1 |
+        Tee-Object -FilePath $configureLog
+    $configureCode = $LASTEXITCODE
+    $ErrorActionPreference = $previousErrorActionPreference
+    if ($configureCode -ne 0) { throw "Review build configure failed with exit code $configureCode" }
+
+    Write-Host '=== Review build: GUI app and diagnostic tools (no tests are run) ==='
+    $reviewTargets = @(
+        'engine-sim-app',
+        'engine-sim-script-smoke',
+        'engine-sim-runtime-smoke',
+        'engine-sim-loaded-transient-validation',
+        'engine-sim-governor-observability'
+    )
+    $buildLog = Join-Path $logs 'review-build.log'
+    $ErrorActionPreference = 'Continue'
+    & $cmakeExe --build $enhancedBuild --config RelWithDebInfo --target $reviewTargets --parallel 2>&1 |
+        Tee-Object -FilePath $buildLog
+    $buildCode = $LASTEXITCODE
+    $ErrorActionPreference = $previousErrorActionPreference
+    if ($buildCode -ne 0) { throw "Review build failed with exit code $buildCode" }
+
+    Write-Host '=== Review build: package runtime ==='
+    & (Join-Path $overlay 'tools\package_runtime.ps1') -Source $source -Build $enhancedBuild -Out $runtime -VcpkgRoot $vcpkg
+    if ($LASTEXITCODE -ne 0) { throw 'Review runtime packaging failed' }
+
+    foreach ($tool in @('engine-sim-runtime-smoke.exe', 'engine-sim-loaded-transient-validation.exe', 'engine-sim-governor-observability.exe')) {
+        Copy-Item -Force (Join-Path $enhancedBuild "RelWithDebInfo\$tool") (Join-Path $runtime "bin\$tool")
+    }
+    Copy-Item -Force (Join-Path $runtime 'assets\alco_16_251b_main.mr') (Join-Path $runtime 'assets\main.alco16.mr')
+    $utf8NoBom = New-Object System.Text.UTF8Encoding($false)
+    [IO.File]::WriteAllText((Join-Path $runtime 'select-alco-16-251b.ps1'), @"
+`$ErrorActionPreference = 'Stop'
+`$root = Split-Path -Parent `$MyInvocation.MyCommand.Path
+Copy-Item -Force (Join-Path `$root 'assets\main.alco16.mr') (Join-Path `$root 'assets\main.mr')
+Write-Host 'Selected ALCO 16-251B native diesel/turbo engine.'
+"@, $utf8NoBom)
+    [IO.File]::WriteAllText((Join-Path $runtime 'run-alco-16-251b.ps1'), @"
+`$ErrorActionPreference = 'Stop'
+`$root = Split-Path -Parent `$MyInvocation.MyCommand.Path
+& (Join-Path `$root 'select-alco-16-251b.ps1')
+Push-Location (Join-Path `$root 'bin')
+try { & .\engine-sim-app.exe } finally { Pop-Location }
+"@, $utf8NoBom)
+    [IO.File]::WriteAllText((Join-Path $runtime 'run-governor-observability.ps1'), @"
+`$ErrorActionPreference = 'Stop'
+`$root = Split-Path -Parent `$MyInvocation.MyCommand.Path
+Push-Location `$root
+try { & .\bin\engine-sim-governor-observability.exe 'assets/alco_16_251b_main.mr' 'gate6b-governor-evidence.txt' 'gate6b-governor-trace.csv' } finally { Pop-Location }
+"@, $utf8NoBom)
+    @(
+        'Engine Simulator diesel / Generic Forced-Induction V1 - REVIEW BUILD (not a validated release)',
+        '',
+        "Overlay commit: $env:GITHUB_SHA",
+        "Native donor: ange-yaghi/engine-sim $actualRoot (v0.1.11a-6-g56725cc). Not v0.1.14a native source.",
+        'Built by CI as Visual Studio 2022 x64 RelWithDebInfo. No validation or regression suite was run for this package.',
+        '',
+        'Engines:',
+        '  run-stock.ps1            stock upstream engine (assets/main.stock.mr)',
+        '  run-alco.ps1             ALCO 6-251D secondary case (assets/main.alco.mr)',
+        '  run-alco-16-251b.ps1     ALCO 16-251B primary reference (assets/main.alco16.mr)',
+        'Headless tools (run from this folder; they write evidence files here):',
+        '  run-governor-observability.ps1   Gate 6B diagnostic (evidence .txt and trace .csv)',
+        '  bin\engine-sim-loaded-transient-validation.exe <mode> <engine.mr>   Gate 6 checks',
+        '  bin\engine-sim-runtime-smoke.exe <engine.mr>                        coupled starter/governor/CI/turbo smoke',
+        '',
+        'Known state at this commit (see docs/FAILURE_ATTEMPT_LOG.md in the overlay repository):',
+        '  - Gate 6 is not passed. Dynamic 16-251B turbo causality is NOT validated.',
+        '  - Gate 6B Run 64: with the dyno at -600 rpm the 16-251B stayed at ~0 rpm; after 3 s of',
+        '    forward cranking at full rack it did not keep running. Combustion is under investigation.',
+        '  - The simulator dynamometer appears one-sided: +600 rpm spins the engine in reverse.',
+        '  - The 250-rpm / 15,000 lb-ft starter is a simulator accommodation, not an ALCO specification.',
+        '  - Compressor/turbine maps, injection and burn values are estimates, not factory data.'
+    ) | Set-Content -Path (Join-Path $runtime 'STATUS.txt') -Encoding utf8
+
+    $runtimeZip = Join-Path $logs 'engine-sim-diesel-review-windows-x64.zip'
+    if (Test-Path $runtimeZip) { Remove-Item -Force $runtimeZip }
+    Compress-Archive -Path (Join-Path $runtime '*') -DestinationPath $runtimeZip -CompressionLevel Optimal
+
+    $evidence = Join-Path $logs 'review-build.txt'
+    @(
+        'Review build: PACKAGED (not validated)',
+        "Pinned upstream: $actualRoot",
+        'Configuration: Visual Studio 2022 x64 RelWithDebInfo',
+        "Targets: $($reviewTargets -join ', ')",
+        'Runtime package: engine-sim-diesel-review-windows-x64.zip',
+        'Source snapshot: engine-sim-diesel-review-source.zip',
+        'Validation gates, regression suite and loaded tests: not run'
+    ) | Set-Content -Path $evidence -Encoding utf8
+
+    Write-Host '=== REVIEW BUILD PACKAGED (NOT VALIDATED) ==='
+    exit 0
+}
 '''
 
 
@@ -551,7 +685,7 @@ def replace_exactly_once(text: str, old: str, new: str, label: str) -> str:
 
 def verify_postconditions(text: str) -> None:
     required = (
-        "if ($env:CORE_COMPILE_ONLY -ne '1' -and $env:ARCHITECTURE_TESTS_ONLY -ne '1' -and $env:GENERIC_RUNTIME_SMOKE_ONLY -ne '1' -and $env:ALCO_INTEGRATION_ONLY -ne '1' -and $env:ALCO_251B_LOADED_TRANSIENT_ONLY -ne '1' -and $env:ALCO_251B_GOVERNOR_OBSERVABILITY_ONLY -ne '1')",
+        "if ($env:CORE_COMPILE_ONLY -ne '1' -and $env:ARCHITECTURE_TESTS_ONLY -ne '1' -and $env:GENERIC_RUNTIME_SMOKE_ONLY -ne '1' -and $env:ALCO_INTEGRATION_ONLY -ne '1' -and $env:ALCO_251B_LOADED_TRANSIENT_ONLY -ne '1' -and $env:ALCO_251B_GOVERNOR_OBSERVABILITY_ONLY -ne '1' -and $env:REVIEW_BUILD_ONLY -ne '1')",
         "if ($env:CORE_COMPILE_ONLY -eq '1')",
         "if ($env:ARCHITECTURE_TESTS_ONLY -eq '1')",
         "if ($env:GENERIC_RUNTIME_SMOKE_ONLY -eq '1')",
@@ -581,6 +715,8 @@ def verify_postconditions(text: str) -> None:
         "Gate 6B expected exactly 1 governor observability test",
         "Gate 6B governor evidence incomplete: expected exactly one classification",
         "GATE 6B GOVERNOR OBSERVABILITY EVIDENCE COMPLETE",
+        "if ($env:REVIEW_BUILD_ONLY -eq '1')",
+        "REVIEW BUILD PACKAGED (NOT VALIDATED)",
     )
     for token in required:
         if token not in text:
@@ -717,7 +853,7 @@ def verify_postconditions(text: str) -> None:
             raise RuntimeError(f"post-condition failed: Gate 6 contains forbidden action {token!r}")
 
     start = text.index("if ($env:ALCO_251B_GOVERNOR_OBSERVABILITY_ONLY -eq '1')")
-    end = text.find("\n" + end_anchor, start)
+    end = text.find("if ($env:REVIEW_BUILD_ONLY -eq '1')", start)
     if end < 0:
         raise RuntimeError("post-condition failed: could not delimit Gate 6B branch")
     gate6b = text[start:end]
@@ -748,6 +884,27 @@ def verify_postconditions(text: str) -> None:
         if token in gate6b:
             raise RuntimeError(f"post-condition failed: Gate 6B contains forbidden action {token!r}")
 
+    start = text.index("if ($env:REVIEW_BUILD_ONLY -eq '1')")
+    end = text.find("\n" + end_anchor, start)
+    if end < 0:
+        raise RuntimeError("post-condition failed: could not delimit review-build branch")
+    review = text[start:end]
+    required_review = (
+        "'engine-sim-app'",
+        "'engine-sim-governor-observability'",
+        "tools\\package_runtime.ps1",
+        "engine-sim-diesel-review-source.zip",
+        "engine-sim-diesel-review-windows-x64.zip",
+        "robocopy $source $reviewSource /E /XD .git",
+        "'Validation gates, regression suite and loaded tests: not run'",
+    )
+    for token in required_review:
+        if token not in review:
+            raise RuntimeError(f"post-condition failed: review build lacks required action {token!r}")
+    for token in ("& $ctestExe", "compare_ctest_results.py", "$baselineBuild"):
+        if token in review:
+            raise RuntimeError(f"post-condition failed: review build contains forbidden action {token!r}")
+
 
 def main() -> int:
     if len(sys.argv) != 2:
@@ -774,7 +931,7 @@ def main() -> int:
     )
     verify_postconditions(text)
     target.write_text(text, encoding="utf-8", newline="\n")
-    print("Gate 2/3/4/5/6/6B scoped CI paths enabled; post-conditions PASS")
+    print("Gate 2/3/4/5/6/6B and review-build scoped CI paths enabled; post-conditions PASS")
     return 0
 
 

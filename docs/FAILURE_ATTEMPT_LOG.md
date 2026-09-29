@@ -132,6 +132,10 @@ Hypothesis for any next step: no dyno setting in the current fixture can hold th
 
 Missing evidence before another attempt: the upstream `Dynamometer` constraint (sign convention and torque limits), and the Run 64 start/settle trace (cranking speed reached, decay after release).
 
+## User-requested review build
+
+Not a validation gate. After Run 64 the user explicitly asked for a program to run and a source tree to review. `REVIEW_BUILD_ONLY=1` snapshots the reconstructed, fully patched source (without `.git`, with `BUILDING.txt`), then builds `engine-sim-app` and the diagnostic tools, packages them with the seed's `tools/package_runtime.ps1`, and adds 16-251B launch scripts and `STATUS.txt`. No tests, regression comparison or loaded checks run, and production templates stay pinned to `71fff99`. This is the first GUI build and packaging since V1; if it fails, the failure is recorded here as a packaging-layer signature and is not an engine-physics failure.
+
 ## Handover incident: transient worktree loss
 
 Failure signature: `handover | uncommitted temporary worktree unavailable on continuation | workspace persistence layer`

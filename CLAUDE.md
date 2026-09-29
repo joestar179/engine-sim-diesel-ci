@@ -373,6 +373,8 @@ The readable adapter supports these mutually scoped modes:
 - ALCO_INTEGRATION_ONLY=1
 - ALCO_251B_LOADED_TRANSIENT_ONLY=1
 - ALCO_251B_GOVERNOR_OBSERVABILITY_ONLY=1 (Gate 6B, diagnostic only)
+- REVIEW_BUILD_ONLY=1 (user-requested review build: source snapshot, GUI app,
+  diagnostic tools and runtime package; runs no tests and validates nothing)
 
 Each mode configures/builds scoped targets, verifies exact test discovery,
 writes evidence and exits before full regression, GUI and packaging.
@@ -399,6 +401,11 @@ fixture change, obtain the upstream Dynamometer constraint (sign and torque
 limits) and the Run 64 start/settle trace (artifact 11053462759). Gate 6A and
 the Gate 6 loaded-transient tests remain unauthorized. Details in
 docs/FAILURE_ATTEMPT_LOG.md.
+
+After Run 64 the user explicitly requested a runnable program and a
+reviewable source tree. The workflow therefore selects REVIEW_BUILD_ONLY=1,
+which is the first GUI (engine-sim-app) build and runtime packaging since V1.
+It is not validation: a successful package does not change the Gate 6 state.
 
 The Windows environment used Visual Studio 2022 x64 RelWithDebInfo, CMake
 3.31.12, Boost 1.78, SDL2/SDL2_image through vcpkg, winflexbison3, Piranha
