@@ -16,6 +16,8 @@
 // usage:
 //   engine-sim-cylinder-probe <script.mr> <output-prefix>
 //       [--frequency N] [--crank S] [--run S] [--production-audio-path]
+//       [--control T V]...   (set speed control V at simulated time T)
+//       [--dyno T RPM]       (from time T hold RPM; engage while turning forward)
 //   engine-sim-cylinder-probe <script.mr> --check stock|probe [--frequency N]
 
 #include "../scripting/include/compiler.h"
@@ -474,12 +476,23 @@ int main(int argc, char **argv) {
     double runSeconds = 10.0;
     bool productionAudio = false;
     std::string checkMode;
+    std::vector<std::pair<double, double>> controlSteps;
+    double dynoTime = -1.0, dynoRpm = 0.0;
     for (int i = 2; i < argc; ++i) {
         const std::string a = argv[i];
         if (a == "--frequency" && i + 1 < argc) frequency = std::atoi(argv[++i]);
         else if (a == "--crank" && i + 1 < argc) crankSeconds = std::atof(argv[++i]);
         else if (a == "--run" && i + 1 < argc) runSeconds = std::atof(argv[++i]);
         else if (a == "--production-audio-path") productionAudio = true;
+        else if (a == "--dyno" && i + 2 < argc) {
+            dynoTime = std::atof(argv[i + 1]);
+            dynoRpm = std::atof(argv[i + 2]);
+            i += 2;
+        }
+        else if (a == "--control" && i + 2 < argc) {
+            controlSteps.emplace_back(std::atof(argv[i + 1]), std::atof(argv[i + 2]));
+            i += 2;
+        }
         else if (a == "--check" && i + 1 < argc) checkMode = argv[++i];
     }
     if (!checkMode.empty()) return check(script, checkMode, frequency);
@@ -533,6 +546,19 @@ int main(int argc, char **argv) {
                 releaseRpm = engine->getRpm();
                 probe.starter = false;
                 sim->m_starterMotor.m_enabled = false;
+            }
+            for (const auto &step : controlSteps) {
+                const long long at = static_cast<long long>(std::llround(step.first * frequency));
+                if (done == at) engine->setSpeedControl(step.second);
+            }
+            if (dynoTime >= 0.0 && done == static_cast<long long>(std::llround(dynoTime * frequency))) {
+                // Dynamometer::calculate() holds |m_rotationSpeed| in the
+                // direction the crank is turning, so a positive magnitude
+                // engaged while running forward holds forward.
+                sim->m_dyno.m_rotationSpeed = units::rpm(dynoRpm);
+                sim->m_dyno.m_maxTorque = units::torque(20000.0, units::ft_lb);
+                sim->m_dyno.m_hold = true;
+                sim->m_dyno.m_enabled = true;
             }
             if (!sim->simulateStep()) break;
             telemetry.sampleStep();

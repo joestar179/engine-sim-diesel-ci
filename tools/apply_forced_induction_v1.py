@@ -35,7 +35,11 @@ EXPECTED_BASELINE = {
     "es/objects/objects.mr": "7b371b5fc5e2acf80e64d40a367fc0145b10239d497ae0b32392f398d6a40bea",
     "test/runtime_engine_smoke.cpp": "84e9e4027ef24029577979c41612165ce4811856dafd4a9b1acc924c72e32152",
     "include/engine_sim_application.h": "fb011cea2921d8355156a813d0e6fccfb67b0fff04c72fbc9a7658bdb662d8ef",
-    "src/engine_sim_application.cpp": "50ea701ce25b010dc20a971a1aa3273a0b26bf3f837d8f504da00725229afec2",
+    "src/engine_sim_application.cpp": "50ea701ce25b010dc20a971a1aa3273a0b26bf3f837d8f504da00725229afec2",    "include/fuel_rack_governor_model.h": "dab343ade745cf38672b10cfb35c0eee0feb5c404b596687ae5c081a96a945c3",
+    "src/fuel_rack_governor_model.cpp": "53278710f70970d78e28f4edc958ceaf146cce888d425ee8f2534390eacf2b41",
+    "scripting/include/throttle_nodes.h": "417bf240163ddf3d6498aa047f412ef91759f648ca075a9f6e509c6e6c355c9b",
+    "src/right_gauge_cluster.cpp": "11036be12489868c0fc0d309bf2e70a1ae6b073b9d1b6139845d9d3ddf25a197",
+    "include/right_gauge_cluster.h": "d61ed70c7f53e00fcf5cad45a97557de693b95456583d63a13ed7d94ab03c1b0",
 }
 
 # The public v0.1.14a script library uses engine_channel at the three native
@@ -88,8 +92,8 @@ public node set_engine {
 # may add tests and build wiring but must not alter the code under test.
 PINNED_PRODUCTION_TEMPLATES = {
     "assets/alco_16_251b_main.mr": "de603c279f374f62bd5b47ef0edebbabfbe083b01bdc2ab057620ff1af4c61f4",
-    "assets/engines/alco/alco_16_251b_native.mr": "8fafd4087a69b2002580ff4132d6edea18f90ff0433790b26b8699a7db31b2cb",
-    "es/objects/objects.mr": "8044ec576d70ab5bce24abcd91b335256af932265f707eae2a07e2102fa3fa90",
+    "assets/engines/alco/alco_16_251b_native.mr": "9da5cb4e450b235855373543b3234974f33929ffa7b29b36d5178846eeabf3ae",
+    "es/objects/objects.mr": "5cfcf48a6873de4d3b3c0694765569f3c2225ea1c220ccad58e81e811ec04da8",
     "include/combustion_chamber.h": "907f66a94631211068bdcd1834d76188576df4dc92564be947685131e1a67017",
     "include/engine.h": "999e6bc481c2c0db03131a81caa90f213c0146c4b12783c7e3c75df876c4ab73",
     "include/exhaust_system.h": "050d489bb2fc579b0bf350b14797e55bb26e902908f941069d0b2d275e42df90",
@@ -104,12 +108,17 @@ PINNED_PRODUCTION_TEMPLATES = {
     "src/exhaust_system.cpp": "538d16413843ef95686e6dd64ac138a0cc8f3f7d45e2f8970b707e705f8c8a51",
     "src/forced_induction_system.cpp": "f36e9e0c2431ec687cea25f846ebee64d9f4082355d62e423cf0dd9318890765",
     "src/intake.cpp": "4e8608837b82dd141e0f90a6f6f0580c8a4ea1c9fe8d2c2378a87497b8ec9792",
-    "src/piston_engine_simulator.cpp": "3dfc328eb3d2b1094d7c95d7db419666b8fecc7a2ae6bb985d0a5af92789650a",
+    "src/piston_engine_simulator.cpp": "c93f52504c6da1ea2cf0c855c6736a34ce2ceea0e2692a13ca3c8689601b71b0",
     "src/turbocharger_model.cpp": "389ed04821b31b392a660735a6a1d91949b6922d20de6e5c2dfbf96677f95fd1",
     "include/telemetry_log.h": "d3776a08765e4335b8d27b392bcda73ac70ae72f53fb6d951da69fa186aeed63",
     "src/telemetry_log.cpp": "62d328cacfa7896c2a8bb57119eb1d5e9b7824183f111e2e6d940c5d8576400c",
     "include/engine_sim_application.h": "f9015d5bd79c045519d80e34a00f123b60f2b1c925aed43ccb19879159c1afce",
     "src/engine_sim_application.cpp": "27bf9d1262223739fc1a638c8153e0dada6ed920d211f45bdb2993081888d91a",
+    "include/fuel_rack_governor_model.h": "7b19852157d41f02df3f125801a13ec1f2bcd8fda219be81135657d32fa6cd27",
+    "src/fuel_rack_governor_model.cpp": "cf7956417510ed17634a6a957a0f3ccf0fb04f4f221d049bcc1fe5e2f9cfea73",
+    "scripting/include/throttle_nodes.h": "37df476feece66b6df48b40bd27c19d531a4c061829a555432f6a4841b325987",
+    "src/right_gauge_cluster.cpp": "4a6d911650e9616bc74ab3a88f9e3ca3695a2f731ba276d5e0eaedc49b133fd1",
+    "include/right_gauge_cluster.h": "13256778326143811a6d367c6fe48a2388a45198966baff4d9c61023ff135641",
 }
 
 NEW_FILES = {
@@ -184,6 +193,8 @@ REQUIRED_POSTCONDITIONS = {
         "throttle: diesel_governor(",
         "cylinder_bank bank_R(bank_params, angle:  bank_angle / 2.0)",
         "tdc: 90 * units.deg + (bank_angle / 2.0)",
+        "k_p: 3.0,",
+        "crank_rack_limit: 0.35",
         "turbo_inlet_channel_count: 4",
         "turbo_scroll_index: 0",
         "turbo_scroll_index: 3",
@@ -252,6 +263,17 @@ REQUIRED_POSTCONDITIONS = {
         "engine-sim-governor-observability",
         "Alco251BObservability.Governor",
         "engine-sim-cylinder-probe",
+    ],
+    "src/fuel_rack_governor_model.cpp": [
+        "m_parameters.k_p * (target - speed) / target",
+        "m_starting",
+    ],
+    "scripting/include/throttle_nodes.h": [
+        'addInput("k_p", &m_parameters.k_p);',
+        'addInput("crank_rack_limit", &m_parameters.crankRackLimit);',
+    ],
+    "src/right_gauge_cluster.cpp": [
+        "void RightGaugeCluster::updateAirReadings(float dt)",
     ],
     "src/telemetry_log.cpp": [
         "void TelemetryLog::writeSnapshot()",

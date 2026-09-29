@@ -315,6 +315,8 @@ public node diesel_governor => __engine_sim__diesel_governor {
     input k_d [float]: 120.0;
     input gamma [float]: 1.5;
     input starting_rack [float]: 0.20;
+    input k_p [float]: 0.0;
+    input crank_rack_limit [float]: 1.0;
     alias output __out [throttle_channel];
 }
 

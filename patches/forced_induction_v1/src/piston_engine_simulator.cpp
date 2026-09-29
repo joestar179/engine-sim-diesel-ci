@@ -353,8 +353,11 @@ void PistonEngineSimulator::endFrame() {
         return;
     }
 
+    // A slowed-down frame can run zero steps. startFrame() then keeps the
+    // previous per-second rate, so dividing again (by zero) would turn the
+    // intake flow, CFM and volumetric-efficiency readings into inf/NaN.
     const double frameTimestep = simulationSteps() * getTimestep();
-    const int cylinderCount = m_engine->getCylinderCount();
+    if (frameTimestep <= 0.0) return;
     for (int i = 0; i < m_engine->getIntakeCount(); ++i) {
         m_engine->getIntake(i)->m_flowRate /= frameTimestep;
     }
@@ -392,8 +395,6 @@ void PistonEngineSimulator::writeToSynthesizer() {
 
     const double attenuation_n = m_engine->getProceduralDieselAudio()->lowSpeedAttenuation(units::rpm(filteredEngineSpeed()));
 
-    static double lastValveLift[8] = { 0, 0, 0, 0, 0, 0, 0, 0 };
-
     const double timestep = getTimestep();
     const int cylinderCount = m_engine->getCylinderCount();
     for (int i = 0; i < cylinderCount; ++i) {
@@ -412,8 +413,6 @@ void PistonEngineSimulator::writeToSynthesizer() {
                 1.0 * (chamber->m_exhaustRunnerAndPrimary.pressure() - units::pressure(1.0, units::atm))
                 + 0.1 * chamber->m_exhaustRunnerAndPrimary.dynamicPressure(1.0, 0.0)
                 + 0.1 * chamber->m_exhaustRunnerAndPrimary.dynamicPressure(-1.0, 0.0));
-
-        lastValveLift[i] = head->exhaustValveLift(piston->getCylinderIndex());
 
         const double delayedExhaustPulse =
             m_delayFilters[i].fast_f(exhaustFlow);

@@ -465,9 +465,26 @@ docs/FAILURE_ATTEMPT_LOG.md):
    one SAMPLE line every 0.5 s of simulated time plus EVENT lines.
 
 Result: all 16 cylinders fire, burning 99.8 % of injected fuel; 6-251D peak CI
-temperature fell from 4111 K to 1887 K. Open: the governor hunts at idle
-(222-685 rpm, ~12 s period) and the 16-cylinder lastValveLift[8] audio overflow
-remains.
+temperature fell from 4111 K to 1887 K.
+
+Second batch 2026-09-30:
+
+- The governor gained `k_p` (proportional compensation) and
+  `crank_rack_limit` (start-fuel limit held until idle is first reached). The
+  16-251B MR uses k_p 3, k_s 0.016 and limit 0.35: no hunting, 1000 rpm held
+  to +-0.3 rpm.
+- Zero-step frames no longer turn the intake-flow gauges to NaN.
+- The air gauges are display-smoothed.
+- The 16-251B name is shortened (it overlapped the displacement text).
+- The dead `lastValveLift[8]` array is removed.
+
+Open:
+
+- Turbo spool is slow under load (1.5 kg m^2 inertia, 25 N m friction).
+- Turbo sound quality is poor (user-reported; next topic).
+- The Gate 6B shadow governor predates `k_p`.
+- Loading the engine in the GUI needs the speed control raised while the dyno
+  holds; dyno hold alone only motors it.
 
 The Windows environment used Visual Studio 2022 x64 RelWithDebInfo, CMake
 3.31.12, Boost 1.78, SDL2/SDL2_image through vcpkg, winflexbison3, Piranha

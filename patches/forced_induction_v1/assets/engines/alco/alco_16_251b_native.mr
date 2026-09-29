@@ -329,7 +329,8 @@ public node alco_16_251b_v16 {
     )
 
     engine engine(
-        name: "ALCO 16-251B V16 [MI-1016B / 2400 BHP @ 1000 rpm]",
+        // Kept short: the GUI draws the name and the displacement on one line.
+        name: "ALCO 16-251B V16",
         /*
             STARTING CALIBRATION, not a claimed ALCO starter specification.
             Engine Simulator's stock governor has a hard-coded low-speed branch
@@ -416,17 +417,31 @@ public node alco_16_251b_v16 {
         turbo_noise_audio_gain: 2500.0,
         compressor_blade_count: 12,
 
-        // Native locomotive speed governor commands the fuel rack, never the
-        // intake path. Gains remain simulator calibration values.
+        /*
+            Native locomotive speed governor commands the fuel rack, never the
+            intake path. Gains remain simulator calibration values.
+
+            The integral-only law (k_p = 0) hunts on this very heavy crank:
+            measured 221-404 rpm at idle and 920-1066 rpm at full command, on
+            a ~12 s cycle. The ALCO's Woodward PG governor is isochronous
+            with compensation, modelled here by k_p (proportional on the
+            normalized speed error). crank_rack_limit is the start-fuel limit;
+            it also stops the rack winding up to 1.0 while ignition is on at
+            standstill. Tuned with engine-sim-cylinder-probe (4 kHz, 400 ->
+            1000 -> 400 rpm steps): idle 407-414 rpm settling to 400, 1000 rpm
+            reached with 8 % overshoot and held +-0.3 rpm, rack ripple 0.5 %.
+        */
         throttle: diesel_governor(
             min_speed: 400 * units.rpm,
             max_speed: 1000 * units.rpm,
             min_v: -2.0,
             max_v: 2.0,
-            k_s: 0.008,
+            k_s: 0.016,
             k_d: 120.0,
             gamma: 1.5,
-            starting_rack: 0.20
+            starting_rack: 0.20,
+            k_p: 3.0,
+            crank_rack_limit: 0.35
         ),
 
         /*

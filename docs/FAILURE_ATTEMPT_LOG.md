@@ -285,6 +285,45 @@ Remaining (not changed): **governor hunting at idle.** Overshoot to 685 rpm duri
 - The logger adds a small per-step cost on the GUI thread.
 - The `lastValveLift[8]` overflow for cylinders 9–16 is still present.
 
+## Local repairs 2026-09-30, second batch (user GUI logs 004559 / 004113)
+
+Evidence from the user's GUI telemetry (16-251B session 004559):
+
+- **"Manifold pressure hardly changes":** the engine was never loaded. `speed_control` stayed 0 (idle target). From 42 s the dyno hold motored the engine from 500 to 1000 rpm with the rack at 0, no injection, and dyno power −282 kW at 1000 rpm. With no combustion there is no exhaust energy, so there is no boost; the manifold only sagged 101 → 92 kPa from intake suction.
+- **Start-up:** with ignition on at standstill, the integral rack wound up to 1.0 before the starter was pressed. The first start then overshot to 1038 rpm, followed by the idle hunt.
+
+Changes:
+
+1. **Governor (control layer).**
+   - Signature: `idle/step hunting on heavy crank | integral-only FuelRackGovernorModel | control layer`.
+   - Analysis: the law `rack'' + k_d rack' = k_s (target² − speed²)` is effectively integral-only. On a ~158 kg·m² crank with almost no speed-dependent torque, the closed loop has damping ratio ≈ b/(2ω_n) ≪ 1, so no choice of `k_s`/`k_d` can remove the hunting; lower gains only slow it.
+   - Change: added `k_p` (proportional compensation on normalized linear speed error, as in the Woodward PG) and `crank_rack_limit` (start-fuel ceiling from standstill until idle speed is first reached, re-armed below half idle speed; the integral is clamped too, so there is no standstill wind-up). Both are exposed through `throttle_nodes.h` and `objects.mr`. Defaults `k_p = 0` and `crank_rack_limit = 1` reproduce the old law exactly; the 6-251D smoke is bit-identical.
+   - Tuning sweep (probe, 4 kHz, 400 → 1000 → 400 rpm command steps), seven variants. Old gains: idle 221–404 rpm, full command 920–1066 rpm, rack ripple 20–29 %.
+   - Chosen for the MR: `k_p` 3, `k_s` 0.016, `crank_rack_limit` 0.35. Idle settles from 414 to 400 rpm; the step reaches 1000 rpm with 8 % overshoot and holds ±0.3 rpm; rack ripple 0.5 % at 1000 rpm.
+   - A first version limited only below half idle speed. The proportional term then drove the rack to 1.0 between 200 and 400 rpm (16-251B smoke: max rack 1, burned 51 %). The limit now holds until idle is reached (max rack 0.35, burned 81 %).
+2. **Intake flow NaN (display path).** `PistonEngineSimulator::endFrame()` divided the per-frame intake flow by `steps × timestep`. A slowed-down frame can run zero steps, giving inf/NaN in the intake-flow, CFM and volumetric-efficiency gauges. The division is now skipped when the frame ran no steps; the previous per-second rate is kept.
+3. **Gauge flicker (display only).** A 16-251B frame at idle contains only one or two intake events, so the per-frame intake flow and manifold pressure jump from frame to frame and the needles appear doubled. `RightGaugeCluster` now smooths these two readings (τ = 0.25 s, non-finite samples ignored). Physics and telemetry are untouched.
+4. **Engine-name line "drawn twice".** The long MR name overlapped the right-aligned displacement text on the same line. The MR name is shortened to "ALCO 16-251B V16" (display only). The 6-251D MR name is also long; that file is not an overlay template and was not changed.
+5. **`lastValveLift[8]`** in `writeToSynthesizer` was written but never read. The array is removed, which also removes the out-of-bounds writes for cylinders 9–16. Audio output is otherwise unchanged.
+
+Loaded verification (probe, dyno hold 800 rpm engaged while running forward, full command):
+
+- Rack 1.0, 85 g/s burned (99 %), dyno 22.5 kN·m / 1890 kW.
+- Manifold 96 → 123 kPa after 20 s and still rising; turbo 12,800 rpm, compressor PR 1.28.
+- Boost builds, but the spool is slow (shaft inertia 1.5 kg·m², friction 25 N·m). This is left for the turbo/sound pass.
+
+Tests: 47 unit tests pass; the same four upstream failures and the `SynthesizerTests` crash as before. Both runtime smokes pass. Not verifiable headlessly: the GUI flicker, NaN and name fixes (the root causes are confirmed in code).
+
+Gate 6B note: `alco_251b_governor_observability.cpp`'s shadow governor models the old integral-only law. With `k_p = 3` in the 16-251B MR it will now report divergence; update the shadow model before rerunning Gate 6B.
+
+Sound impact:
+
+- The idle and step no longer surge (speed ripple at steady state 46–64 rpm → about 1 rpm), and combustion loudness no longer pumps with a 20–29 % rack oscillation.
+- The first firing after start is capped at 35 % rack, so the start is no longer a full-rack bang.
+- The gauge, NaN and name changes are display-only.
+- Removing `lastValveLift` removes undefined behaviour from the audio loop without changing its output.
+- Turbo sound is unchanged and still poor (user-reported); it is scheduled separately.
+
 ## Handover incident: transient worktree loss
 
 Failure signature: `handover | uncommitted temporary worktree unavailable on continuation | workspace persistence layer`
