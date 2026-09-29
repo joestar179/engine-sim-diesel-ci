@@ -142,6 +142,8 @@ Failure signature: `packaging | unresolved DLL dependency d3dx10_43.dll for engi
 
 Proposed single repair (not authorized): install Microsoft's redistributable DirectX End-User Runtime (June 2010) on the runner before packaging, so the packager resolves and bundles the `d3dx*_43.dll` files it already expects. No source, build or packager logic changes.
 
+- Repair 1 (authorized by the user) — the review-build branch now runs `choco install directx` (Microsoft DirectX End-User Runtime, June 2010, checksum-pinned by Chocolatey) immediately before packaging, and fails early unless `d3dx9_43.dll`, `d3dx10_43.dll` and `d3dx11_43.dll` exist in System32. The seed packager treats System32 DLLs as system components, so the D3DX DLLs are a documented runtime prerequisite in `STATUS.txt`, not bundled. Source, build, packager logic and production templates are unchanged. Result: pending.
+
 ## Handover incident: transient worktree loss
 
 Failure signature: `handover | uncommitted temporary worktree unavailable on continuation | workspace persistence layer`

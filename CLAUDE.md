@@ -408,8 +408,8 @@ which is the first GUI (engine-sim-app) build and runtime packaging since V1.
 It is not validation: a successful package does not change the Gate 6 state.
 Review build run 36612183389: source snapshot and all targets including
 engine-sim-app built; packaging failed on the missing d3dx10_43.dll (legacy
-DirectX runtime absent on the runner). Stopped; the proposed runner-side
-DirectX runtime install awaits user authorization.
+DirectX runtime absent on the runner). The user authorized the runner-side
+DirectX End-User Runtime install; the review build is being re-run.
 
 The Windows environment used Visual Studio 2022 x64 RelWithDebInfo, CMake
 3.31.12, Boost 1.78, SDL2/SDL2_image through vcpkg, winflexbison3, Piranha

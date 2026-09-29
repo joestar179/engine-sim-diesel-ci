@@ -598,6 +598,14 @@ if ($env:REVIEW_BUILD_ONLY -eq '1') {
     $ErrorActionPreference = $previousErrorActionPreference
     if ($buildCode -ne 0) { throw "Review build failed with exit code $buildCode" }
 
+    Write-Host '=== Review build: install legacy DirectX End-User Runtime (June 2010) for D3DX ==='
+    choco install directx --no-progress -y
+    if ($LASTEXITCODE -ne 0) { throw 'DirectX End-User Runtime installation failed' }
+    foreach ($d3dx in @('d3dx9_43.dll', 'd3dx10_43.dll', 'd3dx11_43.dll')) {
+        $d3dxPath = Join-Path $env:SystemRoot "System32\$d3dx"
+        if (-not (Test-Path $d3dxPath)) { throw "DirectX runtime did not provide $d3dxPath" }
+    }
+
     Write-Host '=== Review build: package runtime ==='
     & (Join-Path $overlay 'tools\package_runtime.ps1') -Source $source -Build $enhancedBuild -Out $runtime -VcpkgRoot $vcpkg
     if ($LASTEXITCODE -ne 0) { throw 'Review runtime packaging failed' }
@@ -632,6 +640,9 @@ try { & .\bin\engine-sim-governor-observability.exe 'assets/alco_16_251b_main.mr
         "Overlay commit: $env:GITHUB_SHA",
         "Native donor: ange-yaghi/engine-sim $actualRoot (v0.1.11a-6-g56725cc). Not v0.1.14a native source.",
         'Built by CI as Visual Studio 2022 x64 RelWithDebInfo. No validation or regression suite was run for this package.',
+        '',
+        'Prerequisite: Microsoft DirectX End-User Runtime (June 2010), which provides d3dx9_43/d3dx10_43/d3dx11_43.dll.',
+        'These DLLs are not bundled; if the app reports a missing d3dx*_43.dll, install that runtime from Microsoft.',
         '',
         'Engines:',
         '  run-stock.ps1            stock upstream engine (assets/main.stock.mr)',
@@ -896,6 +907,8 @@ def verify_postconditions(text: str) -> None:
         "engine-sim-diesel-review-source.zip",
         "engine-sim-diesel-review-windows-x64.zip",
         "robocopy $source $reviewSource /E /XD .git",
+        "choco install directx --no-progress -y",
+        "DirectX runtime did not provide",
         "'Validation gates, regression suite and loaded tests: not run'",
     )
     for token in required_review:
