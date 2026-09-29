@@ -302,7 +302,25 @@ if ($env:ALCO_INTEGRATION_ONLY -eq '1') {
 }
 
 if ($env:ALCO_251B_LOADED_TRANSIENT_ONLY -eq '1') {
-    Write-Host '=== Gate 6: configure native 16-251B loaded-transient validation ==='
+    Write-Host '=== Gate 6: install exact official v0.1.14a SI null reference ==='
+    $releaseUrl = 'https://github.com/Engine-Simulator/engine-sim-community-edition/releases/download/v0.1.14a/engine-sim-v0.1.14a.zip'
+    $releaseZip = Join-Path $work 'engine-sim-v0.1.14a.zip'
+    $releaseExtract = Join-Path $work 'engine-sim-v0.1.14a-release'
+    Invoke-WebRequest -Uri $releaseUrl -OutFile $releaseZip
+    $releaseHash = (Get-FileHash $releaseZip -Algorithm SHA256).Hash.ToLowerInvariant()
+    if ($releaseHash -ne '2fc1e7c2ad6a94af4bbe78e69907b57aad3d5ebda7d55563e24fa2e14707fbe6') {
+        throw "official v0.1.14a archive SHA256 mismatch: $releaseHash"
+    }
+    Expand-Archive -Force $releaseZip $releaseExtract
+    $stockSiSource = Join-Path $releaseExtract 'engine-sim-v0.1.14a\assets\engines\kohler\kohler_ch750.mr'
+    if (-not (Test-Path $stockSiSource)) { throw "official v0.1.14a SI reference missing: $stockSiSource" }
+    $stockSiHash = (Get-FileHash $stockSiSource -Algorithm SHA256).Hash.ToLowerInvariant()
+    if ($stockSiHash -ne 'c729091fe9c6d3ad3761564850bfad437ea441fee7308a7e7c7ea226ad8b2196') {
+        throw "official v0.1.14a Kohler reference SHA256 mismatch: $stockSiHash"
+    }
+    Copy-Item -Force $stockSiSource (Join-Path $source 'assets\v014a_reference_kohler.mr')
+
+    Write-Host '=== Gate 6: configure v0.1.14a compatibility and native 16-251B validation ==='
     $configureLog = Join-Path $logs 'gate6-configure.log'
     $previousErrorActionPreference = $ErrorActionPreference
     $ErrorActionPreference = 'Continue'
@@ -323,6 +341,29 @@ if ($env:ALCO_251B_LOADED_TRANSIENT_ONLY -eq '1') {
 
     $testBinary = Join-Path $enhancedBuild 'RelWithDebInfo\engine-sim-loaded-transient-validation.exe'
     if (-not (Test-Path $testBinary)) { throw "Gate 6 expected test binary missing: $testBinary" }
+
+    $compatFilter = '^V014aCompatibility\.'
+    $compatListLog = Join-Path $logs 'gate6-v014a-test-list.log'
+    $ErrorActionPreference = 'Continue'
+    $compatListOutput = & $ctestExe --test-dir $enhancedBuild -C RelWithDebInfo -N -R $compatFilter 2>&1 |
+        Tee-Object -FilePath $compatListLog
+    $compatListCode = $LASTEXITCODE
+    $ErrorActionPreference = $previousErrorActionPreference
+    if ($compatListCode -ne 0) { throw "Gate 6 v0.1.14a test discovery failed with exit code $compatListCode" }
+    $compatCountMatch = [regex]::Match(($compatListOutput -join "`n"), 'Total Tests:\s+(\d+)')
+    if (-not $compatCountMatch.Success -or [int]$compatCountMatch.Groups[1].Value -ne 1) {
+        throw "Gate 6 expected exactly 1 official v0.1.14a SI compatibility test"
+    }
+
+    Write-Host '=== Gate 6: run official v0.1.14a stock SI compatibility first ==='
+    $compatLog = Join-Path $logs 'gate6-v014a-tests.log'
+    $compatXml = Join-Path $logs 'gate6-v014a-stock-si.xml'
+    $ErrorActionPreference = 'Continue'
+    & $ctestExe --test-dir $enhancedBuild -C RelWithDebInfo --output-on-failure --output-junit $compatXml -R $compatFilter 2>&1 |
+        Tee-Object -FilePath $compatLog
+    $compatCode = $LASTEXITCODE
+    $ErrorActionPreference = $previousErrorActionPreference
+    if ($compatCode -ne 0) { throw "Gate 6 official v0.1.14a SI compatibility failed with exit code $compatCode" }
 
     $testFilter = '^Alco251BLoadedTransient\.'
     $listLog = Join-Path $logs 'gate6-test-list.log'
@@ -351,7 +392,11 @@ if ($env:ALCO_251B_LOADED_TRANSIENT_ONLY -eq '1') {
     @(
         'Gate 6 native 16-251B loaded-transient validation: PASS',
         "Pinned upstream: $actualRoot",
+        "Official v0.1.14a archive SHA256: $releaseHash",
+        "Official Kohler CH750 SHA256: $stockSiHash",
         'Configuration: Visual Studio 2022 x64 RelWithDebInfo',
+        'Null reference: unmodified official v0.1.14a assets/engines/kohler/kohler_ch750.mr',
+        'Compatibility result: stock naturally aspirated SI script loaded with forced induction disabled and original exhaust routing',
         'Reference: assets/alco_16_251b_main.mr (native CI, governor, four-scroll fixed Model 710, aftercooler)',
         "CTest filter: $testFilter",
         'Loaded-transient cases discovered and passed: 2',
@@ -402,6 +447,7 @@ def verify_postconditions(text: str) -> None:
         "Gate 5 ALCO integration validation: PASS",
         "GATE 5 ALCO INTEGRATION VALIDATION PASSED",
         "Gate 6 expected exactly 2 loaded-transient tests",
+        "Gate 6 expected exactly 1 official v0.1.14a SI compatibility test",
         "Gate 6 native 16-251B loaded-transient validation: PASS",
         "GATE 6 NATIVE 16-251B LOADED TRANSIENT PASSED",
     )
@@ -513,6 +559,12 @@ def verify_postconditions(text: str) -> None:
     gate6 = text[start:end]
     required_gate6 = (
         "--target engine-sim-loaded-transient-validation",
+        "engine-sim-v0.1.14a.zip",
+        "2fc1e7c2ad6a94af4bbe78e69907b57aad3d5ebda7d55563e24fa2e14707fbe6",
+        "c729091fe9c6d3ad3761564850bfad437ea441fee7308a7e7c7ea226ad8b2196",
+        "assets\\v014a_reference_kohler.mr",
+        "[int]$compatCountMatch.Groups[1].Value -ne 1",
+        "--output-junit $compatXml -R $compatFilter",
         "assets/alco_16_251b_main.mr",
         "-N -R $testFilter",
         "--output-junit $testXml -R $testFilter",

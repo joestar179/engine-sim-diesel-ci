@@ -31,10 +31,53 @@ EXPECTED_BASELINE = {
     "src/piston_engine_simulator.cpp": "daab65c2ee3006ca97afdffd1ef97e5ad388524282ad2c74f93d4d3299592e72",
     "scripting/include/engine_node.h": "14fc19f2dc1dc1a53053366081d3fae4f57ab0bed872c693378204b6f5a0d536",
     "scripting/include/exhaust_system_node.h": "7ae7e4bf9d5e8aa66defff9031d62a925791b29c5c949e3a0d6542aa61cfd690",
-    "scripting/src/compiler.cpp": "71314012594c46ee8b6151abdf8170cec88ed1cb1d5a2dcbc7bf95a17bbeed3e",
     "es/objects/objects.mr": "7b371b5fc5e2acf80e64d40a367fc0145b10239d497ae0b32392f398d6a40bea",
     "test/runtime_engine_smoke.cpp": "84e9e4027ef24029577979c41612165ce4811856dafd4a9b1acc924c72e32152",
 }
+
+# The public v0.1.14a script library uses engine_channel at the three native
+# action boundaries below. The pinned native donor predates that library
+# correction, so install it as a separate readable compatibility patch rather
+# than pretending that the closed v0.1.14a native source is available.
+EXPECTED_COMPAT_BASELINE = {
+    "es/actions/actions.mr": "95510e0e7e9252a28c02a2f07da9e31e9ffcadd5e32666f5e1170c0932e33d49",
+}
+
+ACTION_COMPAT_REPLACEMENTS = (
+    (
+        """public node set_engine => __engine_sim__set_engine {
+    input engine [engine];
+}""",
+        """private node _set_engine => __engine_sim__set_engine {
+    input engine [engine_channel];
+}
+
+public node set_engine {
+    input engine;
+    _set_engine(engine: engine)
+}""",
+    ),
+    (
+        """public node _add_crankshaft => __engine_sim__add_crankshaft {
+    input crankshaft [crankshaft];
+    input engine [engine];
+}""",
+        """public node _add_crankshaft => __engine_sim__add_crankshaft {
+    input crankshaft [crankshaft];
+    input engine [engine_channel];
+}""",
+    ),
+    (
+        """private node _add_ignition_module => __engine_sim__add_ignition_module {
+    input ignition_module [ignition_module];
+    input engine [engine];
+}""",
+        """private node _add_ignition_module => __engine_sim__add_ignition_module {
+    input ignition_module [ignition_module];
+    input engine [engine_channel];
+}""",
+    ),
+)
 
 NEW_FILES = {
     "include/forced_induction_system.h",
@@ -61,13 +104,7 @@ REQUIRED_POSTCONDITIONS = {
     ],
     "include/exhaust_system.h": [
         "This is always the original downstream ExhaustSystem volume",
-        "getBackflowAtmosphericMixing()",
         "GasSystem m_system;",
-    ],
-    "src/exhaust_system.cpp": [
-        "std::clamp(params.backflowAtmosphericMixing, 0.0, 1.0)",
-        "airMix.p_o2 = 0.25 * m_backflowAtmosphericMixing",
-        "m_flow = GasSystem::flow(flowParams)",
     ],
     "src/combustion_chamber.cpp": [
         "m_engine->getExhaustDestination(exhaust)",
@@ -84,16 +121,9 @@ REQUIRED_POSTCONDITIONS = {
     ],
     "scripting/include/exhaust_system_node.h": [
         "getTurboScrollIndex()",
-        'addInput("backflow_atmospheric_mixing"',
         'addInput("turbo_scroll_index"',
     ],
-    "scripting/src/compiler.cpp": [
-        "Runtime execution failed",
-        "m_program.getRuntimeError()",
-    ],
     "es/objects/objects.mr": [
-        "input backflow_atmospheric_mixing: 0.0",
-        "backflow_atmospheric_mixing: backflow_atmospheric_mixing",
         "input turbo_scroll_index: -1",
         "turbo_scroll_index: turbo_scroll_index",
     ],
@@ -108,11 +138,12 @@ REQUIRED_POSTCONDITIONS = {
         "exhaust_system: exhaust_l_b",
     ],
     "test/alco_251b_loaded_transient_validation.cpp": [
+        "stockSiCompatibility(",
+        "v014a-stock-si-load",
         "requireNative251B(",
         "loadedCausalChain(",
         "stableRelease(",
         "GATE6_FAIL classification=",
-        "runtimeErrorDetails()",
     ],
     "test/forced_induction_invariant_tests.cpp": [
         "ForcedInductionDisabledPathInvariant",
@@ -122,8 +153,6 @@ REQUIRED_POSTCONDITIONS = {
         "ForcedInductionOptionalDeviceInvariant",
         "ForcedInductionMultiGroupInvariant",
         "ForcedInductionMassBalanceInvariant",
-        "backflow.backflowAtmosphericMixing = 1.0",
-        "EXPECT_GT(mixedBoundary.getSystem()->n_o2(), 0.0)",
     ],
     "test/forced_induction_runtime_smoke_tests.cpp": [
         "NaturallyAspiratedSiKeepsOriginalStablePath",
@@ -149,6 +178,12 @@ REQUIRED_POSTCONDITIONS = {
         "engine-sim-loaded-transient-validation",
         "Alco251BLoadedTransient.CausalChain",
         "Alco251BLoadedTransient.StableRelease",
+        "V014aCompatibility.StockSiLoads",
+    ],
+    "es/actions/actions.mr": [
+        "private node _set_engine => __engine_sim__set_engine",
+        "input engine [engine_channel]",
+        "_set_engine(engine: engine)",
     ],
 }
 
@@ -164,6 +199,9 @@ FORBIDDEN_POSTCONDITIONS = {
         "Stock Engine Simulator cannot model compressor pressure ratio",
         "exhaust_system: exhaust,",
         "throttle: governor(",
+    ],
+    "es/actions/actions.mr": [
+        "public node set_engine => __engine_sim__set_engine",
     ],
 }
 
@@ -203,6 +241,17 @@ def verify_preconditions(source: Path) -> None:
                 f"SHA-256 {expected}, found {actual}"
             )
 
+    for relative, expected in EXPECTED_COMPAT_BASELINE.items():
+        path = source / relative
+        if not path.is_file():
+            fail(f"precondition failed: missing compatibility baseline file {relative}")
+        actual = digest(path)
+        if actual != expected:
+            fail(
+                f"precondition failed for {relative}: expected compatibility-baseline "
+                f"SHA-256 {expected}, found {actual}"
+            )
+
     for relative in NEW_FILES:
         if (source / relative).exists():
             fail(f"precondition failed: new V1 file already exists: {relative}")
@@ -218,6 +267,18 @@ def apply(source: Path, bundle: Path) -> None:
             fail(f"readable V1 template missing: {relative}")
         destination.parent.mkdir(parents=True, exist_ok=True)
         shutil.copy2(template, destination)
+
+    actions = source / "es/actions/actions.mr"
+    text = actions.read_text(encoding="utf-8")
+    for old, new in ACTION_COMPAT_REPLACEMENTS:
+        count = text.count(old)
+        if count != 1:
+            fail(
+                "compatibility patch precondition failed for es/actions/actions.mr: "
+                f"expected one anchored action boundary, found {count}"
+            )
+        text = text.replace(old, new, 1)
+    actions.write_text(text, encoding="utf-8")
 
 
 def verify_postconditions(source: Path, bundle: Path) -> None:

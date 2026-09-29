@@ -44,14 +44,18 @@ Failure signature: `static audit | missing seed-owned files | audit invocation l
 Failure signature: `runtime setup | 16-251B reference script did not compile | MR configuration layer`
 
 - Attempt 1 — Windows run 56 configured and built the scoped executable, discovered exactly two tests, and both stopped during compilation of `assets/alco_16_251b_main.mr`. The Piranha compiler wrote the detailed parse/type error only to a working-directory `error_log.log`, which was not in the CI artifact. The next commit changes only the Gate 6 harness to include that existing compiler log in the failing test output. This is diagnostic evidence collection, not an MR, physics, topology or calibration repair.
+- Attempt 2 — Windows run 57 surfaced the exact compiler error: `alco_16_251b_native(602): error R0030: Port not found` for `backflow_atmospheric_mixing`. The reference file came from the official v0.1.14a distribution, where that exhaust-system port exists; the reconstructed donor library did not expose it. Commit `2656611bc9c584404fa971c615f96198dc7fb952` added the missing readable port and physical reverse-flow atmospheric mixing without changing turbo topology or calibration. Result: subsequent runs compiled the script. This MR-configuration strategy is exhausted; no third repair is permitted in this layer.
 
-- Attempt 2 — Windows run 57 exposed `alco_16_251b_native(602): error R0030: Port not found` at `backflow_atmospheric_mixing`. A source-version audit found that the supplied model targets Engine Simulator v0.1.14a, where this exhaust input exists, while CI reconstructs pinned commit `56725cc` (`v0.1.11a-6-g56725cc`), where it does not. Deleting the valid model input is rejected. The root cause is reclassified from MR configuration to baseline API compatibility. The new strategy ports the missing v0.1.14a input through readable MR/native files and applies it only to real pressure-driven atmospheric backflow; no ALCO calibration or turbo topology changes are made. Any further failure with the same signature must not be repaired by another MR edit.
+## Gate 6 incident: script execution produced no engine
 
-## Gate 6 incident: 16-251B script execution
+Failure signature: `runtime setup | compiled script executes without producing Engine | interpreter execution layer`
 
-Failure signature: `runtime setup | compiled 16-251B script produced no engine | interpreter execution layer`
+- Attempt 1 — Windows run 58 reconstructed, configured and built successfully, and the 16-251B script compiled. Both scoped tests then stopped at `16-251B reference script produced no engine`. The next change exposed Piranha's runtime execution error text; it did not alter scripts, physics, routing or calibration.
+- Attempt 2 — Windows run 59 reproduced the same null-engine result. The newly surfaced runtime error was empty: compilation and execution returned, but the output engine channel was never populated. This rules out another hidden exception-message variant. The interpreter-diagnostic strategy is exhausted; no third diagnostic patch is permitted in this layer.
 
-- Attempt 1 — Windows run 58 passed reconstruction, compiled and linked the scoped target, and the 16-251B script passed compilation after the v0.1.14a backflow input was restored. Both tests then stopped in under one second because interpreter execution returned no engine. This is not the prior `R0030` signature. The existing compiler discarded the runtime error string, so the next commit changes only diagnostics: append Piranha's existing runtime error to `error_log.log` and include it in the Gate 6 failure. No MR, physics, topology or calibration value is changed.
+Reclassification: `public script-library/native-donor mismatch | obsolete engine action type boundary | v0.1.14a compatibility layer`.
+
+New evidence: a normalized comparison against the exact official v0.1.14a distribution shows that the reconstructed donor's `es/actions/actions.mr` consumes `[engine]` at `set_engine`, `_add_crankshaft` and `_add_ignition_module`, while both the reconstructed object library and official v0.1.14a expose `[engine_channel]`. The next strategy is a pinned, readable three-boundary compatibility patch. It is gated first by an unmodified official v0.1.14a naturally aspirated SI script, then by the existing 16-251B tests. Unsupported v0.1.14a Wankel and other native APIs are intentionally not copied into the older native donor.
 
 ## Logging rule
 

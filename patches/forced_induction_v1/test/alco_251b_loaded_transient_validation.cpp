@@ -38,13 +38,6 @@ void requireFinite(double value, const char *message) {
     require(std::isfinite(value), "thermodynamics", message);
 }
 
-std::string runtimeErrorDetails() {
-    std::ifstream errorLog("error_log.log");
-    std::ostringstream details;
-    details << errorLog.rdbuf();
-    return details.str();
-}
-
 struct Runtime {
     es_script::Compiler compiler;
     Engine *engine = nullptr;
@@ -58,21 +51,17 @@ struct Runtime {
             details << errorLog.rdbuf();
             throw ValidationFailure(
                 "configuration",
-                "16-251B reference script did not compile: " + details.str());
+                "reference script did not compile: " + details.str());
         }
         auto output = compiler.execute();
         engine = output.engine;
-        if (engine == nullptr) {
-            throw ValidationFailure(
-                "configuration",
-                "16-251B reference script produced no engine: "
-                    + runtimeErrorDetails());
-        }
+        require(engine != nullptr, "configuration",
+            "reference script produced no engine");
         require(output.vehicle != nullptr && output.transmission != nullptr,
-            "configuration", "16-251B locomotive load model is missing");
+            "configuration", "reference load model is missing");
         simulator = engine->createSimulator(output.vehicle, output.transmission);
         require(simulator != nullptr, "configuration",
-            "16-251B did not create a simulator");
+            "reference script did not create a simulator");
         simulator->setSimulationFrequency(SimulationFrequency);
     }
 
@@ -224,6 +213,26 @@ double rate(double quantity, const Window &window) {
     return quantity / window.seconds;
 }
 
+void stockSiCompatibility(const char *script) {
+    Runtime runtime;
+    runtime.load(script);
+    require(!runtime.engine->isCompressionIgnition(), "configuration",
+        "official v0.1.14a null reference is not spark ignition");
+    require(!runtime.engine->getForcedInductionSystem()->enabled(), "routing",
+        "official v0.1.14a null reference unexpectedly enabled forced induction");
+    for (int i = 0; i < runtime.engine->getExhaustSystemCount(); ++i) {
+        ExhaustSystem *exhaust = runtime.engine->getExhaustSystem(i);
+        require(runtime.engine->getExhaustDestination(exhaust) == exhaust->getSystem(),
+            "routing", "turbo-disabled SI exhaust path is not the original path");
+    }
+
+    std::cout << "GATE6_PASS mode=v014a-stock-si-load"
+        << " cylinders=" << runtime.engine->getCylinderCount()
+        << " exhaust_systems=" << runtime.engine->getExhaustSystemCount()
+        << " forced_induction=disabled\n";
+    runtime.finish();
+}
+
 struct Sequence {
     Window baseline;
     Window response;
@@ -363,7 +372,8 @@ int main(int argc, char **argv) {
 
     const std::string mode = argv[1];
     try {
-        if (mode == "alco-251b-causal") loadedCausalChain(argv[2]);
+        if (mode == "v014a-stock-si-load") stockSiCompatibility(argv[2]);
+        else if (mode == "alco-251b-causal") loadedCausalChain(argv[2]);
         else if (mode == "alco-251b-release") stableRelease(argv[2]);
         else throw ValidationFailure("configuration", "unknown validation mode");
     }

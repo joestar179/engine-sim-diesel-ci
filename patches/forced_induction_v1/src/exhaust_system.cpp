@@ -2,8 +2,6 @@
 
 #include "../include/units.h"
 
-#include <algorithm>
-
 ExhaustSystem::ExhaustSystem() {
     m_primaryFlowRate = 0;
     m_outletFlowRate = 0;
@@ -12,7 +10,6 @@ ExhaustSystem::ExhaustSystem() {
     m_primaryTubeLength = 0;
     m_audioVolume = 0;
     m_velocityDecay = 0;
-    m_backflowAtmosphericMixing = 0;
     m_flow = 0;
     m_index = -1;
     m_impulseResponse = nullptr;
@@ -51,8 +48,6 @@ void ExhaustSystem::initialize(const Parameters &params) {
     m_outletFlowRate = params.outletFlowRate;
     m_collectorCrossSectionArea = params.collectorCrossSectionArea;
     m_velocityDecay = params.velocityDecay;
-    m_backflowAtmosphericMixing =
-        std::clamp(params.backflowAtmosphericMixing, 0.0, 1.0);
     m_impulseResponse = params.impulseResponse;
     m_length = params.length;
     m_primaryTubeLength = params.primaryTubeLength;
@@ -65,12 +60,8 @@ void ExhaustSystem::destroy() {
 void ExhaustSystem::process(double dt) {
     GasSystem::Mix airMix;
     airMix.p_fuel = 0;
-    // v0.1.14a compatibility: preserve the classic inert exhaust boundary at
-    // zero, while allowing pressure-driven reverse flow to carry a configured
-    // fraction of atmospheric composition. GasSystem::flow still transfers the
-    // real boundary gas mass; this setting never changes pressure directly.
-    airMix.p_inert = 1.0 - 0.25 * m_backflowAtmosphericMixing;
-    airMix.p_o2 = 0.25 * m_backflowAtmosphericMixing;
+    airMix.p_inert = 1.0;
+    airMix.p_o2 = 0.0;
 
     m_atmosphere.reset(units::pressure(1.0, units::atm), units::celcius(25.0), airMix);
     GasSystem::FlowParameters flowParams;
@@ -89,3 +80,4 @@ void ExhaustSystem::process(double dt) {
     m_system.dissipateExcessVelocity();
     m_system.updateVelocity(dt, m_velocityDecay);
 }
+

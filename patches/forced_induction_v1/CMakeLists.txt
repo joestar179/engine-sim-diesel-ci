@@ -345,6 +345,15 @@ if (PIRANHA_ENABLED)
     target_link_libraries(engine-sim-loaded-transient-validation
         engine-sim engine-sim-script-interpreter)
 
+    if (EXISTS "${CMAKE_SOURCE_DIR}/assets/v014a_reference_kohler.mr")
+        add_test(NAME V014aCompatibility.StockSiLoads
+            COMMAND engine-sim-loaded-transient-validation
+                v014a-stock-si-load assets/v014a_reference_kohler.mr)
+        set_tests_properties(V014aCompatibility.StockSiLoads PROPERTIES
+            WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
+            LABELS "V014aCompatibility")
+    endif ()
+
     set(ALCO_INTEGRATION_TESTS
         AlcoIntegrationValidation.NullNaturallyAspiratedSi
         AlcoIntegrationValidation.PassiveCranking
