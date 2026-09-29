@@ -389,10 +389,16 @@ rotation in this simulator. The control failure is explained by the fixture
 (release target equals held speed); the governor itself behaves correctly.
 Do not run Gate 6A or any loaded test on the reversed fixture.
 
-The user authorized the test-layer fixture correction: the dyno now holds
-600 rpm with the starter's sign and release commands idle, in both loaded
-tests. Gate 6B is being re-run to confirm it (see docs/FAILURE_ATTEMPT_LOG.md).
-Gate 6A and the Gate 6 loaded-transient tests remain unauthorized.
+The user authorized a test-layer fixture correction (dyno held with the
+starter's sign, release to idle, in both loaded tests). Gate 6B Run 64
+showed it FAILED: with a negative dyno speed the engine sat at ~0.09 rpm, so
+the dyno does not motor the engine forward, and the engine did not keep
+running after 3 s of forward cranking at full rack. Test-fixture attempt 1 of
+2 is consumed. Work is STOPPED pending user direction. Before any further
+fixture change, obtain the upstream Dynamometer constraint (sign and torque
+limits) and the Run 64 start/settle trace (artifact 11053462759). Gate 6A and
+the Gate 6 loaded-transient tests remain unauthorized. Details in
+docs/FAILURE_ATTEMPT_LOG.md.
 
 The Windows environment used Visual Studio 2022 x64 RelWithDebInfo, CMake
 3.31.12, Boost 1.78, SDL2/SDL2_image through vcpkg, winflexbison3, Piranha
