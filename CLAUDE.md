@@ -409,7 +409,10 @@ It is not validation: a successful package does not change the Gate 6 state.
 Review build run 36612183389: source snapshot and all targets including
 engine-sim-app built; packaging failed on the missing d3dx10_43.dll (legacy
 DirectX runtime absent on the runner). The user authorized the runner-side
-DirectX End-User Runtime install; the review build is being re-run.
+DirectX End-User Runtime install. Run 36618461297 resolved D3DX, then
+packaging stopped on the driver-provided vulkan-1.dll. Stopped; a single
+packaging strategy change (report all unresolved DLLs at once, treat
+driver-provided DLLs as documented prerequisites) awaits user authorization.
 
 The Windows environment used Visual Studio 2022 x64 RelWithDebInfo, CMake
 3.31.12, Boost 1.78, SDL2/SDL2_image through vcpkg, winflexbison3, Piranha
