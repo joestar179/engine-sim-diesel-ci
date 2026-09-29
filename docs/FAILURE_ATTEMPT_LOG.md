@@ -136,6 +136,12 @@ Missing evidence before another attempt: the upstream `Dynamometer` constraint (
 
 Not a validation gate. After Run 64 the user explicitly asked for a program to run and a source tree to review. `REVIEW_BUILD_ONLY=1` snapshots the reconstructed, fully patched source (without `.git`, with `BUILDING.txt`), then builds `engine-sim-app` and the diagnostic tools, packages them with the seed's `tools/package_runtime.ps1`, and adds 16-251B launch scripts and `STATUS.txt`. No tests, regression comparison or loaded checks run, and production templates stay pinned to `71fff99`. This is the first GUI build and packaging since V1; if it fails, the failure is recorded here as a packaging-layer signature and is not an engine-physics failure.
 
+Failure signature: `packaging | unresolved DLL dependency d3dx10_43.dll for engine-sim-app.exe | runtime-packaging layer`
+
+- Attempt 1 — Windows run `36612183389` (commit `eca955d0fe77b12d42a2f7630aa422738a828d61`). The reconstructed source snapshot was produced, and configure plus the build of `engine-sim-app`, `engine-sim-script-smoke`, `engine-sim-runtime-smoke`, `engine-sim-loaded-transient-validation` and `engine-sim-governor-observability` succeeded: this is the first successful GUI compile and link since V1. The seed packager `tools/package_runtime.ps1` then threw `Unresolved DLL dependency: d3dx10_43.dll (required by ...\\bin\\engine-sim-app.exe)`. The legacy DirectX June 2010 runtime is not installed on the `windows-2022` runner, so the packager cannot find the D3DX DLL to bundle. Artifact `engine-sim-diesel-review-build` (ID `11054263301`, SHA-256 `31901fe830baaf4f748f541c4f49547f86b851330bf3cb750da846f96ad9e362`, 317 MB) contains the source snapshot and the configure and build logs; no runtime package was produced. This is a packaging failure, not an engine failure. Work stopped under the standing instruction; no repair was made.
+
+Proposed single repair (not authorized): install Microsoft's redistributable DirectX End-User Runtime (June 2010) on the runner before packaging, so the packager resolves and bundles the `d3dx*_43.dll` files it already expects. No source, build or packager logic changes.
+
 ## Handover incident: transient worktree loss
 
 Failure signature: `handover | uncommitted temporary worktree unavailable on continuation | workspace persistence layer`
