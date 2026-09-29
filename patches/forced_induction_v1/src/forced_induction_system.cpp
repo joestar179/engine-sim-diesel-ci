@@ -226,6 +226,18 @@ double TurboGroup::transferCompressedGas(double dt) {
             ? std::min(1.0, actualMass / requestedMass) : 0.0;
         m_telemetry.compressorPressureRatio = point.pressureRatio;
         m_telemetry.compressorPower = point.power * fraction;
+
+        // A slowly turning wheel is still an open flow passage. When the
+        // engine draws the discharge side below the inlet, air is sucked
+        // through by that pressure difference in addition to the mapped
+        // delivery. This path adds no work and no head, so it cannot raise
+        // discharge pressure above the inlet.
+        if (m_compressorDischarge.pressure() < m_compressorInlet.pressure()) {
+            flow.system_0 = &m_compressorInlet;
+            flow.system_1 = &m_compressorDischarge;
+            flow.k_flow = m_passiveCompressorFlowK;
+            transferred += std::max(0.0, GasSystem::flow(flow));
+        }
     }
 
     m_telemetry.compressorMassFlow = transferred * units::AirMolecularMass / dt;
@@ -464,11 +476,17 @@ void TurboGroup::process(double dt, Engine &engine) {
         m_telemetry.turbinePower,
         m_telemetry.compressorPower);
 
-    m_compressorInlet.dissipateExcessVelocity();
-    m_compressorDischarge.dissipateExcessVelocity();
-    m_cooler.dissipateExcessVelocity();
-    m_chargePlenum.dissipateExcessVelocity();
-    for (GasSystem &scroll : m_preTurbine) scroll.dissipateExcessVelocity();
+    // These are lumped, well-mixed volumes: a jet entering one mixes out
+    // within the sub-step. Without this, bulk momentum persisted near Mach 1
+    // (no velocity decay was ever applied here), static temperature fell
+    // below ambient and each volume rammed the next, so pressure rose along
+    // the flow direction and the turbo loop ran on zero fuel. The kinetic
+    // energy becomes internal energy, so total energy is conserved.
+    m_compressorInlet.dissipateVelocity(dt, 0.0);
+    m_compressorDischarge.dissipateVelocity(dt, 0.0);
+    m_cooler.dissipateVelocity(dt, 0.0);
+    m_chargePlenum.dissipateVelocity(dt, 0.0);
+    for (GasSystem &scroll : m_preTurbine) scroll.dissipateVelocity(dt, 0.0);
     updateTelemetry(engine);
 }
 

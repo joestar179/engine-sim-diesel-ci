@@ -13,6 +13,25 @@ This repository is an enhancement overlay and deterministic CI reconstruction
 project, not a complete Engine Simulator source checkout. Read this file before
 running or changing anything.
 
+## 0. Standing requirement — engine sound
+
+Engine Simulator is a sound generator as much as a physics simulation. Every
+change (physics, MR configuration, calibration, turbo, combustion, control,
+logging or tooling) must be assessed for its effect on the produced sound
+before it is considered done:
+
+- state which audio inputs the change touches: per-cylinder exhaust-runner
+  pressure (the main exhaust-channel source in
+  PistonEngineSimulator::writeToSynthesizer), combustion pressure-rise rate,
+  turbo shaft speed and compressor power (procedural diesel audio), firing
+  intervals, and per-frame CPU cost (which changes steps per frame and the
+  synthesizer latency);
+- compare the relevant source signal before and after where practical
+  (for example runner-pressure pulses per bank from the cylinder probe);
+- report audible consequences (firing evenness, missing or inverted pulses,
+  surging idle, turbo whine) alongside the physics result;
+- never accept a physics fix that silently degrades or breaks the audio path.
+
 ## 1. Mandatory reading and stop state
 
 Read these files completely and in this order:
@@ -23,10 +42,11 @@ Read these files completely and in this order:
 4. docs/GENERIC_FORCED_INDUCTION_V1_IMPLEMENTATION.md — implementation map.
 5. docs/V014A_COMPATIBILITY_BASELINE.md — baseline provenance.
 
-Implementation is stopped. Run 62 exposed new combustion and control failures,
-and the user explicitly instructed that any further failure must stop work and
-be captured in this handover. Do not retry, tune or patch until the user
-authorizes a new evidence-based diagnostic gate.
+On 2026-09-30 the user explicitly authorized code changes and local
+implementation resumed (see section 12, "Local repairs 2026-09-30"). Keep
+recording every failure and change in docs/FAILURE_ATTEMPT_LOG.md, change one
+layer at a time with evidence, and stop to report when a change exposes a new,
+unexplained behaviour rather than stacking fixes.
 
 Never:
 
@@ -427,8 +447,27 @@ injection and cams 45 deg after it, so L injection lands at +66 deg ATDC. That
 is an MR V-bank phasing error, not the combustion model. The low turbine-inlet
 pressure has three causes together: idle load, only 8 cylinders firing, and a
 turbine sized for full-load flow. The dyno holds |m_rotationSpeed| in the
-current rotation direction, which explains Runs 63 and 64. The proposed repairs
-are unauthorized; details are in docs/FAILURE_ATTEMPT_LOG.md.
+current rotation direction, which explains Runs 63 and 64.
+
+Local repairs 2026-09-30 (user-authorized; details in
+docs/FAILURE_ATTEMPT_LOG.md):
+
+1. MR V-bank phasing: bank_R at +V/2, bank_L at -V/2, crank tdc 90 deg + V/2,
+   flip_display moved to the R head. Both banks now inject at -24 deg BTDC.
+2. Compressor passive flow: a turning wheel keeps the pressure-driven passive
+   path whenever discharge pressure is below inlet (the passive path previously
+   closed once the shaft turned at all, starving the charge plenum to ~20 kPa).
+3. Turbo lumped volumes (compressor inlet/discharge, cooler, plenum, scrolls)
+   are stagnated every sub-step with GasSystem::dissipateVelocity(dt, 0). They
+   previously kept undamped momentum near Mach 1 and rammed each other, so the
+   turbo loop ran the engine on zero fuel.
+4. Read-only TelemetryLog (GUI and probe): <exe dir>/../logs/telemetry_*.log,
+   one SAMPLE line every 0.5 s of simulated time plus EVENT lines.
+
+Result: all 16 cylinders fire, burning 99.8 % of injected fuel; 6-251D peak CI
+temperature fell from 4111 K to 1887 K. Open: the governor hunts at idle
+(222-685 rpm, ~12 s period) and the 16-cylinder lastValveLift[8] audio overflow
+remains.
 
 The Windows environment used Visual Studio 2022 x64 RelWithDebInfo, CMake
 3.31.12, Boost 1.78, SDL2/SDL2_image through vcpkg, winflexbison3, Piranha
@@ -444,13 +483,20 @@ The user builds the reconstructed source locally; CI remains the reference.
 - Toolchain: VS 2022 x64, CMake 3.31.12 at `C:\es\tools\cmake-3.31.12-windows-x86_64\bin\cmake.exe`, Boost 1.78 at `C:\local\boost_1_78_0`, SDL2/SDL2_image via `C:\vcpkg`, winflexbison3.
 - Every new PowerShell session needs, before configure/build:
   `$cmake=...cmake.exe; $env:SDL2DIR=$env:SDL2IMAGEDIR="C:\vcpkg\installed\x64-windows"; $env:BOOST_ROOT="C:\local\boost_1_78_0"; $env:BOOST_LIBRARYDIR="C:\local\boost_1_78_0\lib64-msvc-14.3"`
-- Build: `& $cmake --build C:\es\engine-sim\build --config RelWithDebInfo --parallel --target <targets>`; then copy the `.exe` files to `C:\es\run\bin`. Run headless tools from `C:\es\run` (they resolve `es\` and `assets\` from the working directory).
+- Build: `& $cmake --build C:\es\engine-sim\build --config RelWithDebInfo --parallel --target <targets>`; then copy the `.exe` files to `C:\es\run\bin`. `C:\es\run\assets` and `C:\es\run\es` are separate copies: after changing an `.mr` template, also copy it to the same relative path under `C:\es\run`. Run headless tools from `C:\es\run` (they resolve `es\` and `assets\` from the working directory).
 - Source of truth: edit the template under `C:\es\overlay\patches\forced_induction_v1\<path>` first, then copy it to `C:\es\engine-sim\<path>` (`robocopy C:\es\overlay\patches\forced_induction_v1 C:\es\engine-sim /E`). Never leave a change only in `C:\es\engine-sim`; commit it in the overlay with a failure-log entry as usual.
 - Pushing this branch starts the Windows CI workflow (currently `REVIEW_BUILD_ONLY=1`); use `[skip ci]` for documentation-only commits.
 - Save tool output as UTF-8 (`... 2>&1 | Out-File -Encoding utf8 file.txt`); `*>` redirection in Windows PowerShell writes UTF-16.
+- Telemetry: the GUI and `engine-sim-cylinder-probe` write `C:\es\run\logs\telemetry_<engine>_<timestamp>.log`: HEADER lines, then one `SAMPLE key=value ...` line per 0.5 s of simulated time, plus `EVENT` lines for starter, ignition, dyno, gear and speed-control changes. Ask the user for the newest log when interpreting a GUI session.
 - The Production-template pins in `tools/apply_forced_induction_v1.py` still apply: any authorized production change must update its pin in the same commit.
 
 ## 13. File map
+
+- patches/forced_induction_v1/include/telemetry_log.h and src/telemetry_log.cpp —
+  read-only run logger; src/engine_sim_application.cpp and its header call it.
+- patches/forced_induction_v1/test/alco_251b_cylinder_probe.cpp — per-cylinder
+  combustion/blowdown probe (`--check` proves bit-identity with the stock
+  simulator).
 
 - patches/forced_induction_v1/include/forced_induction_system.h — ownership,
   routes, device parameters and telemetry.

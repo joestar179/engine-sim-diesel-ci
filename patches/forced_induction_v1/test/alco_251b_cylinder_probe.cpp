@@ -21,6 +21,7 @@
 #include "../scripting/include/compiler.h"
 #include "../include/engine.h"
 #include "../include/piston_engine_simulator.h"
+#include "../include/telemetry_log.h"
 #include "../include/units.h"
 
 #include <algorithm>
@@ -499,6 +500,8 @@ int main(int argc, char **argv) {
     sim->productionAudioPath = productionAudio;
     prepare(engine, sim, frequency);
     probe.initialize(engine);
+    TelemetryLog telemetry;
+    telemetry.open(engine, sim, "logs", 0.5);
 
     probe.substeps.open(prefix + "_substeps.csv");
     probe.trace.open(prefix + "_blowdown_trace.csv");
@@ -532,6 +535,7 @@ int main(int argc, char **argv) {
                 sim->m_starterMotor.m_enabled = false;
             }
             if (!sim->simulateStep()) break;
+            telemetry.sampleStep();
             ++done;
             const double rpm = engine->getRpm();
             maxRpm = std::max(maxRpm, rpm);
@@ -546,7 +550,9 @@ int main(int argc, char **argv) {
                 for (double p : t.preTurbinePressure) maxScrollP = std::max(maxScrollP, p);
             }
         }
+        telemetry.endFrame();
     }
+    telemetry.close();
     (void)timestep;
     probe.substeps.close();
     probe.trace.close();

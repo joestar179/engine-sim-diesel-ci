@@ -480,10 +480,9 @@ public node alco_16_251b_v16 {
     )
 
     /*
-        45-degree V geometry follows the same stock-ES-compatible arrangement
-        used by other 45-degree shared-journal V engines:
-          R bank +22.5 deg
-          L bank -22.5 deg
+        45-degree V geometry on eight shared crankpins:
+          R bank +22.5 deg (leading bank for the simulator's negative rotation)
+          L bank -22.5 deg (reaches TDC 45 crank degrees after its R pin-mate)
         Eight physical crankpins are shared by R/L cylinders.
     */
     crankshaft c0(
@@ -496,13 +495,16 @@ public node alco_16_251b_v16 {
         position_y: 0.0,
 
         /*
-            Engine Simulator V-engine reference correction:
-            for the first bank at -V/2, crank reference TDC is
-            90 deg - V/2. For the ALCO 45-deg V this is 67.5 deg.
-            The previous 135-deg value shifted the combustion schedule
-            relative to true piston TDC and could suppress low-speed torque.
+            Crank reference TDC. A cylinder on journal angle j in a bank at
+            angle b reaches TDC at cycle angle tdc + j - 90 deg - b. With the
+            firing-reference R bank at +V/2 this puts R1 firing TDC at cycle 0
+            when tdc = 90 deg + V/2 (112.5 deg for the 45-deg V), and every L
+            cylinder 45 deg later, matching the cam and injection schedule.
+            Measured with engine-sim-cylinder-probe: the previous arrangement
+            (R at -V/2, tdc 67.5 deg) put L TDC 45 deg BEFORE R, so L-bank
+            injection and valve events ran 90 deg late and the L bank never lit.
         */
-        tdc: 90 * units.deg - (bank_angle / 2.0)
+        tdc: 90 * units.deg + (bank_angle / 2.0)
     )
 
     /*
@@ -635,14 +637,13 @@ public node alco_16_251b_v16 {
     )
 
     /*
-        Match Engine Simulator's shared-journal V-engine convention:
-        first/firing-reference bank at -V/2, second bank at +V/2.
-        With negative crank rotation in the stock starter implementation,
-        the second bank reaches its corresponding TDC 45 crank degrees later,
-        matching the MI-1016B R/L alternating firing sequence.
+        With the simulator's negative crank rotation (starter direction), the
+        bank at +V/2 reaches TDC on a shared pin 45 crank degrees BEFORE the
+        bank at -V/2. The MI-1016B order 1R 1L 5R 5L ... needs R first, so the
+        firing-reference R bank is at +V/2 and L at -V/2.
     */
-    cylinder_bank bank_R(bank_params, angle: -bank_angle / 2.0)
-    cylinder_bank bank_L(bank_params, angle:  bank_angle / 2.0)
+    cylinder_bank bank_R(bank_params, angle:  bank_angle / 2.0)
+    cylinder_bank bank_L(bank_params, angle: -bank_angle / 2.0)
 
     // Effective path length increases toward the generator end.
     label p1(42 * units.inch)
@@ -868,7 +869,8 @@ public node alco_16_251b_v16 {
             intake_camshaft: camshaft.intake_cam_R,
             exhaust_camshaft: camshaft.exhaust_cam_R,
             chamber_volume: 912.19 * units.cc,
-            flow_attenuation: 1.0
+            flow_attenuation: 1.0,
+            flip_display: true
         )
     )
 
@@ -877,8 +879,7 @@ public node alco_16_251b_v16 {
             intake_camshaft: camshaft.intake_cam_L,
             exhaust_camshaft: camshaft.exhaust_cam_L,
             chamber_volume: 912.19 * units.cc,
-            flow_attenuation: 1.0,
-            flip_display: true
+            flow_attenuation: 1.0
         )
     )
 

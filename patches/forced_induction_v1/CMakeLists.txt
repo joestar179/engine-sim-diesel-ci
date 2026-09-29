@@ -62,6 +62,7 @@ add_library(engine-sim STATIC
     src/compression_ignition_model.cpp
     src/turbocharger_model.cpp
     src/forced_induction_system.cpp
+    src/telemetry_log.cpp
     src/procedural_diesel_audio.cpp
     src/dynamometer.cpp
     src/engine.cpp
@@ -130,6 +131,7 @@ add_library(engine-sim STATIC
     include/standard_valvetrain.h
     include/starter_motor.h
     include/synthesizer.h
+    include/telemetry_log.h
     include/throttle.h
     include/transmission.h
     include/units.h

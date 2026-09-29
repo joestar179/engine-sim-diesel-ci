@@ -34,6 +34,8 @@ EXPECTED_BASELINE = {
     "scripting/src/compiler.cpp": "71314012594c46ee8b6151abdf8170cec88ed1cb1d5a2dcbc7bf95a17bbeed3e",
     "es/objects/objects.mr": "7b371b5fc5e2acf80e64d40a367fc0145b10239d497ae0b32392f398d6a40bea",
     "test/runtime_engine_smoke.cpp": "84e9e4027ef24029577979c41612165ce4811856dafd4a9b1acc924c72e32152",
+    "include/engine_sim_application.h": "fb011cea2921d8355156a813d0e6fccfb67b0fff04c72fbc9a7658bdb662d8ef",
+    "src/engine_sim_application.cpp": "50ea701ce25b010dc20a971a1aa3273a0b26bf3f837d8f504da00725229afec2",
 }
 
 # The public v0.1.14a script library uses engine_channel at the three native
@@ -80,11 +82,13 @@ public node set_engine {
     ),
 )
 
-# Production templates are pinned to their 71fff99 content. Diagnostic gates
+# Production templates are pinned to their accepted content (71fff99, then the
+# 2026-09-30 L-bank phasing, compressor passive-flow, turbo-volume momentum and
+# telemetry-log changes). Diagnostic gates
 # may add tests and build wiring but must not alter the code under test.
 PINNED_PRODUCTION_TEMPLATES = {
     "assets/alco_16_251b_main.mr": "de603c279f374f62bd5b47ef0edebbabfbe083b01bdc2ab057620ff1af4c61f4",
-    "assets/engines/alco/alco_16_251b_native.mr": "5e76cede19b6414064783974cdf88cdb5de48c8397545509a6d67c2e20f065b5",
+    "assets/engines/alco/alco_16_251b_native.mr": "8fafd4087a69b2002580ff4132d6edea18f90ff0433790b26b8699a7db31b2cb",
     "es/objects/objects.mr": "8044ec576d70ab5bce24abcd91b335256af932265f707eae2a07e2102fa3fa90",
     "include/combustion_chamber.h": "907f66a94631211068bdcd1834d76188576df4dc92564be947685131e1a67017",
     "include/engine.h": "999e6bc481c2c0db03131a81caa90f213c0146c4b12783c7e3c75df876c4ab73",
@@ -98,13 +102,19 @@ PINNED_PRODUCTION_TEMPLATES = {
     "src/combustion_chamber.cpp": "b039c76a1ac59e88b073c2e34e76c0d2f5a6f9eaa0410942c075c2caeb98cd0a",
     "src/engine.cpp": "6e3e1ebee9bafd11791d01522f5934b375d7f9aa3abfc12a75e67527d004ef16",
     "src/exhaust_system.cpp": "538d16413843ef95686e6dd64ac138a0cc8f3f7d45e2f8970b707e705f8c8a51",
-    "src/forced_induction_system.cpp": "867848215eec32c2620dd6f4a710cd19867aa53857a2f35015c8adb5c0183ae8",
+    "src/forced_induction_system.cpp": "f36e9e0c2431ec687cea25f846ebee64d9f4082355d62e423cf0dd9318890765",
     "src/intake.cpp": "4e8608837b82dd141e0f90a6f6f0580c8a4ea1c9fe8d2c2378a87497b8ec9792",
     "src/piston_engine_simulator.cpp": "3dfc328eb3d2b1094d7c95d7db419666b8fecc7a2ae6bb985d0a5af92789650a",
     "src/turbocharger_model.cpp": "389ed04821b31b392a660735a6a1d91949b6922d20de6e5c2dfbf96677f95fd1",
+    "include/telemetry_log.h": "d3776a08765e4335b8d27b392bcda73ac70ae72f53fb6d951da69fa186aeed63",
+    "src/telemetry_log.cpp": "62d328cacfa7896c2a8bb57119eb1d5e9b7824183f111e2e6d940c5d8576400c",
+    "include/engine_sim_application.h": "f9015d5bd79c045519d80e34a00f123b60f2b1c925aed43ccb19879159c1afce",
+    "src/engine_sim_application.cpp": "27bf9d1262223739fc1a638c8153e0dada6ed920d211f45bdb2993081888d91a",
 }
 
 NEW_FILES = {
+    "include/telemetry_log.h",
+    "src/telemetry_log.cpp",
     "include/forced_induction_system.h",
     "src/forced_induction_system.cpp",
     "assets/alco_16_251b_main.mr",
@@ -128,6 +138,8 @@ REQUIRED_POSTCONDITIONS = {
         "processTurbineFlow(",
         "post->changeEnergy(-extracted)",
         "m_rotatingAssembly.advanceShaft(",
+        "m_chargePlenum.dissipateVelocity(dt, 0.0);",
+        "flow.k_flow = m_passiveCompressorFlowK;",
     ],
     "include/exhaust_system.h": [
         "This is always the original downstream ExhaustSystem volume",
@@ -170,6 +182,8 @@ REQUIRED_POSTCONDITIONS = {
     "assets/engines/alco/alco_16_251b_native.mr": [
         "compression_ignition: true",
         "throttle: diesel_governor(",
+        "cylinder_bank bank_R(bank_params, angle:  bank_angle / 2.0)",
+        "tdc: 90 * units.deg + (bank_angle / 2.0)",
         "turbo_inlet_channel_count: 4",
         "turbo_scroll_index: 0",
         "turbo_scroll_index: 3",
@@ -239,6 +253,13 @@ REQUIRED_POSTCONDITIONS = {
         "Alco251BObservability.Governor",
         "engine-sim-cylinder-probe",
     ],
+    "src/telemetry_log.cpp": [
+        "void TelemetryLog::writeSnapshot()",
+    ],
+    "src/engine_sim_application.cpp": [
+        "m_telemetryLog.sampleStep();",
+        "m_telemetryLog.endFrame();",
+    ],
     "test/alco_251b_cylinder_probe.cpp": [
         "class ProbeSimulator : public PistonEngineSimulator",
         "struct ChamberPeek : CombustionChamber",
@@ -259,6 +280,7 @@ FORBIDDEN_POSTCONDITIONS = {
     "include/engine.h": ["m_turbocharger", "m_turboExhaustMoles", "m_lastTurboOutput"],
     "src/engine.cpp": ["recordTurboExhaustFlow", "recordTurboCompressorFlow"],
     "assets/engines/alco/alco_16_251b_native.mr": [
+        "cylinder_bank bank_R(bank_params, angle: -bank_angle / 2.0)",
         "Diesel combustion surrogate",
         "Stock Engine Simulator cannot model compressor pressure ratio",
         "exhaust_system: exhaust,",

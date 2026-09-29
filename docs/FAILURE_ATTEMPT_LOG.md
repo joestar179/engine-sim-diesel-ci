@@ -225,6 +225,66 @@ Cross-checks:
 
 No repair was made. Proposed MR phasing repair (not authorized): put the L bank on the lagging side, so bank R is at +V/2 and bank L at −V/2, with the crank TDC reference moved to keep R1 at cycle 0°. This keeps the documented 1R-1L firing order and the existing cam and injection schedule. It would be confirmed with this probe (expected: L fTDC = R fTDC + 45°, L injection at −24°). The 25 N m turbo friction and the `lastValveLift[8]` write stay separate.
 
+## Local repairs 2026-09-30 (user-authorized code changes)
+
+The user authorized fixing the MR so both banks fire, a telemetry log for interactive runs, and code changes in general. Each step below was measured with `engine-sim-cylinder-probe` (8 kHz, dyno off, speed control 0, starter for 3 s, then 10 s unaided) before the next was made.
+
+### 1. MR V-bank phasing
+
+Signature: `16-251B L bank never lights | L injection/cams 90 deg late | MR configuration layer`.
+
+- Evidence: the probe measured L firing TDC 45° before its R pin-mate.
+- Geometry: a cylinder's firing TDC is at cycle angle `tdc + journal − 90° − bank_angle` (from `CylinderBank` `m_dx = cos(angle + π/2)`), which reproduces the measured values exactly.
+- Change (in `alco_16_251b_native.mr`):
+  - `bank_R` angle `+V/2`, `bank_L` angle `−V/2`;
+  - crank `tdc: 90° + V/2`;
+  - `flip_display` moved to the R head (the stock convention puts it on the positive-angle bank);
+  - comments corrected.
+- Unchanged: cams, injection schedule, firing order, calibration.
+- Result: all 16 firing TDCs are where the schedule expects them (R1 0°, L1 45°, …), and every cylinder injects at −23.4°. **A new failure appeared:** the engine stalled after release. Trapped air fell from 0.51 to 0.074 mol per cylinder and the charge plenum from 101 to about 20 kPa.
+
+### 2. Compressor passive path closed while the shaft turns
+
+Signature: `charge plenum collapses once the turbo shaft turns | passive compressor path disabled at shaft speed > 0 | turbo production C++`.
+
+- Evidence: the plenum drop starts exactly when the shaft first moves (t = 0.5 → 0.75 s, 0 → 53 rpm).
+- Cause: `transferCompressedGas` used the passive path only at zero speed. Above zero, delivery is capped by the map, `design flow × speed ratio × flow ratio` (about 0.05 kg/s at 290 shaft rpm), while the engine needs about 0.9 kg/s. The same mechanism explains the 54–65 kPa plenum seen before the MR fix.
+- Change: while the shaft turns, the pressure-driven passive flow is also allowed whenever discharge pressure is below inlet pressure. It carries no work and no head, so it cannot create boost.
+- Result: **a new failure appeared.** After release the engine held about 780–797 rpm on zero fuel. The steady chain read compressor discharge 79 kPa → cooler 135 → plenum 240 → intake 446 kPa, with discharge air at 231 K; the turbine made 390 kW and the shaft ran away to 18,000 rpm.
+
+### 3. Undamped momentum in turbo lumped volumes
+
+Signature: `pressure rises along the charge flow direction; turbo loop self-sustains on zero fuel | undamped GasSystem momentum in turbo volumes | turbo production C++`.
+
+- Evidence: steady (non-oscillating) pressures that increase downstream, static temperature below ambient, and no source of energy.
+- Cause: the compressor inlet, discharge, cooler, plenum and scroll volumes only called `dissipateExcessVelocity()`, which caps velocity at Mach 1 but never decays it, while every upstream intake and exhaust volume also calls `updateVelocity`. Bulk momentum therefore persisted near Mach 1 and each volume rammed the next.
+- Change: each sub-step these volumes are stagnated with the existing `GasSystem::dissipateVelocity(dt, 0.0)`, which converts bulk kinetic energy to internal energy, so energy is conserved.
+- Result:
+  - After release: both banks lit on 176/264 events, 99.8 % of injected fuel burned; all 16 cylinders inject at −24.0° (V/Vc 1.64), peak 3.7 MPa, pressure at exhaust-valve opening 176 kPa; plenum 98–101 kPa.
+  - The 16-251B runtime smoke passes (94 % burned). The 6-251D smoke passes; its burned share rose 88 → 92 % and its peak CI temperature fell 4111 → 1887 K, so the earlier unphysical 4111 K was most likely the same artefact.
+  - All 12 forced-induction invariant and runtime-smoke tests, plus all turbo-model, CI and governor unit tests, pass.
+  - Four upstream tests fail (`GasSystemTests.PressureEquilibriumMaxFlow*` ×3, `FunctionTests.FunctionGaussianTest`), and `SynthesizerTests` crashes with SEH 0xc0000005. None of these files or classes were changed; there is no earlier local run to compare against.
+
+Remaining (not changed): **governor hunting at idle.** Overshoot to 685 rpm during cranking, rack at 0 for about 2.5 s, coast down to 222 rpm, slow rack recovery; period about 12 s. The unlit events are the rack-0 events. This is the control layer (`k_s` 0.008, `k_d` 120 on a very high-inertia crank) and is audible as a surging idle.
+
+### 4. Telemetry log
+
+- New read-only `TelemetryLog` (`include/telemetry_log.h`, `src/telemetry_log.cpp`), called from `EngineSimApplication::process` (per step and per frame), `loadEngine` and `destroy`, and from the probe.
+- Output: `<exe dir>/../logs/telemetry_<engine>_<timestamp>.log`.
+  - HEADER lines: engine, banks, cylinders, CI and turbo parameters.
+  - One `SAMPLE` line per 0.5 s of simulated time: all key parameters, with interval min/max/mean where useful.
+  - `EVENT` lines for control changes.
+- The application tool now pins every changed production template and adds postcondition tokens for these files. The GUI files' baseline hashes come from the local reconstructed tree and have not yet been verified by CI.
+
+### Sound impact
+
+- Before the fix, the L-bank runners (a primary exhaust-audio source) carried a mostly negative signal (peak +1.3 kPa over atmospheric).
+- After it, both banks carry matching blowdown pulses (peak +6.7 kPa, std 1.36/1.38 kPa), so the synthesizer receives 16 even 45° pulses.
+- All cylinders now contribute pressure-rise rate to the procedural diesel audio.
+- Turbo whine now follows real exhaust energy instead of the zero-fuel runaway.
+- The logger adds a small per-step cost on the GUI thread.
+- The `lastValveLift[8]` overflow for cylinders 9–16 is still present.
+
 ## Handover incident: transient worktree loss
 
 Failure signature: `handover | uncommitted temporary worktree unavailable on continuation | workspace persistence layer`
