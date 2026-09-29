@@ -7,7 +7,8 @@ script. Gate 2 compiles only scoped targets. Gate 3 builds the unit-test target
 and runs exactly the seven forced-induction architecture-invariant tests. Gate
 4 runs exactly five generic synthetic runtime smokes. Gate 5 runs one real
 upstream SI null and six ALCO integration checks. Gate 6 runs two loaded
-transient checks against the native 16-251B reference. All paths exit before
+transient checks against the native 16-251B reference. Gate 6B runs one
+diagnostic governor-observability case on the same fixture. All paths exit before
 the full regression suite, GUI build, packaging, or tuning.
 """
 
@@ -33,7 +34,7 @@ Write-Host "Pristine baseline CTest exit code: $baselineCtestCode (failures are 
 """
 
 
-GATED_BASELINE_BLOCK = """if ($env:CORE_COMPILE_ONLY -ne '1' -and $env:ARCHITECTURE_TESTS_ONLY -ne '1' -and $env:GENERIC_RUNTIME_SMOKE_ONLY -ne '1' -and $env:ALCO_INTEGRATION_ONLY -ne '1' -and $env:ALCO_251B_LOADED_TRANSIENT_ONLY -ne '1') {
+GATED_BASELINE_BLOCK = """if ($env:CORE_COMPILE_ONLY -ne '1' -and $env:ARCHITECTURE_TESTS_ONLY -ne '1' -and $env:GENERIC_RUNTIME_SMOKE_ONLY -ne '1' -and $env:ALCO_INTEGRATION_ONLY -ne '1' -and $env:ALCO_251B_LOADED_TRANSIENT_ONLY -ne '1' -and $env:ALCO_251B_GOVERNOR_OBSERVABILITY_ONLY -ne '1') {
     Write-Host '=== Establish pristine upstream test baseline ==='
     & $cmakeExe -S $source -B $baselineBuild @commonConfigure
     if ($LASTEXITCODE -ne 0) { throw 'baseline configure failed' }
@@ -409,6 +410,131 @@ if ($env:ALCO_251B_LOADED_TRANSIENT_ONLY -eq '1') {
     Write-Host '=== GATE 6 NATIVE 16-251B LOADED TRANSIENT PASSED ==='
     exit 0
 }
+
+if ($env:ALCO_251B_GOVERNOR_OBSERVABILITY_ONLY -eq '1') {
+    Write-Host '=== Gate 6B: install exact official v0.1.14a SI null reference ==='
+    $releaseUrl = 'https://github.com/Engine-Simulator/engine-sim-community-edition/releases/download/v0.1.14a/engine-sim-v0.1.14a.zip'
+    $releaseZip = Join-Path $work 'engine-sim-v0.1.14a.zip'
+    $releaseExtract = Join-Path $work 'engine-sim-v0.1.14a-release'
+    Invoke-WebRequest -Uri $releaseUrl -OutFile $releaseZip
+    $releaseHash = (Get-FileHash $releaseZip -Algorithm SHA256).Hash.ToLowerInvariant()
+    if ($releaseHash -ne '2fc1e7c2ad6a94af4bbe78e69907b57aad3d5ebda7d55563e24fa2e14707fbe6') {
+        throw "official v0.1.14a archive SHA256 mismatch: $releaseHash"
+    }
+    Expand-Archive -Force $releaseZip $releaseExtract
+    $stockSiSource = Join-Path $releaseExtract 'engine-sim-v0.1.14a\assets\engines\kohler\kohler_ch750.mr'
+    if (-not (Test-Path $stockSiSource)) { throw "official v0.1.14a SI reference missing: $stockSiSource" }
+    $stockSiHash = (Get-FileHash $stockSiSource -Algorithm SHA256).Hash.ToLowerInvariant()
+    if ($stockSiHash -ne 'c729091fe9c6d3ad3761564850bfad437ea441fee7308a7e7c7ea226ad8b2196') {
+        throw "official v0.1.14a Kohler reference SHA256 mismatch: $stockSiHash"
+    }
+    Copy-Item -Force $stockSiSource (Join-Path $source 'assets\v014a_reference_kohler.mr')
+
+    Write-Host '=== Gate 6B: configure governor observability ==='
+    $configureLog = Join-Path $logs 'gate6b-configure.log'
+    $previousErrorActionPreference = $ErrorActionPreference
+    $ErrorActionPreference = 'Continue'
+    & $cmakeExe -S $source -B $enhancedBuild @commonConfigure 2>&1 |
+        Tee-Object -FilePath $configureLog
+    $configureCode = $LASTEXITCODE
+    $ErrorActionPreference = $previousErrorActionPreference
+    if ($configureCode -ne 0) { throw "Gate 6B configure failed with exit code $configureCode" }
+
+    Write-Host '=== Gate 6B: build SI null and governor observability targets only ==='
+    $gate6bTargets = @('engine-sim-loaded-transient-validation', 'engine-sim-governor-observability')
+    $buildLog = Join-Path $logs 'gate6b-build.log'
+    $ErrorActionPreference = 'Continue'
+    & $cmakeExe --build $enhancedBuild --config RelWithDebInfo --target $gate6bTargets --parallel 2>&1 |
+        Tee-Object -FilePath $buildLog
+    $buildCode = $LASTEXITCODE
+    $ErrorActionPreference = $previousErrorActionPreference
+    if ($buildCode -ne 0) { throw "Gate 6B build failed with exit code $buildCode" }
+    foreach ($binary in @('engine-sim-loaded-transient-validation.exe', 'engine-sim-governor-observability.exe')) {
+        $path = Join-Path $enhancedBuild "RelWithDebInfo\$binary"
+        if (-not (Test-Path $path)) { throw "Gate 6B expected binary missing: $path" }
+    }
+
+    $compatFilter = '^V014aCompatibility\.'
+    $compatListLog = Join-Path $logs 'gate6b-v014a-test-list.log'
+    $ErrorActionPreference = 'Continue'
+    $compatListOutput = & $ctestExe --test-dir $enhancedBuild -C RelWithDebInfo -N -R $compatFilter 2>&1 |
+        Tee-Object -FilePath $compatListLog
+    $compatListCode = $LASTEXITCODE
+    $ErrorActionPreference = $previousErrorActionPreference
+    if ($compatListCode -ne 0) { throw "Gate 6B v0.1.14a test discovery failed with exit code $compatListCode" }
+    $compatCountMatch = [regex]::Match(($compatListOutput -join "`n"), 'Total Tests:\s+(\d+)')
+    if (-not $compatCountMatch.Success -or [int]$compatCountMatch.Groups[1].Value -ne 1) {
+        throw "Gate 6B expected exactly 1 official v0.1.14a SI compatibility test"
+    }
+
+    Write-Host '=== Gate 6B: run official v0.1.14a stock SI compatibility first ==='
+    $compatLog = Join-Path $logs 'gate6b-v014a-tests.log'
+    $compatXml = Join-Path $logs 'gate6b-v014a-stock-si.xml'
+    $ErrorActionPreference = 'Continue'
+    & $ctestExe --test-dir $enhancedBuild -C RelWithDebInfo --output-on-failure --output-junit $compatXml -R $compatFilter 2>&1 |
+        Tee-Object -FilePath $compatLog
+    $compatCode = $LASTEXITCODE
+    $ErrorActionPreference = $previousErrorActionPreference
+    if ($compatCode -ne 0) { throw "Gate 6B official v0.1.14a SI compatibility failed with exit code $compatCode" }
+
+    $observabilityFilter = '^Alco251BObservability\.Governor$'
+    $listLog = Join-Path $logs 'gate6b-test-list.log'
+    $ErrorActionPreference = 'Continue'
+    $listOutput = & $ctestExe --test-dir $enhancedBuild -C RelWithDebInfo -N -R $observabilityFilter 2>&1 |
+        Tee-Object -FilePath $listLog
+    $listCode = $LASTEXITCODE
+    $ErrorActionPreference = $previousErrorActionPreference
+    if ($listCode -ne 0) { throw "Gate 6B test discovery failed with exit code $listCode" }
+    $countMatch = [regex]::Match(($listOutput -join "`n"), 'Total Tests:\s+(\d+)')
+    if (-not $countMatch.Success -or [int]$countMatch.Groups[1].Value -ne 1) {
+        throw "Gate 6B expected exactly 1 governor observability test"
+    }
+
+    Write-Host '=== Gate 6B: run 16-251B governor observability only ==='
+    $evidenceSource = Join-Path $source 'gate6b-governor-evidence.txt'
+    $traceSource = Join-Path $source 'gate6b-governor-trace.csv'
+    foreach ($stale in @($evidenceSource, $traceSource)) {
+        if (Test-Path $stale) { Remove-Item -Force $stale }
+    }
+    $testLog = Join-Path $logs 'gate6b-tests.log'
+    $testXml = Join-Path $logs 'gate6b-alco-251b-governor-observability.xml'
+    $ErrorActionPreference = 'Continue'
+    & $ctestExe --test-dir $enhancedBuild -C RelWithDebInfo -V --output-junit $testXml -R $observabilityFilter 2>&1 |
+        Tee-Object -FilePath $testLog
+    $testCode = $LASTEXITCODE
+    $ErrorActionPreference = $previousErrorActionPreference
+    foreach ($output in @($evidenceSource, $traceSource)) {
+        if (Test-Path $output) { Copy-Item -Force $output $logs }
+    }
+    if ($testCode -ne 0) { throw "Gate 6B governor evidence incomplete: test exited with code $testCode" }
+    foreach ($output in @($evidenceSource, $traceSource)) {
+        if (-not (Test-Path $output)) { throw "Gate 6B governor evidence incomplete: missing $output" }
+    }
+    $classifications = @(Select-String -Path $evidenceSource -Pattern '^GATE6B_CLASSIFICATION=(\S+)$')
+    if ($classifications.Count -ne 1) {
+        throw "Gate 6B governor evidence incomplete: expected exactly one classification"
+    }
+    $classification = $classifications[0].Matches[0].Groups[1].Value
+
+    $evidence = Join-Path $logs 'gate6b-alco-251b-governor-observability.txt'
+    @(
+        'Gate 6B 16-251B governor observability: EVIDENCE COMPLETE',
+        "Classification: $classification",
+        "Pinned upstream: $actualRoot",
+        "Official v0.1.14a archive SHA256: $releaseHash",
+        "Official Kohler CH750 SHA256: $stockSiHash",
+        'Configuration: Visual Studio 2022 x64 RelWithDebInfo',
+        'Fixture: Run 62 loaded sequence reproduced exactly, plus one command-0.0 probe',
+        "CTest filter: $observabilityFilter",
+        'Run 62 loaded-transient assertions: not run',
+        'Production C++, MR and calibration: unchanged (pinned templates)',
+        'Full validation suite: not run',
+        'GUI/app target and runtime packaging: not run'
+    ) | Set-Content -Path $evidence -Encoding utf8
+
+    Write-Host "=== GATE 6B GOVERNOR OBSERVABILITY EVIDENCE COMPLETE: $classification ==="
+    exit 0
+}
 '''
 
 
@@ -425,7 +551,7 @@ def replace_exactly_once(text: str, old: str, new: str, label: str) -> str:
 
 def verify_postconditions(text: str) -> None:
     required = (
-        "if ($env:CORE_COMPILE_ONLY -ne '1' -and $env:ARCHITECTURE_TESTS_ONLY -ne '1' -and $env:GENERIC_RUNTIME_SMOKE_ONLY -ne '1' -and $env:ALCO_INTEGRATION_ONLY -ne '1' -and $env:ALCO_251B_LOADED_TRANSIENT_ONLY -ne '1')",
+        "if ($env:CORE_COMPILE_ONLY -ne '1' -and $env:ARCHITECTURE_TESTS_ONLY -ne '1' -and $env:GENERIC_RUNTIME_SMOKE_ONLY -ne '1' -and $env:ALCO_INTEGRATION_ONLY -ne '1' -and $env:ALCO_251B_LOADED_TRANSIENT_ONLY -ne '1' -and $env:ALCO_251B_GOVERNOR_OBSERVABILITY_ONLY -ne '1')",
         "if ($env:CORE_COMPILE_ONLY -eq '1')",
         "if ($env:ARCHITECTURE_TESTS_ONLY -eq '1')",
         "if ($env:GENERIC_RUNTIME_SMOKE_ONLY -eq '1')",
@@ -450,6 +576,11 @@ def verify_postconditions(text: str) -> None:
         "Gate 6 expected exactly 1 official v0.1.14a SI compatibility test",
         "Gate 6 native 16-251B loaded-transient validation: PASS",
         "GATE 6 NATIVE 16-251B LOADED TRANSIENT PASSED",
+        "if ($env:ALCO_251B_GOVERNOR_OBSERVABILITY_ONLY -eq '1')",
+        "Gate 6B expected exactly 1 official v0.1.14a SI compatibility test",
+        "Gate 6B expected exactly 1 governor observability test",
+        "Gate 6B governor evidence incomplete: expected exactly one classification",
+        "GATE 6B GOVERNOR OBSERVABILITY EVIDENCE COMPLETE",
     )
     for token in required:
         if token not in text:
@@ -553,7 +684,7 @@ def verify_postconditions(text: str) -> None:
             raise RuntimeError(f"post-condition failed: Gate 5 contains forbidden action {token!r}")
 
     start = text.index("if ($env:ALCO_251B_LOADED_TRANSIENT_ONLY -eq '1')")
-    end = text.find("\n" + end_anchor, start)
+    end = text.find("if ($env:ALCO_251B_GOVERNOR_OBSERVABILITY_ONLY -eq '1')", start)
     if end < 0:
         raise RuntimeError("post-condition failed: could not delimit Gate 6 branch")
     gate6 = text[start:end]
@@ -585,6 +716,38 @@ def verify_postconditions(text: str) -> None:
         if token in gate6:
             raise RuntimeError(f"post-condition failed: Gate 6 contains forbidden action {token!r}")
 
+    start = text.index("if ($env:ALCO_251B_GOVERNOR_OBSERVABILITY_ONLY -eq '1')")
+    end = text.find("\n" + end_anchor, start)
+    if end < 0:
+        raise RuntimeError("post-condition failed: could not delimit Gate 6B branch")
+    gate6b = text[start:end]
+    required_gate6b = (
+        "--target $gate6bTargets",
+        "'engine-sim-governor-observability'",
+        "2fc1e7c2ad6a94af4bbe78e69907b57aad3d5ebda7d55563e24fa2e14707fbe6",
+        "c729091fe9c6d3ad3761564850bfad437ea441fee7308a7e7c7ea226ad8b2196",
+        "[int]$compatCountMatch.Groups[1].Value -ne 1",
+        "--output-junit $compatXml -R $compatFilter",
+        "'^Alco251BObservability\\.Governor$'",
+        "-N -R $observabilityFilter",
+        "--output-junit $testXml -R $observabilityFilter",
+        "[int]$countMatch.Groups[1].Value -ne 1",
+        "'Run 62 loaded-transient assertions: not run'",
+    )
+    for token in required_gate6b:
+        if token not in gate6b:
+            raise RuntimeError(f"post-condition failed: Gate 6B lacks required action {token!r}")
+    forbidden_gate6b = (
+        "engine-sim-app",
+        "Alco251BLoadedTransient",
+        "engine-sim-script-smoke.exe' stock",
+        "package_runtime.ps1",
+        "Compress-Archive -Path (Join-Path $runtime",
+    )
+    for token in forbidden_gate6b:
+        if token in gate6b:
+            raise RuntimeError(f"post-condition failed: Gate 6B contains forbidden action {token!r}")
+
 
 def main() -> int:
     if len(sys.argv) != 2:
@@ -611,7 +774,7 @@ def main() -> int:
     )
     verify_postconditions(text)
     target.write_text(text, encoding="utf-8", newline="\n")
-    print("Gate 2/3/4/5/6 scoped CI paths enabled; post-conditions PASS")
+    print("Gate 2/3/4/5/6/6B scoped CI paths enabled; post-conditions PASS")
     return 0
 
 

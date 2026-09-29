@@ -93,6 +93,16 @@ Status: **implementation stopped by user instruction after this failure**. A fut
 
 Run 62 evidence: workflow `36584792845`; artifact `engine-sim-gate6-alco-251b-loaded-transient` (ID `11041298653`, SHA-256 `664eedb81b9b94253a0bf4cb5efc84b167996107d609e6e4e73266ba1707c389`). The official v0.1.14a stock SI null passed in 1.09 seconds; the two 16-251B cases failed in 21.90 and 30.15 seconds respectively.
 
+## Gate 6B diagnostic: 16-251B governor observability
+
+Failure signature (harness only): `diagnostic | 16-251B governor evidence incomplete | test-harness layer`
+
+Purpose: collect the control-layer evidence missing from Run 62 before any repair. Analysis in `docs/GATE6_RUN62_DIAGNOSIS.md`.
+
+- Attempt 1 / evidence only — authorized by the user after the Run 62 diagnosis. Adds `test/alco_251b_governor_observability.cpp`, target `engine-sim-governor-observability`, CTest `Alco251BObservability.Governor` and CI mode `ALCO_251B_GOVERNOR_OBSERVABILITY_ONLY`. The Run 62 loaded sequence is reproduced exactly, followed by one command-0.0 probe. The harness records commanded/applied control, target and held speed, signed crank speed, governor error, output and internal rack, and a shadow governor model driven by the observed speed. It reports one classification (`FIXTURE_INVALID`, `COMMAND_MAPPING`, `RUN62_NOT_REPRODUCED`, `FIXTURE_ASSUMPTION`, `PERSISTENT_STATE`, `RELEASE_LOGIC_OR_WINDUP`, `UNCLASSIFIED`) and passes on evidence completeness, not on a physics outcome. Production C++, MR and calibration are unchanged; `tools/apply_forced_induction_v1.py` now pins every production template to its `71fff99` content. The Run 62 loaded-transient assertions are not run. Static prediction before the run: `FIXTURE_ASSUMPTION`. Result: pending.
+
+This entry does not consume a control-layer repair attempt. A classification other than evidence-incomplete is the result, not a failure; any repair it suggests requires separate authorization.
+
 ## Handover incident: transient worktree loss
 
 Failure signature: `handover | uncommitted temporary worktree unavailable on continuation | workspace persistence layer`

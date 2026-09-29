@@ -372,12 +372,16 @@ The readable adapter supports these mutually scoped modes:
 - GENERIC_RUNTIME_SMOKE_ONLY=1
 - ALCO_INTEGRATION_ONLY=1
 - ALCO_251B_LOADED_TRANSIENT_ONLY=1
+- ALCO_251B_GOVERNOR_OBSERVABILITY_ONLY=1 (Gate 6B, diagnostic only)
 
 Each mode configures/builds scoped targets, verifies exact test discovery,
 writes evidence and exits before full regression, GUI and packaging.
 
-The current workflow selects only ALCO_251B_LOADED_TRANSIENT_ONLY=1. Do not
-trigger it again until a diagnostic plan is authorized.
+The current workflow selects only ALCO_251B_GOVERNOR_OBSERVABILITY_ONLY=1
+(Gate 6B, authorized after the Run 62 diagnosis in
+docs/GATE6_RUN62_DIAGNOSIS.md). Do not reselect
+ALCO_251B_LOADED_TRANSIENT_ONLY=1 unchanged. Gate 6A (combustion
+observability) is proposed but not authorized.
 
 The Windows environment used Visual Studio 2022 x64 RelWithDebInfo, CMake
 3.31.12, Boost 1.78, SDL2/SDL2_image through vcpkg, winflexbison3, Piranha

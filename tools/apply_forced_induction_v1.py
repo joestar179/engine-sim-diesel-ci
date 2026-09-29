@@ -80,11 +80,36 @@ public node set_engine {
     ),
 )
 
+# Production templates are pinned to their 71fff99 content. Diagnostic gates
+# may add tests and build wiring but must not alter the code under test.
+PINNED_PRODUCTION_TEMPLATES = {
+    "assets/alco_16_251b_main.mr": "de603c279f374f62bd5b47ef0edebbabfbe083b01bdc2ab057620ff1af4c61f4",
+    "assets/engines/alco/alco_16_251b_native.mr": "5e76cede19b6414064783974cdf88cdb5de48c8397545509a6d67c2e20f065b5",
+    "es/objects/objects.mr": "8044ec576d70ab5bce24abcd91b335256af932265f707eae2a07e2102fa3fa90",
+    "include/combustion_chamber.h": "907f66a94631211068bdcd1834d76188576df4dc92564be947685131e1a67017",
+    "include/engine.h": "999e6bc481c2c0db03131a81caa90f213c0146c4b12783c7e3c75df876c4ab73",
+    "include/exhaust_system.h": "050d489bb2fc579b0bf350b14797e55bb26e902908f941069d0b2d275e42df90",
+    "include/forced_induction_system.h": "57c6bc6a9084bdda1f99d60851a3c6ea53ec0059be36610a8a5e8a151b68ce22",
+    "include/intake.h": "4053725fe40e38e69c0bdcad93577a9022e9060e97fb192dc15c3ae8a4b169b3",
+    "include/turbocharger_model.h": "37e92d401cca5f94073e858ebab134d16a1f1fd528e72563c63ea2abcb7fbece",
+    "scripting/include/engine_node.h": "42e3b1b1a51c91e9f5dd7b7eec0ff75da47c06dd2ac141b16783e204baf249d4",
+    "scripting/include/exhaust_system_node.h": "d5f3436f866d9f3608efcd808aa61d079e0eb6f207a9134c046b0a0940755c3d",
+    "scripting/src/compiler.cpp": "fb6566d847ab4486d68ee39e813753cc5c0b9d52c7c5b988bb4fbd43ec02eeb0",
+    "src/combustion_chamber.cpp": "b039c76a1ac59e88b073c2e34e76c0d2f5a6f9eaa0410942c075c2caeb98cd0a",
+    "src/engine.cpp": "6e3e1ebee9bafd11791d01522f5934b375d7f9aa3abfc12a75e67527d004ef16",
+    "src/exhaust_system.cpp": "538d16413843ef95686e6dd64ac138a0cc8f3f7d45e2f8970b707e705f8c8a51",
+    "src/forced_induction_system.cpp": "867848215eec32c2620dd6f4a710cd19867aa53857a2f35015c8adb5c0183ae8",
+    "src/intake.cpp": "4e8608837b82dd141e0f90a6f6f0580c8a4ea1c9fe8d2c2378a87497b8ec9792",
+    "src/piston_engine_simulator.cpp": "3dfc328eb3d2b1094d7c95d7db419666b8fecc7a2ae6bb985d0a5af92789650a",
+    "src/turbocharger_model.cpp": "389ed04821b31b392a660735a6a1d91949b6922d20de6e5c2dfbf96677f95fd1",
+}
+
 NEW_FILES = {
     "include/forced_induction_system.h",
     "src/forced_induction_system.cpp",
     "assets/alco_16_251b_main.mr",
     "assets/engines/alco/alco_16_251b_native.mr",
+    "test/alco_251b_governor_observability.cpp",
     "test/alco_251b_loaded_transient_validation.cpp",
     "test/alco_integration_validation.cpp",
     "test/forced_induction_invariant_tests.cpp",
@@ -164,6 +189,13 @@ REQUIRED_POSTCONDITIONS = {
         "GATE6_FAIL classification=",
         "runtimeErrorDetails()",
     ],
+    "test/alco_251b_governor_observability.cpp": [
+        "struct ShadowGovernor",
+        'recorder.run("release", LowCommand, 300, false, true);',
+        'recorder.run("probe", ProbeCommand, 300, false, true);',
+        "GATE6B_CLASSIFICATION=",
+        "GATE6B_FAIL classification=",
+    ],
     "test/forced_induction_invariant_tests.cpp": [
         "ForcedInductionDisabledPathInvariant",
         "ForcedInductionCompressorInvariant",
@@ -200,6 +232,8 @@ REQUIRED_POSTCONDITIONS = {
         "Alco251BLoadedTransient.CausalChain",
         "Alco251BLoadedTransient.StableRelease",
         "V014aCompatibility.StockSiLoads",
+        "engine-sim-governor-observability",
+        "Alco251BObservability.Governor",
     ],
     "es/actions/actions.mr": [
         "private node _set_engine => __engine_sim__set_engine",
@@ -237,6 +271,20 @@ def digest(path: Path) -> str:
 
 def fail(message: str) -> None:
     raise RuntimeError(message)
+
+
+def verify_production_templates(bundle: Path) -> None:
+    template_root = bundle / "patches" / "forced_induction_v1"
+    for relative, expected in PINNED_PRODUCTION_TEMPLATES.items():
+        path = template_root / relative
+        if not path.is_file():
+            fail(f"precondition failed: missing pinned production template {relative}")
+        actual = digest(path)
+        if actual != expected:
+            fail(
+                f"precondition failed: production template {relative} differs from "
+                f"its 71fff99 content (expected {expected}, found {actual})"
+            )
 
 
 def verify_preconditions(source: Path) -> None:
@@ -337,6 +385,7 @@ def main() -> int:
         return 2
     source = Path(sys.argv[1]).resolve()
     bundle = Path(__file__).resolve().parents[1]
+    verify_production_templates(bundle)
     verify_preconditions(source)
     apply(source, bundle)
     verify_postconditions(source, bundle)

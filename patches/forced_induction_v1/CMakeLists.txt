@@ -394,4 +394,17 @@ if (PIRANHA_ENABLED)
     set_tests_properties(${ALCO_251B_LOADED_TRANSIENT_TESTS} PROPERTIES
         WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
         LABELS "Alco251BLoadedTransient")
+
+    add_executable(engine-sim-governor-observability
+        test/alco_251b_governor_observability.cpp)
+    target_link_libraries(engine-sim-governor-observability
+        engine-sim engine-sim-script-interpreter)
+    add_test(NAME Alco251BObservability.Governor
+        COMMAND engine-sim-governor-observability
+            assets/alco_16_251b_main.mr
+            gate6b-governor-evidence.txt
+            gate6b-governor-trace.csv)
+    set_tests_properties(Alco251BObservability.Governor PROPERTIES
+        WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
+        LABELS "Alco251BObservability")
 endif ()
