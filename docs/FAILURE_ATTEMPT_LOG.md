@@ -65,6 +65,14 @@ Failure signature: `publication | connector tree based on stale local equivalent
 
 - Attempt 1 — Commit `15106c8628e1a574ae6b12a999f0c91e85cea1ce` used remote parent `b3ccaf7...` but supplied the base tree SHA from stale local commit `d1312d9`. Run 60 therefore lost the accepted backflow changes and reproduced line 602 `R0030` after the stock SI gate passed. The repair reconstructs the commit from the actual remote `b3ccaf7` tree and merges the six intended compatibility files. No model, physics, topology or calibration change is allowed in this repair.
 
+Result: corrective commit `d9de10db7176ade22d4129a898dd4f0b00ee4ec2` restored the exact remote-parent tree. Run 61 compiled the ALCO script without the line-602 error, confirming the publication repair.
+
+## Gate 6 incident: imported 16-251B module produced no root action
+
+Failure signature: `runtime setup | compiled entry script produced no engine and no runtime error | MR entrypoint layer`
+
+- Attempt 1 — In corrected run 61 the exact official v0.1.14a Kohler null passed, and the 16-251B script compiled, but both ALCO cases returned no engine with an empty runtime-error string. The root `assets/alco_16_251b_main.mr` contained only an import, while the `main()` invocation was inside the imported definition module. Existing Engine Simulator entry scripts invoke `main()` in the root compilation unit. The repair moves only that invocation to the root entry file and adds application postconditions; the engine definition, calibration, gas path and C++ physics remain unchanged.
+
 ## Logging rule
 
 For each future repeated failure, record:

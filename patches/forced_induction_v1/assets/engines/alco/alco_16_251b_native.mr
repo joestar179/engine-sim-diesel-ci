@@ -1003,5 +1003,3 @@ public node main {
     set_transmission(alco_251b_generator_traction_transmission())
     set_vehicle(alco_251b_locomotive_consist())
 }
-
-main()

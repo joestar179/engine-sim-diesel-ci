@@ -151,6 +151,10 @@ REQUIRED_POSTCONDITIONS = {
         "exhaust_system: exhaust_r_a",
         "exhaust_system: exhaust_l_b",
     ],
+    "assets/alco_16_251b_main.mr": [
+        'import "engines/alco/alco_16_251b_native.mr"',
+        "main()",
+    ],
     "test/alco_251b_loaded_transient_validation.cpp": [
         "stockSiCompatibility(",
         "v014a-stock-si-load",
@@ -216,6 +220,7 @@ FORBIDDEN_POSTCONDITIONS = {
         "Stock Engine Simulator cannot model compressor pressure ratio",
         "exhaust_system: exhaust,",
         "throttle: governor(",
+        "\nmain()\n",
     ],
     "es/actions/actions.mr": [
         "public node set_engine => __engine_sim__set_engine",
