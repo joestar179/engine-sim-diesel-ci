@@ -188,11 +188,13 @@ REQUIRED_POSTCONDITIONS = {
         "stableRelease(",
         "GATE6_FAIL classification=",
         "runtimeErrorDetails()",
+        "std::copysign(",
+        "setSpeedControl(IdleCommand)",
     ],
     "test/alco_251b_governor_observability.cpp": [
         "struct ShadowGovernor",
-        'recorder.run("release", LowCommand, 300, false, true);',
-        'recorder.run("probe", ProbeCommand, 300, false, true);',
+        'recorder.run("release", ReleaseCommand, 300, false, true);',
+        "forwardSign * units::rpm(HeldRpm)",
         "GATE6B_CLASSIFICATION=",
         "GATE6B_FAIL classification=",
     ],
@@ -258,6 +260,13 @@ FORBIDDEN_POSTCONDITIONS = {
     ],
     "es/actions/actions.mr": [
         "public node set_engine => __engine_sim__set_engine",
+    ],
+    "test/alco_251b_loaded_transient_validation.cpp": [
+        "m_dyno.m_rotationSpeed = units::rpm(600)",
+        "setSpeedControl(LowCommand);\n        sequence.release",
+    ],
+    "test/alco_251b_governor_observability.cpp": [
+        "m_dyno.m_rotationSpeed = units::rpm(HeldRpm)",
     ],
 }
 

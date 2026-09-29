@@ -524,7 +524,7 @@ if ($env:ALCO_251B_GOVERNOR_OBSERVABILITY_ONLY -eq '1') {
         "Official v0.1.14a archive SHA256: $releaseHash",
         "Official Kohler CH750 SHA256: $stockSiHash",
         'Configuration: Visual Studio 2022 x64 RelWithDebInfo',
-        'Fixture: Run 62 loaded sequence reproduced exactly, plus one command-0.0 probe',
+        'Fixture: corrected Gate 6 sequence (forward dyno hold, release to idle)',
         "CTest filter: $observabilityFilter",
         'Run 62 loaded-transient assertions: not run',
         'Production C++, MR and calibration: unchanged (pinned templates)',

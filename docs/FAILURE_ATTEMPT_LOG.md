@@ -115,6 +115,12 @@ Control-layer conclusion: the Run 62 release failure is a fixture/command-mappin
 
 This entry does not consume a control-layer repair attempt. A classification other than evidence-incomplete is the result, not a failure; any repair it suggests requires separate authorization.
 
+## Gate 6 fixture correction: reverse dyno hold and held-speed release
+
+Failure signature: `loaded transient | dyno holds engine in reverse and release target equals held speed | test-fixture layer`
+
+- Attempt 1 — authorized by the user after Run 63. Evidence: Run 63 measured signed crank speed `+62.83 rad/s` against the simulator's forward (starter) direction `-26.18 rad/s`, and release error exactly 0 with the rack pinned at 1.0. The change is confined to the shared fixture in `test/alco_251b_loaded_transient_validation.cpp` and `test/alco_251b_governor_observability.cpp`: the dyno holds 600 rpm with the starter's sign (`std::copysign`), and release commands idle (0.0, target 400 rpm) instead of a target equal to the held speed. Gate 6B's probe phase is removed because release now performs it, and its classifications become `FIXTURE_INVALID`, `COMMAND_MAPPING`, `RELEASE_RESPONDS`, `FIXTURE_ASSUMPTION`, `PERSISTENT_STATE`, `RELEASE_LOGIC_OR_WINDUP`, `UNCLASSIFIED`. No assertion, threshold, window length, gain, calibration, MR or production file changed; production templates remain pinned to `71fff99`, and the application tool now forbids the reversed hold and the held-speed release. Confirmation run: Gate 6B only. Expected: `RELEASE_RESPONDS`. The Gate 6 loaded-transient tests and Gate 6A are not run. Result: pending.
+
 ## Handover incident: transient worktree loss
 
 Failure signature: `handover | uncommitted temporary worktree unavailable on continuation | workspace persistence layer`

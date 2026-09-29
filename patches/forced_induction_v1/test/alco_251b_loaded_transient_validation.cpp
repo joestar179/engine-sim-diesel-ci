@@ -257,14 +257,21 @@ Sequence runLoadedSequence(Runtime &runtime, bool includeRelease) {
 
     // External dynamometer hold is a test-bench load, not boost or governor
     // control. Holding 600 rpm lets a notch command change fuel/exhaust energy
-    // without engine-speed change obscuring the causal chain.
+    // without engine-speed change obscuring the causal chain. The hold uses the
+    // starter's sign: Gate 6B Run 63 showed a positive speed reverses the engine.
+    require(runtime.simulator->m_starterMotor.m_rotationSpeed != 0.0,
+        "configuration", "starter direction is undefined");
     runtime.simulator->m_dyno.m_enabled = true;
     runtime.simulator->m_dyno.m_hold = true;
-    runtime.simulator->m_dyno.m_rotationSpeed = units::rpm(600);
+    runtime.simulator->m_dyno.m_rotationSpeed = std::copysign(
+        units::rpm(600), runtime.simulator->m_starterMotor.m_rotationSpeed);
     runtime.simulator->m_dyno.m_maxTorque =
         units::torque(20000.0, units::ft_lb);
 
     constexpr double LowCommand = (600.0 - 400.0) / (1000.0 - 400.0);
+    // Release to idle: a target equal to the held speed leaves an isochronous
+    // governor with zero error (Gate 6B Run 63), so the rack could never move.
+    constexpr double IdleCommand = 0.0;
     runtime.engine->setSpeedControl(LowCommand);
 
     // Start and settle at the held speed before measuring the low-command state.
@@ -278,7 +285,7 @@ Sequence runLoadedSequence(Runtime &runtime, bool includeRelease) {
     sequence.response = observeWindow(runtime, *group, 300, false);
 
     if (includeRelease) {
-        runtime.engine->setSpeedControl(LowCommand);
+        runtime.engine->setSpeedControl(IdleCommand);
         sequence.release = observeWindow(runtime, *group, 300, false);
     }
     return sequence;

@@ -387,8 +387,12 @@ Gate 6B Run 63 result: evidence complete, classification FIXTURE_INVALID.
 The Run 62 dyno fixture holds the engine at +600 rpm, which is reverse
 rotation in this simulator. The control failure is explained by the fixture
 (release target equals held speed); the governor itself behaves correctly.
-Do not run Gate 6A or any loaded test on the reversed fixture. The proposed
-test-layer fixture correction is awaiting user authorization.
+Do not run Gate 6A or any loaded test on the reversed fixture.
+
+The user authorized the test-layer fixture correction: the dyno now holds
+600 rpm with the starter's sign and release commands idle, in both loaded
+tests. Gate 6B is being re-run to confirm it (see docs/FAILURE_ATTEMPT_LOG.md).
+Gate 6A and the Gate 6 loaded-transient tests remain unauthorized.
 
 The Windows environment used Visual Studio 2022 x64 RelWithDebInfo, CMake
 3.31.12, Boost 1.78, SDL2/SDL2_image through vcpkg, winflexbison3, Piranha

@@ -1,9 +1,9 @@
 // Gate 6B: governor/control observability for the native 16-251B.
 //
-// Diagnostic only. It reproduces the Run 62 loaded-transient fixture exactly,
-// records governor state, adds one probe phase after the unchanged release
-// window, and reports a classification. It never asserts a physics outcome:
-// the gate passes when the evidence is complete.
+// Diagnostic only. It runs the corrected Gate 6 loaded-transient fixture
+// (dyno held in the simulator's forward direction, release to idle), records
+// governor state and reports a classification. It never asserts a physics
+// outcome: the gate passes when the evidence is complete.
 
 #include "../scripting/include/compiler.h"
 #include "../include/engine.h"
@@ -39,12 +39,12 @@ constexpr double GovernorKd = 120.0;
 constexpr double GovernorGamma = 1.5;
 constexpr double GovernorStartingRack = 0.20;
 
-// Run 62 fixture.
+// Corrected Gate 6 fixture, shared with alco_251b_loaded_transient_validation.
 constexpr double HeldRpm = 600.0;
 constexpr double LowCommand =
     (HeldRpm - GovernorMinRpm) / (GovernorMaxRpm - GovernorMinRpm);
 constexpr double HighCommand = 1.0;
-constexpr double ProbeCommand = 0.0;
+constexpr double ReleaseCommand = 0.0;
 
 // Evidence sampling.
 constexpr double TraceInterval = 0.01;
@@ -57,7 +57,7 @@ constexpr double HeldExcursionTolerance = 0.02;
 constexpr double CommandTolerance = 1.0e-9;
 constexpr double ShadowTolerance = 1.0e-6;
 constexpr double NeutralErrorFraction = 0.01;
-constexpr double ProbeRetreat = 0.01;
+constexpr double ReleaseRetreat = 0.01;
 constexpr double PersistentRateFraction = 0.01;
 
 class EvidenceFailure : public std::runtime_error {
@@ -277,7 +277,7 @@ struct Recorder {
         }
 
         const bool transient = phaseTime <= TransientCapture
-            && (s.name == "high" || s.name == "release" || s.name == "probe");
+            && (s.name == "high" || s.name == "release");
         if (transient || time >= nextTrace) {
             trace << std::setprecision(12)
                 << s.name << ',' << time << ',' << phaseTime << ','
@@ -333,10 +333,9 @@ void writePhase(std::ostream &out, const PhaseStats &p) {
         << k << "shadow_divergence_previous_speed=" << p.shadowDivergencePrevious << '\n';
 }
 
-std::string classify(const Recorder &recorder, std::ostream &out) {
+std::string classify(const Recorder &recorder, double forwardSign, std::ostream &out) {
     const PhaseStats &high = recorder.phase("high");
     const PhaseStats &release = recorder.phase("release");
-    const PhaseStats &probe = recorder.phase("probe");
 
     bool fixtureValid = true;
     bool commandValid = true;
@@ -347,7 +346,7 @@ std::string classify(const Recorder &recorder, std::ostream &out) {
         if (std::abs(heldMean - HeldRpm) > HeldMeanTolerance * HeldRpm
             || p.heldMin < (1.0 - HeldExcursionTolerance) * HeldRpm
             || p.heldMax > (1.0 + HeldExcursionTolerance) * HeldRpm
-            || p.mean(p.signedTime) >= 0.0)
+            || p.mean(p.signedTime) * forwardSign <= 0.0)
         {
             fixtureValid = false;
         }
@@ -359,11 +358,10 @@ std::string classify(const Recorder &recorder, std::ostream &out) {
 
     const double highError = high.mean(high.errorTime);
     const double releaseError = release.mean(release.errorTime);
-    const double probeError = probe.mean(probe.errorTime);
-    const bool run62Reproduced = release.mean(release.rackTime) >= high.mean(high.rackTime);
-    const bool releaseNeutral = std::abs(releaseError) <= NeutralErrorFraction * std::abs(highError);
-    const bool probeNegative = probeError < -NeutralErrorFraction * std::abs(highError);
-    const bool probeRetreated = probe.rackEnd < probe.rackStart - ProbeRetreat;
+    const bool gate6ReleaseSatisfied =
+        release.mean(release.rackTime) < high.mean(high.rackTime);
+    const bool releaseNegative = releaseError < -NeutralErrorFraction * std::abs(highError);
+    const bool releaseRetreated = release.rackEnd < release.rackStart - ReleaseRetreat;
     const bool persistent = std::isfinite(release.shadowRateAtFiveTau)
         && release.shadowRateAtFiveTau > PersistentRateFraction * std::abs(high.shadowRateEnd)
         && release.shadowRateAtFiveTau > 1.0e-6;
@@ -373,18 +371,17 @@ std::string classify(const Recorder &recorder, std::ostream &out) {
         << "GATE6B_EVIDENCE command_valid=" << commandValid << '\n'
         << "GATE6B_EVIDENCE shadow_max_divergence=" << shadowDivergence << '\n'
         << "GATE6B_EVIDENCE shadow_valid=" << shadowValid << '\n'
-        << "GATE6B_EVIDENCE run62_release_assertion_reproduced=" << run62Reproduced << '\n'
-        << "GATE6B_EVIDENCE release_error_neutral=" << releaseNeutral << '\n'
-        << "GATE6B_EVIDENCE probe_error_negative=" << probeNegative << '\n'
-        << "GATE6B_EVIDENCE probe_rack_retreated=" << probeRetreated << '\n'
+        << "GATE6B_EVIDENCE gate6_release_assertion_satisfied=" << gate6ReleaseSatisfied << '\n'
+        << "GATE6B_EVIDENCE release_error_negative=" << releaseNegative << '\n'
+        << "GATE6B_EVIDENCE release_rack_retreated=" << releaseRetreated << '\n'
         << "GATE6B_EVIDENCE release_rate_persistent=" << persistent << '\n';
 
     if (!fixtureValid) return "FIXTURE_INVALID";
     if (!commandValid || !shadowValid) return "COMMAND_MAPPING";
-    if (!run62Reproduced) return "RUN62_NOT_REPRODUCED";
-    if (releaseNeutral && probeNegative && probeRetreated) return "FIXTURE_ASSUMPTION";
+    if (releaseNegative && releaseRetreated && gate6ReleaseSatisfied) return "RELEASE_RESPONDS";
+    if (!releaseNegative) return "FIXTURE_ASSUMPTION";
     if (persistent) return "PERSISTENT_STATE";
-    if (probeNegative && !probeRetreated) return "RELEASE_LOGIC_OR_WINDUP";
+    if (!releaseRetreated) return "RELEASE_LOGIC_OR_WINDUP";
     return "UNCLASSIFIED";
 }
 
@@ -401,12 +398,17 @@ void governorObservability(const char *script, const char *evidencePath, const c
     runtime.load(script);
     requireNative251B(runtime);
 
-    // Identical to Run 62 runLoadedSequence().
+    // Identical to the corrected Gate 6 runLoadedSequence(). Run 63 showed a
+    // positive dyno speed reverses this engine; the starter defines forward.
+    const double forwardSign =
+        std::copysign(1.0, runtime.simulator->m_starterMotor.m_rotationSpeed);
+    require(runtime.simulator->m_starterMotor.m_rotationSpeed != 0.0,
+        "starter direction is undefined");
     runtime.engine->getIgnitionModule()->m_enabled = true;
     runtime.engine->resetFuelConsumption();
     runtime.simulator->m_dyno.m_enabled = true;
     runtime.simulator->m_dyno.m_hold = true;
-    runtime.simulator->m_dyno.m_rotationSpeed = units::rpm(HeldRpm);
+    runtime.simulator->m_dyno.m_rotationSpeed = forwardSign * units::rpm(HeldRpm);
     runtime.simulator->m_dyno.m_maxTorque = units::torque(20000.0, units::ft_lb);
 
     Recorder recorder(runtime, trace);
@@ -414,13 +416,11 @@ void governorObservability(const char *script, const char *evidencePath, const c
     recorder.run("settle", LowCommand, 120, false, false);
     recorder.run("baseline", LowCommand, 120, false, true);
     recorder.run("high", HighCommand, 300, false, true);
-    recorder.run("release", LowCommand, 300, false, true);
-    // Diagnostic probe beyond Run 62: a command below the held speed.
-    recorder.run("probe", ProbeCommand, 300, false, true);
+    recorder.run("release", ReleaseCommand, 300, false, true);
 
     std::ostringstream evidence;
     evidence << std::setprecision(10)
-        << "GATE6B_EVIDENCE fixture=run62_loaded_sequence+probe\n"
+        << "GATE6B_EVIDENCE fixture=gate6_corrected_forward_release_to_idle\n"
         << "GATE6B_EVIDENCE simulation_frequency=" << SimulationFrequency << '\n'
         << "GATE6B_EVIDENCE timestep_s=" << runtime.simulator->getTimestep() << '\n'
         << "GATE6B_EVIDENCE dyno_rotation_speed_rad_s="
@@ -433,17 +433,17 @@ void governorObservability(const char *script, const char *evidencePath, const c
             << " max_v=" << GovernorMaxRate << " gamma=" << GovernorGamma
             << " starting_rack=" << GovernorStartingRack << '\n'
         << "GATE6B_EVIDENCE commands low=" << LowCommand << " high=" << HighCommand
-            << " probe=" << ProbeCommand << '\n'
+            << " release=" << ReleaseCommand << '\n'
         << "GATE6B_EVIDENCE thresholds held_mean=" << HeldMeanTolerance
             << " held_excursion=" << HeldExcursionTolerance
             << " command=" << CommandTolerance << " shadow=" << ShadowTolerance
             << " neutral_error=" << NeutralErrorFraction
-            << " probe_retreat=" << ProbeRetreat
+            << " release_retreat=" << ReleaseRetreat
             << " persistent_rate=" << PersistentRateFraction << '\n';
     for (const PhaseStats &p : recorder.phases) {
         if (p.measured) writePhase(evidence, p);
     }
-    const std::string classification = classify(recorder, evidence);
+    const std::string classification = classify(recorder, forwardSign, evidence);
     evidence << "GATE6B_CLASSIFICATION=" << classification << '\n';
 
     trace.close();
