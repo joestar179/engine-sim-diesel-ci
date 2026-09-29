@@ -424,6 +424,22 @@ The Windows environment used Visual Studio 2022 x64 RelWithDebInfo, CMake
 3.31.12, Boost 1.78, SDL2/SDL2_image through vcpkg, winflexbison3, Piranha
 enabled, Discord disabled and DTV disabled.
 
+## 12a. Local Windows workflow (user's machine)
+
+The user builds the reconstructed source locally; CI remains the reference.
+
+- Overlay repo (this branch): `C:\es\overlay`
+- Reconstructed, fully patched source (from the review-build source zip): `C:\es\engine-sim`
+- Build directory: `C:\es\engine-sim\build`; runnable layout: `C:\es\run` (`bin\`, `es\`, `assets\`, `basic\`, `bin\delta.conf` with `../basic` and `../assets`)
+- Toolchain: VS 2022 x64, CMake 3.31.12 at `C:\es\tools\cmake-3.31.12-windows-x86_64\bin\cmake.exe`, Boost 1.78 at `C:\local\boost_1_78_0`, SDL2/SDL2_image via `C:\vcpkg`, winflexbison3.
+- Every new PowerShell session needs, before configure/build:
+  `$cmake=...cmake.exe; $env:SDL2DIR=$env:SDL2IMAGEDIR="C:\vcpkg\installed\x64-windows"; $env:BOOST_ROOT="C:\local\boost_1_78_0"; $env:BOOST_LIBRARYDIR="C:\local\boost_1_78_0\lib64-msvc-14.3"`
+- Build: `& $cmake --build C:\es\engine-sim\build --config RelWithDebInfo --parallel --target <targets>`; then copy the `.exe` files to `C:\es\run\bin`. Run headless tools from `C:\es\run` (they resolve `es\` and `assets\` from the working directory).
+- Source of truth: edit the template under `C:\es\overlay\patches\forced_induction_v1\<path>` first, then copy it to `C:\es\engine-sim\<path>` (`robocopy C:\es\overlay\patches\forced_induction_v1 C:\es\engine-sim /E`). Never leave a change only in `C:\es\engine-sim`; commit it in the overlay with a failure-log entry as usual.
+- Pushing this branch starts the Windows CI workflow (currently `REVIEW_BUILD_ONLY=1`); use `[skip ci]` for documentation-only commits.
+- Save tool output as UTF-8 (`... 2>&1 | Out-File -Encoding utf8 file.txt`); `*>` redirection in Windows PowerShell writes UTF-16.
+- The Production-template pins in `tools/apply_forced_induction_v1.py` still apply: any authorized production change must update its pin in the same commit.
+
 ## 13. File map
 
 - patches/forced_induction_v1/include/forced_induction_system.h — ownership,
