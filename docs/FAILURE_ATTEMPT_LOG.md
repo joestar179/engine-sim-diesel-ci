@@ -47,6 +47,12 @@ Failure signature: `runtime setup | 16-251B reference script did not compile | M
 
 - Attempt 2 — Windows run 57 exposed `alco_16_251b_native(602): error R0030: Port not found` at `backflow_atmospheric_mixing`. A source-version audit found that the supplied model targets Engine Simulator v0.1.14a, where this exhaust input exists, while CI reconstructs pinned commit `56725cc` (`v0.1.11a-6-g56725cc`), where it does not. Deleting the valid model input is rejected. The root cause is reclassified from MR configuration to baseline API compatibility. The new strategy ports the missing v0.1.14a input through readable MR/native files and applies it only to real pressure-driven atmospheric backflow; no ALCO calibration or turbo topology changes are made. Any further failure with the same signature must not be repaired by another MR edit.
 
+## Gate 6 incident: 16-251B script execution
+
+Failure signature: `runtime setup | compiled 16-251B script produced no engine | interpreter execution layer`
+
+- Attempt 1 — Windows run 58 passed reconstruction, compiled and linked the scoped target, and the 16-251B script passed compilation after the v0.1.14a backflow input was restored. Both tests then stopped in under one second because interpreter execution returned no engine. This is not the prior `R0030` signature. The existing compiler discarded the runtime error string, so the next commit changes only diagnostics: append Piranha's existing runtime error to `error_log.log` and include it in the Gate 6 failure. No MR, physics, topology or calibration value is changed.
+
 ## Logging rule
 
 For each future repeated failure, record:

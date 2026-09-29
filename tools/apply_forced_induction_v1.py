@@ -31,6 +31,7 @@ EXPECTED_BASELINE = {
     "src/piston_engine_simulator.cpp": "daab65c2ee3006ca97afdffd1ef97e5ad388524282ad2c74f93d4d3299592e72",
     "scripting/include/engine_node.h": "14fc19f2dc1dc1a53053366081d3fae4f57ab0bed872c693378204b6f5a0d536",
     "scripting/include/exhaust_system_node.h": "7ae7e4bf9d5e8aa66defff9031d62a925791b29c5c949e3a0d6542aa61cfd690",
+    "scripting/src/compiler.cpp": "71314012594c46ee8b6151abdf8170cec88ed1cb1d5a2dcbc7bf95a17bbeed3e",
     "es/objects/objects.mr": "7b371b5fc5e2acf80e64d40a367fc0145b10239d497ae0b32392f398d6a40bea",
     "test/runtime_engine_smoke.cpp": "84e9e4027ef24029577979c41612165ce4811856dafd4a9b1acc924c72e32152",
 }
@@ -86,6 +87,10 @@ REQUIRED_POSTCONDITIONS = {
         'addInput("backflow_atmospheric_mixing"',
         'addInput("turbo_scroll_index"',
     ],
+    "scripting/src/compiler.cpp": [
+        "Runtime execution failed",
+        "m_program.getRuntimeError()",
+    ],
     "es/objects/objects.mr": [
         "input backflow_atmospheric_mixing: 0.0",
         "backflow_atmospheric_mixing: backflow_atmospheric_mixing",
@@ -107,6 +112,7 @@ REQUIRED_POSTCONDITIONS = {
         "loadedCausalChain(",
         "stableRelease(",
         "GATE6_FAIL classification=",
+        "runtimeErrorDetails()",
     ],
     "test/forced_induction_invariant_tests.cpp": [
         "ForcedInductionDisabledPathInvariant",
