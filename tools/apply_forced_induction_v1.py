@@ -109,6 +109,7 @@ NEW_FILES = {
     "src/forced_induction_system.cpp",
     "assets/alco_16_251b_main.mr",
     "assets/engines/alco/alco_16_251b_native.mr",
+    "test/alco_251b_cylinder_probe.cpp",
     "test/alco_251b_governor_observability.cpp",
     "test/alco_251b_loaded_transient_validation.cpp",
     "test/alco_integration_validation.cpp",
@@ -236,6 +237,12 @@ REQUIRED_POSTCONDITIONS = {
         "V014aCompatibility.StockSiLoads",
         "engine-sim-governor-observability",
         "Alco251BObservability.Governor",
+        "engine-sim-cylinder-probe",
+    ],
+    "test/alco_251b_cylinder_probe.cpp": [
+        "class ProbeSimulator : public PistonEngineSimulator",
+        "struct ChamberPeek : CombustionChamber",
+        "sim->m_dyno.m_enabled = false;",
     ],
     "es/actions/actions.mr": [
         "private node _set_engine => __engine_sim__set_engine",

@@ -169,6 +169,62 @@ Findings:
 
 No repair was made.
 
+## Dynamometer constraint (upstream source read locally)
+
+`src/dynamometer.cpp` (pinned donor) is a one-row velocity constraint on the crank. The solver drives `omega_new = -v_bias`, with impulse limited to `limits * dt`:
+
+- `v_theta < 0` (forward, starter direction): `v_bias = +m_rotationSpeed`, so target `omega = -m_rotationSpeed`. Absorbing torque `+m_maxTorque` is always available; motoring torque `-m_maxTorque` only with `m_hold`.
+- `v_theta >= 0` (stationary or reverse): `v_bias = -m_rotationSpeed`, so target `omega = +m_rotationSpeed`. Absorbing torque `-m_maxTorque` is always available; motoring torque `+m_maxTorque` only with `m_hold`.
+
+`m_rotationSpeed` is therefore a magnitude (the GUI clamps it to `[dynoMinSpeed, dynoMaxSpeed] >= 0`), and the dyno holds it in whatever direction the crank is currently turning. `v_theta = 0` counts as the reverse branch. Both Gate 6 fixtures enable the hold at rest, before the starter runs:
+
+- Run 63 (`+600 rpm`): at rest the target is `+62.83 rad/s` (reverse), and the 20,000 lb-ft hold overpowers the 15,000 lb-ft starter. Once `v_theta > 0` the branch keeps the reverse target.
+- Run 64 and the user trace (`-600 rpm`): at `v_theta >= 0` the target is `-62.83` (forward). As soon as `v_theta < 0` the target flips to `+62.83`. The target always opposes the current motion, so the crank is locked at about 0 (±0.035 rad/s).
+
+A valid forward hold needs a positive `m_rotationSpeed`, engaged only after the crank is already turning forward. This is recorded as evidence only; no fixture change was made.
+
+## 16-251B per-cylinder probe (authorized diagnostic, local)
+
+Failure signature (harness only): `diagnostic | 16-251B per-cylinder combustion/blowdown evidence incomplete | test-harness layer`.
+
+- Attempt 1 / evidence only, authorized by the user. Adds `test/alco_251b_cylinder_probe.cpp` and target `engine-sim-cylinder-probe` (no CTest entry). The application tool lists the file and checks its tokens.
+  - How it observes: `ProbeSimulator` is built with the same four calls as `Engine::createSimulator` and overrides `simulateStep_()` with a verbatim copy of production plus read-only sampling. The CI event state is read through a derived-scope member pointer.
+  - `--check` result: the stock simulator and the probe matched to the bit after 8000 steps (`v_theta`, `theta`, summed cylinder pressure, burned fuel, turbo speed).
+  - Fixture: dyno disabled, speed control 0, starter for 3 s, then 10 s unaided.
+  - No production C++, MR or calibration change; production pins unchanged.
+  - Local outputs are in `C:\es\run\probe_251b*` and are not committed.
+
+Result (8 kHz, audio path skipped). The run ends at 321 rpm mean over the last second, below the 400 rpm target; the minimum after release was 252 rpm. Of 91.96 g injected, 42.90 g burned (46.7 %). Per bank, after release:
+
+- **R bank: 263/263 events lit, burned 98.2 %.** Injection starts at −24.0° from firing TDC (V/Vc 1.64, compressing, 716 K, 1.26 MPa). Peak is 1490 K / 3.8 MPa; cylinder pressure at exhaust-valve opening is 191–196 kPa.
+- **L bank: 0/263 lit, burned 0 %.** Injection starts at **+66.0°** after firing TDC (V/Vc 5.19, expanding, 395 K, 0.030 MPa). Trapped air is 0.043 mol against 0.336 mol on R. Pressure at exhaust-valve opening is about 10 kPa.
+- Measured firing TDCs: R1 at cycle 0°, L1 at 675°. Every L cylinder reaches TDC 45° before its R pin-mate, whereas the MR assumes it is 45° after. The ignition wires and the L cam lobes are both scheduled at +45°, so for the L bank injection and valve events are all 90° late (−24° + 90° = +66°).
+
+Cause: the MR's V-bank phase assumption (comment above `cylinder_bank bank_R/bank_L`) is inverted for this simulator's negative rotation. This is not a combustion-model defect.
+
+Result (b), blowdown on the R bank (R1, last 0.25 s):
+
+- The cylinder falls from about 300 to 106 kPa over about 70°.
+- The runner peaks at 105.2 kPa and scroll 0 at 105.5 kPa. Runner and scroll stay within 0.3 kPa of each other, so the primary-to-scroll restriction does not limit the pulse.
+- Over the last second:
+  - turbine mass flow averages 0.325 kg/s, about 10 % of the 3.2 kg/s design flow the auto-sized turbine uses (`turbo_turbine_flow_rate: 0`);
+  - turbine pressure ratio averages 1.016;
+  - post-turbine pressure is 101.33 kPa.
+- The L-bank scrolls average 100.5 kPa, below post-turbine pressure: the L cylinders draw gas back rather than supply blowdown.
+- The low turbine-inlet pressure therefore comes from three things together:
+  - low-load, low-speed operation (rack 0.24, 0.12 g per event, 321 rpm);
+  - only 8 of 16 cylinders firing;
+  - pre-turbine volumes drained by a turbine sized for full-load flow.
+
+No single restriction swallows the blowdown pulse.
+
+Cross-checks:
+
+- With `--production-audio-path` the events CSV is byte-identical, so the `lastValveLift[8]` overflow does not change the physics in this run.
+- At 4 kHz (GUI rate) the conclusions are the same: R 98.0 %, L 0 %, total 46.8 %.
+
+No repair was made. Proposed MR phasing repair (not authorized): put the L bank on the lagging side, so bank R is at +V/2 and bank L at −V/2, with the crank TDC reference moved to keep R1 at cycle 0°. This keeps the documented 1R-1L firing order and the existing cam and injection schedule. It would be confirmed with this probe (expected: L fTDC = R fTDC + 45°, L injection at −24°). The 25 N m turbo friction and the `lastValveLift[8]` write stay separate.
+
 ## Handover incident: transient worktree loss
 
 Failure signature: `handover | uncommitted temporary worktree unavailable on continuation | workspace persistence layer`

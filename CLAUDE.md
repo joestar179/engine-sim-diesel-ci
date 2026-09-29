@@ -420,6 +420,16 @@ corrects the Run 64 record: the held dyno locked the crank, and without it the
 (6-251D: 88 %), a turbo shaft stalled near 200 rpm by the 25 N m friction
 calibration, and an out-of-bounds audio array for 16 cylinders. No repair made.
 
+Local per-cylinder probe (`engine-sim-cylinder-probe`, test-only, bit-identical
+to the stock simulator): the R bank burns 98 % and the L bank 0 %. Every L
+cylinder reaches TDC 45 deg before its R pin-mate, but the MR schedules the L
+injection and cams 45 deg after it, so L injection lands at +66 deg ATDC. That
+is an MR V-bank phasing error, not the combustion model. The low turbine-inlet
+pressure has three causes together: idle load, only 8 cylinders firing, and a
+turbine sized for full-load flow. The dyno holds |m_rotationSpeed| in the
+current rotation direction, which explains Runs 63 and 64. The proposed repairs
+are unauthorized; details are in docs/FAILURE_ATTEMPT_LOG.md.
+
 The Windows environment used Visual Studio 2022 x64 RelWithDebInfo, CMake
 3.31.12, Boost 1.78, SDL2/SDL2_image through vcpkg, winflexbison3, Piranha
 enabled, Discord disabled and DTV disabled.

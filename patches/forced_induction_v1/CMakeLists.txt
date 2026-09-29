@@ -407,4 +407,11 @@ if (PIRANHA_ENABLED)
     set_tests_properties(Alco251BObservability.Governor PROPERTIES
         WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
         LABELS "Alco251BObservability")
+
+    # Diagnostic tool only (no CTest entry): per-cylinder combustion and
+    # exhaust-blowdown probe for the 16-251B.
+    add_executable(engine-sim-cylinder-probe
+        test/alco_251b_cylinder_probe.cpp)
+    target_link_libraries(engine-sim-cylinder-probe
+        engine-sim engine-sim-script-interpreter)
 endif ()
