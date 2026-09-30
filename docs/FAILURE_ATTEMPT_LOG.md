@@ -399,6 +399,31 @@ Share of total power below 80 Hz, 16-251B:
 
 Conclusion: the turbo tone and the level control eliminate the low end under load. Without the turbo, the impulse response is the largest remaining factor, then air noise, then the derivative mix. No MR, calibration or code change was made; the user asked for the check first.
 
+## Loud high-frequency overlay while firing (diagnostic only, no change made)
+
+User observation (no-turbo 16-251B in the GUI): without dyno hold, the ignition display shows cylinders lighting and a very loud high-frequency sound covers the audio. With hold on, the display is blank and the engine sounds much closer to reality.
+
+- **Telemetry (075812):** without hold the engine fires (rack ~0.06 at idle, 2.6 g/s, peak cylinder pressure 3.8 MPa). With hold at 400–1000 rpm the rack is 0 and no fuel burns; the dyno motors the engine (−63 kW at 400 rpm, −275 kW at 1000 rpm). Hold therefore removes combustion, and with it the procedural combustion excitation.
+- **Source:** `ProceduralDieselAudio` adds `combustion_audio_gain × mean cylinder pressure-rise rate` to every exhaust channel. The rate is the peak dP/dt per step while `reactFuel` releases fuel chunks, so the input is a click train at firing frequency. Unlike the exhaust term, it is not scaled by `audio_volume / cylinders / length²`, so at 0.0025 it exceeds the exhaust signal by roughly 50 dB (order-of-magnitude estimate).
+- **Measured:** offline renders, no-turbo 16-251B, gain sweep; WAVs in `C:\es\run\renders\combustion_gain`. Share of the 320–1280 Hz band at full command:
+
+| Gain | 320–1280 Hz share |
+|---|---|
+| 0.0025 (current) | −3.8 dB |
+| 2.5e-4 | −4.0 dB |
+| 1e-4 | −4.5 dB |
+| 3e-5 | −7.6 dB |
+| 1e-5 | −13.4 dB |
+| 3e-6 | −21.3 dB |
+| 0 | −25.9 dB |
+
+  At 0.0025 the excitation also displaces about 4 dB from the 20–80 Hz band through the level control. The 6-251D uses the same 0.0025.
+
+Proposal (not applied):
+
+- Set the 16-251B `combustion_audio_gain` to about 1e-5 to 3e-5, chosen by ear from the renders.
+- Longer term, make the combustion excitation band-limited and scaled consistently with the exhaust term, as part of the audio redesign.
+
 ## Handover incident: transient worktree loss
 
 Failure signature: `handover | uncommitted temporary worktree unavailable on continuation | workspace persistence layer`
