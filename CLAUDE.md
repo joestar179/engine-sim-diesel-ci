@@ -56,7 +56,7 @@ Open issues (highest impact first):
    power and sound, including the stock spark-ignition engines.
 4. **Sound:** low end weak with the current 16-251B MR settings (impulse
    response `minimal_muffling_01`, `hf_gain` 0.122, `noise` 1.0); A/B renders in
-   `C:\esunenders\lf_ab`. Gas model uses gamma 1.40 for all gas (hot
+   `C:\es\run\renders\lf_ab`. Gas model uses gamma 1.40 for all gas (hot
    combustion gas ~1.28-1.33): likely cause of the too-high efficiency and low
    boost (proposed core fix).
 5. **Gate 6B** shadow governor predates `k_p`, `droop` and the smoke limiter.
