@@ -88,7 +88,7 @@ void Synthesizer::initialize(const Parameters &p) {
     // attenuate least in the ~1-3 kHz region (Austen & Priede), so the
     // radiated knock is shaped by a broad band-pass centred there.
     m_layers = LayerState{};
-    m_layers.structuralBand.setBandPass(1600.0f, 0.6f, m_audioSampleRate);
+    m_layers.structuralBand.setBandPass(1600.0f, 1.5f, m_audioSampleRate);
 
     for (int i = 0; i < m_audioBufferSize; ++i) {
         m_audioBuffer.write(0);
@@ -422,8 +422,11 @@ float Synthesizer::renderLayers(int inputSample) {
     // envelope for the content above that rate, through the structural band.
     const float n = m_layers.white();
     const float envelope = std::max(0.0f, forceRate);
+    // The coherent force-rate transient (synchronous with each combustion
+    // event) dominates; a smaller noise share with the same envelope fills
+    // in content above the physics rate. The structure rings at the band.
     const float knock = m_audioParameters.combustionNoiseLevel
-        * m_layers.structuralBand.f(forceRate + envelope * n);
+        * m_layers.structuralBand.f(forceRate + 0.3f * envelope * n);
 
     // Turbocharger: narrow-band noise plus a tonal part at the blade-pass
     // frequency, generated at the audio rate (no imaging, no physics-rate
@@ -431,7 +434,7 @@ float Synthesizer::renderLayers(int inputSample) {
     float turbo = 0.0f;
     const float nyquistGuard = 0.45f * m_audioSampleRate;
     if (turboAmplitude > 0.0f && bladePass > 20.0f && bladePass < nyquistGuard) {
-        constexpr float TurboQ = 12.0f;
+        constexpr float TurboQ = 30.0f;
         m_layers.turboBand.setBandPass(bladePass, TurboQ, m_audioSampleRate);
         // Normalise the band-limited noise to unit RMS (equivalent noise
         // bandwidth of the 0 dB peak band-pass is (pi/2) * f / Q).
@@ -440,7 +443,12 @@ float Synthesizer::renderLayers(int inputSample) {
         const float noisePart = m_layers.turboBand.f(n) * norm;
         m_layers.turboPhase += 2.0 * 3.14159265358979 * bladePass / m_audioSampleRate;
         if (m_layers.turboPhase > 6.283185307179586) m_layers.turboPhase -= 6.283185307179586;
-        const float tone = 1.4142136f * static_cast<float>(std::sin(m_layers.turboPhase));
+        // Blade-pass tone plus its second harmonic (at 0.35 amplitude),
+        // normalised to unit RMS; the harmonic is dropped near Nyquist.
+        const bool harmonic = 2.0f * bladePass < nyquistGuard;
+        const float h2 = harmonic ? 0.35f : 0.0f;
+        const float tone = 1.4142136f / std::sqrt(1.0f + h2 * h2) * static_cast<float>(
+            std::sin(m_layers.turboPhase) + h2 * std::sin(2.0 * m_layers.turboPhase));
         const float tonal = m_audioParameters.turboTonalFraction;
         turbo = m_audioParameters.turboSoundLevel * turboAmplitude
             * ((1.0f - tonal) * noisePart + tonal * tone);

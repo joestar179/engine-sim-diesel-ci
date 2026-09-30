@@ -54,8 +54,11 @@ Open issues (highest impact first):
 3. **Stock-engine impact is not assessed.** The enthalpy-transport fix in
    `GasSystem::flow` is physically correct but changes every engine's breathing,
    power and sound, including the stock spark-ignition engines.
-4. **Turbo sound level** not rechecked since it follows turbine + compressor
-   power.
+4. **Sound:** low end weak with the current 16-251B MR settings (impulse
+   response `minimal_muffling_01`, `hf_gain` 0.122, `noise` 1.0); A/B renders in
+   `C:\esunenders\lf_ab`. Gas model uses gamma 1.40 for all gas (hot
+   combustion gas ~1.28-1.33): likely cause of the too-high efficiency and low
+   boost (proposed core fix).
 5. **Gate 6B** shadow governor predates `k_p`, `droop` and the smoke limiter.
 6. SI engines have no structure-borne knock layer (no pressure-rise rate).
 
@@ -71,7 +74,8 @@ Parameters:
 | Governor droop | 0.03 | A | Typical 3–5 %; the ALCO governor may be isochronous |
 | Turbo friction law split | 0.3 const / 0.7 ∝ speed | A (fitted) | Keeps the documented 6-251D 90–180 s rundown |
 | Turbo sound source | √(turbine + compressor power) | A | Modelling choice |
-| Knock band / turbo Q / tonal share | 1.6 kHz Q 0.6 / Q 12 / 25 % | A | Qualitative (Austen & Priede) |
+| Knock band / noise share | 1.6 kHz Q 1.5 / 0.3 | A | Qualitative (Austen & Priede); transient-dominant after user report |
+| Turbo tone: tonal share / band Q / 2nd harmonic | 0.8 / 30 / 0.35 | A | Blade-pass tone dominant (user: "breeze, not whistle") |
 | Knock / turbo global levels | 4e-4 / 15 | D | One reference render each |
 | 16-251B fuel stop | 0.84 g | D | 720A rated SFC 168 g/BHP.h (IRIMEE) x 2400 BHP (MI-1016B) |
 | Fuel energy input | 45.5 kJ/g x 0.88 = 40.0 kJ/g | A | Diesel LHV ~42.6-43 kJ/g; sim SFC 148 vs documented 168 g/BHP.h |

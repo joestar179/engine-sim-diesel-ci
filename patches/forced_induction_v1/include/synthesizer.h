@@ -42,8 +42,9 @@ class Synthesizer {
             // Turbocharger: level per sqrt(W) of turbine + compressor power.
             float turboSoundLevel = 15.0f;
             // Fraction of the turbo layer that is tonal (the rest is narrow-band
-            // noise around the blade-pass frequency).
-            float turboTonalFraction = 0.25f;
+            // noise around the blade-pass frequency). Turbocharger noise is
+            // dominated by the blade-pass tone and its harmonics.
+            float turboTonalFraction = 0.8f;
         };
 
         // Auxiliary input channels written after the exhaust channels when
