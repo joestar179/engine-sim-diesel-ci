@@ -483,6 +483,28 @@ Open:
 - Turbo spool is slow under load (1.5 kg m^2 inertia, 25 N m friction).
 - Turbo sound quality is poor (user-reported; next topic).
 - The Gate 6B shadow governor predates `k_p`.
+
+Third batch 2026-09-30 (root causes; details in docs/FAILURE_ATTEMPT_LOG.md):
+
+- Flicker was the gauge needle integrator. Symplectic Euler with one step per
+  frame went unstable below ~23 FPS. It is now sub-stepped at 1/120 s, and the
+  earlier display smoothing is removed.
+- Low FPS and stutter: this CPU (i7-7700HQ) could not run the engines in real
+  time.
+  - Identical-IR exhaust channels now share one convolution (16-251B audio
+    thread 160 % -> 40 %).
+  - Simulation frequency: 16-251B 3 kHz, 6-251D 10 kHz. Physics ~66-69 %, and
+    loaded results are unchanged.
+- Tools: `engine-sim-realtime-bench` (CPU budget per engine) and
+  `engine-sim-audio-render` (offline WAV, no underruns; renders are in
+  `C:\es\run\renders`).
+- Turbo-off variants: `assets/alco_16_251b_no_turbo_main.mr` and
+  `assets/alco_6_251d_no_turbo_main.mr` (MR input `turbo_enabled`; node
+  `main_no_turbo`).
+- Turbo sound (next topic): a pure sine at the physics rate. It masks the
+  engine through the level control and images at fs +- f. Proposed redesign:
+  generate the whine in the synthesizer at 44.1 kHz and mix it after the
+  level control.
 - Loading the engine in the GUI needs the speed control raised while the dyno
   holds; dyno hold alone only motors it.
 

@@ -416,4 +416,16 @@ if (PIRANHA_ENABLED)
         test/alco_251b_cylinder_probe.cpp)
     target_link_libraries(engine-sim-cylinder-probe
         engine-sim engine-sim-script-interpreter)
+
+    # Diagnostic tool only: real-time CPU budget of physics and audio thread.
+    add_executable(engine-sim-realtime-bench
+        test/realtime_budget_bench.cpp)
+    target_link_libraries(engine-sim-realtime-bench
+        engine-sim engine-sim-script-interpreter)
+
+    # Diagnostic tool only: offline (underrun-free) audio render to WAV.
+    add_executable(engine-sim-audio-render
+        test/audio_render.cpp)
+    target_link_libraries(engine-sim-audio-render
+        engine-sim engine-sim-script-interpreter)
 endif ()

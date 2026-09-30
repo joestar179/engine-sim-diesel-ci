@@ -36,10 +36,12 @@ EXPECTED_BASELINE = {
     "test/runtime_engine_smoke.cpp": "84e9e4027ef24029577979c41612165ce4811856dafd4a9b1acc924c72e32152",
     "include/engine_sim_application.h": "fb011cea2921d8355156a813d0e6fccfb67b0fff04c72fbc9a7658bdb662d8ef",
     "src/engine_sim_application.cpp": "50ea701ce25b010dc20a971a1aa3273a0b26bf3f837d8f504da00725229afec2",    "include/fuel_rack_governor_model.h": "dab343ade745cf38672b10cfb35c0eee0feb5c404b596687ae5c081a96a945c3",
+    "src/gauge.cpp": "74ecf75be7758d3f3e12894d2f1ea2f32fa7008e738e790637289c7b9f6afe52",
+    "src/synthesizer.cpp": "8ec3421e98b32f811cb3fcc8453ed30de77fef1fe4fc6a2fcb69421175ae34e8",
+    "include/synthesizer.h": "a6320d59eb2f5cebf12ccea40fc73c9ba9f80944aa51fa236553a840b6353e54",
+    "assets/engines/alco/alco_251d_diesel_turbo.mr": "c007e5d953a64a9f35524e4e86910e4a52d1c787ad1dfef89679677a50e0d0da",
     "src/fuel_rack_governor_model.cpp": "53278710f70970d78e28f4edc958ceaf146cce888d425ee8f2534390eacf2b41",
     "scripting/include/throttle_nodes.h": "417bf240163ddf3d6498aa047f412ef91759f648ca075a9f6e509c6e6c355c9b",
-    "src/right_gauge_cluster.cpp": "11036be12489868c0fc0d309bf2e70a1ae6b073b9d1b6139845d9d3ddf25a197",
-    "include/right_gauge_cluster.h": "d61ed70c7f53e00fcf5cad45a97557de693b95456583d63a13ed7d94ab03c1b0",
 }
 
 # The public v0.1.14a script library uses engine_channel at the three native
@@ -92,7 +94,7 @@ public node set_engine {
 # may add tests and build wiring but must not alter the code under test.
 PINNED_PRODUCTION_TEMPLATES = {
     "assets/alco_16_251b_main.mr": "de603c279f374f62bd5b47ef0edebbabfbe083b01bdc2ab057620ff1af4c61f4",
-    "assets/engines/alco/alco_16_251b_native.mr": "9da5cb4e450b235855373543b3234974f33929ffa7b29b36d5178846eeabf3ae",
+    "assets/engines/alco/alco_16_251b_native.mr": "44467dc0b251104149c55e820652c3aee6dc6c58cdf190bdfdf9e08ceb34c71e",
     "es/objects/objects.mr": "5cfcf48a6873de4d3b3c0694765569f3c2225ea1c220ccad58e81e811ec04da8",
     "include/combustion_chamber.h": "907f66a94631211068bdcd1834d76188576df4dc92564be947685131e1a67017",
     "include/engine.h": "999e6bc481c2c0db03131a81caa90f213c0146c4b12783c7e3c75df876c4ab73",
@@ -117,11 +119,17 @@ PINNED_PRODUCTION_TEMPLATES = {
     "include/fuel_rack_governor_model.h": "7b19852157d41f02df3f125801a13ec1f2bcd8fda219be81135657d32fa6cd27",
     "src/fuel_rack_governor_model.cpp": "cf7956417510ed17634a6a957a0f3ccf0fb04f4f221d049bcc1fe5e2f9cfea73",
     "scripting/include/throttle_nodes.h": "37df476feece66b6df48b40bd27c19d531a4c061829a555432f6a4841b325987",
-    "src/right_gauge_cluster.cpp": "4a6d911650e9616bc74ab3a88f9e3ca3695a2f731ba276d5e0eaedc49b133fd1",
-    "include/right_gauge_cluster.h": "13256778326143811a6d367c6fe48a2388a45198966baff4d9c61023ff135641",
+    "src/gauge.cpp": "423436a81838a47929bb6955275716451be952455bbe2dde774e6b27193be797",
+    "src/synthesizer.cpp": "1d458d0046d59ccacb4e12fa3d4ea15f3926e24a01c3c45314dbb38935253486",
+    "include/synthesizer.h": "d3a136ad8a563d419e1dc26888d67b82b40bc51ed4aa09429ea5e04b1c83ba16",
+    "assets/engines/alco/alco_251d_diesel_turbo.mr": "03221a4a6247c8cdea1c4cbad8bf3921ff5382a4b01d8fa7a3107fbe4eee7ce2",
 }
 
 NEW_FILES = {
+    "assets/alco_16_251b_no_turbo_main.mr",
+    "assets/alco_6_251d_no_turbo_main.mr",
+    "test/realtime_budget_bench.cpp",
+    "test/audio_render.cpp",
     "include/telemetry_log.h",
     "src/telemetry_log.cpp",
     "include/forced_induction_system.h",
@@ -195,10 +203,13 @@ REQUIRED_POSTCONDITIONS = {
         "tdc: 90 * units.deg + (bank_angle / 2.0)",
         "k_p: 3.0,",
         "crank_rack_limit: 0.35",
+        "simulation_frequency: 3000,",
+        "public node main_no_turbo {",
         "turbo_inlet_channel_count: 4",
         "turbo_scroll_index: 0",
         "turbo_scroll_index: 3",
-        "aftercooler_enabled: true",
+        "aftercooler_enabled: turbo_enabled",
+        "input turbo_enabled: true;",
         "exhaust_system: exhaust_r_a",
         "exhaust_system: exhaust_l_b",
     ],
@@ -253,6 +264,8 @@ REQUIRED_POSTCONDITIONS = {
         "GATE5_FAIL classification=",
     ],
     "CMakeLists.txt": [
+        "engine-sim-realtime-bench",
+        "engine-sim-audio-render",
         "engine-sim-integration-validation",
         "AlcoIntegrationValidation.NullNaturallyAspiratedSi",
         "AlcoIntegrationValidation.AftercoolerActualCharge",
@@ -272,8 +285,15 @@ REQUIRED_POSTCONDITIONS = {
         'addInput("k_p", &m_parameters.k_p);',
         'addInput("crank_rack_limit", &m_parameters.crankRackLimit);',
     ],
-    "src/right_gauge_cluster.cpp": [
-        "void RightGaugeCluster::updateAirReadings(float dt)",
+    "src/gauge.cpp": [
+        "constexpr float MaxNeedleStep = 1.0f / 120.0f;",
+    ],
+    "src/synthesizer.cpp": [
+        "m_filters[index].convolutionOwner = j;",
+    ],
+    "assets/engines/alco/alco_251d_diesel_turbo.mr": [
+        "simulation_frequency: 10000,",
+        "public node main_no_turbo {",
     ],
     "src/telemetry_log.cpp": [
         "void TelemetryLog::writeSnapshot()",

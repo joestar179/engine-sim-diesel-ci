@@ -1,0 +1,563 @@
+import "engine_sim.mr"
+
+units units()
+constants constants()
+impulse_response_library ir_lib()
+
+/*
+    ALCO 6-251D inline-six - native diesel/turbo fork validation engine
+    ------------------------------------------------------------------
+    This file targets the native diesel/turbo extension ported onto the classic
+    Community Edition-compatible DirectX11 Engine Simulator host. Unlike the earlier v0.1.14a surrogate, fuel is injected
+    directly into an air-only cylinder and the compressor boundary is driven by a
+    simulated exhaust-powered turbo shaft.
+
+    HARD / DOCUMENTED ANCHORS
+      - 4-stroke, turbocharged and aftercooled
+      - 6 cylinders, vertical inline
+      - bore 9.0 in; stroke 10.5 in; 668 in^3/cyl (~65.7 L total)
+      - compression ratio 12.5:1
+      - firing order 1-4-2-6-3-5
+      - max engine speed 1,100 rpm in WDS6 / 6-251D application
+      - ALCO 350B turbocharger
+      - max turbo rotor speed 24,000-24,500 rpm
+      - governor ladder 400/500/600/700/800/900/1000/1100 rpm
+
+    FAMILY / RELATED-251 ANCHORS
+      - mechanical pump-injector fuel system
+      - injection timing in the high-20-degree-BTDC region on documented 251 variants
+
+    CALIBRATION VALUES (NOT CLAIMED FACTORY DATA)
+      - max fuel mass/cycle, exact 6-251D injection-rate shape
+      - compressor/turbine efficiencies and compressor pressure-ratio curve
+      - aftercooler effectiveness, compressor blade count
+      - head flow, cam profile, rotating masses and acoustic gains
+
+    NO ALCO-SPECIFIC SOUND FILES ARE USED. Exhaust, diesel combustion excitation
+    and turbo tone/noise are generated from simulation state.
+*/
+
+private node alco_251d_wires {
+    output wire1: ignition_wire();
+    output wire2: ignition_wire();
+    output wire3: ignition_wire();
+    output wire4: ignition_wire();
+    output wire5: ignition_wire();
+    output wire6: ignition_wire();
+}
+
+label cycle(2 * 360 * units.deg)
+
+/* Diesel combustion-event scheduler.
+   Engine Simulator calls this an ignition module; no spark plug is implied. */
+public node alco_251d_combustion_scheduler {
+    input wires;
+    input timing_curve;
+    input rev_limit: 1125 * units.rpm;
+
+    alias output __out:
+        ignition_module(
+            timing_curve: timing_curve,
+            rev_limit: rev_limit,
+            limiter_duration: 0.25
+        )
+            // ALCO 6-251D firing order: 1 - 4 - 2 - 6 - 3 - 5
+            .connect_wire(wires.wire1, (0.0 / 6.0) * cycle)
+            .connect_wire(wires.wire4, (1.0 / 6.0) * cycle)
+            .connect_wire(wires.wire2, (2.0 / 6.0) * cycle)
+            .connect_wire(wires.wire6, (3.0 / 6.0) * cycle)
+            .connect_wire(wires.wire3, (4.0 / 6.0) * cycle)
+            .connect_wire(wires.wire5, (5.0 / 6.0) * cycle);
+}
+
+public node alco_251d_camshaft_builder {
+    input intake_lobe_profile;
+    input exhaust_lobe_profile;
+
+    // CALIBRATION: centerlines are estimated, not claimed ALCO factory data.
+    input intake_lobe_center: 112 * units.deg;
+    input exhaust_lobe_center: 112 * units.deg;
+    input advance: 0 * units.deg;
+    input base_radius: 2.25 * units.inch;
+
+    output intake_cam: _intake_cam;
+    output exhaust_cam: _exhaust_cam;
+
+    camshaft_parameters params(
+        advance: advance,
+        base_radius: base_radius
+    )
+
+    camshaft _intake_cam(params, lobe_profile: intake_lobe_profile)
+    camshaft _exhaust_cam(params, lobe_profile: exhaust_lobe_profile)
+
+    // One combustion event every 120 crank degrees on a four-stroke I6.
+    label rot(2 * (360 / 6.0) * units.deg)
+    label rot360(360 * units.deg)
+
+    // Cylinder firing phases for 1-4-2-6-3-5:
+    // cyl 1 = phase 0, cyl 2 = phase 2, cyl 3 = phase 4,
+    // cyl 4 = phase 1, cyl 5 = phase 5, cyl 6 = phase 3.
+    _exhaust_cam
+        .add_lobe((rot360 - exhaust_lobe_center) + 0 * rot)
+        .add_lobe((rot360 - exhaust_lobe_center) + 2 * rot)
+        .add_lobe((rot360 - exhaust_lobe_center) + 4 * rot)
+        .add_lobe((rot360 - exhaust_lobe_center) + 1 * rot)
+        .add_lobe((rot360 - exhaust_lobe_center) + 5 * rot)
+        .add_lobe((rot360 - exhaust_lobe_center) + 3 * rot)
+
+    _intake_cam
+        .add_lobe(rot360 + intake_lobe_center + 0 * rot)
+        .add_lobe(rot360 + intake_lobe_center + 2 * rot)
+        .add_lobe(rot360 + intake_lobe_center + 4 * rot)
+        .add_lobe(rot360 + intake_lobe_center + 1 * rot)
+        .add_lobe(rot360 + intake_lobe_center + 5 * rot)
+        .add_lobe(rot360 + intake_lobe_center + 3 * rot)
+}
+
+private node alco_251d_head {
+    input intake_camshaft;
+    input exhaust_camshaft;
+
+    // 668 in^3 swept volume and 12.5:1 CR imply ~58.1 in^3 / 952 cc clearance.
+    input chamber_volume: 952 * units.cc;
+
+    // CALIBRATION: runner dimensions approximate the very large 4-valve head.
+    input intake_runner_volume: 3.5 * units.L;
+    input intake_runner_cross_section_area: 80 * units.cm2;
+    input exhaust_runner_volume: 3.0 * units.L;
+    input exhaust_runner_cross_section_area: 70 * units.cm2;
+
+    input flow_attenuation: 1.0;
+    input lift_scale: 1.0;
+    alias output __out: head;
+
+    /* CALIBRATION FLOW CURVES.
+       These are deliberately broad, low-speed large-diesel curves, NOT measured
+       251-D bench-flow data. Values follow Engine Simulator's 28-in-H2O flow
+       convention used by the bundled engine examples. */
+    function intake_flow(50 * units.thou)
+    intake_flow
+        .add_flow_sample(0   * lift_scale, 0    * flow_attenuation)
+        .add_flow_sample(50  * lift_scale, 120  * flow_attenuation)
+        .add_flow_sample(100 * lift_scale, 235  * flow_attenuation)
+        .add_flow_sample(150 * lift_scale, 345  * flow_attenuation)
+        .add_flow_sample(200 * lift_scale, 455  * flow_attenuation)
+        .add_flow_sample(250 * lift_scale, 555  * flow_attenuation)
+        .add_flow_sample(300 * lift_scale, 650  * flow_attenuation)
+        .add_flow_sample(350 * lift_scale, 735  * flow_attenuation)
+        .add_flow_sample(400 * lift_scale, 810  * flow_attenuation)
+        .add_flow_sample(450 * lift_scale, 875  * flow_attenuation)
+        .add_flow_sample(500 * lift_scale, 930  * flow_attenuation)
+        .add_flow_sample(550 * lift_scale, 975  * flow_attenuation)
+        .add_flow_sample(600 * lift_scale, 1015 * flow_attenuation)
+        .add_flow_sample(650 * lift_scale, 1045 * flow_attenuation)
+        .add_flow_sample(700 * lift_scale, 1070 * flow_attenuation)
+        .add_flow_sample(750 * lift_scale, 1090 * flow_attenuation)
+        .add_flow_sample(800 * lift_scale, 1105 * flow_attenuation)
+        .add_flow_sample(850 * lift_scale, 1115 * flow_attenuation)
+
+    function exhaust_flow(50 * units.thou)
+    exhaust_flow
+        .add_flow_sample(0   * lift_scale, 0   * flow_attenuation)
+        .add_flow_sample(50  * lift_scale, 105 * flow_attenuation)
+        .add_flow_sample(100 * lift_scale, 205 * flow_attenuation)
+        .add_flow_sample(150 * lift_scale, 300 * flow_attenuation)
+        .add_flow_sample(200 * lift_scale, 390 * flow_attenuation)
+        .add_flow_sample(250 * lift_scale, 475 * flow_attenuation)
+        .add_flow_sample(300 * lift_scale, 550 * flow_attenuation)
+        .add_flow_sample(350 * lift_scale, 620 * flow_attenuation)
+        .add_flow_sample(400 * lift_scale, 680 * flow_attenuation)
+        .add_flow_sample(450 * lift_scale, 730 * flow_attenuation)
+        .add_flow_sample(500 * lift_scale, 775 * flow_attenuation)
+        .add_flow_sample(550 * lift_scale, 810 * flow_attenuation)
+        .add_flow_sample(600 * lift_scale, 840 * flow_attenuation)
+        .add_flow_sample(650 * lift_scale, 865 * flow_attenuation)
+        .add_flow_sample(700 * lift_scale, 885 * flow_attenuation)
+        .add_flow_sample(750 * lift_scale, 900 * flow_attenuation)
+        .add_flow_sample(800 * lift_scale, 910 * flow_attenuation)
+        .add_flow_sample(850 * lift_scale, 915 * flow_attenuation)
+
+    generic_cylinder_head head(
+        chamber_volume: chamber_volume,
+        intake_runner_volume: intake_runner_volume,
+        intake_runner_cross_section_area: intake_runner_cross_section_area,
+        exhaust_runner_volume: exhaust_runner_volume,
+        exhaust_runner_cross_section_area: exhaust_runner_cross_section_area,
+        intake_port_flow: intake_flow,
+        exhaust_port_flow: exhaust_flow,
+        valvetrain: standard_valvetrain(
+            intake_camshaft: intake_camshaft,
+            exhaust_camshaft: exhaust_camshaft
+        )
+    )
+}
+
+public node alco_251d_i6 {
+    // Comparison switch: false removes the TurboGroup entirely (original
+    // naturally aspirated runner -> exhaust and atmosphere -> intake paths).
+    input turbo_enabled: true;
+    // Kept short: the GUI draws the name and the displacement on one line.
+    input engine_name: "ALCO 6-251D I6";
+    alias output __out: engine;
+
+    alco_251d_wires wires()
+
+    /* Approximate diesel chemistry. In this simulator molecular_afr is NOT
+       the usual mass AFR; it is the stoichiometric O2/fuel molar ratio.
+       C12H23 requires ~17.75 O2 molecules per fuel molecule. */
+    fuel diesel_fuel(
+        name: "Diesel No. 2 [C12H23 approximation]",
+        molecular_mass: 167.3 * units.g,
+        energy_density: 45.5 * units.kJ / units.g,
+        density: 0.84 * units.kg / units.L,
+        molecular_afr: 17.75,
+        max_burning_efficiency: 0.88,
+        burning_efficiency_randomness: 0.08,
+        low_efficiency_attenuation: 0.75,
+        max_turbulence_effect: 2.0,
+        max_dilution_effect: 5.0
+    )
+
+    engine engine(
+        name: engine_name,
+        starter_speed: 150 * units.rpm,
+        starter_torque: 3000 * units.lb_ft,
+        redline: 1150 * units.rpm,
+        dyno_min_speed: 400 * units.rpm,
+        dyno_max_speed: 1100 * units.rpm,
+        dyno_hold_step: 100 * units.rpm,
+        fuel: diesel_fuel,
+
+        // Native compression-ignition path. Fuel quantity is per cylinder event.
+        compression_ignition: true,
+        max_fuel_mass_per_cycle: 1.05 * units.g,
+        injection_duration: 22 * units.deg,
+        ignition_delay: 4 * units.deg,
+        combustion_duration: 48 * units.deg,
+        premixed_burn_fraction: 0.18,
+        // Generic compression-ignition gate; exact cold-start threshold is calibration.
+        autoignition_temperature: 550 * units.K,
+        autoignition_pressure: 1.0 * units.MPa,
+
+        // ALCO 350B: 24,000-24,500 rpm max is documented. Shaft inertia and
+        // friction are calibrated so free rundown is roughly 90-100 s from max,
+        // consistent with the documented 90-180 s turbo rundown test band.
+        turbo_enabled: turbo_enabled,
+        turbo_shaft_inertia: 0.75 * units.kg * units.m * units.m,
+        turbo_friction_torque: 20 * units.Nm,
+        turbo_max_speed: 24500 * units.rpm,
+        turbo_max_pressure_ratio: 2.20,
+        compressor_efficiency: 0.70,
+        turbine_efficiency: 0.68,
+        aftercooler_effectiveness: 0.65,
+        turbo_design_mass_flow: 1.45 * units.kg / units.sec,
+
+        // GENERIC FORCED-INDUCTION INSTALLATION GEOMETRY. These are
+        // CALIBRATION/estimated values until 251-D/350B dimensions are sourced.
+        // The existing 110-inch ExhaustSystem remains downstream of the turbine.
+        turbo_pre_turbine_volume: 20 * units.L,
+        turbo_pre_turbine_area: circle_area(8 * units.inch),
+        turbo_inlet_channel_count: 1,
+        turbo_compressor_inlet_volume: 20 * units.L,
+        turbo_compressor_discharge_volume: 15 * units.L,
+        turbo_charge_plenum_volume: 50 * units.L,
+        turbo_charge_area: 400 * units.cm2,
+        aftercooler_enabled: turbo_enabled,
+        // Zero asks the generic model to derive stable flow capacities from
+        // turbo_design_mass_flow rather than imposing arbitrary airflow.
+        turbo_inlet_flow_rate: 0.0,
+        turbo_passive_compressor_flow_rate: 0.0,
+        turbo_cooler_flow_rate: 0.0,
+        wastegate_enabled: false,
+        wastegate_flow_rate: 0.0,
+        wastegate_position: 0.0,
+        compressor_bypass_enabled: false,
+        compressor_bypass_flow_rate: 0.0,
+        compressor_bypass_position: 0.0,
+        compressor_bypass_recirculates: true,
+        vgt_enabled: false,
+        vgt_position: 1.0,
+        vgt_min_flow_factor: 0.25,
+        compressor_blade_count: 12,
+
+        // Procedural audio only. Full low-speed exhaust audibility by 80 rpm;
+        // combustion excitation derives from dP/dt and turbo sound from shaft
+        // speed + compressor work. Gains are acoustic calibration parameters.
+        audio_low_speed_full_strength: 80 * units.rpm,
+        audio_low_speed_exponent: 1.0,
+        combustion_audio_gain: 0.0025,
+        turbo_tone_audio_gain: 6000.0,
+        turbo_noise_audio_gain: 2500.0,
+
+        // Locomotive-style speed governor. The cab control now commands
+        // an engine-speed setpoint rather than directly opening a throttle.
+        // YDM4 / 6-251D range: idle/notch 1 = 400 rpm, notch 8 = 1100 rpm.
+        // Governor gains are simulator calibration values, not ALCO factory data.
+        throttle:
+            diesel_governor(
+                min_speed: 400 * units.rpm,
+                max_speed: 1100 * units.rpm,
+                min_v: -2.0,
+                max_v: 2.0,
+                k_s: 0.008,
+                k_d: 120.0,
+                gamma: 1.5,
+                starting_rack: 0.20
+            ),
+        /*
+            Real-time budget (engine-sim-realtime-bench, i7-7700HQ): 20 kHz
+            needed 130-177 % of one core (GUI at ~15 FPS, below real time).
+            10 kHz, the stock Engine Simulator default, needs ~69 % and gives
+            the same loaded result (fuel 383.2 vs 383.1 g, 99.4 % burned). The
+            synthesizer low-passes its input at 1.9 kHz, so audio bandwidth is
+            unchanged.
+        */
+        simulation_frequency: 10000,
+        hf_gain: 0.002,
+        noise: 0.35,
+        jitter: 0.06
+    )
+
+    // HARD SPEC
+    label stroke(10.5 * units.inch)
+    label bore(9.0 * units.inch)
+
+    // CALIBRATION / FAMILY-GEOMETRY ESTIMATES
+    label rod_length(533 * units.mm)
+    label rod_mass(30 * units.kg)
+    label piston_mass(25 * units.kg)
+    label compression_height(5.0 * units.inch)
+    label crank_mass(1100 * units.kg)
+    label flywheel_mass(600 * units.kg)
+    label flywheel_radius(25 * units.inch)
+
+    label crank_moment(
+        disk_moment_of_inertia(mass: crank_mass, radius: stroke / 2)
+    )
+    label flywheel_moment(
+        disk_moment_of_inertia(mass: flywheel_mass, radius: flywheel_radius)
+    )
+    label accessory_moment(
+        disk_moment_of_inertia(mass: 250 * units.kg, radius: 10 * units.inch)
+    )
+
+    crankshaft c0(
+        throw: stroke / 2,
+        flywheel_mass: flywheel_mass,
+        mass: crank_mass,
+        friction_torque: 300 * units.lb_ft,
+        moment_of_inertia: crank_moment + flywheel_moment + accessory_moment,
+        position_x: 0.0,
+        position_y: 0.0,
+        tdc: constants.pi / 2
+    )
+
+    /* Crank-journal phase by cylinder.
+       Firing order 1-4-2-6-3-5 produces firing phases:
+       1=0, 4=120, 2=240, 6=360, 3=480, 5=600 deg.
+       Rod-journal angle is therefore assigned to the physical cylinder,
+       exactly as the bundled I6 examples do. */
+    rod_journal rj1(angle:   0 * units.deg)
+    rod_journal rj2(angle: 240 * units.deg)
+    rod_journal rj3(angle: 480 * units.deg)
+    rod_journal rj4(angle: 120 * units.deg)
+    rod_journal rj5(angle: 600 * units.deg)
+    rod_journal rj6(angle: 360 * units.deg)
+
+    c0
+        .add_rod_journal(rj1)
+        .add_rod_journal(rj2)
+        .add_rod_journal(rj3)
+        .add_rod_journal(rj4)
+        .add_rod_journal(rj5)
+        .add_rod_journal(rj6)
+
+    piston_parameters piston_params(
+        mass: piston_mass,
+        blowby: 0,
+        compression_height: compression_height,
+        wrist_pin_position: 0 * units.mm,
+        displacement: 0.0
+    )
+
+    connecting_rod_parameters rod_params(
+        mass: rod_mass,
+        moment_of_inertia: rod_moment_of_inertia(
+            mass: rod_mass,
+            length: rod_length
+        ),
+        center_of_mass: 0.0,
+        length: rod_length
+    )
+
+    cylinder_bank_parameters bank_params(
+        bore: bore,
+        deck_height: stroke / 2 + rod_length + compression_height,
+        display_depth: 1.0
+    )
+
+    /* Air-only intake. The engine core holds the plate fully open for CI
+       engines and dynamically supplies compressor outlet P/T to this boundary. */
+    intake intake(
+        plenum_volume: 60 * units.L,
+        plenum_cross_section_area: 350 * units.cm2,
+        intake_flow_rate: k_carb(10000),
+        runner_flow_rate: k_carb(2200),
+        runner_length: 28 * units.inch,
+        idle_flow_rate: 0,
+        idle_throttle_plate_position: 0.0,
+        throttle_gamma: 1.0,
+        molecular_afr: 17.75,
+        velocity_decay: 0.30
+    )
+
+    exhaust_system_parameters exhaust_params(
+        collector_cross_section_area: circle_area(8.0 * units.inch),
+        outlet_flow_rate: k_carb(4500),
+        primary_tube_length: 48 * units.inch,
+        primary_flow_rate: k_carb(2500),
+        velocity_decay: 0.40
+    )
+
+    exhaust_system exhaust(
+        exhaust_params,
+        length: 110 * units.inch,
+        audio_volume: 1.6,
+        impulse_response: ir_lib.minimal_muffling_01
+    )
+
+    cylinder_bank b0(bank_params, angle: 0)
+
+    // Slight primary-length variation prevents an unrealistically sterile tone.
+    b0
+        .add_cylinder(
+            piston: piston(piston_params, blowby: k_28inH2O(0.20)),
+            connecting_rod: connecting_rod(rod_params),
+            rod_journal: rj1,
+            intake: intake,
+            exhaust_system: exhaust,
+            ignition_wire: wires.wire1,
+            primary_length: 54 * units.inch,
+            sound_attenuation: 0.95
+        )
+        .add_cylinder(
+            piston: piston(piston_params, blowby: k_28inH2O(0.20)),
+            connecting_rod: connecting_rod(rod_params),
+            rod_journal: rj2,
+            intake: intake,
+            exhaust_system: exhaust,
+            ignition_wire: wires.wire2,
+            primary_length: 50 * units.inch,
+            sound_attenuation: 0.97
+        )
+        .add_cylinder(
+            piston: piston(piston_params, blowby: k_28inH2O(0.20)),
+            connecting_rod: connecting_rod(rod_params),
+            rod_journal: rj3,
+            intake: intake,
+            exhaust_system: exhaust,
+            ignition_wire: wires.wire3,
+            primary_length: 46 * units.inch,
+            sound_attenuation: 1.00
+        )
+        .add_cylinder(
+            piston: piston(piston_params, blowby: k_28inH2O(0.20)),
+            connecting_rod: connecting_rod(rod_params),
+            rod_journal: rj4,
+            intake: intake,
+            exhaust_system: exhaust,
+            ignition_wire: wires.wire4,
+            primary_length: 46 * units.inch,
+            sound_attenuation: 1.00
+        )
+        .add_cylinder(
+            piston: piston(piston_params, blowby: k_28inH2O(0.20)),
+            connecting_rod: connecting_rod(rod_params),
+            rod_journal: rj5,
+            intake: intake,
+            exhaust_system: exhaust,
+            ignition_wire: wires.wire5,
+            primary_length: 50 * units.inch,
+            sound_attenuation: 0.97
+        )
+        .add_cylinder(
+            piston: piston(piston_params, blowby: k_28inH2O(0.20)),
+            connecting_rod: connecting_rod(rod_params),
+            rod_journal: rj6,
+            intake: intake,
+            exhaust_system: exhaust,
+            ignition_wire: wires.wire6,
+            primary_length: 54 * units.inch,
+            sound_attenuation: 0.95
+        )
+
+    engine.add_cylinder_bank(b0)
+    engine.add_crankshaft(c0)
+
+    /* CALIBRATION CAM PROFILES.
+       Published 251 material identifies very large valves / lift, but a verified
+       251-D duration-at-0.050 specification was not found. Keep these isolated. */
+    harmonic_cam_lobe intake_lobe(
+        duration_at_50_thou: 230 * units.deg,
+        gamma: 1.15,
+        lift: 0.85 * units.inch,
+        steps: 128
+    )
+
+    harmonic_cam_lobe exhaust_lobe(
+        duration_at_50_thou: 236 * units.deg,
+        gamma: 1.15,
+        lift: 0.85 * units.inch,
+        steps: 128
+    )
+
+    alco_251d_camshaft_builder camshaft(
+        intake_lobe_profile: intake_lobe,
+        exhaust_lobe_profile: exhaust_lobe,
+        intake_lobe_center: 112 * units.deg,
+        exhaust_lobe_center: 112 * units.deg,
+        base_radius: 2.25 * units.inch
+    )
+
+    b0.set_cylinder_head(
+        alco_251d_head(
+            intake_camshaft: camshaft.intake_cam,
+            exhaust_camshaft: camshaft.exhaust_cam,
+            chamber_volume: 952 * units.cc,
+            flow_attenuation: 1.0
+        )
+    )
+
+    /* Start-of-injection schedule. High-20-degree BTDC timing is documented
+       on related ALCO 251 pump-injector applications; the exact 6-251D curve
+       remains a calibration target. */
+    function timing_curve(100 * units.rpm)
+    timing_curve
+        .add_sample(0    * units.rpm, 22.0 * units.deg)
+        .add_sample(200  * units.rpm, 23.0 * units.deg)
+        .add_sample(400  * units.rpm, 24.0 * units.deg)
+        .add_sample(600  * units.rpm, 25.0 * units.deg)
+        .add_sample(800  * units.rpm, 26.0 * units.deg)
+        .add_sample(1000 * units.rpm, 27.0 * units.deg)
+        .add_sample(1100 * units.rpm, 27.5 * units.deg)
+        .add_sample(1200 * units.rpm, 27.5 * units.deg)
+
+    engine.add_ignition_module(
+        alco_251d_combustion_scheduler(
+            wires: wires,
+            timing_curve: timing_curve,
+            rev_limit: 1125 * units.rpm
+        )
+    )
+}
+
+public node main {
+    set_engine(alco_251d_i6())
+}
+
+// Same engine with forced induction disabled, for A/B comparison.
+public node main_no_turbo {
+    set_engine(alco_251d_i6(turbo_enabled: false, engine_name: "ALCO 6-251D I6 NO TURBO"))
+}
+

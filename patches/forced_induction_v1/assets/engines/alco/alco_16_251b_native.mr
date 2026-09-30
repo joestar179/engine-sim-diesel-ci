@@ -307,6 +307,10 @@ private node alco_251_power_assembly_head {
 }
 
 public node alco_16_251b_v16 {
+    // Comparison switch: false removes the TurboGroup entirely (original
+    // naturally aspirated runner -> exhaust and atmosphere -> intake paths).
+    input turbo_enabled: true;
+    input engine_name: "ALCO 16-251B V16";
     alias output __out: engine;
 
     alco_16_251b_wires wires()
@@ -330,7 +334,7 @@ public node alco_16_251b_v16 {
 
     engine engine(
         // Kept short: the GUI draws the name and the displacement on one line.
-        name: "ALCO 16-251B V16",
+        name: engine_name,
         /*
             STARTING CALIBRATION, not a claimed ALCO starter specification.
             Engine Simulator's stock governor has a hard-coded low-speed branch
@@ -370,7 +374,7 @@ public node alco_16_251b_v16 {
         // channels, one shaft, one compressor, and a water aftercooler.
         // MI-1016B confirms topology and hardware; map/volume numbers remain
         // configuration estimates until MI-1003 or measured maps are sourced.
-        turbo_enabled: true,
+        turbo_enabled: turbo_enabled,
         turbo_shaft_inertia: 1.50 * units.kg * units.m * units.m,
         turbo_friction_torque: 25 * units.Nm,
         turbo_max_speed: 24000 * units.rpm,
@@ -394,7 +398,7 @@ public node alco_16_251b_v16 {
         turbo_cooler_flow_rate: 0.0,
         turbo_charge_flow_rate: 0.0,
         turbo_turbine_flow_rate: 0.0,
-        aftercooler_enabled: true,
+        aftercooler_enabled: turbo_enabled,
         aftercooler_pressure_loss: 0.0,
         turbo_throttle_enabled: false,
         wastegate_enabled: false,
@@ -449,7 +453,16 @@ public node alco_16_251b_v16 {
             strong low-frequency body, restrained but present high-frequency
             derivative content, no model-specific recorded sample.
         */
-        simulation_frequency: 4000,
+        /*
+            Real-time budget (engine-sim-realtime-bench, i7-7700HQ): at 4 kHz
+            the 16-cylinder physics needed 84-122 % of one core, so the GUI
+            fell behind real time (dropped FPS, audio underruns). 3 kHz needs
+            ~66 %. Loaded probe results at 800 rpm are unchanged (fuel 863.5 vs
+            863.3 g, 99.4 % burned). At 1000 rpm this is 2 crank degrees per
+            step; audio input bandwidth is 1.5 kHz vs the synthesizer's
+            1.9 kHz input filter.
+        */
+        simulation_frequency: 3000,
         hf_gain: 0.122,
         noise: 1.0,
         jitter: 0.06
@@ -1016,6 +1029,13 @@ private node alco_251b_locomotive_consist {
 
 public node main {
     set_engine(alco_16_251b_v16())
+    set_transmission(alco_251b_generator_traction_transmission())
+    set_vehicle(alco_251b_locomotive_consist())
+}
+
+// Same engine with forced induction disabled, for A/B comparison.
+public node main_no_turbo {
+    set_engine(alco_16_251b_v16(turbo_enabled: false, engine_name: "ALCO 16-251B V16 NO TURBO"))
     set_transmission(alco_251b_generator_traction_transmission())
     set_vehicle(alco_251b_locomotive_consist())
 }

@@ -394,9 +394,31 @@ bool load(Loaded &l, const char *script) {
     l.engine = output.engine;
     l.vehicle = output.vehicle;
     l.transmission = output.transmission;
-    if (l.engine == nullptr || l.vehicle == nullptr || l.transmission == nullptr) {
-        std::cerr << "probe: script produced no engine/vehicle/transmission\n" << errorLog();
+    if (l.engine == nullptr) {
+        std::cerr << "probe: script produced no engine\n" << errorLog();
         return false;
+    }
+    // Same defaults as EngineSimApplication::loadScript() when a script
+    // supplies no vehicle or transmission.
+    if (l.vehicle == nullptr) {
+        Vehicle::Parameters p;
+        p.mass = units::mass(1597, units::kg);
+        p.diffRatio = 3.42;
+        p.tireRadius = units::distance(10, units::inch);
+        p.dragCoefficient = 0.25;
+        p.crossSectionArea = units::distance(6.0, units::foot) * units::distance(6.0, units::foot);
+        p.rollingResistance = 2000.0;
+        l.vehicle = new Vehicle;
+        l.vehicle->initialize(p);
+    }
+    if (l.transmission == nullptr) {
+        static const double ratios[] = { 2.97, 2.07, 1.43, 1.00, 0.84, 0.56 };
+        Transmission::Parameters p;
+        p.GearCount = 6;
+        p.GearRatios = ratios;
+        p.MaxClutchTorque = units::torque(1000.0, units::ft_lb);
+        l.transmission = new Transmission;
+        l.transmission->initialize(p);
     }
     return true;
 }

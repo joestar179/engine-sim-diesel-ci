@@ -324,6 +324,59 @@ Sound impact:
 - Removing `lastValveLift` removes undefined behaviour from the audio loop without changing its output.
 - Turbo sound is unchanged and still poor (user-reported); it is scheduled separately.
 
+## Local repairs 2026-09-30, third batch: flicker and audio root causes
+
+User evidence: a 15 s GUI video (6-251D, engine stopped, no audio), an 81 s microphone recording of the 16-251B revving, telemetry logs 065757, 070241 and 070533, and the observation that the flicker stops when the simulation frequency is lowered far enough for FPS and frame time to stabilize.
+
+Correction: the previous batch's "display smoothing" of the air gauges did not address the cause. It has been removed, and `right_gauge_cluster.*` are back to their original content (hashes verified).
+
+### Flicker — root cause: gauge needle integrator instability
+
+- Evidence: a frame-to-frame pixel-change map of the video shows the needles changing on alternate frames, including dials with constant values while the engine is stopped. The GUI ran at 13–15 FPS (6-251D at 20 kHz) and 24–29 FPS (16-251B).
+- Cause: `Gauge::update` integrates the needle spring-damper (`ks` = 1000, `kd` = 25) with one symplectic-Euler step per frame. That is stable only while `ks·dt² + 2·kd·dt < 4`, i.e. dt < 43 ms (above ~23 FPS). A numerical check reproduces a two-position limit cycle below 23 FPS (at 15 FPS the needle alternates 0.40 ↔ 0.53 for a true value of 0.50) and a steady needle at 25, 30 and 60 FPS. This matches the user's observation.
+- Fix: fixed sub-steps of at most 1/120 s per frame. Needle behaviour at normal frame rates is unchanged, and it is stable at any frame rate. This is not a display delay.
+
+### Low FPS and stutter — root cause: not real-time on this CPU (i7-7700HQ)
+
+New tool `engine-sim-realtime-bench` (per-section physics timing via a verbatim `simulateStep_` copy, plus audio-thread convolution cost). Timings vary about ±25 % between runs on this laptop.
+
+- 16-251B, 4 kHz: physics 84–122 % of one core (cylinder gas flow ~103–135 µs/step, rigid-body solver ~80–109, forced induction 14–18 ≈ 7 %). Audio thread 125–160 %: four exhaust channels, each running a direct 5979-tap convolution per 44.1 kHz sample.
+- 6-251D, 20 kHz: physics 130–177 %. Audio 31–40 %.
+- Stock GM LS, 10 kHz: physics about 120 %, audio 92 %. The machine is marginal even for stock engines.
+- Telemetry logger: no measurable cost.
+- GUI logs confirm the effect: steps per frame alternate between 118 and 147 (the latency controller's ±10 %), and simulated time ran at 0.36–0.87 of real time with synthesizer latency swinging 0.06–0.99 s.
+
+Fixes:
+
+1. **Synthesizer:** channels with identical impulse-response coefficients share one convolution. This is exact by linearity: the dry part is summed per channel and the wet part is convolved once on the summed input. 16-251B audio thread 160 % → 40 %.
+2. **16-251B `simulation_frequency` 4000 → 3000 Hz:** physics ~66 %. Loaded probe at 800 rpm unchanged (fuel 863.5 vs 863.3 g, 99.4 % burned).
+3. **6-251D `simulation_frequency` 20000 → 10000 Hz** (the stock default): physics ~69 %. Loaded probe unchanged (383.2 vs 383.1 g, 99.4 %).
+
+### Audio analysis
+
+New tool `engine-sim-audio-render` renders the same synthesizer set-up offline to WAV with no underruns. Renders for the 16-251B and 6-251D, turbo and no turbo, plus a stock GM LS reference, are in `C:\es\run\renders`.
+
+- **Turbo sound:** at full command the 16-251B turbo render is dominated by pure tones: 937 Hz (+29 dB above its surroundings, 12-blade BPF at ~4,700 shaft rpm) and 2143 Hz (+25 dB). The engine body below 150 Hz falls to −46 dB, against −21 dB without the turbo: the synthesizer's level control turns the whole output down under the loud tone. The 6-251D shows the same pattern (851 Hz, +24 dB).
+- **Imaging artefact:** the 2.1 kHz and ~3.9 kHz lines are images of the whine (fs − f, fs + f). `ProceduralDieselAudio` generates a pure sine at the simulation rate, and the synthesizer upsamples it by linear interpolation. This happens at 4 kHz as well; lowering to 3 kHz moves the first image down from ~3.1 to ~2.1 kHz.
+- **Clipping:** every render, including the stock GM LS (1.0–1.9 %), clips about 0.2–1.9 % of samples. This is inherent to the stock level control, not a regression.
+- The microphone recording shows broadband hiss, the ~3.2 kHz whine and click lines in the first 10 s, consistent with the audio-thread underruns fixed above.
+
+### Turbo-off comparison variants
+
+- `turbo_enabled` and `engine_name` inputs were added to `alco_16_251b_v16` and `alco_251d_i6`, together with a `main_no_turbo` entry node. Root scripts `assets/alco_16_251b_no_turbo_main.mr` and `assets/alco_6_251d_no_turbo_main.mr` are provided; with `run-mr`, use `-Node main_no_turbo`.
+- The 6-251D name is shortened to "ALCO 6-251D I6" (it overlapped the displacement text).
+- The 6-251D MR is now an overlay template.
+- The no-turbo 16-251B starts and idles on both banks (99.7 % burned).
+
+Tests: 47 unit tests pass, with the same four upstream failures. Both runtime smokes pass. The needle fix is proven numerically; its GUI effect still needs the user's confirmation.
+
+Proposed next (not done): turbo sound redesign.
+
+- Generate the whine in the synthesizer at 44.1 kHz from the shaft speed, which removes the imaging and the simulation-Nyquist cutoff.
+- Make it band-limited noise rather than a pure sine.
+- Calibrate its level relative to the engine body.
+- Mix it after the level control, so it cannot turn the engine down.
+
 ## Handover incident: transient worktree loss
 
 Failure signature: `handover | uncommitted temporary worktree unavailable on continuation | workspace persistence layer`
