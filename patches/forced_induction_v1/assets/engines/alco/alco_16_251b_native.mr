@@ -362,10 +362,12 @@ public node alco_16_251b_v16 {
         // hydraulic nozzles with positive cutoff. MI-1000 data is still needed
         // to replace the rate/duration values below with factory curves.
         compression_ignition: true,
-        // Calibrated to the 2400 BHP / 1000 rpm rating (power-calibration rule:
-        // fuel-flow only). 0.80 g gave 2632 hp with the air-limited, Hohenberg
-        // heat-transfer combustion model.
-        max_fuel_mass_per_cycle: 0.73 * units.g,
+        // D: full-rack delivery = documented SFC x documented rating / events.
+        // SFC 168 g/BHP.h at rated power with the ALCO 720A turbo (IRIMEE,
+        // "Fuel Economy", RDSO turbo comparison table); rating 2400 BHP at
+        // 1000 rpm (MI-1016B): 168 * 2400 / 3600 / (16 * 1000 / 120) = 0.84 g.
+        // (The WDM-2 2600-BHP rating of the same engine would give 0.91 g.)
+        max_fuel_mass_per_cycle: 0.84 * units.g,
         injection_duration: 24 * units.deg,
         ignition_delay: 4 * units.deg,
         combustion_duration: 50 * units.deg,

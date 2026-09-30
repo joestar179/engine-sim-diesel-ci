@@ -596,6 +596,40 @@ Result at 1000 rpm after 60 s:
 
 The 6-251D (350B) is unchanged: no 350B data supplied.
 
+## Fuel stop from documented SFC; comparison with IRIMEE "Fuel Economy" (A.K. Mukhopadhyay)
+
+Source: user copy of the IRIMEE document (not committed). Relevant data:
+
+- RDSO turbo table: ALCO 720A — overall turbo efficiency 50 %, rated-power SFC 168 g/BHP·h, exhaust gas temperature 600 °C. Later turbos: NA295 62 % / 156 / 580 °C; ABB/GE 64 % / 154 / 500 °C; later type 70 % / 151 / 500 °C.
+- RDSO test bed, full load, no leakage (a later, fuel-efficient engine; SFC 154.84): turbine-inlet gas 1060 mmHg-g (~242 kPa abs), manifold 1.55 bar-g, turbine-inlet exhaust 479 °C, compressor-intake vacuum 38 mbar.
+- Brake thermal efficiency of these engines: 38–40 %.
+- The governor limits fuel by booster pressure (air limiter exists as hardware) and reduces generator excitation when fuel exceeds the schedule (load regulator).
+- The later fuel-efficient kit (140° valve overlap, 17 mm FIP, larger aftercooler) applies to later engines, not the classic 16-251B.
+- The notch-wise HP / rpm / fuel / booster tables are images and could not be extracted.
+
+Change: 16-251B `max_fuel_mass_per_cycle` 0.73 g (fitted, status A) → 0.84 g (D = 168 g/BHP·h × 2400 BHP (MI-1016B) / 133.3 injections per second). The WDM-2 2600-BHP rating would give 0.91 g.
+
+Result at 1000 rpm after 60 s:
+
+| Quantity | Turbo | No turbo | Documented (720A) |
+|---|---|---|---|
+| Power | 1887 kW (2530 hp) | 1519 kW (2038 hp) | 2400 BHP rating |
+| Torque | 18.0 kN·m | | |
+| Rack | 0.93 (air-limited) | 0.76 | |
+| SFC | 148 g/BHP·h | 151 g/BHP·h | 168 g/BHP·h |
+| Manifold | 135 kPa | | 258 kPa |
+| Turbine inlet | 833 K | | 873 K (600 °C) |
+
+Checks passed: turbine-inlet pressure below manifold, consistent with the RDSO test bed; turbine-inlet temperature within 40 K.
+
+Open, the largest remaining discrepancy: the simulated engine is ~12 % more fuel-efficient (148 vs 168 g/BHP·h) and reaches its rating on about half the documented boost. Candidate sources, all unsourced model values:
+
+- the fuel energy input `energy_density` 45.5 kJ/g × `max_burning_efficiency` 0.88 = 40.0 kJ/g released, against a diesel lower heating value of ~42.6–43 kJ/g;
+- the heat-transfer wall temperature (90 °C);
+- combustion phasing / heat-release shape (injection/ignition/burn calibration).
+
+These must be sourced, not fitted to the SFC.
+
 ## Handover incident: transient worktree loss
 
 Failure signature: `handover | uncommitted temporary worktree unavailable on continuation | workspace persistence layer`

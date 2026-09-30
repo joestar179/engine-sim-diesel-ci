@@ -47,7 +47,7 @@ A = assumption. Replace every A with S or D before relying on it.
 
 Open issues (highest impact first):
 
-1. **16-251B turbo below design boost.** With 720A-derived turbo data it now beats no-turbo (2355 vs 2048 hp) but settles at 131 kPa vs the documented 258 kPa, because the fitted fuel stop (0.73 g) gives too little exhaust energy. Source the fuel stop from BSFC or rack delivery. 6-251D (350B) still has unsourced turbo data.
+1. **16-251B efficiency/boost mismatch.** With the sourced fuel stop (0.84 g) the turbo beats no-turbo (2530 vs 2038 hp) but the sim SFC is 148 vs documented 168 g/BHP.h and boost 135 vs 258 kPa: the modelled engine is too efficient, so it needs less air and makes less exhaust energy. Source the fuel energy input, wall temperature and heat-release shape. 6-251D (350B) turbo data still unsourced.
 2. **Ratings (checks, never targets):** 16-251B 2355 hp at 1000 rpm (rated
    2400); 6-251D 793 hp at 1100 rpm (class ~1200–1400). Fuel stops must come
    from documented BSFC or rack delivery, never be fitted to these ratings.
@@ -73,7 +73,8 @@ Parameters:
 | Turbo sound source | √(turbine + compressor power) | A | Modelling choice |
 | Knock band / turbo Q / tonal share | 1.6 kHz Q 0.6 / Q 12 / 25 % | A | Qualitative (Austen & Priede) |
 | Knock / turbo global levels | 4e-4 / 15 | D | One reference render each |
-| 16-251B fuel stop | 0.73 g | D | Documented 2400 BHP (set while airflow was wrong; recheck after item 1) |
+| 16-251B fuel stop | 0.84 g | D | 720A rated SFC 168 g/BHP.h (IRIMEE) x 2400 BHP (MI-1016B) |
+| Fuel energy input | 45.5 kJ/g x 0.88 = 40.0 kJ/g | A | Diesel LHV ~42.6-43 kJ/g; sim SFC 148 vs documented 168 g/BHP.h |
 | 16-251B governor `k_p`/`k_s`/crank limit | 3 / 0.016 / 0.35 | D | Probe stability tuning |
 | Simulation frequency | 3 kHz / 10 kHz | D | Measured real-time budget |
 
