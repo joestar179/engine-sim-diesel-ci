@@ -28,9 +28,36 @@ class Synthesizer {
             float levelerTarget = 30000.0f;
             float levelerMaxGain = 1.9f;
             float levelerMinGain = 0.00001f;
+
+            // Engine-independent layer levels, set once for all engines; the
+            // difference between engines comes from their physics. Global
+            // reference calibration (engine-sim-audio-render, 2026-09-30):
+            //  - knock: -15 dB relative to the exhaust signal for the ALCO
+            //    6-251D at full speed command (free rev);
+            //  - turbo: -20 dB for the ALCO 16-251B in the same free rev
+            //    (low compressor power); it grows as sqrt(power) under load.
+            // Structure-borne combustion noise ("diesel knock"): level per unit
+            // of structural force rate sum(piston area * combustion dp/dt), N/s.
+            float combustionNoiseLevel = 4.0e-4f;
+            // Turbocharger: level per sqrt(W) of compressor power.
+            float turboSoundLevel = 15.0f;
+            // Fraction of the turbo layer that is tonal (the rest is narrow-band
+            // noise around the blade-pass frequency).
+            float turboTonalFraction = 0.25f;
+        };
+
+        // Auxiliary input channels written after the exhaust channels when
+        // Parameters::exhaustChannelCount >= 0 (see AuxiliaryChannel).
+        enum AuxiliaryChannel {
+            StructuralForceRate = 0,    // N/s, >= 0
+            TurboBladePassFrequency,    // Hz
+            TurboAmplitude,             // sqrt(W)
+            AuxiliaryChannelCount
         };
 
         struct Parameters {
+            // -1: every input channel is an exhaust channel (original layout).
+            int exhaustChannelCount = -1;
             int inputChannelCount = 1;
             int inputBufferSize = 1024;
             int audioBufferSize = 44100;
@@ -99,7 +126,27 @@ class Synthesizer {
         AudioParameters getAudioParameters();
         void setAudioParameters(const AudioParameters &params);
 
+        // Second-order section (RBJ cookbook), used by the layers below.
+        struct Biquad {
+            float b0 = 0, b1 = 0, b2 = 0, a1 = 0, a2 = 0;
+            float x1 = 0, x2 = 0, y1 = 0, y2 = 0;
+            void setBandPass(float frequency, float q, float sampleRate);
+            float f(float x);
+        };
+
+        struct LayerState {
+            Biquad structuralBand;      // fixed structural transfer band
+            Biquad turboBand;           // retuned every sample to the BPF
+            double turboPhase = 0.0;
+            uint32_t rng = 0x1234567u;
+            float white();
+        };
+
+        float renderLayers(int inputSample);
+
     //protected:
+        int m_exhaustChannelCount;
+        LayerState m_layers;
         ButterworthLowPassFilter<float> m_antialiasing;
         LevelingFilter m_levelingFilter;
         InputChannel *m_inputChannels;

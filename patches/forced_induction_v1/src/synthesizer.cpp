@@ -28,6 +28,7 @@ Synthesizer::Synthesizer() {
     m_run = true;
     m_thread = nullptr;
     m_filters = nullptr;
+    m_exhaustChannelCount = 0;
 }
 
 Synthesizer::~Synthesizer() {
@@ -38,6 +39,9 @@ Synthesizer::~Synthesizer() {
 
 void Synthesizer::initialize(const Parameters &p) {
     m_inputChannelCount = p.inputChannelCount;
+    m_exhaustChannelCount = (p.exhaustChannelCount < 0)
+        ? p.inputChannelCount
+        : std::min(p.exhaustChannelCount, p.inputChannelCount);
     m_inputBufferSize = p.inputBufferSize;
     m_inputWriteOffset = p.inputBufferSize;
     m_audioBufferSize = p.audioBufferSize;
@@ -79,6 +83,12 @@ void Synthesizer::initialize(const Parameters &p) {
     m_levelingFilter.p_maxLevel = m_audioParameters.levelerMaxGain;
     m_levelingFilter.p_minLevel = m_audioParameters.levelerMinGain;
     m_antialiasing.setCutoffFrequency(m_audioSampleRate * 0.45f, m_audioSampleRate);
+
+    // Structural transfer band for combustion noise: engine structures
+    // attenuate least in the ~1-3 kHz region (Austen & Priede), so the
+    // radiated knock is shaped by a broad band-pass centred there.
+    m_layers = LayerState{};
+    m_layers.structuralBand.setBandPass(1600.0f, 0.6f, m_audioSampleRate);
 
     for (int i = 0; i < m_audioBufferSize; ++i) {
         m_audioBuffer.write(0);
@@ -303,7 +313,7 @@ int16_t Synthesizer::renderAudio(int inputSample) {
     const float convAmount = m_audioParameters.convolution;
 
     float signal = 0;
-    for (int i = 0; i < m_inputChannelCount; ++i) {
+    for (int i = 0; i < m_exhaustChannelCount; ++i) {
         const float r_0 = 2.0 * ((double)rand() / RAND_MAX) - 1.0;
 
         const float jitteredSample =
@@ -333,7 +343,7 @@ int16_t Synthesizer::renderAudio(int inputSample) {
         if (owner >= 0) m_filters[owner].convolutionInput += v_in;
     }
 
-    for (int i = 0; i < m_inputChannelCount; ++i) {
+    for (int i = 0; i < m_exhaustChannelCount; ++i) {
         if (m_filters[i].convolutionOwner != i) continue;
         signal += convAmount * m_filters[i].convolution.f(m_filters[i].convolutionInput);
         m_filters[i].convolutionInput = 0.0f;
@@ -342,7 +352,12 @@ int16_t Synthesizer::renderAudio(int inputSample) {
     signal = m_antialiasing.fast_f(signal);
 
     m_levelingFilter.p_target = m_audioParameters.levelerTarget;
-    const float v_leveled = m_levelingFilter.f(signal) * m_audioParameters.volume;
+    // The level control follows the exhaust (engine) signal only. The knock
+    // and turbo layers receive the same gain, so their level relative to the
+    // engine is set by the physics and they can never turn the engine down.
+    const float exhaustLeveled = m_levelingFilter.f(signal);
+    const float layers = renderLayers(inputSample) * m_levelingFilter.getAttenuation();
+    const float v_leveled = (exhaustLeveled + layers) * m_audioParameters.volume;
     int r_int = std::lround(v_leveled);
     if (r_int > INT16_MAX) {
         r_int = INT16_MAX;
@@ -367,4 +382,69 @@ Synthesizer::AudioParameters Synthesizer::getAudioParameters() {
 void Synthesizer::setAudioParameters(const AudioParameters &params) {
     std::lock_guard<std::mutex> lock(m_lock0);
     m_audioParameters = params;
+}
+
+void Synthesizer::Biquad::setBandPass(float frequency, float q, float sampleRate) {
+    // RBJ band-pass, constant 0 dB peak gain.
+    const float w0 = 2.0f * 3.14159265358979f * frequency / sampleRate;
+    const float alpha = std::sin(w0) / (2.0f * q);
+    const float a0 = 1.0f + alpha;
+    b0 = alpha / a0;
+    b1 = 0.0f;
+    b2 = -alpha / a0;
+    a1 = -2.0f * std::cos(w0) / a0;
+    a2 = (1.0f - alpha) / a0;
+}
+
+float Synthesizer::Biquad::f(float x) {
+    const float y = b0 * x + b1 * x1 + b2 * x2 - a1 * y1 - a2 * y2;
+    x2 = x1; x1 = x;
+    y2 = y1; y1 = (std::fpclassify(y) == FP_SUBNORMAL) ? 0.0f : y;
+    return y1;
+}
+
+float Synthesizer::LayerState::white() {
+    // Uniform white noise with unit variance.
+    rng = 1664525u * rng + 1013904223u;
+    const float u = static_cast<float>(rng) / 4294967296.0f;
+    return (2.0f * u - 1.0f) * 1.7320508f;
+}
+
+float Synthesizer::renderLayers(int inputSample) {
+    if (m_exhaustChannelCount + AuxiliaryChannelCount > m_inputChannelCount) return 0.0f;
+    const int base = m_exhaustChannelCount;
+    const float forceRate = m_inputChannels[base + StructuralForceRate].transferBuffer[inputSample];
+    const float bladePass = m_inputChannels[base + TurboBladePassFrequency].transferBuffer[inputSample];
+    const float turboAmplitude = m_inputChannels[base + TurboAmplitude].transferBuffer[inputSample];
+
+    // Diesel knock: the combustion force rate on the structure (coherent
+    // part, band-limited by the physics rate) plus noise with the same
+    // envelope for the content above that rate, through the structural band.
+    const float n = m_layers.white();
+    const float envelope = std::max(0.0f, forceRate);
+    const float knock = m_audioParameters.combustionNoiseLevel
+        * m_layers.structuralBand.f(forceRate + envelope * n);
+
+    // Turbocharger: narrow-band noise plus a tonal part at the blade-pass
+    // frequency, generated at the audio rate (no imaging, no physics-rate
+    // Nyquist limit). Amplitude follows sqrt(compressor power).
+    float turbo = 0.0f;
+    const float nyquistGuard = 0.45f * m_audioSampleRate;
+    if (turboAmplitude > 0.0f && bladePass > 20.0f && bladePass < nyquistGuard) {
+        constexpr float TurboQ = 12.0f;
+        m_layers.turboBand.setBandPass(bladePass, TurboQ, m_audioSampleRate);
+        // Normalise the band-limited noise to unit RMS (equivalent noise
+        // bandwidth of the 0 dB peak band-pass is (pi/2) * f / Q).
+        const float bandwidth = 1.5707963f * bladePass / TurboQ;
+        const float norm = 1.0f / std::sqrt(std::max(1.0e-9f, bandwidth / (0.5f * m_audioSampleRate)));
+        const float noisePart = m_layers.turboBand.f(n) * norm;
+        m_layers.turboPhase += 2.0 * 3.14159265358979 * bladePass / m_audioSampleRate;
+        if (m_layers.turboPhase > 6.283185307179586) m_layers.turboPhase -= 6.283185307179586;
+        const float tone = 1.4142136f * static_cast<float>(std::sin(m_layers.turboPhase));
+        const float tonal = m_audioParameters.turboTonalFraction;
+        turbo = m_audioParameters.turboSoundLevel * turboAmplitude
+            * ((1.0f - tonal) * noisePart + tonal * tone);
+    }
+
+    return knock + turbo;
 }

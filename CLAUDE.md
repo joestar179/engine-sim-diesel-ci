@@ -501,10 +501,20 @@ Third batch 2026-09-30 (root causes; details in docs/FAILURE_ATTEMPT_LOG.md):
 - Turbo-off variants: `assets/alco_16_251b_no_turbo_main.mr` and
   `assets/alco_6_251d_no_turbo_main.mr` (MR input `turbo_enabled`; node
   `main_no_turbo`).
-- Turbo sound (next topic): a pure sine at the physics rate. It masks the
-  engine through the level control and images at fs +- f. Proposed redesign:
-  generate the whine in the synthesizer at 44.1 kHz and mix it after the
-  level control.
+Audio redesign 2026-09-30 (details in docs/FAILURE_ATTEMPT_LOG.md):
+
+- The seed's `ProceduralDieselAudio` injection of dp/dt clicks and the
+  physics-rate turbo sine into the exhaust channels is removed.
+- Diesel knock is a structure-borne layer driven by
+  `sum(piston area * combustion dp/dt)` through a fixed structural band.
+- Turbo sound is generated in the synthesizer at 44.1 kHz: blade-pass band
+  noise plus a small tonal part, with amplitude ∝ sqrt(compressor power).
+- Both layers are scaled by the level-control gain, which follows the exhaust
+  signal only, so they never duck the engine.
+- Only two global levels exist (`Synthesizer::AudioParameters`); no
+  per-engine audio gains.
+- Design rule: audio features must be broad-based (physics-driven, with global
+  constants only).
 - Loading the engine in the GUI needs the speed control raised while the dyno
   holds; dyno hold alone only motors it.
 

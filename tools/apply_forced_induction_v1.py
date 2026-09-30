@@ -37,6 +37,7 @@ EXPECTED_BASELINE = {
     "include/engine_sim_application.h": "fb011cea2921d8355156a813d0e6fccfb67b0fff04c72fbc9a7658bdb662d8ef",
     "src/engine_sim_application.cpp": "50ea701ce25b010dc20a971a1aa3273a0b26bf3f837d8f504da00725229afec2",    "include/fuel_rack_governor_model.h": "dab343ade745cf38672b10cfb35c0eee0feb5c404b596687ae5c081a96a945c3",
     "src/gauge.cpp": "74ecf75be7758d3f3e12894d2f1ea2f32fa7008e738e790637289c7b9f6afe52",
+    "src/simulator.cpp": "3a014d5dd7e2584250db33605fc51d07d1f7779b811f92c8599d19a654831eb4",
     "src/synthesizer.cpp": "8ec3421e98b32f811cb3fcc8453ed30de77fef1fe4fc6a2fcb69421175ae34e8",
     "include/synthesizer.h": "a6320d59eb2f5cebf12ccea40fc73c9ba9f80944aa51fa236553a840b6353e54",
     "assets/engines/alco/alco_251d_diesel_turbo.mr": "c007e5d953a64a9f35524e4e86910e4a52d1c787ad1dfef89679677a50e0d0da",
@@ -94,7 +95,7 @@ public node set_engine {
 # may add tests and build wiring but must not alter the code under test.
 PINNED_PRODUCTION_TEMPLATES = {
     "assets/alco_16_251b_main.mr": "de603c279f374f62bd5b47ef0edebbabfbe083b01bdc2ab057620ff1af4c61f4",
-    "assets/engines/alco/alco_16_251b_native.mr": "44467dc0b251104149c55e820652c3aee6dc6c58cdf190bdfdf9e08ceb34c71e",
+    "assets/engines/alco/alco_16_251b_native.mr": "fdc6c9ce986e4280d63118d9b16dfc0a9d2357ee1974541387f9e779a5777614",
     "es/objects/objects.mr": "5cfcf48a6873de4d3b3c0694765569f3c2225ea1c220ccad58e81e811ec04da8",
     "include/combustion_chamber.h": "907f66a94631211068bdcd1834d76188576df4dc92564be947685131e1a67017",
     "include/engine.h": "999e6bc481c2c0db03131a81caa90f213c0146c4b12783c7e3c75df876c4ab73",
@@ -110,7 +111,7 @@ PINNED_PRODUCTION_TEMPLATES = {
     "src/exhaust_system.cpp": "538d16413843ef95686e6dd64ac138a0cc8f3f7d45e2f8970b707e705f8c8a51",
     "src/forced_induction_system.cpp": "f36e9e0c2431ec687cea25f846ebee64d9f4082355d62e423cf0dd9318890765",
     "src/intake.cpp": "4e8608837b82dd141e0f90a6f6f0580c8a4ea1c9fe8d2c2378a87497b8ec9792",
-    "src/piston_engine_simulator.cpp": "c93f52504c6da1ea2cf0c855c6736a34ce2ceea0e2692a13ca3c8689601b71b0",
+    "src/piston_engine_simulator.cpp": "aba9f3dd164ac8830434f56e37fc6344d8fb9229db94097033bbe8c74ba02d1f",
     "src/turbocharger_model.cpp": "389ed04821b31b392a660735a6a1d91949b6922d20de6e5c2dfbf96677f95fd1",
     "include/telemetry_log.h": "d3776a08765e4335b8d27b392bcda73ac70ae72f53fb6d951da69fa186aeed63",
     "src/telemetry_log.cpp": "62d328cacfa7896c2a8bb57119eb1d5e9b7824183f111e2e6d940c5d8576400c",
@@ -120,9 +121,10 @@ PINNED_PRODUCTION_TEMPLATES = {
     "src/fuel_rack_governor_model.cpp": "cf7956417510ed17634a6a957a0f3ccf0fb04f4f221d049bcc1fe5e2f9cfea73",
     "scripting/include/throttle_nodes.h": "37df476feece66b6df48b40bd27c19d531a4c061829a555432f6a4841b325987",
     "src/gauge.cpp": "423436a81838a47929bb6955275716451be952455bbe2dde774e6b27193be797",
-    "src/synthesizer.cpp": "1d458d0046d59ccacb4e12fa3d4ea15f3926e24a01c3c45314dbb38935253486",
-    "include/synthesizer.h": "d3a136ad8a563d419e1dc26888d67b82b40bc51ed4aa09429ea5e04b1c83ba16",
-    "assets/engines/alco/alco_251d_diesel_turbo.mr": "03221a4a6247c8cdea1c4cbad8bf3921ff5382a4b01d8fa7a3107fbe4eee7ce2",
+    "src/synthesizer.cpp": "aa6433949c901781ab40260bb06f2d1b2f7fa7fff92f0aa1862e9022e379bb85",
+    "include/synthesizer.h": "9e03688ca47e5704b68ed1531a0a69a206d956484e0f18c83644dc1e43886de6",
+    "assets/engines/alco/alco_251d_diesel_turbo.mr": "f5ade61fc71d03d48144618243c96a2835a592f6628c435637951170c8d98ecb",
+    "src/simulator.cpp": "ea41ae1cf86a24cb1c99712ee3443b7edc404978460ed7e7a6a559c4986fa842",
 }
 
 NEW_FILES = {
@@ -172,6 +174,7 @@ REQUIRED_POSTCONDITIONS = {
         "m_engine->getExhaustDestination(exhaust)",
     ],
     "src/piston_engine_simulator.cpp": [
+        "Synthesizer::StructuralForceRate",
         "m_engine->processForcedInduction(fluidTimestep)",
     ],
     "scripting/include/engine_node.h": [
@@ -290,6 +293,11 @@ REQUIRED_POSTCONDITIONS = {
     ],
     "src/synthesizer.cpp": [
         "m_filters[index].convolutionOwner = j;",
+        "float Synthesizer::renderLayers(int inputSample)",
+        "renderLayers(inputSample) * m_levelingFilter.getAttenuation()",
+    ],
+    "src/simulator.cpp": [
+        "Synthesizer::AuxiliaryChannelCount",
     ],
     "assets/engines/alco/alco_251d_diesel_turbo.mr": [
         "simulation_frequency: 10000,",

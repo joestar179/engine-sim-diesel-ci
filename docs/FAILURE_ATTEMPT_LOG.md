@@ -424,6 +424,47 @@ Proposal (not applied):
 - Set the 16-251B `combustion_audio_gain` to about 1e-5 to 3e-5, chosen by ear from the renders.
 - Longer term, make the combustion excitation band-limited and scaled consistently with the exhaust term, as part of the audio redesign.
 
+## Audio redesign: structure-borne diesel knock and synthesizer turbo sound
+
+User direction: incorporate diesel knock properly and together with the turbo sound work, with a broad-based design (no per-engine gains tuned by ear).
+
+Removed:
+
+- The CI-seed `ProceduralDieselAudio` excitation, which injected `combustion_audio_gain × mean dp/dt` plus a physics-rate turbo sine and noise straight into every exhaust channel. The MR fields `combustion_audio_gain`, `turbo_tone_audio_gain` and `turbo_noise_audio_gain` are no longer used and were removed from both ALCO MRs; the engine node still accepts them.
+- Kept: `lowSpeedAttenuation` (stock behaviour) and `compressor_blade_count` (physical).
+
+Added (production):
+
+- **Synthesizer auxiliary channels** after the exhaust channels (`Synthesizer::AuxiliaryChannel`): structural force rate, turbo blade-pass frequency, turbo amplitude. `Simulator::initializeSynthesizer` allocates them. With `exhaustChannelCount = −1` the original layout is kept.
+- **Physics side** (`writeToSynthesizer`), per step:
+  - structural force rate = Σ piston area × combustion dp/dt (`getCombustionPressureRiseRate`, non-zero only while fuel burns);
+  - blade-pass frequency = blade count × shaft rev/s of the dominant group;
+  - turbo amplitude = √(Σ compressor power).
+- **Diesel knock** (structure-borne combustion noise, after Austen & Priede): the force rate, plus noise carrying the same envelope for content above the physics rate, through a fixed structural band (band-pass 1.6 kHz, Q 0.6). Engines differ only through physics: bore area and combustion dp/dt.
+- **Turbo sound** at 44.1 kHz: a band-pass noise (Q 12) and a tonal part (25 %) at the blade-pass frequency, with amplitude ∝ √(compressor power). This removes the physics-rate imaging and Nyquist limit.
+- **Mixing:** the level control is driven by the exhaust signal only; the layers are multiplied by its gain. They keep a physics-set level relative to the engine and cannot turn it down.
+- **Global levels** (`AudioParameters`), each calibrated once against a single stated reference:
+  - knock = 4e-4 (−15 dB relative to the exhaust for the 6-251D at full free-rev command);
+  - turbo = 15 (−20 dB for the 16-251B in the same free rev; it rises as √P under load).
+- **Resulting physics-driven differences** (levels relative to the exhaust signal, for the fixed test levels used in the calibration renders; the final levels shift each value by the same amount):
+  - knock: 16-251B −35 dB at idle, −49 dB at full; 6-251D −32 dB and −28 dB;
+  - turbo: 16-251B −43 dB and −54 dB; 6-251D −76 dB and −68 dB.
+  - The big slow engine knocks relatively less, and more at idle than at load, as expected from ignition-delay physics.
+
+Results (offline renders in `C:\es\run\renders\redesign`, against the earlier renders):
+
+| Render | Power below 80 Hz, old → new | Whine band / firing band |
+|---|---|---|
+| 16-251B turbo, idle | 1.7 % → 29.2 % | |
+| 16-251B turbo, full | 0.0 % → 4.9 % | whine band 640–1280 Hz −0.4 → −20.1 dB; firing band 80–160 Hz −30.3 → −1.5 dB; strongest tone 942 Hz whine → 100 Hz firing harmonic |
+| 6-251D, all four | 3–31 % → 44–62 % | |
+
+Clipping is unchanged; it is stock level-control behaviour.
+
+Tests: 47 unit tests pass with the same four upstream failures. `SynthesizerTests.SynthesizerSanityCheck` passes. Both runtime smokes pass. The audio thread is still ~40 %.
+
+Not verified in the GUI: `engine-sim-app.exe` could not be replaced while the user's GUI session was running. SI engines produce no knock layer: their pressure-rise rate is only computed in the CI path.
+
 ## Handover incident: transient worktree loss
 
 Failure signature: `handover | uncommitted temporary worktree unavailable on continuation | workspace persistence layer`

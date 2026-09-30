@@ -229,7 +229,8 @@ void PistonEngineSimulator::placeAndInitialize() {
 
     m_engine->getIgnitionModule()->reset();
 
-    m_exhaustFlowStagingBuffer = new double[m_engine->getExhaustSystemCount()];
+    m_exhaustFlowStagingBuffer =
+        new double[m_engine->getExhaustSystemCount() + Synthesizer::AuxiliaryChannelCount];
 }
 
 void PistonEngineSimulator::placeCylinder(int i) {
@@ -395,7 +396,6 @@ void PistonEngineSimulator::writeToSynthesizer() {
 
     const double attenuation_n = m_engine->getProceduralDieselAudio()->lowSpeedAttenuation(units::rpm(filteredEngineSpeed()));
 
-    const double timestep = getTimestep();
     const int cylinderCount = m_engine->getCylinderCount();
     for (int i = 0; i < cylinderCount; ++i) {
         Piston *piston = m_engine->getPiston(i);
@@ -424,22 +424,43 @@ void PistonEngineSimulator::writeToSynthesizer() {
             * (1 / (exhaustLength * exhaustLength));
     }
 
-    if (exhaustSystemCount > 0) {
-        double pressureRiseRate = 0.0;
-        for (int i = 0; i < cylinderCount; ++i) {
-            pressureRiseRate += m_engine->getChamber(i)->getCombustionPressureRiseRate();
-        }
-        pressureRiseRate /= std::max(1, cylinderCount);
-        const auto procedural = m_engine->getProceduralDieselAudio()->step(
-            timestep,
-            pressureRiseRate,
-            m_engine->getTurboSpeed(),
-            m_engine->getCompressorPower());
-        const double perChannel = procedural.excitation / exhaustSystemCount;
-        for (int i = 0; i < exhaustSystemCount; ++i) {
-            m_exhaustFlowStagingBuffer[i] += perChannel;
+    // Structure-borne combustion noise ("diesel knock"): the force rate the
+    // combustion pressure rise puts on the engine structure, summed over all
+    // cylinders. The synthesizer shapes it with a fixed structural band, so
+    // large slow-burning and small fast-burning engines differ only through
+    // their physics (bore area and combustion dp/dt). It replaces the former
+    // direct injection of mean dp/dt into the exhaust channels, which
+    // bypassed the exhaust path and dominated the sound at any usable gain.
+    double structuralForceRate = 0.0;
+    for (int i = 0; i < cylinderCount; ++i) {
+        const double area = m_engine->getPiston(i)->getCylinderBank()->boreSurfaceArea();
+        structuralForceRate += area
+            * std::max(0.0, m_engine->getChamber(i)->getCombustionPressureRiseRate());
+    }
+
+    // Turbocharger sound is generated in the synthesizer at the audio rate
+    // from the blade-pass frequency and sqrt(compressor power); the dominant
+    // group sets the frequency, all groups contribute power.
+    double bladePassFrequency = 0.0;
+    double compressorPower = 0.0;
+    double dominantPower = -1.0;
+    ForcedInductionSystem *forcedInduction = m_engine->getForcedInductionSystem();
+    if (forcedInduction->enabled()) {
+        const int blades = m_engine->getProceduralDieselAudio()->parameters().compressorBladeCount;
+        for (std::size_t g = 0; g < forcedInduction->groupCount(); ++g) {
+            const TurboGroup::Telemetry &t = forcedInduction->group(g)->telemetry();
+            const double power = std::max(0.0, t.compressorPower);
+            compressorPower += power;
+            if (power > dominantPower) {
+                dominantPower = power;
+                bladePassFrequency = std::max(0.0, t.shaftSpeed) / (2.0 * constants::pi) * blades;
+            }
         }
     }
+
+    m_exhaustFlowStagingBuffer[exhaustSystemCount + Synthesizer::StructuralForceRate] = structuralForceRate;
+    m_exhaustFlowStagingBuffer[exhaustSystemCount + Synthesizer::TurboBladePassFrequency] = bladePassFrequency;
+    m_exhaustFlowStagingBuffer[exhaustSystemCount + Synthesizer::TurboAmplitude] = std::sqrt(compressorPower);
 
     synthesizer().writeInput(m_exhaustFlowStagingBuffer);
 }

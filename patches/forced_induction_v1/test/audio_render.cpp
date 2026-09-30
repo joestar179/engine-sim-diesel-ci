@@ -11,6 +11,7 @@
 //
 // usage: engine-sim-audio-render <script.mr> <out.wav>
 //            [--crank 3] [--rev-start 6] [--rev-end 14] [--end 20]
+//            [--knock-level L] [--turbo-level L]   (override global layer levels)
 
 #ifndef NOMINMAX
 #define NOMINMAX
@@ -54,12 +55,15 @@ int main(int argc, char **argv) {
         return 2;
     }
     double crank = 3.0, revStart = 6.0, revEnd = 14.0, end = 20.0;
+    double knockLevel = -1.0, turboLevel = -1.0;
     for (int i = 3; i + 1 < argc; ++i) {
         const std::string a = argv[i];
         if (a == "--crank") crank = std::atof(argv[++i]);
         else if (a == "--rev-start") revStart = std::atof(argv[++i]);
         else if (a == "--rev-end") revEnd = std::atof(argv[++i]);
         else if (a == "--end") end = std::atof(argv[++i]);
+        else if (a == "--knock-level") knockLevel = std::atof(argv[++i]);
+        else if (a == "--turbo-level") turboLevel = std::atof(argv[++i]);
     }
 
     es_script::Compiler compiler;
@@ -100,6 +104,8 @@ int main(int argc, char **argv) {
     audioParams.inputSampleNoise = static_cast<float>(engine->getInitialJitter());
     audioParams.airNoise = static_cast<float>(engine->getInitialNoise());
     audioParams.dF_F_mix = static_cast<float>(engine->getInitialHighFrequencyGain());
+    if (knockLevel >= 0.0) audioParams.combustionNoiseLevel = static_cast<float>(knockLevel);
+    if (turboLevel >= 0.0) audioParams.turboSoundLevel = static_cast<float>(turboLevel);
     sim->synthesizer().setAudioParameters(audioParams);
     for (int i = 0; i < engine->getExhaustSystemCount(); ++i) {
         ImpulseResponse *response = engine->getExhaustSystem(i)->getImpulseResponse();
