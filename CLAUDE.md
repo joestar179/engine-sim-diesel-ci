@@ -48,7 +48,7 @@ A = assumption. Replace every A with S or D before relying on it.
 Open issues (highest impact first):
 
 1. **16-251B efficiency/boost mismatch.** With the sourced fuel stop (0.84 g) the turbo beats no-turbo (2530 vs 2038 hp) but the sim SFC is 148 vs documented 168 g/BHP.h and boost 135 vs 258 kPa: the modelled engine is too efficient, so it needs less air and makes less exhaust energy. Source the fuel energy input, wall temperature and heat-release shape. 6-251D (350B) turbo data still unsourced.
-2. **Ratings (checks, never targets):** 16-251B 2355 hp at 1000 rpm (rated
+2. **Ratings (checks, never targets):** 16-251B 2530 hp at 1000 rpm with the sourced fuel stop (rated
    2400); 6-251D 793 hp at 1100 rpm (class ~1200–1400). Fuel stops must come
    from documented BSFC or rack delivery, never be fitted to these ratings.
 3. **Stock-engine impact is not assessed.** The enthalpy-transport fix in
