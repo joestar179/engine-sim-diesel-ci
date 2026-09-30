@@ -12,6 +12,7 @@
 // usage: engine-sim-audio-render <script.mr> <out.wav>
 //            [--crank 3] [--rev-start 6] [--rev-end 14] [--end 20]
 //            [--knock-level L] [--turbo-level L]   (override global layer levels)
+//            [--dyno T RPM]   (from time T hold RPM; engaged while turning forward)
 
 #ifndef NOMINMAX
 #define NOMINMAX
@@ -56,6 +57,7 @@ int main(int argc, char **argv) {
     }
     double crank = 3.0, revStart = 6.0, revEnd = 14.0, end = 20.0;
     double knockLevel = -1.0, turboLevel = -1.0;
+    double dynoTime = -1.0, dynoRpm = 0.0;
     for (int i = 3; i + 1 < argc; ++i) {
         const std::string a = argv[i];
         if (a == "--crank") crank = std::atof(argv[++i]);
@@ -64,6 +66,7 @@ int main(int argc, char **argv) {
         else if (a == "--end") end = std::atof(argv[++i]);
         else if (a == "--knock-level") knockLevel = std::atof(argv[++i]);
         else if (a == "--turbo-level") turboLevel = std::atof(argv[++i]);
+        else if (a == "--dyno" && i + 2 < argc) { dynoTime = std::atof(argv[++i]); dynoRpm = std::atof(argv[++i]); }
     }
 
     es_script::Compiler compiler;
@@ -135,6 +138,14 @@ int main(int argc, char **argv) {
     while (t < end) {
         sim->m_starterMotor.m_enabled = t < crank;
         engine->setSpeedControl((t >= revStart && t < revEnd) ? 1.0 : 0.0);
+        if (dynoTime >= 0.0 && t >= dynoTime && !sim->m_dyno.m_enabled) {
+            // Dynamometer::calculate holds |m_rotationSpeed| in the current
+            // rotation direction; engage it while the crank turns forward.
+            sim->m_dyno.m_rotationSpeed = units::rpm(dynoRpm);
+            sim->m_dyno.m_maxTorque = units::torque(50000.0, units::ft_lb);
+            sim->m_dyno.m_hold = true;
+            sim->m_dyno.m_enabled = true;
+        }
         sim->startFrame(1.0 / 60.0);
         while (sim->simulateStep()) t += dt;
         sim->endFrame();

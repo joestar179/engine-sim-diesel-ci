@@ -68,6 +68,9 @@ class CombustionChamber : public atg_scs::ForceGenerator {
         void ignite();
         void beginCompressionIgnitionEvent(double fuelMass);
         void resetCombustionPressureRiseRate() { m_combustionPressureRiseRate = 0.0; }
+        // Air state captured at the start of the latest injection event.
+        double getLastInjectionTrappedAirMoles() const { return m_lastInjectionTrappedAir; }
+        double getLastInjectionTrappedO2Moles() const { return m_lastInjectionTrappedO2; }
         double getCombustionPressureRiseRate() const { return m_combustionPressureRiseRate; }
         void update(double dt);
         void flow(double dt);
@@ -121,6 +124,11 @@ class CombustionChamber : public atg_scs::ForceGenerator {
         double m_exhaustFlow;
         CompressionIgnitionModel::Event m_compressionIgnitionEvent;
         double m_combustionPressureRiseRate = 0.0;
+        double m_lastInjectionTrappedAir = 0.0;
+        double m_lastInjectionTrappedO2 = 0.0;
+        // Oxygen the current compression-ignition event may still consume
+        // (mixing-limited utilisation of the trapped charge); < 0: not set.
+        double m_oxygenBudget = -1.0;
         double m_exhaustValveOpeningPressure = 0.0;
         double m_exhaustValveOpeningTemperature = 0.0;
         double m_exhaustRunnerPeakPressure = 0.0;

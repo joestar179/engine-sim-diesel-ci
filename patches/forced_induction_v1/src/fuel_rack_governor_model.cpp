@@ -39,7 +39,12 @@ double FuelRackGovernorModel::update(double dt, double engineSpeedRadPerSec) {
     if (dt <= 0.0) return std::pow(clamp01(m_output), m_parameters.gamma);
 
     const double speed = std::abs(engineSpeedRadPerSec);
-    const double error = m_targetSpeed * m_targetSpeed - speed * speed;
+    // Speed droop acts on the delivered (output-space) rack of the previous
+    // update: an unloaded engine settles droop above the setpoint.
+    const double deliveredRack = std::pow(clamp01(m_output), m_parameters.gamma);
+    const double governedSpeed =
+        m_targetSpeed * (1.0 + std::max(0.0, m_parameters.droop) * (1.0 - deliveredRack));
+    const double error = governedSpeed * governedSpeed - speed * speed;
     m_rackRate += dt * error * m_parameters.k_s - dt * m_rackRate * m_parameters.k_d;
     m_rackRate = std::max(m_parameters.minRackRate, std::min(m_parameters.maxRackRate, m_rackRate));
     m_rack += m_rackRate * dt;
@@ -47,7 +52,7 @@ double FuelRackGovernorModel::update(double dt, double engineSpeedRadPerSec) {
 
     // Proportional compensation acts on the linear speed error so its
     // effect does not depend on the operating speed squared.
-    const double target = std::max(1.0, std::abs(m_targetSpeed));
+    const double target = std::max(1.0, std::abs(governedSpeed));
     double output = clamp01(m_rack + m_parameters.k_p * (target - speed) / target);
 
     // startingRack and crankRackLimit are defined in commanded/output rack

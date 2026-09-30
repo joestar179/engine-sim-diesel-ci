@@ -20,6 +20,14 @@ public:
         // engine falls back below half minimum speed (a stall or restart).
         // 1 keeps the original unlimited behaviour.
         double crankRackLimit = 1.0;
+        // Speed droop: the governed speed rises by droop * setpoint as the
+        // output rack falls from 1 to 0 (0 = isochronous). With droop a dyno
+        // hold at the set speed still loads the engine to full rack.
+        double droop = 0.0;
+        // Air/smoke fuel limiter (applied by DieselGovernor, which can see
+        // the trapped charge): fuel is capped so the trapped oxygen gives at
+        // least this excess-air ratio lambda. 0 disables the limiter.
+        double smokeLimitLambda = 0.0;
     };
 
     FuelRackGovernorModel();

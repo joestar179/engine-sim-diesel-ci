@@ -39,7 +39,7 @@ class Synthesizer {
             // Structure-borne combustion noise ("diesel knock"): level per unit
             // of structural force rate sum(piston area * combustion dp/dt), N/s.
             float combustionNoiseLevel = 4.0e-4f;
-            // Turbocharger: level per sqrt(W) of compressor power.
+            // Turbocharger: level per sqrt(W) of turbine + compressor power.
             float turboSoundLevel = 15.0f;
             // Fraction of the turbo layer that is tonal (the rest is narrow-band
             // noise around the blade-pass frequency).

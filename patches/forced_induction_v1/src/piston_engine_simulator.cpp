@@ -439,18 +439,20 @@ void PistonEngineSimulator::writeToSynthesizer() {
     }
 
     // Turbocharger sound is generated in the synthesizer at the audio rate
-    // from the blade-pass frequency and sqrt(compressor power); the dominant
-    // group sets the frequency, all groups contribute power.
+    // from the blade-pass frequency and sqrt(aerodynamic power of both
+    // wheels: turbine + compressor); the dominant group sets the frequency,
+    // all groups contribute power. Including the turbine keeps the spool-up
+    // audible while the compressor still does little work.
     double bladePassFrequency = 0.0;
-    double compressorPower = 0.0;
+    double turboPower = 0.0;
     double dominantPower = -1.0;
     ForcedInductionSystem *forcedInduction = m_engine->getForcedInductionSystem();
     if (forcedInduction->enabled()) {
         const int blades = m_engine->getProceduralDieselAudio()->parameters().compressorBladeCount;
         for (std::size_t g = 0; g < forcedInduction->groupCount(); ++g) {
             const TurboGroup::Telemetry &t = forcedInduction->group(g)->telemetry();
-            const double power = std::max(0.0, t.compressorPower);
-            compressorPower += power;
+            const double power = std::max(0.0, t.compressorPower) + std::max(0.0, t.turbinePower);
+            turboPower += power;
             if (power > dominantPower) {
                 dominantPower = power;
                 bladePassFrequency = std::max(0.0, t.shaftSpeed) / (2.0 * constants::pi) * blades;
@@ -460,7 +462,7 @@ void PistonEngineSimulator::writeToSynthesizer() {
 
     m_exhaustFlowStagingBuffer[exhaustSystemCount + Synthesizer::StructuralForceRate] = structuralForceRate;
     m_exhaustFlowStagingBuffer[exhaustSystemCount + Synthesizer::TurboBladePassFrequency] = bladePassFrequency;
-    m_exhaustFlowStagingBuffer[exhaustSystemCount + Synthesizer::TurboAmplitude] = std::sqrt(compressorPower);
+    m_exhaustFlowStagingBuffer[exhaustSystemCount + Synthesizer::TurboAmplitude] = std::sqrt(turboPower);
 
     synthesizer().writeInput(m_exhaustFlowStagingBuffer);
 }

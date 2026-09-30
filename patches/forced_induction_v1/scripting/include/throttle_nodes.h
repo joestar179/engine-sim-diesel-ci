@@ -90,6 +90,8 @@ namespace es_script {
             addInput("starting_rack", &m_parameters.startingRack);
             addInput("k_p", &m_parameters.k_p);
             addInput("crank_rack_limit", &m_parameters.crankRackLimit);
+            addInput("droop", &m_parameters.droop);
+            addInput("smoke_limit_lambda", &m_parameters.smokeLimitLambda);
             ThrottleNode::registerInputs();
         }
         DieselGovernor::Parameters m_parameters;

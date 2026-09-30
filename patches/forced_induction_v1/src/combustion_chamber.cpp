@@ -232,6 +232,9 @@ void CombustionChamber::ignite() {
 
 void CombustionChamber::beginCompressionIgnitionEvent(double fuelMass) {
     if (!m_engine->isCompressionIgnition()) return;
+    m_lastInjectionTrappedAir = getTrappedAirMoles();
+    m_lastInjectionTrappedO2 = m_system.n_o2();
+    m_oxygenBudget = -1.0;
     m_engine->getCompressionIgnitionModel()->beginEvent(
         m_compressionIgnitionEvent,
         fuelMass,
@@ -259,11 +262,30 @@ void CombustionChamber::processCompressionIgnition(double dt) {
         m_litLastFrame = true;
     }
 
-    if (result.fuelMolesToBurn > 0.0) {
+    // Diffusion (mixing-limited) diesel combustion cannot use all trapped
+    // oxygen: fuel meeting already-depleted charge stays unburned (smoke).
+    // The event may consume at most MaxOxygenUtilization of the oxygen
+    // present when combustion starts. This is a generic combustion property
+    // (burn limit near lambda = 1/0.75 = 1.33), not an engine calibration.
+    constexpr double MaxOxygenUtilization = 0.75;
+    if (result.combustionStarted && m_oxygenBudget < 0.0) {
+        m_oxygenBudget = MaxOxygenUtilization * m_system.n_o2();
+    }
+
+    double fuelMolesToBurn = result.fuelMolesToBurn;
+    if (fuelMolesToBurn > 0.0 && m_oxygenBudget >= 0.0) {
+        const double o2PerFuel = m_fuel->getMolecularAfr();
+        fuelMolesToBurn = std::min(fuelMolesToBurn, m_oxygenBudget / std::max(o2PerFuel, 1.0e-9));
+    }
+
+    if (fuelMolesToBurn > 0.0) {
         const double before = m_system.pressure();
         const double reacted = m_system.reactFuel(
-            result.fuelMolesToBurn,
+            fuelMolesToBurn,
             m_fuel->getMolecularAfr());
+        if (m_oxygenBudget >= 0.0) {
+            m_oxygenBudget = std::max(0.0, m_oxygenBudget - reacted * m_fuel->getMolecularAfr());
+        }
         const double mass = reacted * m_fuel->getMolecularMass();
         m_system.changeEnergy(
             mass * m_fuel->getEnergyDensity() * m_fuel->getMaxBurningEfficiency());
@@ -309,7 +331,23 @@ void CombustionChamber::flow(double dt) {
 
     const double dT = units::celcius(90.0) - m_system.temperature();
 
-    m_system.changeEnergy(dT * cylinderSurfaceArea * 100 * dt);
+    // Compression-ignition cylinders use the Hohenberg correlation for the
+    // gas-to-wall heat-transfer coefficient (developed for direct-injection
+    // diesels; scales with pressure, temperature, piston speed and size). The
+    // original constant 100 W/m^2K is kept for spark-ignition engines.
+    double heatTransferCoefficient = 100.0;
+    if (m_engine->isCompressionIgnition()) {
+        const double pressureBar = std::max(0.01, m_system.pressure() / 1.0e5);
+        const double temperature = std::max(1.0, m_system.temperature());
+        const double pistonSpeed = std::abs(calculateMeanPistonSpeed());
+        heatTransferCoefficient = 130.0
+            * std::pow(std::max(volume, 1.0e-6), -0.06)
+            * std::pow(pressureBar, 0.8)
+            * std::pow(temperature, -0.4)
+            * std::pow(pistonSpeed + 1.4, 0.8);
+    }
+
+    m_system.changeEnergy(dT * cylinderSurfaceArea * heatTransferCoefficient * dt);
     m_system.flow(m_piston->getBlowbyK(), dt, m_crankcasePressure, units::celcius(25.0));
 
     Intake *intake = m_head->getIntake(m_piston->getCylinderIndex());

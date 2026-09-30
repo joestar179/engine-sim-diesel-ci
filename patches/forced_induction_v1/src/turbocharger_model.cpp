@@ -53,7 +53,16 @@ void TurbochargerModel::advanceShaft(
         std::max(1.0, 0.01 * m_parameters.maxSpeed));
     const double turbineTorque = std::max(0.0, turbinePower) / referenceSpeed;
     const double compressorTorque = std::max(0.0, compressorPower) / referenceSpeed;
-    const double frictionTorque = m_speed > 0.0 ? m_parameters.frictionTorque : 0.0;
+    // Journal-bearing and windage losses rise with speed. frictionTorque is
+    // the loss torque at maximum speed; 30 % of it is speed independent
+    // (breakaway/mixed friction) and 70 % scales linearly with speed. With
+    // the ALCO 350B figures this keeps the free rundown from maximum speed in
+    // the documented 90-180 s band (I*w_max/(0.7*T) * ln(1 + 0.7/0.3) = 165 s)
+    // while no longer charging full-speed losses during low-speed spool-up.
+    const double speedFraction = clamp01(std::abs(m_speed) / std::max(1.0e-9, m_parameters.maxSpeed));
+    const double frictionTorque = m_speed > 0.0
+        ? m_parameters.frictionTorque * (0.3 + 0.7 * speedFraction)
+        : 0.0;
     const double acceleration =
         (turbineTorque - compressorTorque - frictionTorque)
         / m_parameters.shaftInertia;
