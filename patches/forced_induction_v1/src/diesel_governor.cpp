@@ -1,6 +1,8 @@
 #include "../include/diesel_governor.h"
 #include "../include/engine.h"
 
+#include <cmath>
+
 DieselGovernor::DieselGovernor() = default;
 DieselGovernor::~DieselGovernor() = default;
 
@@ -23,7 +25,12 @@ void DieselGovernor::update(double dt, Engine *engine) {
     // boost builds and a naturally aspirated one is held back.
     const double lambda = m_model.parameters().smokeLimitLambda;
     m_airLimited = false;
-    if (lambda > 0.0 && engine->isCompressionIgnition()) {
+    // Starting fuel is governed by the start-fuel limit, not by the air
+    // limiter (the cylinders start full of residual gas, so the first trapped
+    // charge readings are meaningless); the limiter acts once the engine runs.
+    const bool cranking =
+        engine->getSpeed() < 0.5 * std::abs(m_model.parameters().minSpeed);
+    if (lambda > 0.0 && engine->isCompressionIgnition() && !cranking) {
         double trappedO2 = 0.0;
         int samples = 0;
         for (int i = 0; i < engine->getCylinderCount(); ++i) {

@@ -47,8 +47,8 @@ A = assumption. Replace every A with S or D before relying on it.
 
 Open issues (highest impact first):
 
-1. **16-251B efficiency/boost mismatch.** With the sourced fuel stop (0.84 g) the turbo beats no-turbo (2530 vs 2038 hp) but the sim SFC is 148 vs documented 168 g/BHP.h and boost 135 vs 258 kPa: the modelled engine is too efficient, so it needs less air and makes less exhaust energy. Source the fuel energy input, wall temperature and heat-release shape. 6-251D (350B) turbo data still unsourced.
-2. **Ratings (checks, never targets):** 16-251B 2530 hp at 1000 rpm with the sourced fuel stop (rated
+1. **16-251B boost below spec.** With real-gas gamma the 16-251B now gives SFC 158 (doc 168 g/BHP.h), brake 39.6 % (doc 38-40 %), exhaust 31.7 %, turbine inlet 917 K (doc 873 K), turbo 2533 hp vs no-turbo 1874 hp; boost 156 kPa vs documented 258 kPa. Remaining suspects: combustion products treated as air-like, missing blow-through scavenging, turbine design point assumptions. 6-251D (350B) turbo data unsourced: turbo does not spool.
+2. **Ratings (checks, never targets):** 16-251B 2533 hp at 1000 rpm with the sourced fuel stop (rated
    2400); 6-251D 793 hp at 1100 rpm (class ~1200–1400). Fuel stops must come
    from documented BSFC or rack delivery, never be fitted to these ratings.
 3. **Stock-engine impact is not assessed.** The enthalpy-transport fix in
@@ -61,13 +61,16 @@ Open issues (highest impact first):
    boost (proposed core fix).
 5. **Gate 6B** shadow governor predates `k_p`, `droop` and the smoke limiter.
 6. SI engines have no structure-borne knock layer (no pressure-rise rate).
+7. **Real-time budget:** 16-251B physics ~118 % of one core at 3 kHz on the i7-7700HQ (real-gas model ~8 % of that); GUI will fall behind. Options: fewer fluid sub-steps for slow large engines, lower sim frequency, further per-flow optimisation.
 
 Parameters:
 
 | Parameter | Value | Status | Basis |
 |---|---|---|---|
 | Air O2 fraction (diesel/turbo paths) | 0.2095 | S | Composition of dry air; stock 0.25 kept for SI premixed intakes |
-| Flow energy = enthalpy | (dof/2 + 1) R T per mol | S | First law for open systems |
+| Flow energy = enthalpy | u(T) + R T per mol | S | First law for open systems |
+| Gas heat capacity | rigid 5/2 R + N2/O2 vibration (theta 3353 / 2239 K) | S | Statistical mechanics (harmonic oscillator) |
+| Combustion products as air-like; dynamic-pressure and choked-flow gamma 1.4 | - | A | Simplification |
 | Hohenberg heat-transfer constants | 130, −0.06, 0.8, −0.4, +1.4 | S | Hohenberg, SAE 790825 |
 | Smoke-limited equivalence ratio | 0.75 (combustion O2 limit; limiter λ = 1/0.75) | S (range) | Heywood, *ICE Fundamentals*: DI diesel ~0.7–0.8; midpoint chosen |
 | Wall temperature in heat transfer | 90 °C | A | Stock value; real diesel surfaces ~400–500 K |

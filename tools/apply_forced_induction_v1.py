@@ -40,6 +40,7 @@ EXPECTED_BASELINE = {
     "src/simulator.cpp": "3a014d5dd7e2584250db33605fc51d07d1f7779b811f92c8599d19a654831eb4",
     "src/diesel_governor.cpp": "fc11a0aa3c735b2602de6e54920108c45376ef8858898bfbec6ff9b11a46962e",
     "src/gas_system.cpp": "065f70d26bca6074d6f96efdb989914d43500201296d2ae77fd88af90c839d2b",
+    "include/gas_system.h": "af5880ada709f850651736b7e28fa5086bad0b8a45a1ac137f1dcb25bd13d944",
     "include/diesel_governor.h": "83cba76076e8087c0694e98125d66bf2e5644897cc2ad24e1dab5a1eb23a6d79",
     "src/synthesizer.cpp": "8ec3421e98b32f811cb3fcc8453ed30de77fef1fe4fc6a2fcb69421175ae34e8",
     "include/synthesizer.h": "a6320d59eb2f5cebf12ccea40fc73c9ba9f80944aa51fa236553a840b6353e54",
@@ -100,7 +101,7 @@ PINNED_PRODUCTION_TEMPLATES = {
     "assets/alco_16_251b_main.mr": "de603c279f374f62bd5b47ef0edebbabfbe083b01bdc2ab057620ff1af4c61f4",
     "assets/engines/alco/alco_16_251b_native.mr": "1a187da5a87fec866d516a197b8e59163b91f308ce2f607ed6f6319acadc588d",
     "es/objects/objects.mr": "89c444bcdfda1a9559659a5820635dc098abca47c1b8384f61194da86ea4fadc",
-    "include/combustion_chamber.h": "188263ff836372ff158bd3bcb658d63c65270a2541f78a4498c23b77a560bf68",
+    "include/combustion_chamber.h": "f6712576de17d8949e31b04d21e6c66c1e1685efa0d1cf5a72cc44fac6081325",
     "include/engine.h": "999e6bc481c2c0db03131a81caa90f213c0146c4b12783c7e3c75df876c4ab73",
     "include/exhaust_system.h": "050d489bb2fc579b0bf350b14797e55bb26e902908f941069d0b2d275e42df90",
     "include/forced_induction_system.h": "57c6bc6a9084bdda1f99d60851a3c6ea53ec0059be36610a8a5e8a151b68ce22",
@@ -109,10 +110,10 @@ PINNED_PRODUCTION_TEMPLATES = {
     "scripting/include/engine_node.h": "42e3b1b1a51c91e9f5dd7b7eec0ff75da47c06dd2ac141b16783e204baf249d4",
     "scripting/include/exhaust_system_node.h": "d5f3436f866d9f3608efcd808aa61d079e0eb6f207a9134c046b0a0940755c3d",
     "scripting/src/compiler.cpp": "fb6566d847ab4486d68ee39e813753cc5c0b9d52c7c5b988bb4fbd43ec02eeb0",
-    "src/combustion_chamber.cpp": "62350e2396f2098059261614aaf3cf6e9253566caa3c16d262aec84bfd65662d",
+    "src/combustion_chamber.cpp": "89789378bd259caa51b0afb12c32ee4a8dc98fd82124fb1db9a6299f0feec742",
     "src/engine.cpp": "6e3e1ebee9bafd11791d01522f5934b375d7f9aa3abfc12a75e67527d004ef16",
     "src/exhaust_system.cpp": "82371111c1405bfd72a581be18d2b2274bd63819d92103d73b0970a5f7895d20",
-    "src/forced_induction_system.cpp": "9e9e8328fcf1a2ff4bc826fa37b57cc53b0c52b5106ac171c002b61d1f9ab311",
+    "src/forced_induction_system.cpp": "7670b6247dbffb2424c63145e2db56e651588838b14ddc2f4f89b5cc2d6f6302",
     "src/intake.cpp": "81076fbcf04b0da18dfb8ce954729b2902510119f35b760860dfa7503b388d70",
     "src/piston_engine_simulator.cpp": "1a89b205ee24a38060e59916e437184938848aea4a2f869c54173304907d61ff",
     "src/turbocharger_model.cpp": "c64f89a3228ebb97afd974042c1ff8576587c3df3350744f16f5080d4eef68b7",
@@ -128,9 +129,10 @@ PINNED_PRODUCTION_TEMPLATES = {
     "include/synthesizer.h": "b23197046eb20ed095d183199c0b2fef191361b6e088383b1cf28c177413354f",
     "assets/engines/alco/alco_251d_diesel_turbo.mr": "f5ade61fc71d03d48144618243c96a2835a592f6628c435637951170c8d98ecb",
     "src/simulator.cpp": "ea41ae1cf86a24cb1c99712ee3443b7edc404978460ed7e7a6a559c4986fa842",
-    "src/diesel_governor.cpp": "d0a7c8eaf84b631ab0549be7af1b55a3de8dfe5c8e9da6e04a0825bcf833efe0",
+    "src/diesel_governor.cpp": "82fe2c2b57b1b8c8b4eb07e4b223994ed2ce8b487f2a0907cce79a7b450ade79",
     "include/diesel_governor.h": "77b27b5b3b25ec18d8ff5846c33909a200c5d4c30ec50807fecf63a0b3a29698",
-    "src/gas_system.cpp": "b2748dd9c4a37c06f150ae1ce65711017416b4c58f659cbec0523147b6b85197",
+    "src/gas_system.cpp": "df3a358df2e2068de582688b6382fec1cfa4a3868f994dbdbadb6b866d7f1b86",
+    "include/gas_system.h": "817325ef72c9dbd02979f0a6576d02e0c11f1255876113ab22e079be78d3073b",
 }
 
 NEW_FILES = {
@@ -178,7 +180,7 @@ REQUIRED_POSTCONDITIONS = {
     ],
     "src/combustion_chamber.cpp": [
         "constexpr double MaxOxygenUtilization = 0.75;",
-        "heatTransferCoefficient = 130.0",
+        "m_heatTransferStepFactor = 130.0",
         "m_engine->getExhaustDestination(exhaust)",
     ],
     "src/piston_engine_simulator.cpp": [
@@ -297,7 +299,12 @@ REQUIRED_POSTCONDITIONS = {
         'addInput("crank_rack_limit", &m_parameters.crankRackLimit);',
     ],
     "src/gas_system.cpp": [
-        "source->kineticEnergyPerMol() * (dof + 2.0) / dof",
+        "const double E_k_per_mol = source->enthalpyPerMol();",
+        "solveEqualisingFlow(",
+    ],
+    "include/gas_system.h": [
+        "namespace gas_vibration",
+        "temperatureFromEnergyPerMol(",
     ],
     "src/diesel_governor.cpp": [
         "smokeLimitLambda",

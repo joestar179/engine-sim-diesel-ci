@@ -3,6 +3,7 @@
 #include "../include/units.h"
 #include "../include/utilities.h"
 
+#include <algorithm>
 #include <cmath>
 #include <cassert>
 
@@ -13,11 +14,80 @@ void GasSystem::setGeometry(double width, double height, double dx, double dy) {
     m_dy = dy;
 }
 
+namespace {
+// Harmonic-oscillator vibrational energy of air's diatomic molecules
+// (Einstein function), mole fractions N2 0.79 / O2 0.21, characteristic
+// vibrational temperatures 3353 K (N2) and 2239 K (O2). Tabulated at 1 K.
+struct VibrationTable {
+    static constexpr int Size = 8001; // 0 .. 8000 K
+    double u[Size];
+    double cv[Size];
+    VibrationTable() {
+        const double w[2] = { 0.79, 0.21 };
+        const double theta[2] = { 3353.0, 2239.0 };
+        for (int i = 0; i < Size; ++i) {
+            const double T = static_cast<double>(i);
+            double ui = 0.0, ci = 0.0;
+            for (int k = 0; k < 2 && T > 0.0; ++k) {
+                const double x = theta[k] / T;
+                if (x > 700.0) continue;
+                const double ex = std::exp(x);
+                ui += w[k] * theta[k] / (ex - 1.0);
+                ci += w[k] * x * x * ex / ((ex - 1.0) * (ex - 1.0));
+            }
+            u[i] = constants::R * ui;
+            cv[i] = constants::R * ci;
+        }
+    }
+};
+
+// Fill the shared tables once at static initialisation.
+const VibrationTable g_vibrationTable;
+struct VibrationTableExport {
+    VibrationTableExport() {
+        for (int i = 0; i < VibrationTable::Size; ++i) {
+            gas_vibration::energy[i] = g_vibrationTable.u[i];
+            gas_vibration::heatCapacity[i] = g_vibrationTable.cv[i];
+        }
+    }
+} g_vibrationTableExport;
+}
+
+bool gas_vibration::enabled = true;
+double gas_vibration::energy[gas_vibration::TableSize];
+double gas_vibration::heatCapacity[gas_vibration::TableSize];
+
+double GasSystem::pressureOf(double n, double E, double V, int degreesOfFreedom) {
+    if (n <= 0.0 || V <= 0.0) return 0.0;
+    return n * constants::R * temperatureFromEnergyPerMol(E / n, degreesOfFreedom) / V;
+}
+
+namespace {
+// Refines a linear estimate of the equalising flow dn (secant method on the
+// pressure difference). residual(dn) must be monotonic on [lo, hi].
+template <typename F>
+double solveEqualisingFlow(F residual, double estimate, double lo, double hi) {
+    double x0 = std::min(hi, std::max(lo, estimate));
+    double f0 = residual(x0);
+    double x1 = std::min(hi, std::max(lo, x0 * 0.98));
+    if (x1 == x0) x1 = std::min(hi, std::max(lo, x0 + 1.0e-9 * (hi - lo)));
+    double f1 = residual(x1);
+    for (int i = 0; i < 6; ++i) {
+        if (f1 == f0) break;
+        const double x2 = std::min(hi, std::max(lo, x1 - f1 * (x1 - x0) / (f1 - f0)));
+        x0 = x1; f0 = f1;
+        x1 = x2; f1 = residual(x1);
+        if (std::abs(f1) < 1.0e-9) break;
+    }
+    return x1;
+}
+}
+
 void GasSystem::initialize(double P, double V, double T, const Mix &mix, int degreesOfFreedom) {
     m_degreesOfFreedom = degreesOfFreedom;
     m_state.n_mol = P * V / (constants::R * T);
     m_state.V = V;
-    m_state.E_k = T * (0.5 * degreesOfFreedom * m_state.n_mol * constants::R);
+    m_state.E_k = m_state.n_mol * kineticEnergyPerMol(T, degreesOfFreedom);
     m_state.mix = mix;
     m_state.momentum[0] = m_state.momentum[1] = 0;
 
@@ -28,7 +98,7 @@ void GasSystem::initialize(double P, double V, double T, const Mix &mix, int deg
 
 void GasSystem::reset(double P, double T, const Mix &mix) {
     m_state.n_mol = P * volume() / (constants::R * T);
-    m_state.E_k = T * (0.5 * m_degreesOfFreedom * m_state.n_mol * constants::R);
+    m_state.E_k = m_state.n_mol * kineticEnergyPerMol(T, m_degreesOfFreedom);
     m_state.mix = mix;
     m_state.momentum[0] = m_state.momentum[1] = 0;
 }
@@ -54,11 +124,18 @@ void GasSystem::changeVolume(double dV) {
 }
 
 void GasSystem::changePressure(double dP) {
-    m_state.E_k += dP * volume() * m_degreesOfFreedom * 0.5;
+    // At constant n and V: dT = dP V / (n R), dE = n u(T + dT) - n u(T).
+    if (n() <= 0) {
+        m_state.E_k += dP * volume() * m_degreesOfFreedom * 0.5;
+        return;
+    }
+    changeTemperature(dP * volume() / (n() * constants::R));
 }
 
 void GasSystem::changeTemperature(double dT) {
-    m_state.E_k += dT * 0.5 * m_degreesOfFreedom * n() * constants::R;
+    if (n() <= 0) return;
+    const double T = temperature();
+    m_state.E_k = n() * kineticEnergyPerMol(std::max(0.0, T + dT), m_degreesOfFreedom);
 }
 
 void GasSystem::changeEnergy(double dE) {
@@ -101,7 +178,9 @@ double GasSystem::reactFuel(double fuelMoles, double idealO2PerFuel) {
 }
 
 void GasSystem::changeTemperature(double dT, double n) {
-    m_state.E_k += dT * 0.5 * m_degreesOfFreedom * n * constants::R;
+    const double T = temperature();
+    m_state.E_k += n * (kineticEnergyPerMol(std::max(0.0, T + dT), m_degreesOfFreedom)
+        - kineticEnergyPerMol(T, m_degreesOfFreedom));
 }
 
 double GasSystem::react(double n, const Mix &mix) {
@@ -421,7 +500,8 @@ double GasSystem::flow(const FlowParameters &params) {
         source->m_chokedFlowLimit,
         source->m_chokedFlowFactorCached);
 
-    const double maxFlow = source->pressureEquilibriumMaxFlow(sink);
+    // (The upstream code computed pressureEquilibriumMaxFlow(sink) here but
+    // never used it; the call is dropped because it is now an iterative solve.)
     flow = clamp(flow, 0.0, 0.9 * source->n());
 
     const double fraction = flow / source->n();
@@ -443,8 +523,7 @@ double GasSystem::flow(const FlowParameters &params) {
         // only its internal energy. Transferring internal energy alone left
         // a filling cylinder too cold and too dense (the 16-251B trapped
         // ~1.2-1.3x the ambient-density charge without any boost).
-        const double dof = static_cast<double>(source->degreesOfFreedom());
-        const double E_k_per_mol = source->kineticEnergyPerMol() * (dof + 2.0) / dof;
+        const double E_k_per_mol = source->enthalpyPerMol();
         sink->gainN(flow, E_k_per_mol, source->mix());
         source->loseN(flow, E_k_per_mol);
 
@@ -551,7 +630,6 @@ double GasSystem::flow(const FlowParameters &params) {
 }
 
 double GasSystem::flow(double k_flow, double dt, double P_env, double T_env, const Mix &mix) {
-    const double maxFlow = pressureEquilibriumMaxFlow(P_env, T_env);
     double flow = dt * flowRate(
         k_flow,
         pressure(),
@@ -562,6 +640,14 @@ double GasSystem::flow(double k_flow, double dt, double P_env, double T_env, con
         m_chokedFlowLimit,
         m_chokedFlowFactorCached);
 
+    // The exact equalising limit is only needed when the requested flow is
+    // near it; the linear estimate (exact for constant cv) screens cheaply.
+    const double f = effectiveDegreesOfFreedom();
+    const double linearMax = -(P_env * (0.5 * f * volume()) - kineticEnergy())
+        / ((pressure() > P_env) ? enthalpyPerMol() : enthalpyPerMol(T_env, m_degreesOfFreedom));
+    const double maxFlow = (std::abs(flow) > 0.5 * std::abs(linearMax))
+        ? pressureEquilibriumMaxFlow(P_env, T_env)
+        : linearMax;
     if (std::abs(flow) > std::abs(maxFlow)) {
         flow = maxFlow;
     }
@@ -570,8 +656,7 @@ double GasSystem::flow(double k_flow, double dt, double P_env, double T_env, con
         const double bulk_E_k_0 = bulkKineticEnergy();
         // Inflow from the environment brings its enthalpy (see flow()).
         gainN(-flow,
-            kineticEnergyPerMol(T_env, m_degreesOfFreedom)
-                * (m_degreesOfFreedom + 2.0) / m_degreesOfFreedom,
+            enthalpyPerMol(T_env, m_degreesOfFreedom),
             mix);
         const double bulk_E_k_1 = bulkKineticEnergy();
 
@@ -579,7 +664,7 @@ double GasSystem::flow(double k_flow, double dt, double P_env, double T_env, con
     }
     else {
         const double starting_n = n();
-        loseN(flow, kineticEnergyPerMol() * (m_degreesOfFreedom + 2.0) / m_degreesOfFreedom);
+        loseN(flow, enthalpyPerMol());
 
         m_state.momentum[0] -= (flow / starting_n) * m_state.momentum[0];
         m_state.momentum[1] -= (flow / starting_n) * m_state.momentum[1];
@@ -604,28 +689,60 @@ double GasSystem::pressureEquilibriumMaxFlow(const GasSystem *b) const {
 
     // Transferred energy per mole is the source's enthalpy (see flow()).
     if (pressure() > b->pressure()) {
-        const double h = kineticEnergyPerMol() * (m_degreesOfFreedom + 2.0) / m_degreesOfFreedom;
-        const double maxFlow =
-                (b->volume() * kineticEnergy() - volume() * b->kineticEnergy()) /
-                (b->volume() * h + volume() * h);
+        // Equal final pressures with P = 2E/(fV) and each side's secant f:
+        // dn = (f_b V_b E_a - f_a V_a E_b) / (h (f_b V_b + f_a V_a)).
+        const double h = enthalpyPerMol();
+        const double fa = effectiveDegreesOfFreedom(), fb = b->effectiveDegreesOfFreedom();
+        const double estimate =
+                (fb * b->volume() * kineticEnergy() - fa * volume() * b->kineticEnergy()) /
+                (h * (fb * b->volume() + fa * volume()));
+        // Exact equalisation: cv depends on temperature, so refine the
+        // linear estimate on the real pressures.
+        const double na = n(), Ea = kineticEnergy(), Va = volume();
+        const double nb = b->n(), Eb = b->kineticEnergy(), Vb = b->volume();
+        const int da = m_degreesOfFreedom, db = b->m_degreesOfFreedom;
+        const double maxFlow = solveEqualisingFlow([&](double dn) {
+            return pressureOf(na - dn, Ea - dn * h, Va, da) - pressureOf(nb + dn, Eb + dn * h, Vb, db);
+        }, estimate, 0.0, na);
         return std::fmax(0.0, std::fmin(maxFlow, n()));
     }
     else {
-        const double h = b->kineticEnergyPerMol() * (b->m_degreesOfFreedom + 2.0) / b->m_degreesOfFreedom;
-        const double maxFlow =
-                (b->volume() * kineticEnergy() - volume() * b->kineticEnergy()) /
-                (b->volume() * h + volume() * h);
-        return std::fmin(0.0, std::fmax(maxFlow, -b->n()));
+        const double h = b->enthalpyPerMol();
+        const double fa = effectiveDegreesOfFreedom(), fb = b->effectiveDegreesOfFreedom();
+        const double estimate =
+                (fb * b->volume() * kineticEnergy() - fa * volume() * b->kineticEnergy()) /
+                (h * (fb * b->volume() + fa * volume()));
+        const double na = n(), Ea = kineticEnergy(), Va = volume();
+        const double nb = b->n(), Eb = b->kineticEnergy(), Vb = b->volume();
+        const int da = m_degreesOfFreedom, db = b->m_degreesOfFreedom;
+        const double moved = solveEqualisingFlow([&](double m) {
+            return pressureOf(nb - m, Eb - m * h, Vb, db) - pressureOf(na + m, Ea + m * h, Va, da);
+        }, -estimate, 0.0, nb);
+        return std::fmin(0.0, std::fmax(-moved, -b->n()));
     }
 }
 
 double GasSystem::pressureEquilibriumMaxFlow(double P_env, double T_env) const {
     if (pressure() > P_env) {
-        return -(P_env * (0.5 * m_degreesOfFreedom * volume()) - kineticEnergy())
-            / (kineticEnergyPerMol() * (m_degreesOfFreedom + 2.0) / m_degreesOfFreedom);
+        // Linearised with the current secant degrees of freedom (P = 2E/(fV)).
+        const double f = effectiveDegreesOfFreedom();
+        const double h = enthalpyPerMol();
+        const double estimate = -(P_env * (0.5 * f * volume()) - kineticEnergy()) / h;
+        const double n0 = n(), E0 = kineticEnergy(), V0 = volume();
+        const int d = m_degreesOfFreedom;
+        return solveEqualisingFlow([&](double dn) {
+            return pressureOf(n0 - dn, E0 - dn * h, V0, d) - P_env;
+        }, estimate, 0.0, n0);
     }
     else {
-        const double E_k_per_mol_env = 0.5 * T_env * constants::R * (m_degreesOfFreedom + 2.0);
-        return -(P_env * (0.5 * m_degreesOfFreedom * volume()) - kineticEnergy()) / E_k_per_mol_env;
+        const double f = effectiveDegreesOfFreedom();
+        const double h = enthalpyPerMol(T_env, m_degreesOfFreedom);
+        const double estimate = -(P_env * (0.5 * f * volume()) - kineticEnergy()) / h;
+        const double n0 = n(), E0 = kineticEnergy(), V0 = volume();
+        const int d = m_degreesOfFreedom;
+        const double gained = solveEqualisingFlow([&](double m) {
+            return P_env - pressureOf(n0 + m, E0 + m * h, V0, d);
+        }, -estimate, 0.0, std::max(1.0e-12, -4.0 * estimate));
+        return -gained;
     }
 }

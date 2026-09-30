@@ -40,14 +40,12 @@ double boundedTransfer(
     // Flowing gas carries enthalpy (as in GasSystem::flow): the compressor
     // adds cp * (T_out - T_in) per mole, matching its shaft work.
     const GasSystem::Mix mix = source.mix();
-    const double sourceDof = static_cast<double>(source.degreesOfFreedom());
-    const double destinationDof = static_cast<double>(destination.degreesOfFreedom());
-    source.loseN(dn, source.kineticEnergyPerMol() * (sourceDof + 2.0) / sourceDof);
+    source.loseN(dn, source.enthalpyPerMol());
     destination.gainN(
         dn,
-        GasSystem::kineticEnergyPerMol(
+        GasSystem::enthalpyPerMol(
             std::max(MinimumTemperature, destinationTemperature),
-            destination.degreesOfFreedom()) * (destinationDof + 2.0) / destinationDof,
+            destination.degreesOfFreedom()),
         mix);
     return dn;
 }
@@ -270,8 +268,7 @@ double TurboGroup::processTurbineFlow(double dt, Engine &engine) {
         const double outletPressure = post->pressure();
         const double pressureRatio = std::max(1.0, inletPressure / std::max(1.0, outletPressure));
         // Enthalpy per mole carried through the turbine (see GasSystem::flow).
-        const double inletEnergyPerMol = scroll.kineticEnergyPerMol()
-            * (scroll.degreesOfFreedom() + 2.0) / scroll.degreesOfFreedom();
+        const double inletEnergyPerMol = scroll.enthalpyPerMol();
 
         GasSystem::FlowParameters flow{};
         flow.k_flow = m_turbineFlowK * flowFactor / static_cast<double>(m_preTurbine.size());
@@ -286,8 +283,11 @@ double TurboGroup::processTurbineFlow(double dt, Engine &engine) {
         const double moved = GasSystem::flow(flow);
         if (moved <= 0.0) continue;
 
-        constexpr double exponent = (Gamma - 1.0) / Gamma;
-        const double cpMolar = (Gamma / (Gamma - 1.0)) * 8.31446261815324;
+        // Isentropic turbine work with the exhaust gas's own gamma at the
+        // turbine inlet temperature (hot gas ~1.33, not 1.4).
+        const double gammaT = scroll.heatCapacityRatio();
+        const double exponent = (gammaT - 1.0) / gammaT;
+        const double cpMolar = (gammaT / (gammaT - 1.0)) * 8.31446261815324;
         const double idealWorkPerMol = cpMolar
             * std::max(MinimumTemperature, inletTemperature)
             * (1.0 - std::pow(1.0 / pressureRatio, exponent));

@@ -630,6 +630,40 @@ Open, the largest remaining discrepancy: the simulated engine is ~12 % more fuel
 
 These must be sourced, not fitted to the SFC.
 
+## Temperature-dependent heat capacity (real-gas γ)
+
+- **Cause:** `GasSystem` used a constant cv (5 degrees of freedom, γ = 1.40) at all temperatures, which overstates the cycle efficiency of hot combustion gas.
+- **Change:** diatomic systems now include the vibrational energy of N2/O2 (harmonic oscillator / Einstein function; θv 3353 K and 2239 K; air fractions 0.79 / 0.21).
+  - Temperature inverts u(T) with an inline table plus Newton; accuracy < 0.3 K on a warm start. Below 300 K the rigid value is used (error < 0.04 %).
+  - Pressure = nRT/V; γ(T) = cp/cv. Enthalpy transport uses u + RT.
+  - The equilibrium flow limits are solved exactly (secant on real pressures); the `FlowLimit` test caught the linear version stopping at 120 kPa instead of 101.
+  - The turbine uses the inlet γ. The upstream dead call to `pressureEquilibriumMaxFlow(sink)` in `flow()` was removed.
+  - Resulting γ: 1.394 at 400 K, 1.344 at 900 K, 1.312 at 1500 K, 1.299 at 2200 K.
+- **Simplifications** (register, status A): combustion products treated as air-like; dynamic-pressure exponent and cached choked-flow factor keep γ = 1.4.
+- **Governor:** the air limiter is now inactive while cranking (below half idle). The cylinders start full of residual gas, and the limiter had cut the 6-251D starting rack to 0.02; starting fuel follows the start-fuel limit.
+
+Validation at rated speed after 60 s:
+
+| Variant | Power | SFC (g/BHP·h) | Brake (% of LHV) | Boost | Turbine inlet | Exhaust share |
+|---|---|---|---|---|---|---|
+| 16-251B turbo, 1000 rpm | 1889 kW (2533 hp) | 158 | 39.6 % | 156 kPa | 917 K | 31.7 % |
+| 16-251B no turbo, 1000 rpm | 1398 kW (1874 hp) | 164 | 38.2 % | — | — | — |
+| 6-251D turbo, 1100 rpm | 777 hp | — | — | PR 1.10 | — | — |
+| 6-251D no turbo, 1100 rpm | 780 hp | — | — | — | — | — |
+
+- Documented for the 720A 16-251B: SFC 168, brake 38–40 %, turbine inlet 873 K (600 °C), boost 258 kPa.
+- Previously (γ 1.4): SFC 148, brake 42.4 %, exhaust 26 %, boost 135 kPa.
+- The 6-251D turbo still does not spool; its 350B data is unsourced.
+
+Tests: 47 unit tests pass (same four upstream failures); both runtime smokes pass.
+
+Real-time cost (i7-7700HQ, Defender active; the untouched rigid-body solver was ~45 % slower than in earlier benches):
+
+- 16-251B at 3 kHz: 392 µs/step (118 % of one core); 6-251D at 10 kHz: 133 µs/step.
+- A/B in the same session: the real-gas model costs ~8 %.
+- Earlier per-sub-step overhead (Hohenberg `pow` calls and the 256-sample mean piston speed) was moved to once per step.
+- The 16-251B still exceeds the real-time budget on this machine.
+
 ## Handover incident: transient worktree loss
 
 Failure signature: `handover | uncommitted temporary worktree unavailable on continuation | workspace persistence layer`

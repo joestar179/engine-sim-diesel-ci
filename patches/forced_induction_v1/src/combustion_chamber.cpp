@@ -308,6 +308,13 @@ void CombustionChamber::update(double dt) {
 
     updateCycleStates();
 
+    if (m_engine->isCompressionIgnition()) {
+        const double pistonSpeed = std::abs(calculateMeanPistonSpeed());
+        m_heatTransferStepFactor = 130.0
+            * std::pow(std::max(getVolume(), 1.0e-6), -0.06)
+            * std::pow(pistonSpeed + 1.4, 0.8);
+    }
+
     m_intakeFlowRate = m_head->intakeFlowRate(m_piston->getCylinderIndex());
     m_exhaustFlowRate = m_head->exhaustFlowRate(m_piston->getCylinderIndex());
     const bool exhaustValveIsOpen = m_exhaustFlowRate > 0.0;
@@ -341,12 +348,10 @@ void CombustionChamber::flow(double dt) {
     if (m_engine->isCompressionIgnition()) {
         const double pressureBar = std::max(0.01, m_system.pressure() / 1.0e5);
         const double temperature = std::max(1.0, m_system.temperature());
-        const double pistonSpeed = std::abs(calculateMeanPistonSpeed());
-        heatTransferCoefficient = 130.0
-            * std::pow(std::max(volume, 1.0e-6), -0.06)
-            * std::pow(pressureBar, 0.8)
-            * std::pow(temperature, -0.4)
-            * std::pow(pistonSpeed + 1.4, 0.8);
+        // p^0.8 * T^-0.4 = exp(0.8 ln p - 0.4 ln T); the volume and piston
+        // speed terms are per step (m_heatTransferStepFactor).
+        heatTransferCoefficient = m_heatTransferStepFactor
+            * std::exp(0.8 * std::log(pressureBar) - 0.4 * std::log(temperature));
     }
 
     m_system.changeEnergy(dT * cylinderSurfaceArea * heatTransferCoefficient * dt);

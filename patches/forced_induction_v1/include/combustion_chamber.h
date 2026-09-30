@@ -129,6 +129,10 @@ class CombustionChamber : public atg_scs::ForceGenerator {
         // Oxygen the current compression-ignition event may still consume
         // (mixing-limited utilisation of the trapped charge); < 0: not set.
         double m_oxygenBudget = -1.0;
+        // Hohenberg factor 130 * V^-0.06 * (Sp + 1.4)^0.8, refreshed once per
+        // simulation step in update() (volume and mean piston speed change
+        // only per step).
+        double m_heatTransferStepFactor = 0.0;
         double m_exhaustValveOpeningPressure = 0.0;
         double m_exhaustValveOpeningTemperature = 0.0;
         double m_exhaustRunnerPeakPressure = 0.0;

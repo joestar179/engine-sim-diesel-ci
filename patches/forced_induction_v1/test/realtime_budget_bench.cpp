@@ -19,6 +19,7 @@
 #include "../scripting/include/compiler.h"
 #include "../include/engine.h"
 #include "../include/simulator.h"
+#include "../include/gas_system.h"
 #include "../include/piston_engine_simulator.h"
 #include "../include/transmission.h"
 #include "../include/vehicle.h"
@@ -128,8 +129,9 @@ int main(int argc, char **argv) {
         return 2;
     }
     int frequency = 0;
-    for (int i = 2; i + 1 < argc; ++i) {
-        if (std::string(argv[i]) == "--frequency") frequency = std::atoi(argv[i + 1]);
+    for (int i = 2; i < argc; ++i) {
+        if (std::string(argv[i]) == "--frequency" && i + 1 < argc) frequency = std::atoi(argv[i + 1]);
+        if (std::string(argv[i]) == "--ideal-gas") gas_vibration::enabled = false;
     }
 
     es_script::Compiler compiler;
