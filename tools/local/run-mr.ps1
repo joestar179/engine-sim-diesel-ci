@@ -17,11 +17,18 @@
 .EXAMPLE
     .\run-mr.ps1 D:\my_engines\v8.mr -NoLaunch      # GUI already open: press Enter
 .EXAMPLE
+    .\run-mr.ps1 alco\alco_16_251b_native.mr -Node main_no_turbo
+.EXAMPLE
+    .\run-mr.ps1 chevrolet\chev_truck_454.mr -Engine chev_truck_454   # file without main
+.EXAMPLE
     .\run-mr.ps1 -List
 #>
 param(
     [Parameter(Position = 0)] [string] $Path,
     [string] $Node = "main",
+    # For library-style files that only define an engine node (no main):
+    # writes set_engine(<Engine>()) instead of calling a main node.
+    [string] $Engine = "",
     [switch] $NoLaunch,
     [switch] $List,
     [string] $RunRoot = "C:\es\run"
@@ -64,7 +71,13 @@ $text = Get-Content $file -Raw
 $definesNode = $text -match "(?m)^\s*(public\s+)?node\s+$([regex]::Escape($Node))\b"
 $callsAtRoot = $text -match "(?m)^$([regex]::Escape($Node))\(\)\s*$"
 
-if ($callsAtRoot) {
+if ($Engine -ne "") {
+    if ($text -notmatch "(?m)^\s*public\s+node\s+$([regex]::Escape($Engine))\b") {
+        throw "$importPath has no public node '$Engine'."
+    }
+    $body = "import `"engine_sim.mr`"`nimport `"themes/default.mr`"`nimport `"$importPath`"`n`nuse_default_theme()`nset_engine($Engine())`n"
+}
+elseif ($callsAtRoot) {
     $body = "import `"engine_sim.mr`"`nimport `"themes/default.mr`"`nimport `"$importPath`"`n`nuse_default_theme()`n"
 }
 elseif ($definesNode) {
@@ -72,12 +85,12 @@ elseif ($definesNode) {
 }
 else {
     $nodes = [regex]::Matches($text, "(?m)^\s*public\s+node\s+(\w+)") | ForEach-Object { $_.Groups[1].Value }
-    throw "$importPath has no node '$Node'. Public nodes: $($nodes -join ', '). Use -Node <name>."
+    throw "$importPath has no node '$Node'. Public nodes: $($nodes -join ', '). Use -Node <name> for an entry node, or -Engine <name> for an engine node."
 }
 
 if (Test-Path $mainMr) { Write-Host "Previous main.mr: $((Get-Content $mainMr) -join ' | ')" }
 [System.IO.File]::WriteAllText($mainMr, $body, (New-Object System.Text.UTF8Encoding($false)))
-Write-Host "main.mr -> import `"$importPath`"$(if (-not $callsAtRoot) { "; $Node()" })"
+Write-Host "main.mr -> import `"$importPath`"$(if ($Engine -ne '') { "; set_engine($Engine())" } elseif (-not $callsAtRoot) { "; $Node()" })"
 
 if ($NoLaunch) {
     Write-Host "GUI already running? Press Enter in it to reload."
