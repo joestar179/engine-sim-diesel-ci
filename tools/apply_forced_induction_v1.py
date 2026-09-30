@@ -38,6 +38,8 @@ EXPECTED_BASELINE = {
     "src/engine_sim_application.cpp": "50ea701ce25b010dc20a971a1aa3273a0b26bf3f837d8f504da00725229afec2",    "include/fuel_rack_governor_model.h": "dab343ade745cf38672b10cfb35c0eee0feb5c404b596687ae5c081a96a945c3",
     "src/gauge.cpp": "74ecf75be7758d3f3e12894d2f1ea2f32fa7008e738e790637289c7b9f6afe52",
     "src/simulator.cpp": "3a014d5dd7e2584250db33605fc51d07d1f7779b811f92c8599d19a654831eb4",
+    "src/diesel_governor.cpp": "fc11a0aa3c735b2602de6e54920108c45376ef8858898bfbec6ff9b11a46962e",
+    "include/diesel_governor.h": "83cba76076e8087c0694e98125d66bf2e5644897cc2ad24e1dab5a1eb23a6d79",
     "src/synthesizer.cpp": "8ec3421e98b32f811cb3fcc8453ed30de77fef1fe4fc6a2fcb69421175ae34e8",
     "include/synthesizer.h": "a6320d59eb2f5cebf12ccea40fc73c9ba9f80944aa51fa236553a840b6353e54",
     "assets/engines/alco/alco_251d_diesel_turbo.mr": "c007e5d953a64a9f35524e4e86910e4a52d1c787ad1dfef89679677a50e0d0da",
@@ -95,9 +97,9 @@ public node set_engine {
 # may add tests and build wiring but must not alter the code under test.
 PINNED_PRODUCTION_TEMPLATES = {
     "assets/alco_16_251b_main.mr": "de603c279f374f62bd5b47ef0edebbabfbe083b01bdc2ab057620ff1af4c61f4",
-    "assets/engines/alco/alco_16_251b_native.mr": "fdc6c9ce986e4280d63118d9b16dfc0a9d2357ee1974541387f9e779a5777614",
-    "es/objects/objects.mr": "5cfcf48a6873de4d3b3c0694765569f3c2225ea1c220ccad58e81e811ec04da8",
-    "include/combustion_chamber.h": "907f66a94631211068bdcd1834d76188576df4dc92564be947685131e1a67017",
+    "assets/engines/alco/alco_16_251b_native.mr": "cc5dc52981c6dea2d2de66b894776ecbd963f56605ba1b3d7b9b78c18d5e95d3",
+    "es/objects/objects.mr": "ef7b90e057cb1f4553cc8e231a5a8e5e916374e485f92d0ab3ebe5e1c36f0b09",
+    "include/combustion_chamber.h": "188263ff836372ff158bd3bcb658d63c65270a2541f78a4498c23b77a560bf68",
     "include/engine.h": "999e6bc481c2c0db03131a81caa90f213c0146c4b12783c7e3c75df876c4ab73",
     "include/exhaust_system.h": "050d489bb2fc579b0bf350b14797e55bb26e902908f941069d0b2d275e42df90",
     "include/forced_induction_system.h": "57c6bc6a9084bdda1f99d60851a3c6ea53ec0059be36610a8a5e8a151b68ce22",
@@ -106,25 +108,27 @@ PINNED_PRODUCTION_TEMPLATES = {
     "scripting/include/engine_node.h": "42e3b1b1a51c91e9f5dd7b7eec0ff75da47c06dd2ac141b16783e204baf249d4",
     "scripting/include/exhaust_system_node.h": "d5f3436f866d9f3608efcd808aa61d079e0eb6f207a9134c046b0a0940755c3d",
     "scripting/src/compiler.cpp": "fb6566d847ab4486d68ee39e813753cc5c0b9d52c7c5b988bb4fbd43ec02eeb0",
-    "src/combustion_chamber.cpp": "b039c76a1ac59e88b073c2e34e76c0d2f5a6f9eaa0410942c075c2caeb98cd0a",
+    "src/combustion_chamber.cpp": "34fbf763ca11f90a90a1089b22a9025c851ecd359b7991b714a523194a7cb68f",
     "src/engine.cpp": "6e3e1ebee9bafd11791d01522f5934b375d7f9aa3abfc12a75e67527d004ef16",
     "src/exhaust_system.cpp": "538d16413843ef95686e6dd64ac138a0cc8f3f7d45e2f8970b707e705f8c8a51",
     "src/forced_induction_system.cpp": "f36e9e0c2431ec687cea25f846ebee64d9f4082355d62e423cf0dd9318890765",
     "src/intake.cpp": "4e8608837b82dd141e0f90a6f6f0580c8a4ea1c9fe8d2c2378a87497b8ec9792",
-    "src/piston_engine_simulator.cpp": "aba9f3dd164ac8830434f56e37fc6344d8fb9229db94097033bbe8c74ba02d1f",
-    "src/turbocharger_model.cpp": "389ed04821b31b392a660735a6a1d91949b6922d20de6e5c2dfbf96677f95fd1",
+    "src/piston_engine_simulator.cpp": "1a89b205ee24a38060e59916e437184938848aea4a2f869c54173304907d61ff",
+    "src/turbocharger_model.cpp": "c64f89a3228ebb97afd974042c1ff8576587c3df3350744f16f5080d4eef68b7",
     "include/telemetry_log.h": "d3776a08765e4335b8d27b392bcda73ac70ae72f53fb6d951da69fa186aeed63",
     "src/telemetry_log.cpp": "62d328cacfa7896c2a8bb57119eb1d5e9b7824183f111e2e6d940c5d8576400c",
     "include/engine_sim_application.h": "f9015d5bd79c045519d80e34a00f123b60f2b1c925aed43ccb19879159c1afce",
     "src/engine_sim_application.cpp": "27bf9d1262223739fc1a638c8153e0dada6ed920d211f45bdb2993081888d91a",
-    "include/fuel_rack_governor_model.h": "7b19852157d41f02df3f125801a13ec1f2bcd8fda219be81135657d32fa6cd27",
-    "src/fuel_rack_governor_model.cpp": "cf7956417510ed17634a6a957a0f3ccf0fb04f4f221d049bcc1fe5e2f9cfea73",
-    "scripting/include/throttle_nodes.h": "37df476feece66b6df48b40bd27c19d531a4c061829a555432f6a4841b325987",
+    "include/fuel_rack_governor_model.h": "0e07b8c9bf3a1d35aeceaa0472fbd573cff3d1fca247f58de6d9b69f7d16bdd6",
+    "src/fuel_rack_governor_model.cpp": "5584a9c97e7590d93b05ff724071dee7f79724fba74d40a26050b4724b17836e",
+    "scripting/include/throttle_nodes.h": "f054fcae7f396fd1e95a4bc48adcc7f2fe5ee1890a4fa7b38b8dc983334840dc",
     "src/gauge.cpp": "423436a81838a47929bb6955275716451be952455bbe2dde774e6b27193be797",
     "src/synthesizer.cpp": "aa6433949c901781ab40260bb06f2d1b2f7fa7fff92f0aa1862e9022e379bb85",
-    "include/synthesizer.h": "9e03688ca47e5704b68ed1531a0a69a206d956484e0f18c83644dc1e43886de6",
-    "assets/engines/alco/alco_251d_diesel_turbo.mr": "f5ade61fc71d03d48144618243c96a2835a592f6628c435637951170c8d98ecb",
+    "include/synthesizer.h": "2997a647381d46e990fecf7617ecbbb55790aed6b58e6e5e5f3a8ef800307034",
+    "assets/engines/alco/alco_251d_diesel_turbo.mr": "2a570ea9bfd63b60edbce9aae8ae6c1bac9fa61482386d02d2e2ed0bd553de37",
     "src/simulator.cpp": "ea41ae1cf86a24cb1c99712ee3443b7edc404978460ed7e7a6a559c4986fa842",
+    "src/diesel_governor.cpp": "d0a7c8eaf84b631ab0549be7af1b55a3de8dfe5c8e9da6e04a0825bcf833efe0",
+    "include/diesel_governor.h": "77b27b5b3b25ec18d8ff5846c33909a200c5d4c30ec50807fecf63a0b3a29698",
 }
 
 NEW_FILES = {
@@ -171,6 +175,8 @@ REQUIRED_POSTCONDITIONS = {
         "m_flow = GasSystem::flow(flowParams)",
     ],
     "src/combustion_chamber.cpp": [
+        "constexpr double MaxOxygenUtilization = 0.75;",
+        "heatTransferCoefficient = 130.0",
         "m_engine->getExhaustDestination(exhaust)",
     ],
     "src/piston_engine_simulator.cpp": [
@@ -287,6 +293,9 @@ REQUIRED_POSTCONDITIONS = {
     "scripting/include/throttle_nodes.h": [
         'addInput("k_p", &m_parameters.k_p);',
         'addInput("crank_rack_limit", &m_parameters.crankRackLimit);',
+    ],
+    "src/diesel_governor.cpp": [
+        "smokeLimitLambda",
     ],
     "src/gauge.cpp": [
         "constexpr float MaxNeedleStep = 1.0f / 120.0f;",

@@ -362,7 +362,10 @@ public node alco_16_251b_v16 {
         // hydraulic nozzles with positive cutoff. MI-1000 data is still needed
         // to replace the rate/duration values below with factory curves.
         compression_ignition: true,
-        max_fuel_mass_per_cycle: 0.80 * units.g,
+        // Calibrated to the 2400 BHP / 1000 rpm rating (power-calibration rule:
+        // fuel-flow only). 0.80 g gave 2632 hp with the air-limited, Hohenberg
+        // heat-transfer combustion model.
+        max_fuel_mass_per_cycle: 0.73 * units.g,
         injection_duration: 24 * units.deg,
         ignition_delay: 4 * units.deg,
         combustion_duration: 50 * units.deg,
@@ -444,7 +447,10 @@ public node alco_16_251b_v16 {
             gamma: 1.5,
             starting_rack: 0.20,
             k_p: 3.0,
-            crank_rack_limit: 0.35
+            crank_rack_limit: 0.35,
+            // Medium-speed diesels run lean at full load (trapped lambda
+            // ~1.8-2.2); the air/smoke limiter is set to that practice.
+            smoke_limit_lambda: 1.9
         ),
 
         /*

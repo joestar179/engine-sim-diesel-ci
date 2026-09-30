@@ -494,6 +494,50 @@ Findings:
    The 6-251D inertia/friction pair was chosen to match a documented 90–180 s rundown, which constrains I/τ but not the friction law.
 5. **Turbo audibility:** the layer scales with √(compressor power). In an unloaded free rev the compressor does little work and the shaft only reaches ~5k rpm, so the whine is quiet and its pitch sweep is small.
 
+## Power model: air-limited combustion, heat transfer, limiter, droop (applied)
+
+Changes:
+
+- `combustion_chamber`: oxygen-utilisation limit and Hohenberg heat transfer for CI cylinders (SI unchanged).
+- Governor: speed droop; air/smoke limiter using the trapped O2 at each cylinder's last injection.
+- Turbo: speed-dependent bearing friction; turbo sound from √(turbine + compressor power).
+- 16-251B fuel stop 0.80 → 0.73 g.
+
+Rated-point results after 60 s at full command:
+
+| Variant | Speed | Power | Torque / rack | Turbo state |
+|---|---|---|---|---|
+| 16-251B turbo | 1000 rpm | 1780 kW (2387 hp) | 17,000 N·m (rated 2400 BHP / 17,091 N·m) | PR 1.52 |
+| 6-251D turbo | 1100 rpm | 962 kW (1289 hp) | rack 0.88 | PR 1.45 |
+| 6-251D no turbo | 1100 rpm | 818 kW (1096 hp) | rack 0.74 | — |
+
+- Turbo power now ramps with boost; lag is visible (6-251D: 445 / 689 / 883 / 975 kW at 20 / 30 / 45 / 60 s).
+- Brake efficiency is ~41–42 % of LHV (previously ~49 %).
+- Tests: 47 unit tests pass (same four upstream failures); both runtime smokes pass.
+
+Open:
+
+- **Intake over-breathing:** without a turbo, 0.62–0.63 mol of air is trapped per cylinder, about 1.3× a full cylinder at ambient conditions; real large diesels reach 0.85–0.95. This is why the 16-251B no-turbo variant still matches the turbo one at its 0.73 g fuel stop. It is an intake gas-dynamics issue, not addressed here.
+- **Spool** is still slow (tens of seconds).
+- **Turbo sound level** has not been re-checked with the new power source.
+
+Parameter justification register (S = sourced, D = derived from sourced data or measurement, A = assumption / engineering choice):
+
+| Parameter | Status | Basis |
+|---|---|---|
+| Hohenberg constants (130, exponents, +1.4) | S | Published correlation (Hohenberg, SAE 790825) |
+| Wall temperature 90 °C in the heat transfer | A | Stock value kept; real diesel surfaces ~400–500 K |
+| `MaxOxygenUtilization` 0.75 | A | Generic smoke-limit order of magnitude (burn limit λ ≈ 1.33); not sourced |
+| `smoke_limit_lambda` 1.5 default, 1.9 ALCO | A | Typical full-load λ practice (high-speed ~1.5, medium-speed ~1.8–2.2); not sourced |
+| `droop` 0.03 | A | Typical governor droop 3–5 %; ALCO governors may be isochronous. Added so a rated-speed dyno hold loads the engine |
+| Turbo friction split 0.3 / 0.7 | A (fitted) | Chosen so the 6-251D rundown stays in its documented 90–180 s band; split itself unsourced |
+| Turbo sound ∝ √(turbine + compressor power) | A | Modelling choice; level constant not recalibrated |
+| 16-251B `max_fuel_mass_per_cycle` 0.73 g | D | Calibrated to the documented 2400 BHP rating under the MR's power-calibration rule |
+| Governor `k_p` 3, `k_s` 0.016, `crank_rack_limit` 0.35 (16-251B) | D | Tuned by probe for stability; engine-specific |
+| Simulation frequency 3 kHz / 10 kHz | D | Real-time budget measured; loaded results unchanged |
+| Knock band 1.6 kHz Q 0.6; turbo Q 12, tonal 25 % | A | Structural-attenuation shape (Austen & Priede, qualitative); values unsourced |
+| Knock / turbo global levels | D | One stated reference render each (see the audio redesign entry) |
+
 ## Handover incident: transient worktree loss
 
 Failure signature: `handover | uncommitted temporary worktree unavailable on continuation | workspace persistence layer`

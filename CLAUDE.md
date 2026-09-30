@@ -13,6 +13,14 @@ This repository is an enhancement overlay and deterministic CI reconstruction
 project, not a complete Engine Simulator source checkout. Read this file before
 running or changing anything.
 
+## 0a. Standing directive — token economy
+
+KEEP TASKS FOCUSED ON THE TOPIC AT HAND. Limit additional scope, extra
+scripts, exploratory runs and verbose output to what the current request
+needs. Prefer the smallest set of measurements that answers the question,
+reuse existing tools (probe, bench, audio-render) instead of writing new
+ones, and propose follow-up work rather than doing it unasked.
+
 ## 0. Standing requirement — engine sound
 
 Engine Simulator is a sound generator as much as a physics simulation. Every

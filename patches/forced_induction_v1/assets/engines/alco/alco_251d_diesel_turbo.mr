@@ -301,7 +301,10 @@ public node alco_251d_i6 {
                 k_s: 0.008,
                 k_d: 120.0,
                 gamma: 1.5,
-                starting_rack: 0.20
+                starting_rack: 0.20,
+                // Medium-speed diesels run lean at full load (trapped lambda
+                // ~1.8-2.2); the air/smoke limiter is set to that practice.
+                smoke_limit_lambda: 1.9
             ),
         /*
             Real-time budget (engine-sim-realtime-bench, i7-7700HQ): 20 kHz
