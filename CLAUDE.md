@@ -47,11 +47,11 @@ A = assumption. Replace every A with S or D before relying on it.
 
 Open issues (highest impact first):
 
-1. **Turbo does not spool under load.** 60 s at full command gives PR 1.08–1.15
-   (16-251B 9.6k, 6-251D 7.4k shaft rpm), so turbo and no-turbo make the same
-   power. Suspects: turbine sizing auto-derived from `turbo_design_mass_flow`
-   (turbine too free at real exhaust flow), turbine efficiency and
-   exhaust-energy delivery. These are marked MR turbo calibration values.
+1. **16-251B turbo below design boost.** With 720A-derived turbo data it now beats no-turbo (2355 vs 2048 hp) but settles at 131 kPa vs the documented 258 kPa, because the fitted fuel stop (0.73 g) gives too little exhaust energy. Source the fuel stop from BSFC or rack delivery. 6-251D (350B) still has unsourced turbo data.
+
+
+
+
 2. **Ratings:** 16-251B 2042 hp at 1000 rpm (rated 2400); 6-251D 793 hp at
    1100 rpm (class ~1200–1400). Both are air/smoke-limited until item 1 is
    fixed. Do not raise the fuel stops to compensate.

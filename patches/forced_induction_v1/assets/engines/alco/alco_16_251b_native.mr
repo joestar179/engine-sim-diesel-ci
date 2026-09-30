@@ -373,21 +373,44 @@ public node alco_16_251b_v16 {
         autoignition_temperature: 550 * units.K,
         autoignition_pressure: 1.0 * units.MPa,
 
-        // One fixed-geometry Model 710 turbo, four pulse-separated inlet
-        // channels, one shaft, one compressor, and a water aftercooler.
-        // MI-1016B confirms topology and hardware; map/volume numbers remain
-        // configuration estimates until MI-1003 or measured maps are sourced.
+        /*
+            One fixed-geometry turbo, four pulse-separated inlet channels, one
+            shaft, one compressor, water aftercooler (topology: MI-1016B).
+            Turbo data: ALCO 720A, the turbo-supercharger of the railway 251B
+            (IRIMEE). The earlier "Model 710" identity is unverified; MI-1003
+            applicability is unknown. Status: S = sourced, D = derived, A = assumed.
+            Design point derived from 720A data by a steady energy balance
+            (compressor power = turbine power), see docs/FAILURE_ATTEMPT_LOG.md:
+              S  max speed 18,000 rpm (IRIMEE; another manual gives 18,500)
+              S  booster air pressure 1.6 kgf/cm2 gauge at full load, notch 8
+                 -> manifold 258 kPa abs (PR 2.55)
+              D  compressor PR 2.59 (+4 kPa cooler/duct loss, A) and air flow
+                 3.96 kg/s (sim VE 0.90, charge 323 K A) -> zero-flow max PR
+                 1 + 1.59 * (1 + 0.18 map coefficient) = 2.88
+              D  turbine: exhaust 4.10 kg/s, inlet 869 K, expansion ratio 2.30
+                 (post-turbine 757 K from the 2600-BHP stationary 16-251B
+                 exhaust data, a different installation: A)
+              D  inertia 0.48 kg m^2: 23 kg rotor (Napier NA295 comparable
+                 hardware) as discs of the derived 409 mm compressor diameter
+                 (Euler, slip 0.9, 18,000 rpm)
+              A  friction 11.5 N m at max speed: gives a ~135 s free rundown,
+                 middle of the 90-180 s band documented for the ALCO 350B
+                 (analogue; no 720A rundown figure found)
+              A  compressor 0.70 / turbine 0.68 efficiency (era ranges)
+            Checks, not inputs: effective turbine nozzle area 127 cm^2
+            (ALCO 165: 120 cm^2; Napier example: 72 cm^2).
+        */
         turbo_enabled: turbo_enabled,
-        turbo_shaft_inertia: 1.50 * units.kg * units.m * units.m,
-        turbo_friction_torque: 25 * units.Nm,
-        turbo_max_speed: 24000 * units.rpm,
-        turbo_max_pressure_ratio: 2.20,
+        turbo_shaft_inertia: 0.48 * units.kg * units.m * units.m,
+        turbo_friction_torque: 11.5 * units.Nm,
+        turbo_max_speed: 18000 * units.rpm,
+        turbo_max_pressure_ratio: 2.88,
         compressor_efficiency: 0.70,
         turbine_efficiency: 0.68,
         aftercooler_effectiveness: 0.65,
-        turbo_design_mass_flow: 3.20 * units.kg / units.sec,
-        turbine_design_pressure_ratio: 1.80,
-        turbine_design_temperature: 800 * units.K,
+        turbo_design_mass_flow: 3.96 * units.kg / units.sec,
+        turbine_design_pressure_ratio: 2.30,
+        turbine_design_temperature: 869 * units.K,
         turbo_pre_turbine_volume: 60 * units.L,
         turbo_pre_turbine_area: circle_area(8 * units.inch),
         turbo_inlet_channel_count: 4,

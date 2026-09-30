@@ -563,6 +563,39 @@ Results at rated speed after 60 s, full command:
 - Tests: 47 unit tests pass (same four upstream failures); both runtime smokes pass.
 - The effect on stock engines is not assessed (open issue 3).
 
+## 16-251B turbo from ALCO 720A data (user-supplied sources)
+
+Sources (user-collected):
+
+- IRIMEE: 720A is the turbo-supercharger of the railway 251B; max speed 18,000 rpm (another manual gives 18,500); booster pressure 1.6 kgf/cm² gauge at full load, notch 8.
+- The 2600-BHP stationary 16-251B (NAPS) data were used only for the post-turbine temperature (484 °C) and as a cross-check. They are a different installation and were not blended with the railway data.
+- The ALCO 165 nozzle (120 cm²) and the Napier NA295 build (72 cm² nozzle, 23 kg rotor) were used only as sanity checks and as comparable-hardware rotor mass.
+
+Derived design point, by steady energy balance (compressor power = turbine power):
+
+- Manifold 258 kPa abs (PR 2.55); compressor PR 2.59.
+- Air 3.96 kg/s (simulated VE 0.90, charge 323 K assumed); exhaust 4.10 kg/s.
+- Compressor 530 kW; turbine inlet 869 K; expansion ratio 2.30.
+- Implied choked nozzle 127 cm² (check: ALCO 165 has 120 cm²).
+- Compressor wheel 409 mm (Euler, slip 0.9).
+- Inertia 0.48 kg·m²; friction 11.5 N·m (assumed, from the 350B rundown-band analogue).
+
+MR values: max speed 18,000 rpm, zero-flow max PR 2.88, design flow 3.96 kg/s, turbine PR 2.30 / 869 K.
+
+Result at 1000 rpm after 60 s:
+
+| Variant | Power | Torque | Rack | Boost | Shaft |
+|---|---|---|---|---|---|
+| Turbo | 1756 kW (2355 hp) | 16.8 kN·m | 1.0 | 131 kPa (PR 1.33) | 8.3k rpm |
+| No turbo | 1527 kW (2048 hp) | | 0.88 | — | — |
+
+- The turbo now clearly beats no-turbo, and power ramps with boost (lag).
+- The turbo energy balance is physically consistent at the operating point: turbine 77 kW at 1.97 kg/s, ER 1.29, 810 K; compressor 71 kW. It sits at a low-boost equilibrium.
+- **Cause:** the fuel stop 0.73 g (fitted to the rating earlier, status A) gives 97 g/s and λ ≈ 2.8 at design airflow. A real full-load λ of ~2 needs ~135 g/s, so exhaust energy is too low to reach the 720A design boost.
+- **Next:** source the fuel stop from BSFC or rack delivery at rated output; do not fit it to the rating.
+
+The 6-251D (350B) is unchanged: no 350B data supplied.
+
 ## Handover incident: transient worktree loss
 
 Failure signature: `handover | uncommitted temporary worktree unavailable on continuation | workspace persistence layer`
