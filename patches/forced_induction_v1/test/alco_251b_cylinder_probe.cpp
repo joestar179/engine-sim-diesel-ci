@@ -536,7 +536,8 @@ int main(int argc, char **argv) {
     prepare(engine, sim, frequency);
     probe.initialize(engine);
     TelemetryLog telemetry;
-    telemetry.open(engine, sim, "logs", 0.5);
+    // One telemetry folder per run, so parallel runs never share a file name.
+    telemetry.open(engine, sim, prefix + "_telemetry", 0.5);
 
     probe.substeps.open(prefix + "_substeps.csv");
     probe.trace.open(prefix + "_blowdown_trace.csv");

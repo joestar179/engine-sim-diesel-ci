@@ -465,6 +465,35 @@ Tests: 47 unit tests pass with the same four upstream failures. `SynthesizerTest
 
 Not verified in the GUI: `engine-sim-app.exe` could not be replaced while the user's GUI session was running. SI engines produce no knock layer: their pressure-rise rate is only computed in the CI path.
 
+## Power, turbo lag and turbo audibility (diagnostic only, no change made)
+
+User observations:
+
+- The turbo is drowned out and no spool is audible when revving.
+- Is turbo lag from backpressure build-up simulated?
+- The no-turbo variants make more power than the turbo ones.
+- The 16-251B makes less power than expected and the 6-251D much more.
+
+Campaign: `engine-sim-cylinder-probe`, dyno hold engaged while running forward, full speed command, 40 s per point; results in `C:\es\run\power`.
+
+| Variant | Speed | Power | Torque | Rack / burned | Air per cylinder (turbo vs no turbo) | Turbo state |
+|---|---|---|---|---|---|---|
+| 16-251B turbo | 800 rpm | 1887 kW (2530 hp) | 22.5 kN·m | 1.0 / 99.9 % | 0.491 vs 0.402 mol | PR 1.41, shaft 15.3k rpm |
+| 16-251B no turbo | 800 rpm | 1905 kW | 22.7 kN·m | 1.0 / 99.8 % | | |
+| 6-251D turbo | 1000 rpm | 1182 kW (1585 hp) | | 1.0 / 99.6 % | 0.548 vs 0.420 mol | PR 1.62 |
+| 6-251D no turbo | 1000 rpm | 1190 kW | | 1.0 / 100 % | | |
+
+Findings:
+
+1. **Power is fuel-limited, not air-limited.** Full rack burns 99.6–100 % of its fuel with or without the turbo. The turbo adds air, but the energy released is fuel mass × energy density × max burning efficiency, independent of air excess, so the turbo cannot add power. Backpressure and pumping make the turbo variant ~1 % weaker. The CI model has no mixing-limited air utilisation or smoke limit, whereas real diesels can only use part of the trapped oxygen (λ ≈ 1.4–2 at full load).
+2. **Brake efficiency is ~51 % for both engines,** against ~38–40 % for engines of this type. The 16-251B makes 22.5 kN·m, 32 % above its rated 17.1 kN·m; the 6-251D makes 1585 hp at 1000 rpm, above the ~1200–1400 hp class. Excess efficiency also starves the turbine of exhaust energy.
+3. **Rated-speed test artifact:** a dyno hold at the governor's maximum speed (1000 / 1100 rpm) gives zero error, so the rack stays at 0 and no fuel is injected (−287 kW / −118 kW, i.e. motored). The user's earlier no-turbo GUI session showed the same thing (hold at 1000 rpm, rack 0), which explains the weak 16-251B impression.
+4. **Turbo lag exists structurally** (scroll volumes, turbine restriction, shaft inertia, energy balance), but spool is far too slow: 16-251B at 800 rpm goes 784 → 15,470 rpm in 38 s with PR still rising at 1.41; 6-251D at 1000 rpm goes 1,174 → 19,400 rpm, PR 1.63. Causes:
+   - low turbine power, because the engine converts too much fuel energy to work;
+   - a constant friction torque of 20–25 N·m, i.e. 30–40 kW of bearing loss at speed, which consumes most of the excess turbine power.
+   The 6-251D inertia/friction pair was chosen to match a documented 90–180 s rundown, which constrains I/τ but not the friction law.
+5. **Turbo audibility:** the layer scales with √(compressor power). In an unloaded free rev the compressor does little work and the shaft only reaches ~5k rpm, so the whine is quiet and its pitch sweep is small.
+
 ## Handover incident: transient worktree loss
 
 Failure signature: `handover | uncommitted temporary worktree unavailable on continuation | workspace persistence layer`
