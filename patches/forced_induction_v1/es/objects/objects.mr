@@ -317,10 +317,11 @@ public node diesel_governor => __engine_sim__diesel_governor {
     input starting_rack [float]: 0.20;
     input k_p [float]: 0.0;
     input crank_rack_limit [float]: 1.0;
-    // Generic diesel defaults: 3 % speed droop; air/smoke limiter at an
-    // excess-air ratio of 1.5 on the actually trapped charge.
+    // Generic diesel defaults: 3 % speed droop; air/smoke limiter at the
+    // DI-diesel smoke limit, equivalence ratio 0.75 (lambda = 1/0.75),
+    // the same value as the combustion oxygen-utilisation limit.
     input droop [float]: 0.03;
-    input smoke_limit_lambda [float]: 1.5;
+    input smoke_limit_lambda [float]: 1.3333;
     alias output __out [throttle_channel];
 }
 

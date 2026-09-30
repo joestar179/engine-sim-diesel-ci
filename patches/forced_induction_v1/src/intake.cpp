@@ -72,8 +72,11 @@ void Intake::process(double dt) {
     GasSystem::Mix fuelMix;
     if (m_airOnly) {
         fuelAirMix.p_fuel = 0.0;
-        fuelAirMix.p_inert = 0.75;
-        fuelAirMix.p_o2 = 0.25;
+        // Air-only (direct-injection) intakes use real air: 20.95 % O2 by
+        // mole. The stock 25 % (kept for premixed spark-ignition intakes and
+        // their calibrations) overstates the oxygen a diesel can burn by 19 %.
+        fuelAirMix.p_inert = 1.0 - 0.2095;
+        fuelAirMix.p_o2 = 0.2095;
         fuelMix = fuelAirMix;
     }
     else {

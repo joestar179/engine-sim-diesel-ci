@@ -69,8 +69,9 @@ void ExhaustSystem::process(double dt) {
     // zero, while allowing pressure-driven reverse flow to carry a configured
     // fraction of atmospheric composition. GasSystem::flow still transfers the
     // real boundary gas mass; this setting never changes pressure directly.
-    airMix.p_inert = 1.0 - 0.25 * m_backflowAtmosphericMixing;
-    airMix.p_o2 = 0.25 * m_backflowAtmosphericMixing;
+    // Real air: 20.95 % O2 by mole.
+    airMix.p_inert = 1.0 - 0.2095 * m_backflowAtmosphericMixing;
+    airMix.p_o2 = 0.2095 * m_backflowAtmosphericMixing;
 
     m_atmosphere.reset(units::pressure(1.0, units::atm), units::celcius(25.0), airMix);
     GasSystem::FlowParameters flowParams;

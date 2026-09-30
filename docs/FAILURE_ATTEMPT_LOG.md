@@ -538,6 +538,31 @@ Parameter justification register (S = sourced, D = derived from sourced data or 
 | Knock band 1.6 kHz Q 0.6; turbo Q 12, tonal 25 % | A | Structural-attenuation shape (Austen & Priede, qualitative); values unsourced |
 | Knock / turbo global levels | D | One stated reference render each (see the audio redesign entry) |
 
+## Intake over-breathing: root cause fixed; smoke limit made single-source
+
+- **Evidence:** without a turbo the 16-251B trapped 0.56 / 0.59 / 0.62 mol-equivalent of fresh air at 400 / 700 / 1000 rpm, against a geometric fill of 0.484 mol at ambient conditions. Intake-stroke cylinder pressure was normal (99–103 kPa), so the charge was cold, about 262 K at bottom dead centre.
+- **Cause:** `GasSystem::flow` (upstream core) transported internal energy per mole (cv·T) instead of enthalpy (cp·T, the first law for open systems). Filling gas was missing its flow work.
+- **Fix:**
+  - both flow routines, the compressor bounded transfer and the turbine energy bound now carry enthalpy;
+  - both `pressureEquilibriumMaxFlow` overloads were re-derived for enthalpy transport. Without that, `GasSystemTests.FlowLimit` drove a vessel to negative pressure.
+  - Result: trapped charge 0.436 mol at 1000 rpm (volumetric efficiency 0.90).
+- **Air composition:** diesel intake, turbo and exhaust-backflow air changed from 25 % to 20.95 % O2 (real air). Spark-ignition premixed intakes keep 25 % because their calibration depends on it.
+- **Smoke limit (user concern: fudge factors):** the per-engine limiter λ 1.9 was wrong (it is a full-load operating λ, not a smoke limit) and starved the turbo. It has been removed. The limiter and the combustion oxygen limit now share one sourced value: the smoke-limited equivalence ratio of DI diesels, 0.7–0.8 (Heywood), midpoint 0.75.
+
+Results at rated speed after 60 s, full command:
+
+| Variant | Power | Rack | Turbo |
+|---|---|---|---|
+| 16-251B turbo, 1000 rpm | 1522 kW (2042 hp) | 0.89 | PR 1.15 |
+| 16-251B no turbo, 1000 rpm | 1527 kW | 0.88 | — |
+| 6-251D turbo, 1100 rpm | 591 kW (793 hp) | 0.59 | PR 1.08 |
+| 6-251D no turbo, 1100 rpm | 637 kW | 0.61 | — |
+
+- Brake efficiency is 38–40 % of LHV.
+- The no-turbo engines are now correctly air-limited. The turbo still fails to spool (open issue 1 in `CLAUDE.md` section 0b).
+- Tests: 47 unit tests pass (same four upstream failures); both runtime smokes pass.
+- The effect on stock engines is not assessed (open issue 3).
+
 ## Handover incident: transient worktree loss
 
 Failure signature: `handover | uncommitted temporary worktree unavailable on continuation | workspace persistence layer`

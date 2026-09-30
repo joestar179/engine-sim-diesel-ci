@@ -447,10 +447,7 @@ public node alco_16_251b_v16 {
             gamma: 1.5,
             starting_rack: 0.20,
             k_p: 3.0,
-            crank_rack_limit: 0.35,
-            // Medium-speed diesels run lean at full load (trapped lambda
-            // ~1.8-2.2); the air/smoke limiter is set to that practice.
-            smoke_limit_lambda: 1.9
+            crank_rack_limit: 0.35
         ),
 
         /*

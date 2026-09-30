@@ -265,8 +265,10 @@ void CombustionChamber::processCompressionIgnition(double dt) {
     // Diffusion (mixing-limited) diesel combustion cannot use all trapped
     // oxygen: fuel meeting already-depleted charge stays unburned (smoke).
     // The event may consume at most MaxOxygenUtilization of the oxygen
-    // present when combustion starts. This is a generic combustion property
-    // (burn limit near lambda = 1/0.75 = 1.33), not an engine calibration.
+    // present when combustion starts. Source: the smoke-limited maximum
+    // fuel/air equivalence ratio of direct-injection diesels, ~0.7-0.8
+    // (Heywood, Internal Combustion Engine Fundamentals); 0.75 is its
+    // midpoint. The governor's smoke limiter uses the same value.
     constexpr double MaxOxygenUtilization = 0.75;
     if (result.combustionStarted && m_oxygenBudget < 0.0) {
         m_oxygenBudget = MaxOxygenUtilization * m_system.n_o2();

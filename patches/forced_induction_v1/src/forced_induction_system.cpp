@@ -22,8 +22,9 @@ double clamp01(double value) {
 GasSystem::Mix airMix() {
     GasSystem::Mix mix;
     mix.p_fuel = 0.0;
-    mix.p_inert = 0.75;
-    mix.p_o2 = 0.25;
+    // Real air: 20.95 % O2 by mole.
+    mix.p_inert = 1.0 - 0.2095;
+    mix.p_o2 = 0.2095;
     return mix;
 }
 
@@ -36,13 +37,17 @@ double boundedTransfer(
     const double dn = std::max(0.0, std::min(requestedMoles, source.n()));
     if (dn <= 0.0) return 0.0;
 
+    // Flowing gas carries enthalpy (as in GasSystem::flow): the compressor
+    // adds cp * (T_out - T_in) per mole, matching its shaft work.
     const GasSystem::Mix mix = source.mix();
-    source.loseN(dn, source.kineticEnergyPerMol());
+    const double sourceDof = static_cast<double>(source.degreesOfFreedom());
+    const double destinationDof = static_cast<double>(destination.degreesOfFreedom());
+    source.loseN(dn, source.kineticEnergyPerMol() * (sourceDof + 2.0) / sourceDof);
     destination.gainN(
         dn,
         GasSystem::kineticEnergyPerMol(
             std::max(MinimumTemperature, destinationTemperature),
-            destination.degreesOfFreedom()),
+            destination.degreesOfFreedom()) * (destinationDof + 2.0) / destinationDof,
         mix);
     return dn;
 }
@@ -264,7 +269,9 @@ double TurboGroup::processTurbineFlow(double dt, Engine &engine) {
         const double inletTemperature = scroll.temperature();
         const double outletPressure = post->pressure();
         const double pressureRatio = std::max(1.0, inletPressure / std::max(1.0, outletPressure));
-        const double inletEnergyPerMol = scroll.kineticEnergyPerMol();
+        // Enthalpy per mole carried through the turbine (see GasSystem::flow).
+        const double inletEnergyPerMol = scroll.kineticEnergyPerMol()
+            * (scroll.degreesOfFreedom() + 2.0) / scroll.degreesOfFreedom();
 
         GasSystem::FlowParameters flow{};
         flow.k_flow = m_turbineFlowK * flowFactor / static_cast<double>(m_preTurbine.size());

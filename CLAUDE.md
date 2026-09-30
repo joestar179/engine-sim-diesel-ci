@@ -40,6 +40,47 @@ before it is considered done:
   surging idle, turbo whine) alongside the physics result;
 - never accept a physics fix that silently degrades or breaks the audio path.
 
+## 0b. Open issues and parameter register (keep current)
+
+Status key: S = sourced, D = derived from documented data or measurement,
+A = assumption. Replace every A with S or D before relying on it.
+
+Open issues (highest impact first):
+
+1. **Turbo does not spool under load.** 60 s at full command gives PR 1.08–1.15
+   (16-251B 9.6k, 6-251D 7.4k shaft rpm), so turbo and no-turbo make the same
+   power. Suspects: turbine sizing auto-derived from `turbo_design_mass_flow`
+   (turbine too free at real exhaust flow), turbine efficiency and
+   exhaust-energy delivery. These are marked MR turbo calibration values.
+2. **Ratings:** 16-251B 2042 hp at 1000 rpm (rated 2400); 6-251D 793 hp at
+   1100 rpm (class ~1200–1400). Both are air/smoke-limited until item 1 is
+   fixed. Do not raise the fuel stops to compensate.
+3. **Stock-engine impact is not assessed.** The enthalpy-transport fix in
+   `GasSystem::flow` is physically correct but changes every engine's breathing,
+   power and sound, including the stock spark-ignition engines.
+4. **Turbo sound level** not rechecked since it follows turbine + compressor
+   power.
+5. **Gate 6B** shadow governor predates `k_p`, `droop` and the smoke limiter.
+6. SI engines have no structure-borne knock layer (no pressure-rise rate).
+
+Parameters:
+
+| Parameter | Value | Status | Basis |
+|---|---|---|---|
+| Air O2 fraction (diesel/turbo paths) | 0.2095 | S | Composition of dry air; stock 0.25 kept for SI premixed intakes |
+| Flow energy = enthalpy | (dof/2 + 1) R T per mol | S | First law for open systems |
+| Hohenberg heat-transfer constants | 130, −0.06, 0.8, −0.4, +1.4 | S | Hohenberg, SAE 790825 |
+| Smoke-limited equivalence ratio | 0.75 (combustion O2 limit; limiter λ = 1/0.75) | S (range) | Heywood, *ICE Fundamentals*: DI diesel ~0.7–0.8; midpoint chosen |
+| Wall temperature in heat transfer | 90 °C | A | Stock value; real diesel surfaces ~400–500 K |
+| Governor droop | 0.03 | A | Typical 3–5 %; the ALCO governor may be isochronous |
+| Turbo friction law split | 0.3 const / 0.7 ∝ speed | A (fitted) | Keeps the documented 6-251D 90–180 s rundown |
+| Turbo sound source | √(turbine + compressor power) | A | Modelling choice |
+| Knock band / turbo Q / tonal share | 1.6 kHz Q 0.6 / Q 12 / 25 % | A | Qualitative (Austen & Priede) |
+| Knock / turbo global levels | 4e-4 / 15 | D | One reference render each |
+| 16-251B fuel stop | 0.73 g | D | Documented 2400 BHP (set while airflow was wrong; recheck after item 1) |
+| 16-251B governor `k_p`/`k_s`/crank limit | 3 / 0.016 / 0.35 | D | Probe stability tuning |
+| Simulation frequency | 3 kHz / 10 kHz | D | Measured real-time budget |
+
 ## 1. Mandatory reading and stop state
 
 Read these files completely and in this order:
