@@ -377,6 +377,28 @@ Proposed next (not done): turbo sound redesign.
 - Calibrate its level relative to the engine body.
 - Mix it after the level control, so it cannot turn the engine down.
 
+## Low-frequency content check (diagnostic only, no change made)
+
+User report: low-frequency sound is strongly attenuated, although for engines this large it should be a major component. Checked on the existing recordings first, then with controlled offline renders (`engine-sim-audio-render`; temporary MR copies, deleted afterwards; WAVs in `C:\es\run\renders\lf_experiment`).
+
+- **Existing material:** the microphone recording has essentially nothing below 80 Hz (−57 to −77 dB of total power), so the recording or playback chain may also be losing bass. The renders show little low end as well: in the 16-251B, below 80 Hz holds 3–8 % of power at idle and 0.0 % at full command with the turbo.
+- **Stage 1, impulse response** (`minimal_muffling_01`, used by both ALCO engines): measured −21 / −18 / −28 / −10 dB at 10 / 20 / 40 / 80 Hz relative to its 160 Hz peak. `minimal_muffling_03` is −1 / −3 dB at 10 / 20 Hz.
+- **Stage 2, derivative mix:** `DerivativeFilter` is `(x − x_prev)/dt`, with gain ≈ ω. At `hf_gain` 0.122 (16-251B; the stock default is 0.01 and the 6-251D uses 0.002) the derivative path exceeds the plain path above about 1 Hz, tilting the band −6 dB per octave toward the low end.
+- **Stage 3, air noise:** at `noise` 1.0 the plain pressure path is multiplied entirely by zero-mean low-passed noise, so it carries no coherent low-frequency content.
+- **Stage 4, turbo tone:** at full command the pure whine holds ~90 % of power (640–1280 Hz band at −0.4 dB of total). The level control then leaves less than 0.1 % below 80 Hz, whatever the other settings.
+
+Share of total power below 80 Hz, 16-251B:
+
+| Variant | No turbo, idle | No turbo, full | Turbo, idle | Turbo, full |
+|---|---|---|---|---|
+| Current settings | 7.7 % | 2.9 % | 3.4 % | 0.0 % |
+| `hf_gain` 0.002 | 11.5 % | 0.1 % | 2.9 % | 0.0 % |
+| + `noise` 0.35 | 17.6 % | 0.3 % | 7.0 % | 0.0 % |
+| + `minimal_muffling_03` | 36.2 % | 6.8 % | 33.9 % | 0.1 % |
+| `minimal_muffling_03` only | 9.6 % | 30.9 % | 8.2 % | 0.0 % |
+
+Conclusion: the turbo tone and the level control eliminate the low end under load. Without the turbo, the impulse response is the largest remaining factor, then air noise, then the derivative mix. No MR, calibration or code change was made; the user asked for the check first.
+
 ## Handover incident: transient worktree loss
 
 Failure signature: `handover | uncommitted temporary worktree unavailable on continuation | workspace persistence layer`
