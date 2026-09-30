@@ -48,13 +48,9 @@ A = assumption. Replace every A with S or D before relying on it.
 Open issues (highest impact first):
 
 1. **16-251B turbo below design boost.** With 720A-derived turbo data it now beats no-turbo (2355 vs 2048 hp) but settles at 131 kPa vs the documented 258 kPa, because the fitted fuel stop (0.73 g) gives too little exhaust energy. Source the fuel stop from BSFC or rack delivery. 6-251D (350B) still has unsourced turbo data.
-
-
-
-
-2. **Ratings:** 16-251B 2042 hp at 1000 rpm (rated 2400); 6-251D 793 hp at
-   1100 rpm (class ~1200–1400). Both are air/smoke-limited until item 1 is
-   fixed. Do not raise the fuel stops to compensate.
+2. **Ratings (checks, never targets):** 16-251B 2355 hp at 1000 rpm (rated
+   2400); 6-251D 793 hp at 1100 rpm (class ~1200–1400). Fuel stops must come
+   from documented BSFC or rack delivery, never be fitted to these ratings.
 3. **Stock-engine impact is not assessed.** The enthalpy-transport fix in
    `GasSystem::flow` is physically correct but changes every engine's breathing,
    power and sound, including the stock spark-ignition engines.
