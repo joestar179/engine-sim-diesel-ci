@@ -808,6 +808,51 @@ Small-engine sims are 7–15 % too efficient at low speed: 4045DF150 +11 % torqu
 
 **Open:** low-speed attribution between friction (component model needed) and the undocumented timing curve (needs the RE61649/RE67557 advance data, e.g. CTM207). `deere_4045df150` now exposes `injection_timing`, `injection_duration`, `combustion_duration` and `premixed_burn_fraction` (defaults unchanged).
 
+## Injection timing vs speed (CTM207) and friction re-test
+
+**Source:** John Deere CTM207 (06OCT04, user-supplied PDF, not committed).
+
+- p. 286: 4045DF150 option 1601, RE61649 → 8.0° BTDC (RE67557 8.5°).
+- p. 289: TF250 option 1606 → 4.5°.
+- pp. 192–195, 268: dynamic timing is set at full load / rated speed.
+- pp. 148, 151–152: Stanadyne and Delphi/Lucas rotary pumps have automatic hydraulic speed advance plus light-load advance.
+- p. 195: "more than 8 degrees retarded ... may indicate the pump advance is not functioning" → authority ~8°.
+- No advance curve is given; web search found none for these pumps. Stanadyne lists DB authority as 24 engine degrees, and a forum report gives stock DB2 calibrations ~3–4 pump degrees (6–8 engine degrees).
+
+**Change:** Deere timing curves are linear from slow idle (rated − 8°) to rated.
+
+- DF150: 0° at 850 rpm → 8° at 2500 rpm.
+- TF250: 3.5° ATDC → 4.5° BTDC at 2400 rpm.
+- Status A for shape and TF250 authority, D for the rated values and the DF150 authority bound.
+- Bound check (DF150, 1000 rpm): SOI 0° → +3.0 % (8° → +11.0 %).
+
+**Bug found:** `IgnitionModule::update` (upstream) skipped every event whose angle lay within one step before the 4π wrap.
+
+- The wrap branch shifted the event angle by 4π unconditionally.
+- With the TF250 curve, cylinder 1 at 1600 rpm (0.37° BTDC) never injected: 75 % of fuel and 312 N·m instead of ~456.
+- Fixed: shift only event angles on the far side of the wrap. `src/ignition_module.cpp` is now a pinned template.
+- Unit tests unchanged (47 pass, same 4 upstream failures).
+
+**Full-load torque with the timing curve** (all cylinders averaged for IMEP), error vs documented:
+
+| rpm | DF150 sim | DF150 constant friction | DF150 Chen–Flynn | TF250 sim | TF250 constant | TF250 Chen–Flynn |
+|---|---|---|---|---|---|---|
+| 1000 | +3.8 % | −6.1 % | +2.5 % | +8.5 % | +3.3 % | +7.2 % |
+| 1200 | +4.5 % | −4.4 % | +3.3 % | +1.2 % | −3.5 % | −0.7 % |
+| 1400 | +2.4 % | −5.9 % | +1.2 % | +3.8 % | +1.0 % | +3.1 % |
+| 1600 | +2.2 % | −4.8 % | +1.4 % | +3.6 % | +1.9 % | +3.4 % |
+| 1800 | +0.4 % | −4.6 % | +0.6 % | +3.3 % | +1.2 % | +1.9 % |
+| 2000 | −1.9 % | −9.5 % | −5.4 % | +3.4 % | +3.3 % | +2.9 % |
+| 2200 | 0.0 % | −3.3 % | −0.7 % | +2.0 % | +2.2 % | +0.8 % |
+| 2400 | 0.0 % | −1.7 % | −1.0 % | +0.5 % | +0.2 % | −2.4 % |
+| 2500 | +2.2 % | +1.7 % | +1.4 % | — | — | — |
+
+- With the timing curve, the unmodified sim is within −2 / +4.5 % (DF150) and +0.5 / +4 % (TF250, except +8.5 % at 1000 rpm).
+- Constant friction now over-corrects the DF150 (−3 to −10 %): rejected.
+- Chen–Flynn anchored at rated differs from the unmodified sim by 1–2 %, within the IMEP measurement noise; no friction change adopted.
+- Simulated mechanical efficiency at low speed is still high (DF150 93 %, TF250 95 % at 1000 rpm).
+- Starts and idle verified: both engines ~846 rpm (doc 850).
+
 ## Handover incident: transient worktree loss
 
 Failure signature: `handover | uncommitted temporary worktree unavailable on continuation | workspace persistence layer`

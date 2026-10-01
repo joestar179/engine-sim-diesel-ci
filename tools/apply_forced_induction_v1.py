@@ -41,6 +41,7 @@ EXPECTED_BASELINE = {
     "src/diesel_governor.cpp": "fc11a0aa3c735b2602de6e54920108c45376ef8858898bfbec6ff9b11a46962e",
     "src/gas_system.cpp": "065f70d26bca6074d6f96efdb989914d43500201296d2ae77fd88af90c839d2b",
     "include/gas_system.h": "af5880ada709f850651736b7e28fa5086bad0b8a45a1ac137f1dcb25bd13d944",
+    "src/ignition_module.cpp": "b926af3b359fc622410c88611c9c135fd003ee4946e94f388b3f37307c5f463e",
     "src/compression_ignition_model.cpp": "edcdb5c707c911d58671d6ecc6b9622c6cbf6736e468101a82f759217e35de9f",
     "include/compression_ignition_model.h": "ad4cd0b6a5b41cda1e33939d35c1cc3d743f53bacbe2dc4b1a5aa87d1da85e62",
     "include/diesel_governor.h": "83cba76076e8087c0694e98125d66bf2e5644897cc2ad24e1dab5a1eb23a6d79",
@@ -137,6 +138,7 @@ PINNED_PRODUCTION_TEMPLATES = {
     "include/gas_system.h": "817325ef72c9dbd02979f0a6576d02e0c11f1255876113ab22e079be78d3073b",
     "src/compression_ignition_model.cpp": "53e74d9023aa314cadd430ad06fe08d29308e644d574188f3f118e623be07831",
     "include/compression_ignition_model.h": "016743df1c8acea95a92334fac20e194c0dedec8ecfeb24ba1d3507b89833982",
+    "src/ignition_module.cpp": "1e93ef5f918068813951617e08d10a8648ee5a154681fd7e9354b09aa3c1d052",
 }
 
 NEW_FILES = {
@@ -164,6 +166,9 @@ NEW_FILES = {
 }
 
 REQUIRED_POSTCONDITIONS = {
+    "src/ignition_module.cpp": [
+        "if (adjustedAngle < r0) adjustedAngle += fourPi;",
+    ],
     "src/compression_ignition_model.cpp": [
         "ignitionDelayTime(",
         "event.ignitionIntegral",
@@ -200,7 +205,7 @@ REQUIRED_POSTCONDITIONS = {
         "m_engine->getExhaustDestination(exhaust)",
     ],
     "src/piston_engine_simulator.cpp": [
-        "Synthesizer::StructuralForceRate",
+        "Synthesizer::CombustionPressureRate",
         "m_engine->processForcedInduction(fluidTimestep)",
     ],
     "scripting/include/engine_node.h": [
