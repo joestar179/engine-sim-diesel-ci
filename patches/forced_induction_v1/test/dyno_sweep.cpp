@@ -15,6 +15,8 @@
 //                           cycles such as 40 CFR 1054 Appendix B / ISO 8178)
 //            [--map kPa]    bisect the speed control until the mean intake
 //                           plenum pressure equals kPa (measured-MAP boundary)
+//            [--fuel g/s]   bisect the speed control until the metered fuel
+//                           flow equals g/s (airflow boundary for premixed SI)
 //            overlay build only: [--real-gas 0|1] [--enthalpy-flow 0|1] [--products 0|1]
 //            [--energy 1] (energy balance; see EnergyProbe)
 
@@ -155,7 +157,7 @@ int main(int argc, char **argv) {
         std::string item;
         while (std::getline(ss, item, ',')) speeds.push_back(std::atof(item.c_str()));
     }
-    double throttle = 1.0, settle = 6.0, measure = 3.0, targetTorque = -1.0, targetMap = -1.0;
+    double throttle = 1.0, settle = 6.0, measure = 3.0, targetTorque = -1.0, targetMap = -1.0, targetFuel = -1.0;
     int frequency = 0;
     bool energy = false;
     for (int i = 3; i + 1 < argc; i += 2) {
@@ -166,6 +168,7 @@ int main(int argc, char **argv) {
         else if (a == "--frequency") frequency = std::atoi(argv[i + 1]);
         else if (a == "--torque") targetTorque = std::atof(argv[i + 1]);
         else if (a == "--map") targetMap = std::atof(argv[i + 1]);
+        else if (a == "--fuel") targetFuel = std::atof(argv[i + 1]);
         else if (a == "--energy") energy = std::atoi(argv[i + 1]) != 0;
 #ifdef ENGINE_SIM_OVERLAY
         // Overlay-only diagnostic switches (value 0 = upstream behaviour).
@@ -244,6 +247,23 @@ int main(int argc, char **argv) {
                 // treat a motored (absorbing) engine as below target.
                 const double brake = pw / std::max(1e-9, std::abs(units::rpm(rpm)));
                 if (brake < units::torque(targetTorque, units::Nm)) lo = control; else hi = control;
+            }
+            control = 0.5 * (lo + hi);
+            engine->setSpeedControl(control);
+            advance(sim, settle, f);
+        }
+        // Airflow boundary (premixed intake: metered fuel = air / mass AFR):
+        // bisect the speed control until the metered fuel flow equals g/s.
+        else if (targetFuel > 0.0) {
+            double lo = 0.0, hi = 1.0;
+            for (int it = 0; it < 12; ++it) {
+                control = 0.5 * (lo + hi);
+                engine->setSpeedControl(control);
+                advance(sim, 1.0, f);
+                const double m0 = engine->getTotalFuelMassConsumed();
+                advance(sim, 0.5, f);
+                const double gs = (engine->getTotalFuelMassConsumed() - m0) / 0.5 * 1000.0;
+                if (gs < targetFuel) lo = control; else hi = control;
             }
             control = 0.5 * (lo + hi);
             engine->setSpeedControl(control);

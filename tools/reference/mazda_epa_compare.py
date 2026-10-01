@@ -15,7 +15,8 @@ Split (declared before any run; deterministic):
 usage (from C:\\es\\run):
   python mazda_epa_compare.py <tier2|lev3> <out.csv> [--only calibrate|holdout]
          [--set name=value ...]   (extra script inputs, e.g. port_cd=0.6)
-         [--jobs 4]
+         [--jobs 4] [--boundary map|air]   (air: throttle set to the measured
+                                           inlet air flow instead of MAP)
 """
 import csv, os, subprocess, sys, tempfile
 from concurrent.futures import ThreadPoolExecutor
@@ -34,7 +35,7 @@ def load(fuel):
         r['idx'] = i
     return pts
 
-def run(fuel, r, extra):
+def run(fuel, r, extra, boundary='map'):
     args = ['spark_advance: %.3f * units.deg' % float(r['Spark Timing']),
             'intake_cam_phase: %.3f * units.deg' % float(r['Intake Cam Phase']),
             'exhaust_cam_phase: %.3f * units.deg' % float(r['Exhaust Cam Phase']),
@@ -47,8 +48,13 @@ def run(fuel, r, extra):
     fd, path = tempfile.mkstemp(suffix='_main.mr', dir='assets')
     os.write(fd, body.encode()); os.close(fd)
     try:
-        out = subprocess.run([EXE, path, '%.0f' % float(r['Speed']), '--map', '%.2f' % float(r['Intake Manifold Press']),
-                              '--settle', '4', '--measure', '2'], capture_output=True, text=True).stdout
+        if boundary == 'air':
+            # Measured inlet air -> metered fuel at this point's lambda.
+            target = ['--fuel', '%.4f' % (float(r['Inlet Air Flow']) / (AFR_STOICH_SIM[fuel] * float(r['Exhaust Lambda'])))]
+        else:
+            target = ['--map', '%.2f' % float(r['Intake Manifold Press'])]
+        out = subprocess.run([EXE, path, '%.0f' % float(r['Speed'])] + target +
+                             ['--settle', '4', '--measure', '2'], capture_output=True, text=True).stdout
     finally:
         os.remove(path)
     v = out.strip().splitlines()[-1].split(',')
@@ -62,15 +68,16 @@ def run(fuel, r, extra):
 
 def main():
     fuel, out = sys.argv[1], sys.argv[2]
-    only = None; extra = []; jobs = 4
+    only = None; extra = []; jobs = 4; boundary = 'map'
     a = sys.argv[3:]
     for i, x in enumerate(a):
         if x == '--only': only = a[i + 1]
         if x == '--set': extra.append(a[i + 1])
         if x == '--jobs': jobs = int(a[i + 1])
+        if x == '--boundary': boundary = a[i + 1]
     pts = [p for p in load(fuel) if only is None or p['role'] == only]
     with ThreadPoolExecutor(max_workers=jobs) as ex:
-        res = list(ex.map(lambda p: run(fuel, p, extra), pts))
+        res = list(ex.map(lambda p: run(fuel, p, extra, boundary), pts))
     with open(out, 'w', newline='') as fo:
         w = csv.writer(fo)
         w.writerow(['idx', 'role', 'speed', 'map_meas', 'map_sim', 'spark', 'icam', 'ecam', 'lambda',

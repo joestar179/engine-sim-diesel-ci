@@ -1134,6 +1134,47 @@ The shape is flat. Set: DF150 46°, TF250 37°.
 - 46°/37° rated injection is long for rotary pumps (typical 20–30°): either the jet mixing is somewhat fast (e.g. no wall impingement: x_st ≈ 85 mm > bore/2 = 53 mm) or a loss is missing.
 - TF250 at 1000 rpm is +7.5 %.
 
+## P3 Mazda — airflow boundary (option 1), MBT and motoring checks, efficiency breakdown (2026-10-01)
+
+**Method:** dyno `--fuel g/s` sets the throttle so that the metered fuel equals measured inlet air / (14.485 λ). Harness `--boundary air`. Measured spark, cam phase and λ per point; nothing calibrated.
+
+**Run 3** (all 124 positive-load Tier 2 points; 105 with airflow within 3 %):
+
+| Subset | BTE error | Torque error |
+|---|---|---|
+| Calibrate, torque ≥ 80 N m | −10.8 % (sd 6.4) | −9.3 % |
+| Holdout, torque ≥ 80 N m | −11.4 % (sd 6.3) | −10.3 % |
+| Calibrate, torque < 80 N m | −54.6 % | −54.9 % |
+| Holdout, torque < 80 N m | −58.6 % | −58.7 % |
+
+- Low-load deficit is largest with large exhaust retard (overlap / internal EGR), e.g. −28 N m at ~70 N m.
+- Points without overlap are still ~−10 % BTE.
+
+**MBT check (burn rate):** spark sweeps at 3994 rpm / 100 N m (measured 23.4 deg) and 2496 rpm / 120 N m (21.7 deg).
+- Sim torque peaks at ~23 deg, and is flat 16-22 deg, respectively.
+- The production ECU runs MBT at part load, so the sim's burn rate is consistent with the engine. This also supports the withdrawal of the GX390 "flame too slow" inference.
+
+**Motoring check** (EPA min-torque sweep, fuel cut above 2200 rpm; sim λ 3 = no ignition, throttle at stop, cams at rest):
+
+| rpm | 2500 | 3000 | 4000 | 4400 |
+|---|---|---|---|---|
+| Sim (N m) | −28.5 | −30.2 | −34.2 | −35.3 |
+| Measured (N m) | −23.9 | −27.5 | −32.2 | −34.8 |
+
+- Friction + closed-throttle pumping within +19 % → +1 %. Sim MAP at the stop is ~25 kPa abs (the measured value was not logged).
+
+**Energy breakdown, 3994 rpm / 100 N m, airflow matched (λ 1.001, spark 23.4, no overlap):**
+- Measured BTE 34.34 %; sim brake 92.4 N m, BTE ~30.8 %.
+- Burned/metered 0.925; gross 42.8 %, pumping −1.6 %, wall 15.1 %, friction 7.8 % (mech eff 0.81) of released heat.
+- Burn 10/50/90 −7.8/6.6/13.8 deg; peak 50.3 bar @ 13.8 deg.
+- Decomposition of the −10 %:
+  - ~5 points: unburned fuel at λ 1. The sim burns 0.97 × 0.954 = 0.925 of metered fuel. The 0.954 is the upstream empirical burning-efficiency attenuation (turbulence/dilution "mixing factor", low_efficiency_attenuation 0.6), which is not sourced; its dilution measure is ~1.1 even for fresh air (p_inert/(p_o2/0.7) − 1).
+  - The rest: friction ~1-2 % (motoring +6 % at 4000 rpm) plus wall heat.
+
+**Conflict to resolve:**
+- The same attenuation term also acts on the GX390/Kohler. Removing it would raise their efficiency (GX390 J1349 +5 % → ~+9 %), while the Mazda needs it gone.
+- Engine-type-dependent factors (small air-cooled, low CR vs modern high CR) remain unexplained.
+
 ## P3 Mazda SKYACTIV-G 2.0 — first build and EPA point comparison (2026-10-01)
 
 **Build:**
