@@ -779,6 +779,35 @@ Result:
   - (B) revert the turbo source to runner pressure and calibrate on both recordings;
   - (C) radiate every engine from the gas entering its radiating pipe (collector / post-turbine), which changes the stock SI engines and needs A/B checks.
 
+## Low-speed power excess: combustion sensitivity (no change adopted)
+
+Small-engine sims are 7–15 % too efficient at low speed: 4045DF150 +11 % torque at 1000 rpm, +2 % at rated.
+
+**What brake data shows:** simulated gross indicated efficiency is ~45 % at every speed. Simulated mechanical efficiency at 1000 rpm full load is 903/955 = 94.6 %, implausibly high for a diesel (81 % at rated). Brake data alone cannot split the excess between friction and indicated efficiency.
+
+**Friction proposals rejected by the user:**
+- Constant mechanical friction derived from documented motoring power minus simulated pumping: fits the DF150 within ±4 %, but the value is partly derived from the sim itself (circular).
+- Chen–Flynn anchored at rated: its speed coefficient comes out 5–15× the literature range, and it barely improves low speed.
+
+**Sensitivity**, one C value at a time; torque error vs documented and gross indicated efficiency, at 1000 / 2500 rpm:
+
+| Variant | 1000 rpm | 2500 rpm | Ignition | Exhaust °C (doc 582 at rated) |
+|---|---|---|---|---|
+| Base (8° SOI, 60° burn) | +11.0 % / 44.5 % | +1.9 % / 45.8 % | −4.8° / 0.0° | 641 / 565 |
+| Burn 45° | +16.8 % / 47.7 % | +10.6 % / 49.3 % | | |
+| Burn 80° | +0.8 % / 40.8 % | −10.4 % / 40.0 % | | |
+| SOI 4° | +7.3 % / 43.7 % | −4.1 % / 42.0 % | | 673 / 602 |
+| SOI 12° | +13.6 % / 45.3 % | +5.2 % / 45.3 % | | |
+| Injection 30° | +10.8 % / 45.0 % | +2.1 % / 45.4 % | | |
+| Premixed 0.30 | +12.7 % / 45.4 % | +4.6 % / 43.8 % | | |
+
+- **Burn duration** is the strongest lever (±4 points of indicated efficiency), but as a constant crank angle it moves both speeds alike, so it cannot fix the shape.
+- **Injection timing:** 4° less advance removes ~4 % at low speed. A speed-advance curve (mechanical pumps advance with speed; only the rated 8° is documented) could plausibly explain 3–5 % of the low-speed excess without touching rated.
+- **Injection duration and premixed fraction:** < 2 %.
+- **Rated exhaust temperature** (sim 565 °C vs doc 582) slightly favours later or longer combustion at rated.
+
+**Open:** low-speed attribution between friction (component model needed) and the undocumented timing curve (needs the RE61649/RE67557 advance data, e.g. CTM207). `deere_4045df150` now exposes `injection_timing`, `injection_duration`, `combustion_duration` and `premixed_burn_fraction` (defaults unchanged).
+
 ## Handover incident: transient worktree loss
 
 Failure signature: `handover | uncommitted temporary worktree unavailable on continuation | workspace persistence layer`

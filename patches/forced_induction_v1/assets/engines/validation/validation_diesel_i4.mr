@@ -670,7 +670,12 @@ private node deere_governor {
 
 public node deere_4045df150 {
     input engine_name: "John Deere 4045DF150";
-    input port_cd: 0.6;                                   // C
+    input port_cd: 0.6;
+    // Calibration values (C), exposed for sensitivity studies.
+    input injection_timing: 8.0 * units.deg;     // D at rated; constant is C
+    input injection_duration: 22 * units.deg;
+    input combustion_duration: 60 * units.deg;
+    input premixed_burn_fraction: 0.15;                                   // C
     alias output __out:
         validation_diesel_i4(
             engine_name: engine_name,
@@ -693,7 +698,10 @@ public node deere_4045df150 {
             fuel_stop_curve: deere_df150_fuel_stop_curve(),
             // D: dynamic timing 8.0 deg BTDC (original RE61649 pump);
             // speed dependence of the advance is U (held constant, C)
-            timing_curve: constant_timing(advance: 8.0 * units.deg),
+            timing_curve: constant_timing(advance: injection_timing),
+            injection_duration: injection_duration,
+            combustion_duration: combustion_duration,
+            premixed_burn_fraction: premixed_burn_fraction,
             governor: deere_governor(rated: 2500 * units.rpm, droop: 0.080),
             intake_flow: deere_intake_flow(cd: port_cd),
             exhaust_flow: deere_exhaust_flow(cd: port_cd),
