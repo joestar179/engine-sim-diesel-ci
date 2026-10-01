@@ -61,7 +61,13 @@ Open issues (highest impact first):
      - ambient 101.3 kPa vs the 99 kPa rating basis;
      - light-load advance not modelled.
    - The ALCO and stock engines still use the side-thrust friction.
-2. **16-251B too efficient, boost below spec.**
+2. **Diesel framework: torque shape fixed, exhaust energy low.**
+   - On the pump model the Deere torque curves are within -3.5/+5.5 %, but
+     the DF150 rated EGT is 477 C (doc 582) and the TF250 boost 92 kPa gauge
+     (doc 109-133).
+   - The burn completes too early and too hot: the late mixing-limited tail
+     is missing. Next diesel item.
+2b. **16-251B too efficient, boost below spec.**
    - With the validated small-engine settings (LHV fuel, intake drag 1.0,
      delay correlation, PNH friction): 2764 hp, SFC 145 vs 168, brake 43 %
      vs ~37 %, boost 166 vs 258 kPa, peak pressure at +8 deg ATDC (reference
@@ -112,6 +118,7 @@ Parameters:
 | Hohenberg heat-transfer constants | 130, -0.06, 0.8, -0.4, +1.4 | S | Hohenberg, SAE 790825 |
 | CI wall surface temperatures | piston 573 K, head 503 K, liner 423 K | S (typical) | Heywood ch. 12, full-load DI diesel; replaces 90 C coolant wall |
 | CI ignition delay | Assanis et al. 2003, Livengood-Wu | S | Opt-in (`ignition_delay_correlation`); ALCO still uses fixed 4 deg |
+| Diesel combustion (Deere) | common framework: ignition correlation + mixing burn (u = 0.5 Sp + C_s v_spray, L = bore/2); mechanical-pump injection stage | S (structure) / C (pump geometry) / D (C_s = 0.25, set once on DF150 rated) | Cummins/ALCO still prescribed (pump/nozzle data U) |
 | SI flame front | upstream flame model + burned-gas expansion E = T_b/T_u (two-zone) | S | Physical density ratio; `combustion_physics::flameExpansion` |
 | Heat transfer (SI and CI) | Hohenberg, gas-side surfaces 573/503/423 K | S | One model for both (`combustion_physics::unifiedHeatTransfer`) |
 | Mechanical friction (validation engines) | Patton-Nitschke-Heywood components, original constants, viscosity ratio 1.28 | S (model) / C (bearing geometry) | Sandoval MIT 2003 pp. 13-16; bearings 0.75/0.68 B, L 0.4 D |

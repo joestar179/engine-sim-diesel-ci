@@ -19,17 +19,26 @@ public:
 
         // Injection and combustion from the injection hardware (used when
         // nozzleHoles > 0; otherwise the prescribed injection/combustion
-        // durations above are used).
-        //   injection rate  Cd n (pi/4 d^2) sqrt(2 rho_f (p_inj - p_cyl))
+        // durations above are used). One combustion framework, two
+        // injection systems:
+        //   common rail     rail pressure sets the nozzle flow:
+        //                   m' = Cd n (pi/4 d^2) sqrt(2 rho_f (p_rail - p_cyl))
+        //   mechanical pump the plunger sets the delivery, proportional to
+        //                   engine speed: Q = n_p (pi/4 d_p^2) (dh/dtheta) w;
+        //                   hole velocity by continuity v = Q / (Cd A_holes)
+        //                   (the opening pressure only lifts the needle)
         //   burn rate       (injected - burned) x u / L, L = bore / 2,
         //                   u = 0.5 x mean piston speed (the turbulence of
         //                   the spark-ignition flame model) + C_s x spray
         //                   velocity (decaying after end of injection)
         int nozzleHoles = 0;
         double nozzleHoleDiameter = 0.0;        // m
-        double injectionPressure = 0.0;         // Pa
+        double injectionPressure = 0.0;         // Pa: rail (common rail) or nozzle opening (pump)
         double nozzleDischargeCoefficient = 0.7;
         double sprayTurbulenceCoefficient = 0.0;
+        int pumpPlungers = 0;                   // > 0 selects the mechanical pump
+        double pumpPlungerDiameter = 0.0;       // m
+        double pumpCamLiftRate = 0.0;           // m of plunger lift per crank radian
     };
 
     struct Event {
@@ -53,6 +62,7 @@ public:
         double pistonTurbulence = 0.0;      // m/s, 0.5 x mean piston speed
         double sprayVelocity = 0.0;         // m/s
         double maxDuration = 0.0;           // s, abandon an unlit event
+        double omega = 0.0;                 // rad/s, crank speed at start
     };
 
     struct StepResult {
@@ -67,7 +77,13 @@ public:
     void initialize(const Parameters &parameters);
     const Parameters &parameters() const { return m_parameters; }
     bool enabled() const { return m_parameters.enabled; }
-    bool usesInjectionHardware() const { return m_parameters.nozzleHoles > 0 && m_parameters.injectionPressure > 0.0; }
+    bool usesMechanicalPump() const {
+        return m_parameters.pumpPlungers > 0 && m_parameters.pumpPlungerDiameter > 0.0 && m_parameters.pumpCamLiftRate > 0.0;
+    }
+    bool usesInjectionHardware() const {
+        return m_parameters.nozzleHoles > 0 && m_parameters.nozzleHoleDiameter > 0.0
+            && (usesMechanicalPump() || m_parameters.injectionPressure > 0.0);
+    }
 
     void beginEvent(Event &event, double fuelMass, double fuelMolecularMass, double engineSpeedRadPerSec) const;
     StepResult step(Event &event, double dt, double cylinderTemperature, double cylinderPressure) const;

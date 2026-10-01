@@ -1057,6 +1057,48 @@ The upstream was cloned at 56725cc (Piranha 432f0b1, Delta b7d0a04) in `C:\es\up
 - Modelling the pump needs its delivery rate (plunger diameter, cam lift rate), which is undocumented for these rotary pumps.
 - **Not adopted:** the Deere scripts keep the nozzle data (documented) with `nozzle_hole_count: 0`. DF150 results are unchanged (301 / 231 N·m at 1000 / 2500 rpm).
 
+## One diesel combustion framework, two injection systems (user direction)
+
+The common framework (`CompressionIgnitionModel::stepHardware`):
+
+- ignition by correlation;
+- burn rate = (injected − burned) · u/L, L = bore/2, u = 0.5 S̄p (SI flame turbulence) + C_s · spray velocity.
+
+The injection stage feeds it:
+
+- **Common rail:** nozzle flow at rail pressure (Bernoulli).
+- **Mechanical pump** (`pump_plunger_count/diameter/cam_lift_rate`): delivery Q = n_p π/4 d_p² (dh/dθ) ω, which scales with speed; hole velocity by continuity v = Q / (Cd A_holes); the opening pressure only lifts the needle.
+
+**Inputs:**
+
+- **Deere:** nozzles F (CTM207); pump C (2 × 7 mm plungers, lift rate so that the rated full delivery spans 22° crank: DF150 0.0333, TF250 0.0508 mm/deg).
+- **C_s = 0.25:** global, set once (D) on the DF150 rated torque. Sweep: 0.3 gives +1.5 / +1.1 / +4.5 % at 1000 / 1800 / 2500 rpm — the error is now flat across speed.
+
+**Full-load torque**, sim vs documented:
+
+| rpm | DF150 | TF250 |
+|---|---|---|
+| 1000 | 287 / 290 (−1.0 %) | 381 / 375 (+1.6 %) |
+| 1200 | 292 / 292 (0.0 %) | 410 / 434 (−5.5 %) |
+| 1400 | 282 / 286 (−1.4 %) | 438 / 445 (−1.6 %) |
+| 1600 | 274 / 278 (−1.4 %) | 462 / 440 (+5.0 %) |
+| 1800 | 264 / 270 (−2.2 %) | 446 / 428 (+4.2 %) |
+| 2000 | 251 / 260 (−3.5 %) | 432 / 415 (+4.1 %) |
+| 2200 | 243 / 248 (−2.0 %) | 404 / 396 (+2.0 %) |
+| 2400 | 230 / 235 (−2.1 %) | 371 / 371 (0.0 %) |
+| 2500 | 229 / 228 (+0.4 %) | — |
+
+- The DF150 low-speed excess is resolved; BSFC is within ~3 %.
+- TF250 airflow 161 vs 164 g/s, EGT 500 vs 495 °C, AFR 27.7 vs 28.4.
+
+**Regressions (open):**
+
+- DF150 rated EGT 477 °C vs doc 582 (prescribed 569).
+- TF250 boost 92 kPa gauge vs doc 109–133 (prescribed 114).
+- The burn completes earlier and hotter (more wall heat, less late burning), so less exhaust energy. The burn shape (late mixing-limited tail) needs work.
+
+Cummins and ALCO stay on the prescribed path (nozzle and pump data U). Unit tests unchanged (47 pass, same 4 upstream failures).
+
 ## Handover incident: transient worktree loss
 
 Failure signature: `handover | uncommitted temporary worktree unavailable on continuation | workspace persistence layer`

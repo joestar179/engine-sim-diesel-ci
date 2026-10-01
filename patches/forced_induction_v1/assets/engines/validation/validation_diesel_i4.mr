@@ -170,6 +170,9 @@ private node validation_diesel_i4 {
     input nozzle_hole_count: 0;
     input nozzle_hole_diameter: 0.0;
     input injection_pressure: 0.0;
+    input pump_plunger_count: 0;
+    input pump_plunger_diameter: 0.0;
+    input pump_cam_lift_rate: 0.0;
     input combustion_duration: 60 * units.deg;    // C
     input premixed_burn_fraction: 0.15;           // C
     input timing_curve;
@@ -257,6 +260,9 @@ private node validation_diesel_i4 {
         nozzle_hole_count: nozzle_hole_count,
         nozzle_hole_diameter: nozzle_hole_diameter,
         injection_pressure: injection_pressure,
+        pump_plunger_count: pump_plunger_count,
+        pump_plunger_diameter: pump_plunger_diameter,
+        pump_cam_lift_rate: pump_cam_lift_rate,
         // Ignition delay from the simulated cylinder state (Assanis et al.
         // 2003, Livengood-Wu integral); no crank-angle delay constant.
         ignition_delay_correlation: true,
@@ -770,12 +776,16 @@ public node deere_4045df150 {
             // F: RE60062 nozzles (CTM207): 4 holes x 0.27 mm, opening
             // 238-244 bar. A: injection pressure = opening pressure midpoint
             // (lower bound; mean line pressure not documented)
-            // Hardware path (nozzle_hole_count > 0) tested and not used: with a
-            // constant injection pressure the burn shortens in crank degrees
-            // at low speed (+7 % torque at 1000 rpm vs +4 % prescribed). A
-            // mechanical pump's delivery rate scales with speed (nozzle
-            // pressure ~ speed^2); its delivery rate is not documented.
-            nozzle_hole_count: 0,
+            /*
+                Mechanical rotary pump (Stanadyne, CTM207 p. 151) on the common
+                combustion framework. C: plunger and cam data are U; 2 x 7 mm
+                plungers, lift rate such that the rated full delivery
+                (47.4 mg) spans 22 crank degrees (the earlier calibration).
+            */
+            nozzle_hole_count: 4,
+            pump_plunger_count: 2,
+            pump_plunger_diameter: 7 * units.mm,
+            pump_cam_lift_rate: 0.03332 * units.mm / units.deg,
             nozzle_hole_diameter: 0.27 * units.mm,
             injection_pressure: 24.1 * units.MPa,
             turbo_enabled: false,
@@ -822,7 +832,12 @@ public node deere_4045tf250 {
             exhaust_outlet_flow_rate: k_carb(800),        // C silencer
             // F: RE48786 nozzles (CTM207): 4 holes x 0.29 mm, opening
             // 255-260 bar. A: injection pressure = opening pressure midpoint
-            nozzle_hole_count: 0,
+            // Mechanical rotary pump (Delphi/Lucas, CTM207 p. 152); C as for
+            // the DF150: rated full delivery (72.3 mg) spans 22 crank degrees.
+            nozzle_hole_count: 4,
+            pump_plunger_count: 2,
+            pump_plunger_diameter: 7 * units.mm,
+            pump_cam_lift_rate: 0.05083 * units.mm / units.deg,
             nozzle_hole_diameter: 0.29 * units.mm,
             injection_pressure: 25.75 * units.MPa,
             turbo_enabled: turbo_enabled,

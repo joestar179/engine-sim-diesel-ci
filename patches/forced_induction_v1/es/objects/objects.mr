@@ -118,6 +118,9 @@ private node _engine => __engine_sim__engine {
     input injection_pressure [float];
     input nozzle_discharge_coefficient [float];
     input spray_turbulence_coefficient [float];
+    input pump_plunger_count [int];
+    input pump_plunger_diameter [float];
+    input pump_cam_lift_rate [float];
     input autoignition_pressure [float];
     input turbo_enabled [bool];
     input turbo_shaft_inertia [float];
@@ -219,12 +222,19 @@ public node engine {
     // Injection hardware (nozzle_hole_count > 0 switches injection and
     // combustion to nozzle hydraulics + mixing-controlled burn). Discharge
     // coefficient: textbook value for diesel nozzle holes. The spray
-    // turbulence coefficient is one global diesel constant (set once).
+    // turbulence coefficient is one global diesel constant, set once (D) on
+    // the John Deere 4045DF150 full-load torque at rated speed (2500 rpm).
     input nozzle_hole_count: 0;
     input nozzle_hole_diameter: 0.0;
     input injection_pressure: 0.0;
     input nozzle_discharge_coefficient: 0.7;
-    input spray_turbulence_coefficient: 0.2;
+    input spray_turbulence_coefficient: 0.25;
+    // Mechanical pump (pump_plunger_count > 0): plunger delivery sets the
+    // injection rate (scales with engine speed). Lift rate in plunger lift
+    // per crank angle (e.g. 0.03 * units.mm / units.deg).
+    input pump_plunger_count: 0;
+    input pump_plunger_diameter: 0.0;
+    input pump_cam_lift_rate: 0.0;
     input autoignition_temperature: 550 * units.K;
     input autoignition_pressure: 1.0 * units.MPa;
     input turbo_enabled: false;
@@ -323,6 +333,9 @@ public node engine {
             injection_pressure: injection_pressure,
             nozzle_discharge_coefficient: nozzle_discharge_coefficient,
             spray_turbulence_coefficient: spray_turbulence_coefficient,
+            pump_plunger_count: pump_plunger_count,
+            pump_plunger_diameter: pump_plunger_diameter,
+            pump_cam_lift_rate: pump_cam_lift_rate,
             autoignition_pressure: autoignition_pressure,
             turbo_enabled: turbo_enabled,
             turbo_shaft_inertia: turbo_shaft_inertia,

@@ -233,6 +233,9 @@ namespace es_script {
             addInput("injection_pressure", &m_parameters.compressionIgnition.injectionPressure);
             addInput("nozzle_discharge_coefficient", &m_parameters.compressionIgnition.nozzleDischargeCoefficient);
             addInput("spray_turbulence_coefficient", &m_parameters.compressionIgnition.sprayTurbulenceCoefficient);
+            addInput("pump_plunger_count", &m_parameters.compressionIgnition.pumpPlungers);
+            addInput("pump_plunger_diameter", &m_parameters.compressionIgnition.pumpPlungerDiameter);
+            addInput("pump_cam_lift_rate", &m_parameters.compressionIgnition.pumpCamLiftRate);
             addInput("turbo_enabled", &m_parameters.turbocharger.enabled);
             addInput("turbo_shaft_inertia", &m_parameters.turbocharger.shaftInertia);
             addInput("turbo_friction_torque", &m_parameters.turbocharger.frictionTorque);

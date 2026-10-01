@@ -33,6 +33,7 @@ void CompressionIgnitionModel::beginEvent(
     event.active = true;
     event.fuelMolecularMass = fuelMolecularMass;
     event.maxDuration = 2.0 * 3.14159265358979 / omega;   // one revolution
+    event.omega = omega;
     event.targetFuelMoles = fuelMass / fuelMolecularMass;
     event.injectionDurationSeconds = std::max(m_parameters.injectionDuration / omega, 1.0e-6);
     event.ignitionDelaySeconds = m_parameters.ignitionDelay / omega;
@@ -66,14 +67,24 @@ CompressionIgnitionModel::StepResult CompressionIgnitionModel::stepHardware(
     const double end = event.elapsed + dt;
     const double L = std::max(event.lengthScale, 1.0e-3);
 
-    // Injection: nozzle hydraulics (Bernoulli through the holes).
+    // Injection: common rail (Bernoulli at rail pressure) or mechanical pump
+    // (plunger displacement, hole velocity by continuity).
     const double remaining = event.targetFuelMoles - event.injectedFuelMoles;
     if (remaining > 0.0 && event.fuelDensity > 0.0 && event.fuelMolecularMass > 0.0) {
-        const double dp = std::max(0.0, p.injectionPressure - cylinderPressure);
-        const double v = std::sqrt(2.0 * dp / event.fuelDensity);
-        const double area = p.nozzleHoles * 0.25 * 3.14159265358979
-            * p.nozzleHoleDiameter * p.nozzleHoleDiameter;
-        const double massRate = p.nozzleDischargeCoefficient * area * event.fuelDensity * v;
+        constexpr double Pi = 3.14159265358979;
+        const double holeArea = p.nozzleHoles * 0.25 * Pi * p.nozzleHoleDiameter * p.nozzleHoleDiameter;
+        double v = 0.0, massRate = 0.0;
+        if (usesMechanicalPump()) {
+            const double plungerArea = p.pumpPlungers * 0.25 * Pi * p.pumpPlungerDiameter * p.pumpPlungerDiameter;
+            const double volumeRate = plungerArea * p.pumpCamLiftRate * event.omega;
+            massRate = event.fuelDensity * volumeRate;
+            v = volumeRate / std::max(1.0e-12, p.nozzleDischargeCoefficient * holeArea);
+        }
+        else {
+            const double dp = std::max(0.0, p.injectionPressure - cylinderPressure);
+            v = std::sqrt(2.0 * dp / event.fuelDensity);
+            massRate = p.nozzleDischargeCoefficient * holeArea * event.fuelDensity * v;
+        }
         const double moles = std::min(remaining, massRate * dt / event.fuelMolecularMass);
         result.fuelMolesToInject = std::max(0.0, moles);
         event.injectedFuelMoles += result.fuelMolesToInject;
