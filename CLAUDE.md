@@ -138,8 +138,14 @@ Open issues (highest impact first):
 5. **Petrol: coherent model validated on the Kohler CH750; stock SI scripts
    not yet re-derived.**
    - `kohler_ch750_validated.mr` (documented CR, real gasoline, PNH friction,
-     unified heat transfer, flame expansion): 21.0 kW at 3600 rpm (doc 20.1)
-     and 59.0 N m at 3000 rpm (doc 57.2); BSFC ~305.
+     unified heat transfer, flame expansion): 21.0 kW at 3600 rpm (doc 20.1,
+     +4.4 %); peak torque reference corrected to 55.9 N m at 3200 rpm (current
+     OEM table; digitised curve in docs/reference/batch01).
+   - **Fuel check FAILS (2026-10-01):** the certified-cycle fuel energy from a
+     carbon balance (EU Stage V CO2 + EPA CO/HC, family KHXS.7472GK) is 19.24
+     (G1) / 18.76 (G2) MJ/kWh; the sim gives 14.65 / 14.95 at the emission λ
+     0.85 (−24 / −20 %). Combustion efficiency matches; heat-to-brake-work is
+     ~23 % too efficient. Not yet diagnosed (FAILURE_ATTEMPT_LOG).
    - Upstream itself reached 72 % only via compensating errors (VE 1.37 x
      BSFC 618).
    - Every stock SI script's hand timing/fuel/friction knobs were tuned to the
