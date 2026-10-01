@@ -222,16 +222,27 @@ void CombustionChamber::ignite() {
         m_flameEvent.efficiency =
             efficiencyAttenuation * maxBurningEfficiency;
         // Two-zone density ratio: burned gas at the same pressure is hotter by
-        // the heat of the charge's fuel (real-gas u(T)); E = T_b / T_u.
+        // the heat of the burned fuel (real-gas u(T)); E = n_b T_b / (n_u T_u).
         m_flameEvent.massFractionBurned = 0.0;
         m_flameEvent.expansion = 1.0;
         if (combustion_physics::flameExpansion && m_system.n() > 0) {
             const double Tu = m_system.temperature();
-            const double q = m_system.mix().p_fuel * m_fuel->getMolecularMass()
-                * m_fuel->getEnergyDensity() * m_flameEvent.efficiency;
-            const double ub = m_system.kineticEnergy() / m_system.n() + q;
-            const double Tb = GasSystem::temperatureFromEnergyPerMol(ub, m_system.degreesOfFreedom());
-            if (Tu > 0.0 && Tb > Tu) m_flameEvent.expansion = Tb / Tu;
+            // Burned state: the fuel that the charge's oxygen can burn (the
+            // flame is O2-limited on the rich side, GasSystem::react), and
+            // the burned gas's own composition (products, real heat capacity).
+            const GasSystem::Mix &mx = m_system.mix();
+            const double o2PerFuel = 25.0 / 2.0;                      // GasSystem::react
+            const double moleGrowth = (16.0 + 18.0) / (25.0 + 2.0);   // GasSystem::react
+            const double reacted = std::min(mx.p_fuel, mx.p_o2 / o2PerFuel) * m_flameEvent.efficiency;
+            const double q = reacted * m_fuel->getMolecularMass() * m_fuel->getEnergyDensity();
+            const double reactants = reacted * (1.0 + o2PerFuel);
+            const double nAfter = 1.0 + (moleGrowth - 1.0) * reactants;
+            const double productsAfter = (mx.p_products + moleGrowth * reactants) / nAfter;
+            const double ub = (m_system.kineticEnergy() / m_system.n() + q) / nAfter;
+            const double Tb = GasSystem::temperatureFromEnergyPerMol(
+                ub, m_system.degreesOfFreedom(), -1.0, productsAfter);
+            // Volume ratio at equal pressure (per unit mass): E = n_b T_b / (n_u T_u).
+            if (Tu > 0.0 && Tb > Tu) m_flameEvent.expansion = nAfter * Tb / Tu;
         }
         m_flameEvent.flameSpeed = m_fuel->flameSpeed(
             turbulence,

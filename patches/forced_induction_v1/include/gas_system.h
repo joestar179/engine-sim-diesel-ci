@@ -20,6 +20,13 @@ namespace gas_vibration {
     extern bool enthalpyFlow;
     extern double energy[TableSize];        // J/mol
     extern double heatCapacity[TableSize];  // J/(mol K)
+    // Combustion products (CO2 : H2O = 1 : 1) as their own species: rigid
+    // part 2.75 R (CO2 linear 2.5 R, H2O non-linear 3 R) plus their
+    // vibrational modes (harmonic oscillators). Switch false = products
+    // behave like air (the previous model). Default true.
+    extern bool products;
+    extern double productEnergy[TableSize];        // J/mol, vibrational
+    extern double productHeatCapacity[TableSize];  // J/(mol K), vibrational
     inline double lookup(const double *values, double T) {
         if (!enabled || !(T > 0.0)) return 0.0;   // also rejects NaN
         if (T >= TableSize - 1) T = TableSize - 1 - 1.0e-9;
@@ -35,6 +42,9 @@ class GasSystem {
             double p_fuel = 0.0;
             double p_inert = 1.0;
             double p_o2 = 0.0;
+            // Combustion products (CO2 + H2O), a part of p_inert; they carry
+            // their own heat capacity.
+            double p_products = 0.0;
         };
 
         struct State {
@@ -103,15 +113,17 @@ class GasSystem {
         // Molar internal energy at temperature T. Diatomic gas (5 rigid degrees
         // of freedom) includes the vibrational energy of N2/O2 (harmonic
         // oscillator, air composition), so cv and gamma fall with temperature.
-        inline static double kineticEnergyPerMol(double T, int degreesOfFreedom);
+        inline static double kineticEnergyPerMol(double T, int degreesOfFreedom, double productFraction = 0.0);
         static double vibrationalEnergyPerMol(double T) { return gas_vibration::lookup(gas_vibration::energy, T); }
         // Temperature of gas with molar internal energy e (inverts u(T)).
-        inline static double temperatureFromEnergyPerMol(double e, int degreesOfFreedom, double guess = -1.0);
-        static double pressureOf(double n, double E, double V, int degreesOfFreedom);
+        inline static double temperatureFromEnergyPerMol(double e, int degreesOfFreedom, double guess = -1.0, double productFraction = 0.0);
+        static double pressureOf(double n, double E, double V, int degreesOfFreedom, double productFraction = 0.0);
+        // Heat capacity cv(T) per mole of a gas with the given product fraction.
+        inline static double heatCapacityPerMol(double T, int degreesOfFreedom, double productFraction = 0.0);
         static double vibrationalHeatCapacity(double T) { return gas_vibration::lookup(gas_vibration::heatCapacity, T); }
         // Molar enthalpy carried by flowing gas: u + R T.
         inline double enthalpyPerMol() const;
-        inline static double enthalpyPerMol(double T, int degreesOfFreedom);
+        inline static double enthalpyPerMol(double T, int degreesOfFreedom, double productFraction = 0.0);
         // Secant degrees of freedom of the current state: E = f/2 n R T.
         inline double effectiveDegreesOfFreedom() const;
         inline static constexpr double heatCapacityRatio(int degreesOfFreedom);
@@ -153,6 +165,7 @@ class GasSystem {
         mutable double m_temperatureCacheE = -1.0;
         mutable double m_temperatureCacheN = -1.0;
         mutable double m_temperatureCacheT = 0.0;
+        mutable double m_temperatureCacheX = -1.0;
         double m_chokedFlowFactorCached = 0;
 
         double m_width = 0.0;
@@ -161,12 +174,25 @@ class GasSystem {
         double m_dy = 0.0;
 };
 
-inline double GasSystem::kineticEnergyPerMol(double T, int degreesOfFreedom) {
+inline double GasSystem::kineticEnergyPerMol(double T, int degreesOfFreedom, double productFraction) {
     const double rigid = 0.5 * T * constants::R * degreesOfFreedom;
-    return (degreesOfFreedom == 5) ? rigid + vibrationalEnergyPerMol(T) : rigid;
+    if (degreesOfFreedom != 5) return rigid;
+    const double air = rigid + vibrationalEnergyPerMol(T);
+    if (productFraction <= 0.0 || !gas_vibration::products || !gas_vibration::enabled) return air;
+    return air + productFraction * (0.25 * constants::R * T
+        + gas_vibration::lookup(gas_vibration::productEnergy, T) - vibrationalEnergyPerMol(T));
 }
 
-inline double GasSystem::temperatureFromEnergyPerMol(double e, int degreesOfFreedom, double guess) {
+inline double GasSystem::heatCapacityPerMol(double T, int degreesOfFreedom, double productFraction) {
+    const double rigid = 0.5 * constants::R * degreesOfFreedom;
+    if (degreesOfFreedom != 5) return rigid;
+    const double air = rigid + vibrationalHeatCapacity(T);
+    if (productFraction <= 0.0 || !gas_vibration::products || !gas_vibration::enabled) return air;
+    return air + productFraction * (0.25 * constants::R
+        + gas_vibration::lookup(gas_vibration::productHeatCapacity, T) - vibrationalHeatCapacity(T));
+}
+
+inline double GasSystem::temperatureFromEnergyPerMol(double e, int degreesOfFreedom, double guess, double productFraction) {
     const double rigidT = e / (0.5 * degreesOfFreedom * constants::R);
     if (degreesOfFreedom != 5 || !(rigidT > 0.0) || !gas_vibration::enabled) return rigidT;
     // Below 300 K the vibrational energy is < 0.04 % of u; skip the inversion.
@@ -178,15 +204,15 @@ inline double GasSystem::temperatureFromEnergyPerMol(double e, int degreesOfFree
     double T = (guess > 0.0) ? guess : rigidT;
     const int iterations = (guess > 0.0) ? 1 : 2;
     for (int i = 0; i < iterations; ++i) {
-        const double u = 2.5 * constants::R * T + vibrationalEnergyPerMol(T);
-        const double cv = 2.5 * constants::R + vibrationalHeatCapacity(T);
+        const double u = kineticEnergyPerMol(T, 5, productFraction);
+        const double cv = heatCapacityPerMol(T, 5, productFraction);
         T -= (u - e) / cv;
     }
     return T;
 }
 
-inline double GasSystem::enthalpyPerMol(double T, int degreesOfFreedom) {
-    return kineticEnergyPerMol(T, degreesOfFreedom) + (gas_vibration::enthalpyFlow ? constants::R * T : 0.0);
+inline double GasSystem::enthalpyPerMol(double T, int degreesOfFreedom, double productFraction) {
+    return kineticEnergyPerMol(T, degreesOfFreedom, productFraction) + (gas_vibration::enthalpyFlow ? constants::R * T : 0.0);
 }
 
 inline double GasSystem::enthalpyPerMol() const {
@@ -320,7 +346,8 @@ inline double GasSystem::pressure() const {
 
 inline double GasSystem::temperature() const {
     if (n() == 0) return 0;
-    if (m_state.E_k == m_temperatureCacheE && m_state.n_mol == m_temperatureCacheN) {
+    if (m_state.E_k == m_temperatureCacheE && m_state.n_mol == m_temperatureCacheN
+        && m_state.mix.p_products == m_temperatureCacheX) {
         return m_temperatureCacheT;
     }
     // Warm start from the previous temperature when the state moved only a
@@ -331,7 +358,8 @@ inline double GasSystem::temperature() const {
         ? m_temperatureCacheT : -1.0;
     m_temperatureCacheE = m_state.E_k;
     m_temperatureCacheN = m_state.n_mol;
-    m_temperatureCacheT = temperatureFromEnergyPerMol(kineticEnergy() / n(), m_degreesOfFreedom, guess);
+    m_temperatureCacheX = m_state.mix.p_products;
+    m_temperatureCacheT = temperatureFromEnergyPerMol(kineticEnergy() / n(), m_degreesOfFreedom, guess, m_state.mix.p_products);
     return m_temperatureCacheT;
 }
 
@@ -367,7 +395,7 @@ inline double GasSystem::n_o2() const {
 
 inline double GasSystem::heatCapacityRatio() const {
     if (m_degreesOfFreedom == 5 && n() > 0) {
-        const double cv = 2.5 * constants::R + vibrationalHeatCapacity(temperature());
+        const double cv = heatCapacityPerMol(temperature(), 5, m_state.mix.p_products);
         return (cv + constants::R) / cv;
     }
     return heatCapacityRatio(m_degreesOfFreedom);

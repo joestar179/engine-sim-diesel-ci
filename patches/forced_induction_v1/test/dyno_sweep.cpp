@@ -13,7 +13,8 @@
 //            [--torque Nm]  part load: bisect the speed control until the
 //                           held-speed torque equals Nm (steady-state test
 //                           cycles such as 40 CFR 1054 Appendix B / ISO 8178)
-//            overlay build only: [--real-gas 0|1] [--enthalpy-flow 0|1]
+//            overlay build only: [--real-gas 0|1] [--enthalpy-flow 0|1] [--products 0|1]
+//            [--energy 1] (energy balance; see EnergyProbe)
 
 #include "../scripting/include/compiler.h"
 #include "../include/engine.h"
@@ -74,12 +75,18 @@ struct EnergyProbe {
                         const double b0 = c.burn.front().second, b1 = c.burn.back().second;
                         if (b1 > b0) {
                             const double degPerS = rpm * 6.0;
-                            double f10 = -1, f50 = -1, f90 = -1;
+                            if (std::getenv("ES_BURN_DUMP") != nullptr && firings == 20) {
+                                for (auto &s : c.burn) std::printf("burn %.1f %.4f\n",
+                                    (s.first - c.tdcT) * degPerS, (s.second - b0) / (b1 - b0));
+                            }
+                            double f10 = 0, f50 = 0, f90 = 0;
+                            bool h10 = false, h50 = false, h90 = false;
                             for (auto &s : c.burn) {
                                 const double x = (s.second - b0) / (b1 - b0);
-                                if (f10 < 0 && x >= 0.1) f10 = (s.first - c.tdcT) * degPerS;
-                                if (f50 < 0 && x >= 0.5) f50 = (s.first - c.tdcT) * degPerS;
-                                if (f90 < 0 && x >= 0.9) f90 = (s.first - c.tdcT) * degPerS;
+                                const double deg = (s.first - c.tdcT) * degPerS;
+                                if (!h10 && x >= 0.1) { f10 = deg; h10 = true; }
+                                if (!h50 && x >= 0.5) { f50 = deg; h50 = true; }
+                                if (!h90 && x >= 0.9) { f90 = deg; h90 = true; }
                             }
                             a10 += f10; a50 += f50; a90 += f90;
                             aPeak += (c.segPeakT - c.tdcT) * degPerS;
@@ -154,6 +161,7 @@ int main(int argc, char **argv) {
 #ifdef ENGINE_SIM_OVERLAY
         // Overlay-only diagnostic switches (value 0 = upstream behaviour).
         else if (a == "--real-gas") gas_vibration::enabled = std::atoi(argv[i + 1]) != 0;
+        else if (a == "--products") gas_vibration::products = std::atoi(argv[i + 1]) != 0;
         else if (a == "--enthalpy-flow") gas_vibration::enthalpyFlow = std::atoi(argv[i + 1]) != 0;
         else if (a == "--unified-heat") combustion_physics::unifiedHeatTransfer = std::atoi(argv[i + 1]) != 0;
         else if (a == "--flame-expansion") combustion_physics::flameExpansion = std::atoi(argv[i + 1]) != 0;

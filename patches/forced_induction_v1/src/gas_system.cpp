@@ -41,13 +41,44 @@ struct VibrationTable {
     }
 };
 
+// Combustion products CO2 : H2O = 1 : 1 (gasoline 47 : 53, diesel 51 : 49),
+// harmonic oscillators per normal mode: CO2 bend 960 K (x2), symmetric
+// stretch 1997 K, asymmetric stretch 3380 K; H2O bend 2295 K, stretches
+// 5262 K and 5404 K (NIST fundamental frequencies). Vibrational part only;
+// the rigid part (2.75 R) is added in GasSystem::kineticEnergyPerMol.
+struct ProductVibrationTable {
+    static constexpr int Size = 8001;
+    double u[Size];
+    double cv[Size];
+    ProductVibrationTable() {
+        const double w[7] = { 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5 };
+        const double theta[7] = { 960.0, 960.0, 1997.0, 3380.0, 2295.0, 5262.0, 5404.0 };
+        for (int i = 0; i < Size; ++i) {
+            const double T = static_cast<double>(i);
+            double ui = 0.0, ci = 0.0;
+            for (int k = 0; k < 7 && T > 0.0; ++k) {
+                const double x = theta[k] / T;
+                if (x > 700.0) continue;
+                const double ex = std::exp(x);
+                ui += w[k] * theta[k] / (ex - 1.0);
+                ci += w[k] * x * x * ex / ((ex - 1.0) * (ex - 1.0));
+            }
+            u[i] = constants::R * ui;
+            cv[i] = constants::R * ci;
+        }
+    }
+};
+
 // Fill the shared tables once at static initialisation.
 const VibrationTable g_vibrationTable;
+const ProductVibrationTable g_productVibrationTable;
 struct VibrationTableExport {
     VibrationTableExport() {
         for (int i = 0; i < VibrationTable::Size; ++i) {
             gas_vibration::energy[i] = g_vibrationTable.u[i];
             gas_vibration::heatCapacity[i] = g_vibrationTable.cv[i];
+            gas_vibration::productEnergy[i] = g_productVibrationTable.u[i];
+            gas_vibration::productHeatCapacity[i] = g_productVibrationTable.cv[i];
         }
     }
 } g_vibrationTableExport;
@@ -57,10 +88,13 @@ bool gas_vibration::enabled = true;
 bool gas_vibration::enthalpyFlow = true;
 double gas_vibration::energy[gas_vibration::TableSize];
 double gas_vibration::heatCapacity[gas_vibration::TableSize];
+bool gas_vibration::products = true;
+double gas_vibration::productEnergy[gas_vibration::TableSize];
+double gas_vibration::productHeatCapacity[gas_vibration::TableSize];
 
-double GasSystem::pressureOf(double n, double E, double V, int degreesOfFreedom) {
+double GasSystem::pressureOf(double n, double E, double V, int degreesOfFreedom, double productFraction) {
     if (n <= 0.0 || V <= 0.0) return 0.0;
-    return n * constants::R * temperatureFromEnergyPerMol(E / n, degreesOfFreedom) / V;
+    return n * constants::R * temperatureFromEnergyPerMol(E / n, degreesOfFreedom, -1.0, productFraction) / V;
 }
 
 namespace {
@@ -88,7 +122,7 @@ void GasSystem::initialize(double P, double V, double T, const Mix &mix, int deg
     m_degreesOfFreedom = degreesOfFreedom;
     m_state.n_mol = P * V / (constants::R * T);
     m_state.V = V;
-    m_state.E_k = m_state.n_mol * kineticEnergyPerMol(T, degreesOfFreedom);
+    m_state.E_k = m_state.n_mol * kineticEnergyPerMol(T, degreesOfFreedom, mix.p_products);
     m_state.mix = mix;
     m_state.momentum[0] = m_state.momentum[1] = 0;
 
@@ -99,7 +133,7 @@ void GasSystem::initialize(double P, double V, double T, const Mix &mix, int deg
 
 void GasSystem::reset(double P, double T, const Mix &mix) {
     m_state.n_mol = P * volume() / (constants::R * T);
-    m_state.E_k = m_state.n_mol * kineticEnergyPerMol(T, m_degreesOfFreedom);
+    m_state.E_k = m_state.n_mol * kineticEnergyPerMol(T, m_degreesOfFreedom, mix.p_products);
     m_state.mix = mix;
     m_state.momentum[0] = m_state.momentum[1] = 0;
 }
@@ -136,7 +170,7 @@ void GasSystem::changePressure(double dP) {
 void GasSystem::changeTemperature(double dT) {
     if (n() <= 0) return;
     const double T = temperature();
-    m_state.E_k = n() * kineticEnergyPerMol(std::max(0.0, T + dT), m_degreesOfFreedom);
+    m_state.E_k = n() * kineticEnergyPerMol(std::max(0.0, T + dT), m_degreesOfFreedom, m_state.mix.p_products);
 }
 
 void GasSystem::changeEnergy(double dE) {
@@ -174,14 +208,15 @@ double GasSystem::reactFuel(double fuelMoles, double idealO2PerFuel) {
     const double inertProducts = reactedFuel + reactedO2;
     m_state.mix.p_fuel = (availableFuel - reactedFuel) / total;
     m_state.mix.p_o2 = (availableO2 - reactedO2) / total;
+    m_state.mix.p_products = (m_state.mix.p_products * total + inertProducts) / total;
     m_state.mix.p_inert = (n_inert() + inertProducts) / total;
     return reactedFuel;
 }
 
 void GasSystem::changeTemperature(double dT, double n) {
     const double T = temperature();
-    m_state.E_k += n * (kineticEnergyPerMol(std::max(0.0, T + dT), m_degreesOfFreedom)
-        - kineticEnergyPerMol(T, m_degreesOfFreedom));
+    m_state.E_k += n * (kineticEnergyPerMol(std::max(0.0, T + dT), m_degreesOfFreedom, m_state.mix.p_products)
+        - kineticEnergyPerMol(T, m_degreesOfFreedom, m_state.mix.p_products));
 }
 
 double GasSystem::react(double n, const Mix &mix) {
@@ -220,11 +255,13 @@ double GasSystem::react(double n, const Mix &mix) {
     const double new_system_n_o2 = system_n_o2 - a_n_o2;
     const double new_system_n_inert = system_n_inert + products_n;
     const double new_system_n = system_n + dn;
+    const double new_system_n_products = m_state.mix.p_products * system_n + products_n;
 
     if (new_system_n != 0) {
         m_state.mix.p_fuel = new_system_n_fuel / new_system_n;
         m_state.mix.p_inert = new_system_n_inert / new_system_n;
         m_state.mix.p_o2 = new_system_n_o2 / new_system_n;
+        m_state.mix.p_products = new_system_n_products / new_system_n;
     }
     else {
         m_state.mix.p_fuel = m_state.mix.p_inert = m_state.mix.p_o2 = 0;
@@ -355,6 +392,7 @@ double GasSystem::gainN(double dn, double E_k_per_mol, const Mix &mix) {
         m_state.mix.p_fuel = (m_state.mix.p_fuel * current_n + dn * mix.p_fuel) / next_n;
         m_state.mix.p_inert = (m_state.mix.p_inert * current_n + dn * mix.p_inert) / next_n;
         m_state.mix.p_o2 = (m_state.mix.p_o2 * current_n + dn * mix.p_o2) / next_n;
+        m_state.mix.p_products = std::max(0.0, (m_state.mix.p_products * current_n + dn * mix.p_products) / next_n);
     }
     else {
         m_state.mix.p_fuel = m_state.mix.p_inert = m_state.mix.p_o2 = 0;
@@ -645,7 +683,7 @@ double GasSystem::flow(double k_flow, double dt, double P_env, double T_env, con
     // near it; the linear estimate (exact for constant cv) screens cheaply.
     const double f = effectiveDegreesOfFreedom();
     const double linearMax = -(P_env * (0.5 * f * volume()) - kineticEnergy())
-        / ((pressure() > P_env) ? enthalpyPerMol() : enthalpyPerMol(T_env, m_degreesOfFreedom));
+        / ((pressure() > P_env) ? enthalpyPerMol() : enthalpyPerMol(T_env, m_degreesOfFreedom, mix.p_products));
     const double maxFlow = (std::abs(flow) > 0.5 * std::abs(linearMax))
         ? pressureEquilibriumMaxFlow(P_env, T_env)
         : linearMax;
@@ -657,7 +695,7 @@ double GasSystem::flow(double k_flow, double dt, double P_env, double T_env, con
         const double bulk_E_k_0 = bulkKineticEnergy();
         // Inflow from the environment brings its enthalpy (see flow()).
         gainN(-flow,
-            enthalpyPerMol(T_env, m_degreesOfFreedom),
+            enthalpyPerMol(T_env, m_degreesOfFreedom, mix.p_products),
             mix);
         const double bulk_E_k_1 = bulkKineticEnergy();
 
@@ -702,8 +740,9 @@ double GasSystem::pressureEquilibriumMaxFlow(const GasSystem *b) const {
         const double na = n(), Ea = kineticEnergy(), Va = volume();
         const double nb = b->n(), Eb = b->kineticEnergy(), Vb = b->volume();
         const int da = m_degreesOfFreedom, db = b->m_degreesOfFreedom;
+        const double xa = m_state.mix.p_products, xb = b->m_state.mix.p_products;
         const double maxFlow = solveEqualisingFlow([&](double dn) {
-            return pressureOf(na - dn, Ea - dn * h, Va, da) - pressureOf(nb + dn, Eb + dn * h, Vb, db);
+            return pressureOf(na - dn, Ea - dn * h, Va, da, xa) - pressureOf(nb + dn, Eb + dn * h, Vb, db, xb);
         }, estimate, 0.0, na);
         return std::fmax(0.0, std::fmin(maxFlow, n()));
     }
@@ -716,8 +755,9 @@ double GasSystem::pressureEquilibriumMaxFlow(const GasSystem *b) const {
         const double na = n(), Ea = kineticEnergy(), Va = volume();
         const double nb = b->n(), Eb = b->kineticEnergy(), Vb = b->volume();
         const int da = m_degreesOfFreedom, db = b->m_degreesOfFreedom;
+        const double xa = m_state.mix.p_products, xb = b->m_state.mix.p_products;
         const double moved = solveEqualisingFlow([&](double m) {
-            return pressureOf(nb - m, Eb - m * h, Vb, db) - pressureOf(na + m, Ea + m * h, Va, da);
+            return pressureOf(nb - m, Eb - m * h, Vb, db, xb) - pressureOf(na + m, Ea + m * h, Va, da, xa);
         }, -estimate, 0.0, nb);
         return std::fmin(0.0, std::fmax(-moved, -b->n()));
     }
@@ -732,7 +772,7 @@ double GasSystem::pressureEquilibriumMaxFlow(double P_env, double T_env) const {
         const double n0 = n(), E0 = kineticEnergy(), V0 = volume();
         const int d = m_degreesOfFreedom;
         return solveEqualisingFlow([&](double dn) {
-            return pressureOf(n0 - dn, E0 - dn * h, V0, d) - P_env;
+            return pressureOf(n0 - dn, E0 - dn * h, V0, d, m_state.mix.p_products) - P_env;
         }, estimate, 0.0, n0);
     }
     else {
@@ -742,7 +782,7 @@ double GasSystem::pressureEquilibriumMaxFlow(double P_env, double T_env) const {
         const double n0 = n(), E0 = kineticEnergy(), V0 = volume();
         const int d = m_degreesOfFreedom;
         const double gained = solveEqualisingFlow([&](double m) {
-            return P_env - pressureOf(n0 + m, E0 + m * h, V0, d);
+            return P_env - pressureOf(n0 + m, E0 + m * h, V0, d, m_state.mix.p_products);
         }, -estimate, 0.0, std::max(1.0e-12, -4.0 * estimate));
         return -gained;
     }

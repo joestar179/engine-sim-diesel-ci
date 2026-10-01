@@ -1134,6 +1134,51 @@ The shape is flat. Set: DF150 46°, TF250 37°.
 - 46°/37° rated injection is long for rotary pumps (typical 20–30°): either the jet mixing is somewhat fast (e.g. no wall impingement: x_st ≈ 85 mm > bore/2 = 53 mm) or a loss is missing.
 - TF250 at 1000 rpm is +7.5 %.
 
+## Burned-gas properties: combustion products as their own species (2026-10-01)
+
+**Change** (one layer: burned-gas state; production pins updated):
+- `GasSystem::Mix::p_products`: the CO2 + H2O mole fraction (part of p_inert).
+  - Created by `react` (SI) and `reactFuel` (CI); transported by `gainN`.
+  - Atmosphere and fresh charge carry 0.
+- u(T, φ) = 2.5 R T + u_vib,air(T) + φ [0.25 R T + u_vib,prod(T) − u_vib,air(T)].
+  - Products CO2 : H2O = 1 : 1, rigid 2.75 R.
+  - Harmonic-oscillator modes (NIST fundamentals): CO2 960 ×2 / 1997 / 3380 K; H2O 2295 / 5262 / 5404 K.
+- cv, γ, T inversion, enthalpy flow and pressure equalisation all use φ; the temperature cache is keyed on φ.
+- Switch `gas_vibration::products` (dyno `--products 0|1`).
+- Same layer, flame-expansion burned state:
+  - heat from the O2-limited reacted fuel (was all fuel);
+  - burned-gas composition for T_b;
+  - E = n_b T_b / (n_u T_u), including the 34/27 mole growth (was T_b/T_u).
+  - Turbine minimum energy and compressor delivery pass φ.
+- No new constant. Unit tests: the same four pre-existing upstream failures as before (logged 2026-09-30).
+
+**Results** ("off" includes the flame-expansion burned-state corrections):
+
+| Engine | Off | On | Documented |
+|---|---|---|---|
+| GX390 WOT 3600 (spark 22 deg D) | 10.60 kW, brake 33.6 % | **8.78 kW** (+0.9 %), brake 28.3 % | 8.7 kW |
+| Kohler WOT 3600 (spark 20 deg C) | 20.12 kW | 16.87 kW (−16 %) | 20.1 kW |
+| Deere DF150 1500 / 2500 | 278.5 / 229.0 N m | 263.7 / 219.6 N m (−5.3 / −4.1 %) | — |
+| ALCO 16-251B 1000 rpm | 2668 hp, brake 43.3 %, SFC 145 | 2505 hp, brake 40.6 %, SFC 155 g/BHP.h | 2400 hp, SFC 168 |
+
+Peak pressures: GX390 28.6 bar @ 35 deg; Kohler 32.7 bar @ 31 deg; ALCO 117 bar @ 6 deg.
+
+**New finding — SI burn phasing is late:**
+- GX390 advance sweep (diagnostic, temporary copies): 15 / 22 / 30 / 38 / 46 deg gives 8.08 / 8.78 / 9.39 / 9.53 / 9.16 kW. Sim MBT is ~35-38 deg vs Honda's documented 22 deg.
+- Burn curve at 22 deg: 10 % ~0, 50 % 24.5, 90 % 35 deg ATDC.
+  - 0-10 % (22 deg) and 10-90 % (~33 deg) are realistic durations.
+  - 10-50 % (~24 deg vs ~12-15 typical) is slow.
+- The GX390 +0.9 % therefore partly rides on late combustion (MBT would give +9.5 %).
+- Next layer: the SI turbulent flame speed (upstream turbulence and flame-speed functions) vs a sourced correlation.
+
+**Probe fix:**
+- The 10/50/90 crossing used −1 as the "unset" sentinel, so crossings before TDC were overwritten by the first sample at or after TDC.
+- The earlier entry's "10 % at 0.0 deg" values were clipped (10 % actually occurred before TDC). The 50/90 values after TDC, and peak pressure and angle, were correct.
+
+**Sound:** lower and later peak pressure and higher exhaust energy (GX390 exhaust share 0.549) give stronger blowdown and softer combustion. Render/listen pending.
+
+**Deere:** now 4-5 % low. Its pump lift rates (C) were set on rated torque under the old physics; re-deriving them would shorten injection toward the typical 20-30 deg. This tests the masking hypothesis.
+
 ## SI efficiency diagnosis: energy balance and flame-burn fix (2026-10-01)
 
 Failure signature: `physics | SI engines too efficient (GX390 +33 % power, Kohler cycle) | closed-cycle work`

@@ -45,7 +45,7 @@ double boundedTransfer(
         dn,
         GasSystem::enthalpyPerMol(
             std::max(MinimumTemperature, destinationTemperature),
-            destination.degreesOfFreedom()),
+            destination.degreesOfFreedom(), mix.p_products),
         mix);
     return dn;
 }
@@ -296,7 +296,7 @@ double TurboGroup::processTurbineFlow(double dt, Engine &engine) {
             * clamp01(m_parameters.turbineEfficiency);
         const double transferredEnergy = moved * std::max(0.0, inletEnergyPerMol);
         const double postMinimumEnergy = GasSystem::kineticEnergyPerMol(
-            MinimumTemperature, post->degreesOfFreedom()) * post->n();
+            MinimumTemperature, post->degreesOfFreedom(), post->mix().p_products) * post->n();
         const double postAvailable = std::max(0.0, post->kineticEnergy() - postMinimumEnergy);
         const double extracted = std::min(requestedEnergy, std::min(transferredEnergy, postAvailable));
         post->changeEnergy(-extracted);

@@ -135,6 +135,7 @@ Open issues (highest impact first):
 4. **Cummins 4B/4BT inputs.** Injection timing U (12 deg C), turbo hardware
    U, and documented airflow inconsistent (33 L/s implies volumetric
    efficiency 0.67).
+4b. **Physics layers 2026-10-01: SI two-zone burn fix and combustion-product heat capacity.** GX390 8.78 kW @ documented 22 deg (doc 8.7), but sim MBT ~37 deg: the SI mid-burn (10-50 %) is slow (next layer: turbulent flame speed). Kohler 16.9 kW at its C 20 deg timing. Deere −4 to −5 % (pump rates C set under old physics). ALCO 2505 hp, SFC 155 (doc 168).
 5. **Petrol: small-petrol validation engine is now the Honda GX390 (Kohler
    CH750 reclassified as a calibration engine, 2026-10-01).**
    - GX390 (`honda_gx390_validated.mr`, no value set from a rating):
@@ -172,7 +173,8 @@ Parameters:
 | Air O2 fraction (diesel/turbo paths) | 0.2095 | S | Composition of dry air; stock 0.25 kept for SI premixed intakes |
 | Flow energy = enthalpy | u(T) + R T per mol | S | First law for open systems |
 | Gas heat capacity | rigid 5/2 R + N2/O2 vibration (theta 3353 / 2239 K) | S | Statistical mechanics |
-| Combustion products as air-like; dynamic-pressure and choked-flow gamma 1.4 | - | A | Simplification; real rich products cost ~7 % cycle efficiency at CR 8.2 (tools/reference/products_cycle.py) |
+| Combustion products (CO2 + H2O) heat capacity | own species: rigid 2.75 R + CO2/H2O normal modes (harmonic oscillators), transported as `p_products` | S | Statistical mechanics, NIST frequencies (2026-10-01); dissociation not modelled (A) |
+| Dynamic-pressure and choked-flow gamma 1.4 | - | A | Simplification |
 | SI burn rate | two-zone entrainment rho_u x swept volume at S_T; y = E x/(1+(E-1)x) | S | Heywood sec. 14.4; replaces front at E x S_T (late burn up to E x too fast) |
 | Hohenberg heat-transfer constants | 130, -0.06, 0.8, -0.4, +1.4 | S | Hohenberg, SAE 790825 |
 | CI wall surface temperatures | piston 573 K, head 503 K, liner 423 K | S (typical) | Heywood ch. 12, full-load DI diesel; replaces 90 C coolant wall |
