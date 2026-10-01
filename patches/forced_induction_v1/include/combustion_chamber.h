@@ -114,6 +114,9 @@ class CombustionChamber : public atg_scs::ForceGenerator {
 
         double m_peakTemperature;
         double m_nBurntFuel;
+        // Cumulative gas-to-wall heat loss (J, positive = out of the gas).
+        // Accounting only, for energy-balance diagnostics.
+        double m_heatLossTotal;
 
     protected:
         double calculateFrictionForce(double v) const;

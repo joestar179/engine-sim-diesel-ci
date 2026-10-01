@@ -25,6 +25,7 @@ CombustionChamber::CombustionChamber() {
 
     m_meanPistonSpeedToTurbulence = nullptr;
     m_nBurntFuel = 0;
+    m_heatLossTotal = 0;
 
     m_manifoldToRunnerFlowRate = 0;
     m_primaryToCollectorFlowRate = 0;
@@ -396,7 +397,9 @@ void CombustionChamber::flow(double dt) {
         dT = wallTemperature - m_system.temperature();
     }
 
-    m_system.changeEnergy(dT * cylinderSurfaceArea * heatTransferCoefficient * dt);
+    const double wallHeat = dT * cylinderSurfaceArea * heatTransferCoefficient * dt;
+    m_system.changeEnergy(wallHeat);
+    m_heatLossTotal -= wallHeat;
     m_system.flow(m_piston->getBlowbyK(), dt, m_crankcasePressure, units::celcius(25.0));
 
     Intake *intake = m_head->getIntake(m_piston->getCylinderIndex());
@@ -479,34 +482,75 @@ void CombustionChamber::flow(double dt) {
         const double expansion = volume / m_flameEvent.lastVolume;
         const double lastTravel_x = m_flameEvent.travel_x;
         const double lastTravel_y = m_flameEvent.travel_y * expansion;
-        // The front bounds the burned gas, which occupies E times the volume
-        // of the same mass unburned: it moves at E x S_T relative to the
-        // chamber while mass is entrained at rho_u x A x S_T.
-        const double flameSpeed = m_flameEvent.flameSpeed * m_flameEvent.expansion;
 
-        m_flameEvent.travel_x =
-            std::fmin(lastTravel_x + dt * flameSpeed, totalTravel_x);
-        m_flameEvent.travel_y =
-            std::fmin(lastTravel_y + dt * flameSpeed, totalTravel_y);
+        // Burned volume of the cylindrical flame (radius r, height h).
+        auto burned = [&](double r, double h) {
+            const double rc = std::fmin(r, totalTravel_x);
+            return rc * rc * constants::pi * std::fmin(h, totalTravel_y);
+        };
 
-        if (lastTravel_x < m_flameEvent.travel_x || lastTravel_y < m_flameEvent.travel_y) {
-            const double burnedVolume =
-                m_flameEvent.travel_x * m_flameEvent.travel_x
-                * constants::pi * m_flameEvent.travel_y;
-            const double prevBurnedVolume =
-                lastTravel_x * lastTravel_x * constants::pi * lastTravel_y;
-            const double litVolume = burnedVolume - prevBurnedVolume;
-            double n = (litVolume / volume) * m_system.n();
-            if (combustion_physics::flameExpansion) {
-                // Mass fraction burned from the burned volume fraction y:
-                // x = y / (E (1 - y) + y).
-                const double E = m_flameEvent.expansion;
-                const double y = std::min(1.0, burnedVolume / volume);
-                const double x = y / (E * (1.0 - y) + y);
-                n = std::max(0.0, x - m_flameEvent.massFractionBurned) * m_flameEvent.total_n;
-                m_flameEvent.massFractionBurned = std::max(m_flameEvent.massFractionBurned, x);
+        double n = 0.0;
+        double litVolume = 0.0;
+        bool burning = false;
+        if (combustion_physics::flameExpansion) {
+            // Quasi-dimensional two-zone burning (Heywood, ICE Fundamentals,
+            // sec. 14.4). The front moves at S_T into the unburned gas, so the
+            // entrained mass is rho_u x (volume swept by that displacement).
+            // The burned gas then fills y = E x / (1 + (E - 1) x) of the
+            // chamber (two zones at one pressure, E = rho_u / rho_b), which
+            // places the front. Driving the front at E x S_T relative to the
+            // walls overstated the late burning rate by up to E, because the
+            // rising pressure compresses the burned gas behind the front.
+            const double E = m_flameEvent.expansion;
+            const double S = m_flameEvent.flameSpeed;
+            const double r0 = std::fmin(lastTravel_x, totalTravel_x);
+            const double h0 = std::fmin(lastTravel_y, totalTravel_y);
+            const double prevBurnedVolume = burned(r0, h0);
+            const double swept = std::max(0.0, burned(r0 + dt * S, h0 + dt * S) - prevBurnedVolume);
+            const double x0 = m_flameEvent.massFractionBurned;
+            const double y0 = std::min(1.0, prevBurnedVolume / volume);
+            const double unburnedVolume = std::max(volume * (1.0 - y0), 1.0e-12);
+            double dx = 0.0;
+            if (m_flameEvent.total_n > 0.0) {
+                dx = std::fmin(1.0 - x0, (1.0 - x0) * swept / unburnedVolume);
             }
+            const double x1 = x0 + dx;
+            const double y1 = std::min(1.0, E * x1 / (1.0 + (E - 1.0) * x1));
 
+            // Equal advance d of radius and height giving burned volume y1 V.
+            double lo = 0.0, hi = totalTravel_x + totalTravel_y;
+            for (int it = 0; it < 40; ++it) {
+                const double mid = 0.5 * (lo + hi);
+                if (burned(r0 + mid, h0 + mid) < y1 * volume) lo = mid; else hi = mid;
+            }
+            m_flameEvent.travel_x = std::fmin(r0 + hi, totalTravel_x);
+            m_flameEvent.travel_y = std::fmin(h0 + hi, totalTravel_y);
+            m_flameEvent.massFractionBurned = x1;
+
+            n = dx * m_flameEvent.total_n;
+            litVolume = burned(m_flameEvent.travel_x, m_flameEvent.travel_y) - prevBurnedVolume;
+            burning = dx > 1.0e-12;
+        }
+        else {
+            // Upstream: front at S_T, burned mass = burned volume fraction.
+            const double flameSpeed = m_flameEvent.flameSpeed;
+            m_flameEvent.travel_x =
+                std::fmin(lastTravel_x + dt * flameSpeed, totalTravel_x);
+            m_flameEvent.travel_y =
+                std::fmin(lastTravel_y + dt * flameSpeed, totalTravel_y);
+            burning = lastTravel_x < m_flameEvent.travel_x || lastTravel_y < m_flameEvent.travel_y;
+            if (burning) {
+                const double burnedVolume =
+                    m_flameEvent.travel_x * m_flameEvent.travel_x
+                    * constants::pi * m_flameEvent.travel_y;
+                const double prevBurnedVolume =
+                    lastTravel_x * lastTravel_x * constants::pi * lastTravel_y;
+                litVolume = burnedVolume - prevBurnedVolume;
+                n = (litVolume / volume) * m_system.n();
+            }
+        }
+
+        if (burning) {
             const double fuelBurned =
                 m_system.react(n * m_flameEvent.efficiency, m_flameEvent.globalMix);
             const double massFuelBurned = fuelBurned * m_fuel->getMolecularMass();

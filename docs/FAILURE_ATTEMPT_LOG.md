@@ -1134,6 +1134,47 @@ The shape is flat. Set: DF150 46°, TF250 37°.
 - 46°/37° rated injection is long for rotary pumps (typical 20–30°): either the jet mixing is somewhat fast (e.g. no wall impingement: x_st ≈ 85 mm > bore/2 = 53 mm) or a loss is missing.
 - TF250 at 1000 rpm is +7.5 %.
 
+## SI efficiency diagnosis: energy balance and flame-burn fix (2026-10-01)
+
+Failure signature: `physics | SI engines too efficient (GX390 +33 % power, Kohler cycle) | closed-cycle work`
+
+Systemic pattern across engines: ALCO 16-251B (SFC 145 vs 168), Kohler (cycle), GX390 (WOT), Cummins (+8-9 %). The Deere matches only with pump delivery rates set on rated torque, which give implausibly long injection.
+
+**Tooling (accounting only):**
+- `CombustionChamber::m_heatLossTotal` (gas-to-wall heat; pins updated).
+- `engine-sim-dyno-sweep --energy 1`: released heat, gross and pumping work (p dV per segment between BDCs, firing segment if peak > 3 bar), wall heat, friction (net − brake), burn 10/50/90 % and peak-pressure angle.
+
+**Finding 1 — flame burn rate (fixed):**
+- The flame-expansion layer (2026-09-30) drove the front at E·S_T relative to the walls and converted volume to mass with x = y/(E(1−y)+y).
+- Early in the burn this is ρu·A·S_T. Late in the burn the rate is up to E (~6-7) times too high, because the rising pressure compresses the burned gas.
+- Evidence (GX390 WOT 3600): burn 10/50/90 at 0.0/2.2/4.3 deg ATDC (two simulation steps); peak 73 bar at 4.3 deg.
+- Fix (`src/combustion_chamber.cpp`, switch-off path = upstream unchanged): quasi-dimensional two-zone burning (Heywood sec. 14.4).
+  - Entrained mass = ρu × volume swept by the front moving S_T into the unburned gas.
+  - Burned-volume fraction y = E x/(1+(E−1)x) places the front (equal advance of radius and height).
+  - No new constant.
+
+| Case | Power | Net / wall / friction / brake (shares of released heat) | Burn 50/90 | Peak |
+|---|---|---|---|---|
+| GX390 WOT 3600, before | 11.57 kW | 0.402 / 0.162 / 0.038 / 0.364 | 2.2 / 4.3 deg | 73 bar @ 4.3 deg |
+| GX390 WOT 3600, after | 11.12 kW | 0.388 / 0.143 / 0.036 / 0.351 | 15.8 / 24.5 deg | 47 bar @ 24.5 deg |
+| GX390 7 kW, after | — | brake 0.325, mech eff 0.85 | — | — |
+| Kohler WOT 3600, after | 20.68 kW (was 20.97) | brake 0.365 | — | 52 bar @ 20 deg |
+
+- Burn timing and peak pressure are now in the typical range. The power excess remains (+28 %).
+
+**Finding 2 — burned-gas properties (not yet changed):**
+- Gross work is 41-44 % of released heat despite 14-15 % wall loss, which exceeds the fuel-air cycle.
+- `tools/reference/products_cycle.py`: Otto cycle at CR 8.2 with real rich products (CO2, H2O, CO, H2, N2; harmonic oscillators, no dissociation) instead of air-like gas gives −7 % efficiency and a 250-320 K lower peak temperature. Dissociation adds a few % more.
+- This is the register's A item "combustion products air-like".
+
+**Other candidates (unquantified):**
+- PNH friction at WOT gives fmep ~73 kPa (GX390), low for a small air-cooled engine (~100-150 kPa typical).
+- Heat-transfer area (flat piston/head = bore area).
+
+**Sound:**
+- The burn fix touches the combustion pressure history (later, lower peak) and the exhaust-runner pressure (exhaust energy share 0.436 → 0.469: stronger blowdown pulses).
+- No SI knock layer exists. Listening/render check pending.
+
 ## Honda GX390 with sourced breathing hardware (2026-10-01)
 
 **Source:** `docs/reference/batch01/P2_Honda_GX390UT2_QAE2_supplement_breathing_mixture.md`. Mixture (λ) is not resolved by it: there is no CO2 for an identifiable U.S. family.

@@ -172,7 +172,8 @@ Parameters:
 | Air O2 fraction (diesel/turbo paths) | 0.2095 | S | Composition of dry air; stock 0.25 kept for SI premixed intakes |
 | Flow energy = enthalpy | u(T) + R T per mol | S | First law for open systems |
 | Gas heat capacity | rigid 5/2 R + N2/O2 vibration (theta 3353 / 2239 K) | S | Statistical mechanics |
-| Combustion products as air-like; dynamic-pressure and choked-flow gamma 1.4 | - | A | Simplification |
+| Combustion products as air-like; dynamic-pressure and choked-flow gamma 1.4 | - | A | Simplification; real rich products cost ~7 % cycle efficiency at CR 8.2 (tools/reference/products_cycle.py) |
+| SI burn rate | two-zone entrainment rho_u x swept volume at S_T; y = E x/(1+(E-1)x) | S | Heywood sec. 14.4; replaces front at E x S_T (late burn up to E x too fast) |
 | Hohenberg heat-transfer constants | 130, -0.06, 0.8, -0.4, +1.4 | S | Hohenberg, SAE 790825 |
 | CI wall surface temperatures | piston 573 K, head 503 K, liner 423 K | S (typical) | Heywood ch. 12, full-load DI diesel; replaces 90 C coolant wall |
 | CI ignition delay | Assanis et al. 2003, Livengood-Wu | S | Opt-in (`ignition_delay_correlation`); ALCO still uses fixed 4 deg |
