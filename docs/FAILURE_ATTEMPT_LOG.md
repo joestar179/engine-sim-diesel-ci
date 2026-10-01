@@ -1134,6 +1134,39 @@ The shape is flat. Set: DF150 46°, TF250 37°.
 - 46°/37° rated injection is long for rotary pumps (typical 20–30°): either the jet mixing is somewhat fast (e.g. no wall impingement: x_st ≈ 85 mm > bore/2 = 53 mm) or a loss is missing.
 - TF250 at 1000 rpm is +7.5 %.
 
+## Honda GX390 with sourced breathing hardware (2026-10-01)
+
+**Source:** `docs/reference/batch01/P2_Honda_GX390UT2_QAE2_supplement_breathing_mixture.md`. Mixture (λ) is not resolved by it: there is no CO2 for an identifiable U.S. family.
+
+**MR change** (all F, replacing C):
+- valves 33 / 31 mm (Honda UT2 overhaul manual);
+- valve lift 8.18 / 7.42 mm (VMCRA stock-Honda cam, race lash);
+- cam events at 0.050 in: IVO 5 ATDC, IVC 37 ABDC, EVO 30 BBDC, EVC 10 BTDC → 212 / 200 deg, centres 111 / 110;
+- rod 112 mm (ARC 6272 stock-replacement). Sensitivity: 84 mm gives 11.59 vs 11.57 kW (negligible).
+
+**Tool:** `engine-sim-dyno-sweep` reports `exhaust_gauge_kPa`, the mean gauge pressure of exhaust system 0.
+
+**Result:**
+
+| rpm | 2000 | 2500 | 3000 | 3600 |
+|---|---|---|---|---|
+| Sim torque (N m) | 31.8 | 31.3 | 31.1 | 30.7 |
+| Documented (N m) | 24.7 | 26.5 | 25.9 | 23.1 |
+| Difference | +29 % | +18 % | +20 % | +33 % |
+
+- Power at 3600: 11.57 kW vs 8.7 kW.
+- Exhaust back-pressure at WOT: 11.8 kPa @ 3000 (Honda allowable 4.6-10.5) and 14.9 kPa @ 3600 (6.0-12.5). The muffler C is already more restrictive than Honda allows; moving it into the range raises power.
+- Fuel at 7.0 kW: 14.63 MJ/kWh vs 15.4-15.9 (−5 to −8 % at λ 0.8).
+- Trapped-charge VE ~0.80 at 3600 WOT. Brake efficiency on burned fuel is 36.4 %.
+
+**Diagnostic (not adopted):**
+- 8.7 kW @ 3600 needs a carburettor rating of ~29 CFM (k_carb 25 → 8.29 kW; 40 → 10.04 kW), i.e. a ~14.5 mm venturi at cd 0.9 on 389 cc. That is implausible (GX160-class size); VE would be ~0.6.
+
+**Conclusion:**
+- The full-load excess is not breathing.
+- With sourced valves, cam and a bounded exhaust, the sim is ~25-30 % too efficient at WOT. This is consistent with the Kohler indication.
+- The physics diagnosis is now justified (agreed step 3). Open: the muffler C violates the back-pressure bound (to be moved into 6.0-12.5 kPa).
+
 ## Honda GX390 validation build and SI fuel-counter correction (2026-10-01)
 
 **Reclassification (user decision):**

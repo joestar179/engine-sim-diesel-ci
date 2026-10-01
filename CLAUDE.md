@@ -141,7 +141,10 @@ Open issues (highest impact first):
      - power +27 %, torque +18 to +31 % over 2000-3600 rpm (FAIL);
      - torque rise passes;
      - fuel at the 7.0 kW continuous point −3.5 to −6.5 % at λ 0.8 (λ U);
-     - full-load excess not yet split between breathing (C) and efficiency.
+     - with sourced valves/cam (F) the excess is +18 to +33 % (11.57 kW); only
+       an implausible ~14.5 mm venturi would reach 8.7 kW, so it is not
+       breathing: the SI model is ~25-30 % too efficient at WOT (physics
+       diagnosis next); muffler C violates Honda's back-pressure bound.
    - Fuel counter now subtracts intake reversion (accounting only).
    - `kohler_ch750_validated.mr` (documented CR, real gasoline, PNH friction,
      unified heat transfer, flame expansion): 21.0 kW at 3600 rpm (doc 20.1,

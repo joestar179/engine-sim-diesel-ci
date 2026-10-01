@@ -35,7 +35,8 @@
 
 namespace {
 void advance(Simulator *sim, double seconds, int frequency,
-             double *torqueSum = nullptr, double *powerSum = nullptr, long long *samples = nullptr)
+             double *torqueSum = nullptr, double *powerSum = nullptr, long long *samples = nullptr,
+             Engine *engine = nullptr, double *exhaustGaugeSum = nullptr)
 {
     const long long steps = static_cast<long long>(seconds * frequency);
     long long done = 0;
@@ -47,6 +48,12 @@ void advance(Simulator *sim, double seconds, int frequency,
             if (torqueSum != nullptr) {
                 *torqueSum += sim->getFilteredDynoTorque();
                 *powerSum += sim->getDynoPower();
+                // Mean exhaust back-pressure: gauge pressure of the first
+                // exhaust system volume (muffler inlet side).
+                if (exhaustGaugeSum != nullptr && engine->getExhaustSystemCount() > 0) {
+                    *exhaustGaugeSum += engine->getExhaustSystem(0)->getSystem()->pressure()
+                        - units::pressure(1.0, units::atm);
+                }
                 ++*samples;
             }
         }
@@ -85,7 +92,7 @@ int main(int argc, char **argv) {
 #endif
     }
 
-    std::printf("rpm,speed_control,torque_Nm,power_kW,fuel_g_s,bsfc_g_kWh,burned_g_s\n");
+    std::printf("rpm,speed_control,torque_Nm,power_kW,fuel_g_s,bsfc_g_kWh,burned_g_s,exhaust_gauge_kPa\n");
     for (double rpm : speeds) {
         es_script::Compiler compiler;
         compiler.initialize();
@@ -165,7 +172,8 @@ int main(int argc, char **argv) {
         const double fuel0 = engine->getTotalFuelMassConsumed();
         double torque = 0.0, power = 0.0;
         long long n = 0;
-        advance(sim, measure, f, &torque, &power, &n);
+        double exhaustGauge = 0.0;
+        advance(sim, measure, f, &torque, &power, &n, engine, &exhaustGauge);
         const double fuelRate = (engine->getTotalFuelMassConsumed() - fuel0) / measure;   // kg/s
         torque /= std::max(1LL, n);
         power /= std::max(1LL, n);
@@ -175,8 +183,9 @@ int main(int argc, char **argv) {
         for (int c = 0; c < engine->getCylinderCount(); ++c) burnedRate += engine->getChamber(c)->m_nBurntFuel;
         burnedRate = (burnedRate - burned0) / measure;
 #endif
-        std::printf("%.0f,%.4f,%.2f,%.3f,%.4f,%.1f,%.4f\n", rpm, control, power / units::rpm(rpm), kW,
-            fuelRate * 1000.0, kW > 0.0 ? fuelRate * 1000.0 * 3600.0 / kW : 0.0, burnedRate * 1000.0);
+        std::printf("%.0f,%.4f,%.2f,%.3f,%.4f,%.1f,%.4f,%.2f\n", rpm, control, power / units::rpm(rpm), kW,
+            fuelRate * 1000.0, kW > 0.0 ? fuelRate * 1000.0 * 3600.0 / kW : 0.0, burnedRate * 1000.0,
+            exhaustGauge / std::max(1LL, n) / 1000.0);
         std::fflush(stdout);
 
         sim->destroy();
