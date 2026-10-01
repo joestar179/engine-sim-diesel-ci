@@ -108,7 +108,8 @@ struct EnergyProbe { void step(Engine *, double) {} };
 
 void advance(Simulator *sim, double seconds, int frequency,
              double *torqueSum = nullptr, double *powerSum = nullptr, long long *samples = nullptr,
-             Engine *engine = nullptr, double *exhaustGaugeSum = nullptr, EnergyProbe *probe = nullptr)
+             Engine *engine = nullptr, double *exhaustGaugeSum = nullptr, EnergyProbe *probe = nullptr,
+             double *intakeGaugeSum = nullptr)
 {
     const long long steps = static_cast<long long>(seconds * frequency);
     long long done = 0;
@@ -125,6 +126,11 @@ void advance(Simulator *sim, double seconds, int frequency,
                 // exhaust system volume (muffler inlet side).
                 if (exhaustGaugeSum != nullptr && engine->getExhaustSystemCount() > 0) {
                     *exhaustGaugeSum += engine->getExhaustSystem(0)->getSystem()->pressure()
+                        - units::pressure(1.0, units::atm);
+                }
+                // Mean intake plenum gauge pressure (depression below ambient).
+                if (intakeGaugeSum != nullptr && engine->getIntakeCount() > 0) {
+                    *intakeGaugeSum += engine->getIntake(0)->getSystem()->pressure()
                         - units::pressure(1.0, units::atm);
                 }
                 ++*samples;
@@ -168,7 +174,7 @@ int main(int argc, char **argv) {
 #endif
     }
 
-    std::printf("rpm,speed_control,torque_Nm,power_kW,fuel_g_s,bsfc_g_kWh,burned_g_s,exhaust_gauge_kPa\n");
+    std::printf("rpm,speed_control,torque_Nm,power_kW,fuel_g_s,bsfc_g_kWh,burned_g_s,exhaust_gauge_kPa,intake_gauge_kPa\n");
     for (double rpm : speeds) {
         es_script::Compiler compiler;
         compiler.initialize();
@@ -256,8 +262,8 @@ int main(int argc, char **argv) {
         const double fuel0 = engine->getTotalFuelMassConsumed();
         double torque = 0.0, power = 0.0;
         long long n = 0;
-        double exhaustGauge = 0.0;
-        advance(sim, measure, f, &torque, &power, &n, engine, &exhaustGauge, energy ? &probe : nullptr);
+        double exhaustGauge = 0.0, intakeGauge = 0.0;
+        advance(sim, measure, f, &torque, &power, &n, engine, &exhaustGauge, energy ? &probe : nullptr, &intakeGauge);
         const double fuelRate = (engine->getTotalFuelMassConsumed() - fuel0) / measure;   // kg/s
         torque /= std::max(1LL, n);
         power /= std::max(1LL, n);
@@ -267,9 +273,9 @@ int main(int argc, char **argv) {
         for (int c = 0; c < engine->getCylinderCount(); ++c) burnedRate += engine->getChamber(c)->m_nBurntFuel;
         burnedRate = (burnedRate - burned0) / measure;
 #endif
-        std::printf("%.0f,%.4f,%.2f,%.3f,%.4f,%.1f,%.4f,%.2f\n", rpm, control, power / units::rpm(rpm), kW,
+        std::printf("%.0f,%.4f,%.2f,%.3f,%.4f,%.1f,%.4f,%.2f,%.2f\n", rpm, control, power / units::rpm(rpm), kW,
             fuelRate * 1000.0, kW > 0.0 ? fuelRate * 1000.0 * 3600.0 / kW : 0.0, burnedRate * 1000.0,
-            exhaustGauge / std::max(1LL, n) / 1000.0);
+            exhaustGauge / std::max(1LL, n) / 1000.0, intakeGauge / std::max(1LL, n) / 1000.0);
 #ifdef ENGINE_SIM_OVERLAY
         if (energy) {
             // Shares of the released heat (burned fuel x LHV) over the window.

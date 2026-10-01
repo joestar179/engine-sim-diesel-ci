@@ -1134,6 +1134,35 @@ The shape is flat. Set: DF150 46°, TF250 37°.
 - 46°/37° rated injection is long for rotary pumps (typical 20–30°): either the jet mixing is somewhat fast (e.g. no wall impingement: x_st ≈ 85 mm > bore/2 = 53 mm) or a loss is missing.
 - TF250 at 1000 rpm is +7.5 %.
 
+## GX390: SAE J1349 ambient basis and air-cleaner sensitivity (2026-10-01) — no model change
+
+**Ambient basis:**
+- The sim runs at 101.325 kPa dry air, 25 C. SAE J1349 rates at 99 kPa dry, 25 C.
+- The comparison now applies the standard's own SI correction to sim output: CF = 1.18 (99/p_d) sqrt(T/298) − 0.18 = 0.973.
+- No code change. Selectable ambient remains an open item.
+
+**Air-cleaner sensitivity** (simulation only; not added to the model):
+- The filter is modelled as a series restriction with the carburettor: 1/k_eff² = 1/k_carb² + 1/k_f².
+- k_f is sized for a nominal steady pressure drop at the ~22 CFM rated mean airflow.
+- Temporary copies only. Tool: `exhaust_gauge` plus a new `intake_gauge_kPa` column (mean plenum gauge).
+
+| Filter (nominal ΔP at mean flow) | k_eff | Extra mean plenum depression | 2000 | 2500 | 3000 | 3600 | Power (J1349) |
+|---|---|---|---|---|---|---|---|
+| none | 66.7 | 0 (carb alone −2.84 kPa) | +10.0 % | +1.0 % | −1.8 % | +5.2 % | 9.16 kW |
+| 0.5 kPa | 48.3 | 1.38 kPa | +8.2 % | −0.6 % | −4.1 % | −2.2 % | 8.51 kW |
+| 1.25 kPa | 37.1 | 2.73 kPa | +6.3 % | −3.9 % | −11.2 % | −10.6 % | 7.78 kW |
+| 2.5 kPa | 28.4 | 4.31 kPa | +1.0 % | −11.3 % | −17.9 % | −20.5 % | 6.91 kW |
+
+(Torque vs documented; all J1349-corrected.)
+
+**Reading:**
+- J1349 alone gives rated +5.2 % (at the ±5 % edge). The 2000 rpm point is at +10.0 % (the ±10 % edge).
+- A light clean-filter restriction (~0.5 kPa nominal) puts every point within the criteria (rated −2.2 %).
+- 1.25 kPa or more makes the engine low.
+- The single cylinder's pulsating flow makes the mean depression ~2.5-3× the nominal steady drop.
+- The response is strong (~5 % power per kPa of mean depression, vs ~1 %/kPa from density alone). The intake is a single orifice plus a 0.3 L plenum, with no air-box volume to damp pulsation.
+- A real two-element air box has volume between filter and carb. Representing it would need its restriction and volume (U).
+
 ## GX390 muffler inside Honda's back-pressure window; mixture source rejected (2026-10-01)
 
 **Mixture (λ) — still U:**
