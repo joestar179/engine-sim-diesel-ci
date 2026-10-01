@@ -15,6 +15,9 @@ namespace gas_vibration {
     // Global switch (diagnostics/benchmarks): false restores the ideal
     // constant-cv gas. Default true.
     extern bool enabled;
+    // Diagnostic switch: false makes flows carry internal energy only (the
+    // upstream behaviour, no flow work). Default true (enthalpy).
+    extern bool enthalpyFlow;
     extern double energy[TableSize];        // J/mol
     extern double heatCapacity[TableSize];  // J/(mol K)
     inline double lookup(const double *values, double T) {
@@ -183,11 +186,11 @@ inline double GasSystem::temperatureFromEnergyPerMol(double e, int degreesOfFree
 }
 
 inline double GasSystem::enthalpyPerMol(double T, int degreesOfFreedom) {
-    return kineticEnergyPerMol(T, degreesOfFreedom) + constants::R * T;
+    return kineticEnergyPerMol(T, degreesOfFreedom) + (gas_vibration::enthalpyFlow ? constants::R * T : 0.0);
 }
 
 inline double GasSystem::enthalpyPerMol() const {
-    return kineticEnergyPerMol() + constants::R * temperature();
+    return kineticEnergyPerMol() + (gas_vibration::enthalpyFlow ? constants::R * temperature() : 0.0);
 }
 
 inline double GasSystem::effectiveDegreesOfFreedom() const {

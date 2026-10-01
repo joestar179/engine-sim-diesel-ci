@@ -956,6 +956,45 @@ The 4B residual is in its indicated work (timing U, documented BSFC 244 implies 
 
 The settings stay; they are the validated generic ones.
 
+## Upstream philosophy pass and petrol benchmark against the upstream baseline
+
+### Upstream (v0.1.11a-6-g56725cc)
+
+**Model-driven:**
+- gas exchange (lumped volumes, flow restrictions);
+- ideal-gas thermodynamics with explicit −p·dV work;
+- SI combustion **rate**: a flame front grows through the real chamber geometry (bore radius × chamber height) at laminar speed (gasoline correlation) × f(turbulence / S_L); turbulence = 0.5 × mean piston speed (hard-coded);
+- rigid-body mechanics.
+
+**Hand-set in scripts:**
+- hardware specs (flow-bench curves, cam cards, timing curves, carburettor cfm, dimensions);
+- per-fuel combustion knobs: `energy_density` 48.1 kJ/g is never overridden (petrol LHV ≈ 43.5); `max_burning_efficiency` is 0.75–1.0 per engine, differing even between scripts of the same engine (EJ25 0.75 / 0.9, Audi I5 0.75 / 0.85). Upstream SI combustion **energy** is hand-tuned per engine; its **rate** is not;
+- crank friction 0–50 lb·ft per engine;
+- audio settings.
+
+The diesel CI model's fixed crank-angle injection/ignition/combustion durations are the one concept that departs from upstream (prescribed rather than geometry/turbulence-driven burn rate).
+
+### Baseline comparison
+
+The upstream was cloned at 56725cc (Piranha 432f0b1, Delta b7d0a04) in `C:\es\upstream` (outside the repo) and built with the same toolchain. The new `test/dyno_sweep.cpp` uses only upstream APIs and builds unchanged in both trees.
+
+**Overlay-only diagnostic switches:** `gas_vibration::enthalpyFlow` (new) and `gas_vibration::enabled`, exposed as `--enthalpy-flow` / `--real-gas` in the overlay build of the tool.
+
+**Kohler CH750** (identical script, sha d3b76268…), full throttle, power in kW. Published: Kohler Command PRO brochure, SAE J1940 gross, 27 hp (20.1 kW) at 3600 rpm, 57.2 N·m at 3000 rpm.
+
+| Build | 1500 rpm | 2400 | 3000 | 3600 | Fuel at 3600 | BSFC at 3600 | VE |
+|---|---|---|---|---|---|---|---|
+| Upstream | 7.88 | 12.26 | 13.63 | 14.45 | 2.48 g/s | 618 | 1.37 |
+| Ours, both switches off | 7.78 | 12.31 | 13.97 | 14.48 | 2.48 | 617 | — |
+| Ours, enthalpy only | 6.07 | 7.83 | 8.55 | 8.72 | 1.86 | 770 | 1.03 |
+| Ours, real gas only | 6.53 | 9.97 | 10.72 | 10.91 | 2.43 | 803 | — |
+| Ours, default (both on) | 4.90 | 6.01 | 6.41 | 6.12 | 1.85 | 1089 | 1.03 |
+
+- The two global gas changes account for the entire SI difference from upstream.
+- **Upstream is only 72 % of rated power (76 % of peak torque), by compensating errors:** VE 1.37 is impossible for an NA twin (real ≈ 0.8–0.9), and BSFC 618 is ≈ 13 % brake efficiency (real small air-cooled ≈ 22–25 %).
+- Enthalpy flow corrects the over-breathing; real gas lowers efficiency further; with both, SI is 30 % of rated.
+- **The stock SI engines are regressed by the global gas changes.** Not repaired; awaiting the user's direction.
+
 ## Handover incident: transient worktree loss
 
 Failure signature: `handover | uncommitted temporary worktree unavailable on continuation | workspace persistence layer`

@@ -136,8 +136,8 @@ PINNED_PRODUCTION_TEMPLATES = {
     "src/simulator.cpp": "66eee8e78eae8638b10ba89fe0b900f879633e53c2accb4ad9dcd4224c465c43",
     "src/diesel_governor.cpp": "b0f1e8fa6b629bc14099b80b326351594d8bf5b21be8e3235ecc72b62083b6df",
     "include/diesel_governor.h": "77b27b5b3b25ec18d8ff5846c33909a200c5d4c30ec50807fecf63a0b3a29698",
-    "src/gas_system.cpp": "df3a358df2e2068de582688b6382fec1cfa4a3868f994dbdbadb6b866d7f1b86",
-    "include/gas_system.h": "817325ef72c9dbd02979f0a6576d02e0c11f1255876113ab22e079be78d3073b",
+    "src/gas_system.cpp": "9c3763226e01657e559ae0d961c7c6cb47aae2476a52825fcab18ce491268f0b",
+    "include/gas_system.h": "ba99c9b6d654795da2f118094db9f1aee418be269a485bd99396a408513e9f42",
     "src/compression_ignition_model.cpp": "53e74d9023aa314cadd430ad06fe08d29308e644d574188f3f118e623be07831",
     "include/compression_ignition_model.h": "016743df1c8acea95a92334fac20e194c0dedec8ecfeb24ba1d3507b89833982",
     "src/ignition_module.cpp": "1e93ef5f918068813951617e08d10a8648ee5a154681fd7e9354b09aa3c1d052",
@@ -149,6 +149,7 @@ PINNED_PRODUCTION_TEMPLATES = {
 
 NEW_FILES = {
     "assets/alco_16_251b_no_turbo_main.mr",
+    "test/dyno_sweep.cpp",
     "include/engine_friction_model.h",
     "src/engine_friction_model.cpp",
     "assets/engines/validation/validation_diesel_i4.mr",

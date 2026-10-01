@@ -54,6 +54,7 @@ struct VibrationTableExport {
 }
 
 bool gas_vibration::enabled = true;
+bool gas_vibration::enthalpyFlow = true;
 double gas_vibration::energy[gas_vibration::TableSize];
 double gas_vibration::heatCapacity[gas_vibration::TableSize];
 

@@ -424,6 +424,14 @@ if (PIRANHA_ENABLED)
     target_link_libraries(engine-sim-realtime-bench
         engine-sim engine-sim-script-interpreter)
 
+    # Diagnostic tool only: full-load dyno sweep using upstream APIs only
+    # (builds unchanged against the upstream tree for baseline comparison).
+    add_executable(engine-sim-dyno-sweep
+        test/dyno_sweep.cpp)
+    target_link_libraries(engine-sim-dyno-sweep
+        engine-sim engine-sim-script-interpreter)
+    target_compile_definitions(engine-sim-dyno-sweep PRIVATE ENGINE_SIM_OVERLAY)
+
     # Diagnostic tool only: offline (underrun-free) audio render to WAV.
     add_executable(engine-sim-audio-render
         test/audio_render.cpp)
