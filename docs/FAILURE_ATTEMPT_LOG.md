@@ -721,6 +721,43 @@ Ignition sits at 19–22° BTDC and peak pressure at 13 MPa. The ALCO shortfall 
 
 Real-time: TF250 63 %, 4B 78 % of one core at 10 kHz.
 
+## Audio: turbo exhaust source and validation against recordings
+
+User report: the 4045DF150 knocks loudly at idle, the knock vanishes when revving, and the 4045TF250 has no knock.
+
+Probe (cylinder dp/dt, exhaust-runner pressure swing):
+
+| | Idle dp/dt | Idle runner swing | Rev runner swing |
+|---|---|---|---|
+| DF150 | 6.3 GPa/s, 12.7 bar/deg | 2 kPa | 20 kPa |
+| TF250 | 6.0 GPa/s | 5 kPa | 18 kPa |
+
+The combustion source is the same on both engines.
+
+**Change:**
+- Turbo-routed cylinders no longer feed their pre-turbine runner pressure to the exhaust channel. The post-turbine ExhaustSystem pressure is the source, divided by the routed cylinder count (the runner path's per-cylinder averaging convention).
+- `audio_render --rev-level`.
+- Naturally aspirated engines are unchanged.
+
+**Finding: the knock layer is silent on the small engines.** Renders with `--knock-level 0` are identical to 0.1 dB (DF150 and TF250).
+
+- Cause: the knock source is a force rate (Σ piston area × dp/dt) while the exhaust source is a pressure. The global level 4e-4 was set on the ALCO 16-251B, whose total piston area is ~19× the Deere's, so the layer sits ~25 dB lower relative to the exhaust.
+- The audible DF150 idle "knock" is the exhaust blowdown pulse, not the knock layer.
+
+**Validation against the user's recordings** (YouTube, exact models). Band levels relative to total:
+
+| | 150–600 Hz | 600–2.5k | 2.5–8k |
+|---|---|---|---|
+| Real TF250 (1625 rpm) | −1 to −4 | −6 to −10 | −7 to −11 |
+| Real DF150 (~1500 rpm, revs to ~2680) | −3 to −7 | −4 to −6 | −8 to −10 |
+| Sim TF250 (1625 rpm) | −10 | −41 | −38 |
+| Sim DF150 (rev) | 0 | −32 | −52 |
+
+- The sim lacks 600 Hz–8 kHz content by 25–35 dB; nearly all of its energy is below 600 Hz.
+- The real TF250 has a steady tonal peak at 3.07–3.09 kHz (10–17 dB prominence); its source is not identified.
+
+The validation FAILS on spectral balance. Not repaired yet.
+
 ## Handover incident: transient worktree loss
 
 Failure signature: `handover | uncommitted temporary worktree unavailable on continuation | workspace persistence layer`

@@ -117,7 +117,7 @@ PINNED_PRODUCTION_TEMPLATES = {
     "src/exhaust_system.cpp": "82371111c1405bfd72a581be18d2b2274bd63819d92103d73b0970a5f7895d20",
     "src/forced_induction_system.cpp": "7670b6247dbffb2424c63145e2db56e651588838b14ddc2f4f89b5cc2d6f6302",
     "src/intake.cpp": "81076fbcf04b0da18dfb8ce954729b2902510119f35b760860dfa7503b388d70",
-    "src/piston_engine_simulator.cpp": "1a89b205ee24a38060e59916e437184938848aea4a2f869c54173304907d61ff",
+    "src/piston_engine_simulator.cpp": "7b64e75544908e86a7045c36031f52dc46d87348f166f06a15afd35bc9cd4fb7",
     "src/turbocharger_model.cpp": "c64f89a3228ebb97afd974042c1ff8576587c3df3350744f16f5080d4eef68b7",
     "include/telemetry_log.h": "d3776a08765e4335b8d27b392bcda73ac70ae72f53fb6d951da69fa186aeed63",
     "src/telemetry_log.cpp": "62d328cacfa7896c2a8bb57119eb1d5e9b7824183f111e2e6d940c5d8576400c",

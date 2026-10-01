@@ -10,7 +10,7 @@
 // rev_start, 1.0 until rev_end, then 0 until end.
 //
 // usage: engine-sim-audio-render <script.mr> <out.wav>
-//            [--crank 3] [--rev-start 6] [--rev-end 14] [--end 20]
+//            [--crank 3] [--rev-start 6] [--rev-end 14] [--end 20] [--rev-level 1.0]
 //            [--knock-level L] [--turbo-level L]   (override global layer levels)
 //            [--dyno T RPM]   (from time T hold RPM; engaged while turning forward)
 
@@ -55,13 +55,14 @@ int main(int argc, char **argv) {
         std::fprintf(stderr, "usage: engine-sim-audio-render <script.mr> <out.wav> [--crank S] [--rev-start S] [--rev-end S] [--end S]\n");
         return 2;
     }
-    double crank = 3.0, revStart = 6.0, revEnd = 14.0, end = 20.0;
+    double crank = 3.0, revStart = 6.0, revEnd = 14.0, end = 20.0, revLevel = 1.0;
     double knockLevel = -1.0, turboLevel = -1.0;
     double dynoTime = -1.0, dynoRpm = 0.0;
     for (int i = 3; i + 1 < argc; ++i) {
         const std::string a = argv[i];
         if (a == "--crank") crank = std::atof(argv[++i]);
         else if (a == "--rev-start") revStart = std::atof(argv[++i]);
+        else if (a == "--rev-level") revLevel = std::atof(argv[++i]);
         else if (a == "--rev-end") revEnd = std::atof(argv[++i]);
         else if (a == "--end") end = std::atof(argv[++i]);
         else if (a == "--knock-level") knockLevel = std::atof(argv[++i]);
@@ -137,7 +138,7 @@ int main(int argc, char **argv) {
 
     while (t < end) {
         sim->m_starterMotor.m_enabled = t < crank;
-        engine->setSpeedControl((t >= revStart && t < revEnd) ? 1.0 : 0.0);
+        engine->setSpeedControl((t >= revStart && t < revEnd) ? revLevel : 0.0);
         if (dynoTime >= 0.0 && t >= dynoTime && !sim->m_dyno.m_enabled) {
             // Dynamometer::calculate holds |m_rotationSpeed| in the current
             // rotation direction; engage it while the crank turns forward.

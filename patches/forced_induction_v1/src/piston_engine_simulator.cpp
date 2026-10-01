@@ -397,12 +397,25 @@ void PistonEngineSimulator::writeToSynthesizer() {
     const double attenuation_n = m_engine->getProceduralDieselAudio()->lowSpeedAttenuation(units::rpm(filteredEngineSpeed()));
 
     const int cylinderCount = m_engine->getCylinderCount();
+    double routedPrimaryLength = 0.0;
+    int routedCylinders = 0;
     for (int i = 0; i < cylinderCount; ++i) {
         Piston *piston = m_engine->getPiston(i);
         CylinderBank *bank = piston->getCylinderBank();
         CylinderHead *head = m_engine->getHead(bank->getIndex());
         ExhaustSystem *exhaust = head->getExhaustSystem(piston->getCylinderIndex());
         CombustionChamber *chamber = m_engine->getChamber(i);
+
+        // A cylinder routed through a turbine does not radiate its runner
+        // pulses directly: the sound leaves through the post-turbine exhaust
+        // system, whose own pressure is the source (below). The turbine and
+        // its scroll volume therefore attenuate the pulses as in a real
+        // turbocharged engine.
+        if (m_engine->getExhaustDestination(exhaust) != exhaust->getSystem()) {
+            routedPrimaryLength += head->getHeaderPrimaryLength(piston->getCylinderIndex());
+            ++routedCylinders;
+            continue;
+        }
 
         const double exhaustLength =
             head->getHeaderPrimaryLength(piston->getCylinderIndex())
@@ -422,6 +435,30 @@ void PistonEngineSimulator::writeToSynthesizer() {
             head->getSoundAttenuation(piston->getCylinderIndex())
             * (exhaustSystem->getAudioVolume() * delayedExhaustPulse / cylinderCount)
             * (1 / (exhaustLength * exhaustLength));
+    }
+
+    // Post-turbine exhaust systems: the gas leaving the turbine radiates
+    // through the original outlet path. Same convention as the runner path:
+    // there each runner carries one pulse per cycle and the sum is divided by
+    // the cylinder count; the post-turbine volume receives every routed
+    // pulse, so it is divided by the routed cylinder count.
+    if (routedCylinders > 0) {
+        ForcedInductionSystem *fi = m_engine->getForcedInductionSystem();
+        const double primaryLength = routedPrimaryLength / routedCylinders;
+        for (std::size_t g = 0; g < fi->groupCount(); ++g) {
+            const int index = fi->group(g)->parameters().postTurbineExhaustIndex;
+            if (index < 0 || index >= exhaustSystemCount) continue;
+            ExhaustSystem *post = m_engine->getExhaustSystem(index);
+            GasSystem *gas = post->getSystem();
+            const double exhaustLength = primaryLength + post->getLength();
+            const double pulse = attenuation_n * 1600 * (
+                1.0 * (gas->pressure() - units::pressure(1.0, units::atm))
+                + 0.1 * gas->dynamicPressure(1.0, 0.0)
+                + 0.1 * gas->dynamicPressure(-1.0, 0.0));
+            m_exhaustFlowStagingBuffer[index] +=
+                post->getAudioVolume() * pulse / routedCylinders
+                / (exhaustLength * exhaustLength);
+        }
     }
 
     // Structure-borne combustion noise ("diesel knock"): the force rate the
