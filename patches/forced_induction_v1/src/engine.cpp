@@ -186,9 +186,15 @@ void Engine::setFuelRack(double rack) {
     m_throttleValue = 1.0 - m_fuelRack;
 }
 
-double Engine::getFuelMassPerCycleCommand() const {
+double Engine::getFullRackFuelMass() const {
     if (!isCompressionIgnition()) return 0.0;
-    return m_compressionIgnition.parameters().maxFuelMassPerCycle * m_fuelRack;
+    const double stop = m_compressionIgnition.parameters().maxFuelMassPerCycle;
+    if (m_fuelStopCurve == nullptr) return stop;
+    return stop * std::max(0.0, m_fuelStopCurve->sampleTriangle(std::abs(getSpeed())));
+}
+
+double Engine::getFuelMassPerCycleCommand() const {
+    return getFullRackFuelMass() * m_fuelRack;
 }
 
 double Engine::getThrottle() const {

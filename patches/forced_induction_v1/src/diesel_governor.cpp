@@ -40,7 +40,7 @@ void DieselGovernor::update(double dt, Engine *engine) {
                 ++samples;
             }
         }
-        const double maxFuelMass = engine->getCompressionIgnitionModel()->parameters().maxFuelMassPerCycle;
+        const double maxFuelMass = engine->getFullRackFuelMass();
         Fuel *fuel = engine->getFuel();
         if (samples > 0 && maxFuelMass > 0.0 && fuel->getMolecularAfr() > 0.0) {
             const double fuelMoles = (trappedO2 / samples) / (lambda * fuel->getMolecularAfr());

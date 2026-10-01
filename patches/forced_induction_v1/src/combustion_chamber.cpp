@@ -240,6 +240,12 @@ void CombustionChamber::beginCompressionIgnitionEvent(double fuelMass) {
         fuelMass,
         m_fuel->getMolecularMass(),
         m_engine->getSpeed());
+    // Overall equivalence ratio of the event (ignition-delay correlation).
+    if (m_lastInjectionTrappedO2 > 0.0 && m_fuel->getMolecularMass() > 0.0) {
+        m_compressionIgnitionEvent.equivalenceRatio =
+            (fuelMass / m_fuel->getMolecularMass()) * m_fuel->getMolecularAfr()
+            / m_lastInjectionTrappedO2;
+    }
 }
 
 void CombustionChamber::processCompressionIgnition(double dt) {
@@ -338,7 +344,7 @@ void CombustionChamber::flow(double dt) {
         cylinderHeight * constants::pi * m_head->getCylinderBank()->getBore()
         + m_cylinderCrossSectionSurfaceArea * 2;
 
-    const double dT = units::celcius(90.0) - m_system.temperature();
+    double dT = units::celcius(90.0) - m_system.temperature();
 
     // Compression-ignition cylinders use the Hohenberg correlation for the
     // gas-to-wall heat-transfer coefficient (developed for direct-injection
@@ -352,6 +358,21 @@ void CombustionChamber::flow(double dt) {
         // speed terms are per step (m_heatTransferStepFactor).
         heatTransferCoefficient = m_heatTransferStepFactor
             * std::exp(0.8 * std::log(pressureBar) - 0.4 * std::log(temperature));
+
+        // The gas exchanges heat with the gas-side SURFACES, not the coolant:
+        // area-weighted piston crown, cylinder head fire deck and exposed
+        // liner. Typical full-load DI-diesel surface temperatures (Heywood,
+        // ICE Fundamentals, ch. 12: piston crown ~300 C, head ~230 C, liner
+        // ~150 C). The coolant-temperature wall (90 C) cooled the incoming
+        // charge too little and overstated heat loss during combustion.
+        constexpr double PistonCrownTemperature = 573.0;
+        constexpr double HeadTemperature = 503.0;
+        constexpr double LinerTemperature = 423.0;
+        const double linerArea = cylinderHeight * constants::pi * m_head->getCylinderBank()->getBore();
+        const double wallTemperature =
+            (m_cylinderCrossSectionSurfaceArea * (PistonCrownTemperature + HeadTemperature)
+                + linerArea * LinerTemperature) / cylinderSurfaceArea;
+        dT = wallTemperature - m_system.temperature();
     }
 
     m_system.changeEnergy(dT * cylinderSurfaceArea * heatTransferCoefficient * dt);

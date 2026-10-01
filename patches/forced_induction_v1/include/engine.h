@@ -13,6 +13,7 @@
 #include "intake.h"
 #include "combustion_chamber.h"
 #include "units.h"
+#include "function.h"
 #include "throttle.h"
 #include "compression_ignition_model.h"
 #include "forced_induction_system.h"
@@ -72,6 +73,11 @@ class Engine : public Part {
         void setFuelRack(double rack);
         double getFuelRack() const { return m_fuelRack; }
         double getFuelMassPerCycleCommand() const;
+        // Full-rack delivery per cylinder event at the current speed: the
+        // fuel stop (max_fuel_mass_per_cycle) times the optional fuel-stop
+        // curve (a mechanical pump's full-load delivery versus speed).
+        double getFullRackFuelMass() const;
+        void setFuelStopCurve(Function *curve) { m_fuelStopCurve = curve; }
         virtual double getThrottle() const;
         virtual double getThrottlePlateAngle() const;
         virtual void calculateDisplacement();
@@ -187,6 +193,7 @@ class Engine : public Part {
         TurbochargerModel m_disabledTurbocharger;
         ProceduralDieselAudio m_proceduralAudio;
         double m_fuelRack = 0.0;
+        Function *m_fuelStopCurve = nullptr;
         double m_directInjectedFuelMass = 0.0;
         double m_directBurnedFuelMass = 0.0;
         double m_maxCiTemperature = 0.0;

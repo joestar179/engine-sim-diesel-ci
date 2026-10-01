@@ -41,6 +41,8 @@ EXPECTED_BASELINE = {
     "src/diesel_governor.cpp": "fc11a0aa3c735b2602de6e54920108c45376ef8858898bfbec6ff9b11a46962e",
     "src/gas_system.cpp": "065f70d26bca6074d6f96efdb989914d43500201296d2ae77fd88af90c839d2b",
     "include/gas_system.h": "af5880ada709f850651736b7e28fa5086bad0b8a45a1ac137f1dcb25bd13d944",
+    "src/compression_ignition_model.cpp": "edcdb5c707c911d58671d6ecc6b9622c6cbf6736e468101a82f759217e35de9f",
+    "include/compression_ignition_model.h": "ad4cd0b6a5b41cda1e33939d35c1cc3d743f53bacbe2dc4b1a5aa87d1da85e62",
     "include/diesel_governor.h": "83cba76076e8087c0694e98125d66bf2e5644897cc2ad24e1dab5a1eb23a6d79",
     "src/synthesizer.cpp": "8ec3421e98b32f811cb3fcc8453ed30de77fef1fe4fc6a2fcb69421175ae34e8",
     "include/synthesizer.h": "a6320d59eb2f5cebf12ccea40fc73c9ba9f80944aa51fa236553a840b6353e54",
@@ -100,18 +102,18 @@ public node set_engine {
 PINNED_PRODUCTION_TEMPLATES = {
     "assets/alco_16_251b_main.mr": "de603c279f374f62bd5b47ef0edebbabfbe083b01bdc2ab057620ff1af4c61f4",
     "assets/engines/alco/alco_16_251b_native.mr": "1a187da5a87fec866d516a197b8e59163b91f308ce2f607ed6f6319acadc588d",
-    "es/objects/objects.mr": "89c444bcdfda1a9559659a5820635dc098abca47c1b8384f61194da86ea4fadc",
+    "es/objects/objects.mr": "56c8bb12fc42ee7390638ac46f7dc60b8455269c5bda3acad40240f53be7604d",
     "include/combustion_chamber.h": "f6712576de17d8949e31b04d21e6c66c1e1685efa0d1cf5a72cc44fac6081325",
-    "include/engine.h": "999e6bc481c2c0db03131a81caa90f213c0146c4b12783c7e3c75df876c4ab73",
+    "include/engine.h": "7b6d82fe5d0c25eb2c244688f13cc83b813311a20634c6a3c7a09130c8f1ac6f",
     "include/exhaust_system.h": "050d489bb2fc579b0bf350b14797e55bb26e902908f941069d0b2d275e42df90",
     "include/forced_induction_system.h": "57c6bc6a9084bdda1f99d60851a3c6ea53ec0059be36610a8a5e8a151b68ce22",
     "include/intake.h": "4053725fe40e38e69c0bdcad93577a9022e9060e97fb192dc15c3ae8a4b169b3",
     "include/turbocharger_model.h": "37e92d401cca5f94073e858ebab134d16a1f1fd528e72563c63ea2abcb7fbece",
-    "scripting/include/engine_node.h": "42e3b1b1a51c91e9f5dd7b7eec0ff75da47c06dd2ac141b16783e204baf249d4",
+    "scripting/include/engine_node.h": "b03e3c7ef8cb94b07a1a4082cb5acbaf8fcaf0b67db8d9cee0eb12ff9aeb94e6",
     "scripting/include/exhaust_system_node.h": "d5f3436f866d9f3608efcd808aa61d079e0eb6f207a9134c046b0a0940755c3d",
     "scripting/src/compiler.cpp": "fb6566d847ab4486d68ee39e813753cc5c0b9d52c7c5b988bb4fbd43ec02eeb0",
-    "src/combustion_chamber.cpp": "89789378bd259caa51b0afb12c32ee4a8dc98fd82124fb1db9a6299f0feec742",
-    "src/engine.cpp": "6e3e1ebee9bafd11791d01522f5934b375d7f9aa3abfc12a75e67527d004ef16",
+    "src/combustion_chamber.cpp": "0ec1cf2035398576a943903e37b0c25cbaccd2b985de446453937fe09ca72e9a",
+    "src/engine.cpp": "d4c88dfd2eb6bc61bc741a086d0c712221c30e33edd1c34db8607c5ca22360ba",
     "src/exhaust_system.cpp": "82371111c1405bfd72a581be18d2b2274bd63819d92103d73b0970a5f7895d20",
     "src/forced_induction_system.cpp": "7670b6247dbffb2424c63145e2db56e651588838b14ddc2f4f89b5cc2d6f6302",
     "src/intake.cpp": "81076fbcf04b0da18dfb8ce954729b2902510119f35b760860dfa7503b388d70",
@@ -129,14 +131,21 @@ PINNED_PRODUCTION_TEMPLATES = {
     "include/synthesizer.h": "b23197046eb20ed095d183199c0b2fef191361b6e088383b1cf28c177413354f",
     "assets/engines/alco/alco_251d_diesel_turbo.mr": "f5ade61fc71d03d48144618243c96a2835a592f6628c435637951170c8d98ecb",
     "src/simulator.cpp": "ea41ae1cf86a24cb1c99712ee3443b7edc404978460ed7e7a6a559c4986fa842",
-    "src/diesel_governor.cpp": "82fe2c2b57b1b8c8b4eb07e4b223994ed2ce8b487f2a0907cce79a7b450ade79",
+    "src/diesel_governor.cpp": "b0f1e8fa6b629bc14099b80b326351594d8bf5b21be8e3235ecc72b62083b6df",
     "include/diesel_governor.h": "77b27b5b3b25ec18d8ff5846c33909a200c5d4c30ec50807fecf63a0b3a29698",
     "src/gas_system.cpp": "df3a358df2e2068de582688b6382fec1cfa4a3868f994dbdbadb6b866d7f1b86",
     "include/gas_system.h": "817325ef72c9dbd02979f0a6576d02e0c11f1255876113ab22e079be78d3073b",
+    "src/compression_ignition_model.cpp": "53e74d9023aa314cadd430ad06fe08d29308e644d574188f3f118e623be07831",
+    "include/compression_ignition_model.h": "016743df1c8acea95a92334fac20e194c0dedec8ecfeb24ba1d3507b89833982",
 }
 
 NEW_FILES = {
     "assets/alco_16_251b_no_turbo_main.mr",
+    "assets/engines/validation/validation_diesel_i4.mr",
+    "assets/deere_4045df150_main.mr",
+    "assets/deere_4045tf250_main.mr",
+    "assets/cummins_4b39_g1_main.mr",
+    "assets/cummins_4bt39_g1_main.mr",
     "assets/alco_6_251d_no_turbo_main.mr",
     "test/realtime_budget_bench.cpp",
     "test/audio_render.cpp",
@@ -155,6 +164,13 @@ NEW_FILES = {
 }
 
 REQUIRED_POSTCONDITIONS = {
+    "src/compression_ignition_model.cpp": [
+        "ignitionDelayTime(",
+        "event.ignitionIntegral",
+    ],
+    "include/engine.h": [
+        "getFullRackFuelMass()",
+    ],
     "include/forced_induction_system.h": [
         "class TurboGroup",
         "std::vector<TurboGroup> m_groups",

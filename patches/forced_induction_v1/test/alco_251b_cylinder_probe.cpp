@@ -18,6 +18,8 @@
 //       [--frequency N] [--crank S] [--run S] [--production-audio-path]
 //       [--control T V]...   (set speed control V at simulated time T)
 //       [--dyno T RPM]       (from time T hold RPM; engage while turning forward)
+//       [--rack T R]...      (from time T fix the fuel rack at R, 0 = fuel off
+//                             for motoring friction; R < 0 returns to the governor)
 //   engine-sim-cylinder-probe <script.mr> --check stock|probe [--frequency N]
 
 #include "../scripting/include/compiler.h"
@@ -123,6 +125,7 @@ struct SubstepSample {
 class ProbeSimulator;
 
 struct Probe {
+    double rackOverride = -1.0;   // --rack; < 0 = governor in control
     Engine *engine = nullptr;
     TurboGroup *turbo = nullptr;
     int scrollCount = 0;
@@ -303,6 +306,9 @@ protected:
     // probe calls inserted. Keep in step with src/piston_engine_simulator.cpp;
     // `--check` verifies bit-identical behaviour against the stock simulator.
     void simulateStep_() override {
+        // --rack: fixed fuel rack replaces the governor's (set after
+        // Engine::update, before any injection). Inactive by default.
+        if (probe != nullptr && probe->rackOverride >= 0.0) m_engine->setFuelRack(probe->rackOverride);
         const double timestep = getTimestep();
         IgnitionModule *im = m_engine->getIgnitionModule();
         im->update(timestep);
@@ -499,6 +505,7 @@ int main(int argc, char **argv) {
     bool productionAudio = false;
     std::string checkMode;
     std::vector<std::pair<double, double>> controlSteps;
+    std::vector<std::pair<double, double>> rackSteps;
     double dynoTime = -1.0, dynoRpm = 0.0;
     for (int i = 2; i < argc; ++i) {
         const std::string a = argv[i];
@@ -513,6 +520,10 @@ int main(int argc, char **argv) {
         }
         else if (a == "--control" && i + 2 < argc) {
             controlSteps.emplace_back(std::atof(argv[i + 1]), std::atof(argv[i + 2]));
+            i += 2;
+        }
+        else if (a == "--rack" && i + 2 < argc) {
+            rackSteps.emplace_back(std::atof(argv[i + 1]), std::atof(argv[i + 2]));
             i += 2;
         }
         else if (a == "--check" && i + 1 < argc) checkMode = argv[++i];
@@ -573,6 +584,9 @@ int main(int argc, char **argv) {
             for (const auto &step : controlSteps) {
                 const long long at = static_cast<long long>(std::llround(step.first * frequency));
                 if (done == at) engine->setSpeedControl(step.second);
+            }
+            for (const auto &step : rackSteps) {
+                if (done == static_cast<long long>(std::llround(step.first * frequency))) probe.rackOverride = step.second;
             }
             if (dynoTime >= 0.0 && done == static_cast<long long>(std::llround(dynoTime * frequency))) {
                 // Dynamometer::calculate() holds |m_rotationSpeed| in the

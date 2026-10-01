@@ -664,6 +664,63 @@ Real-time cost (i7-7700HQ, Defender active; the untouched rigid-body solver was 
 - Earlier per-sub-step overhead (Hohenberg `pow` calls and the 256-sample mean piston speed) was moved to once per step.
 - The 16-251B still exceeds the real-time budget on this machine.
 
+## Small-diesel validation: Cummins 4B/4BT3.9-G1, John Deere 4045DF150/TF250
+
+Source: the user's reference pack (research freeze 2026-09-30), copied to
+`docs/reference/`. Engines: `assets/engines/validation/validation_diesel_i4.mr`.
+There are no engine-specific code paths. Every value carries a D/F/R/C label.
+
+Generic changes made while building them:
+
+- **Fuel-stop curve:** `fuel_stop_curve` (per-engine full-load delivery vs speed) and `Engine::getFullRackFuelMass()`; the governor's air limiter uses it.
+  - Function samples must be spaced no wider than the triangle filter radius; wider spacing returns 0 between samples (first start attempt: no fuel).
+- **Ignition delay:** `ignition_delay_correlation` uses the Assanis et al. (2003) DI-diesel correlation in a Livengood-Wu integral over the simulated cylinder state.
+- **CI wall temperature:** gas-side surface temperatures (piston 573 K, head 503 K, liner 423 K, area-weighted) replace the 90 °C coolant wall. SI engines are unchanged.
+- **Probe:** `--rack T R` (fixed rack; 0 = motoring).
+- **Fuel (validation engines):** LHV 42.8 MJ/kg, combustion efficiency 0.98. The ALCO scripts still use 45.5 × 0.88.
+
+Over-breathing found on the 4045DF150:
+
+- Intake momentum drag β = 0.30 gave a 20 kPa ram overpressure at BDC and volumetric efficiency 1.09 (documented 0.84).
+- β is the runner loss coefficient in velocity heads (`GasSystem::updateVelocity`); set to 1.0 (textbook loss coefficients). Results are insensitive above 1.
+- Discharge-coefficient sweep: choking the valves to match airflow destroys BSFC, so cd stays 0.6.
+
+### Deere, full load (sim vs documented intermittent)
+
+| Engine | rpm | Power | BSFC | Exhaust | Air | Boost |
+|---|---|---|---|---|---|---|
+| DF150 | 2500 | 60.8 vs 60 kW | 235 vs 237 | 569 vs 582 °C | 109 vs 90.6 g/s | — |
+| DF150 | 1000–1600 | +5 to +12 % | −9 to −12 % | | | |
+| TF250 | 2400 | 93.7 vs 93 kW | 223 vs 224 | 519 vs 495 °C | 172 vs 164 g/s | 114 kPa gauge vs 109–133 |
+| TF250 | 1000–2000 | +2 to +12 % | −5 to −9 % | | | |
+
+Motoring friction: 22.1 vs 22 kW (DF150), 21.7 vs 21 kW (TF250).
+
+The TF250 boost is a real check. The turbine expansion ratio (the one C turbo value, nozzle area unresolved) was my prior default of 2.0, not fitted. A sweep showed 1.6 → 164 kPa abs and 2.4 → 268 kPa abs.
+
+### Cummins at 1500 rpm
+
+- **4B NA:** standby 31.0 vs 27 kW (+15 %), BSFC 209 vs 244; prime (rack 0.893) 27.8 vs 24 kW. Air 56 vs 38 g/s documented, but the documented 33 L/s implies volumetric efficiency 0.67 for an NA engine (basis unconfirmed, as the pack warns). Motoring 6.7 vs 8.2 kW.
+- **4BT** (calibration turbo, expansion ratio 1.6): standby 41.5 vs 40 kW, BSFC 215 vs 228; prime boost 208 kPa, air 92 vs 51 g/s. The turbo is too restrictive for the documented airflow, but that airflow basis is doubtful too; not fitted.
+
+### Open
+
+- Generic low-speed / low-BMEP over-efficiency of 7–15 %: candidates are friction speed dependence (Cummins motoring −18 %) and constant crank-angle combustion duration.
+- Cummins injection timing is U (12° used).
+
+### ALCO 16-251B at rated, cumulative changes
+
+| Variant | Boost |
+|---|---|
+| Hot walls (C++) | 160 kPa |
+| + intake β 1.0 | 159 kPa |
+| + LHV fuel | 164 kPa |
+| + delay correlation | 166 kPa |
+
+Ignition sits at 19–22° BTDC and peak pressure at 13 MPa. The ALCO shortfall is ALCO-specific (combustion phasing / injection timing basis); the generic turbo model reproduces documented boost on the TF250. Parked at the user's request to validate the small engines first.
+
+Real-time: TF250 63 %, 4B 78 % of one core at 10 kHz.
+
 ## Handover incident: transient worktree loss
 
 Failure signature: `handover | uncommitted temporary worktree unavailable on continuation | workspace persistence layer`

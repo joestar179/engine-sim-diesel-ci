@@ -126,6 +126,9 @@ namespace es_script {
             }
 
             m_ignitionModule->generate(engine, &context);
+            if (m_fuelStopCurve != nullptr) {
+                engine->setFuelStopCurve(m_fuelStopCurve->generate(&context));
+            }
             engine->configureIntakesForCombustionMode();
             engine->configureForcedInductionGasPath();
             
@@ -182,12 +185,14 @@ namespace es_script {
             addInput("redline", &m_parameters.redline);
             addInput("compression_ignition", &m_parameters.compressionIgnition.enabled);
             addInput("max_fuel_mass_per_cycle", &m_parameters.compressionIgnition.maxFuelMassPerCycle);
+            addInput("fuel_stop_curve", &m_fuelStopCurve);
             addInput("injection_duration", &m_parameters.compressionIgnition.injectionDuration);
             addInput("ignition_delay", &m_parameters.compressionIgnition.ignitionDelay);
             addInput("combustion_duration", &m_parameters.compressionIgnition.combustionDuration);
             addInput("premixed_burn_fraction", &m_parameters.compressionIgnition.premixedBurnFraction);
             addInput("autoignition_temperature", &m_parameters.compressionIgnition.autoignitionTemperature);
             addInput("autoignition_pressure", &m_parameters.compressionIgnition.autoignitionPressure);
+            addInput("ignition_delay_correlation", &m_parameters.compressionIgnition.ignitionDelayCorrelation);
             addInput("turbo_enabled", &m_parameters.turbocharger.enabled);
             addInput("turbo_shaft_inertia", &m_parameters.turbocharger.shaftInertia);
             addInput("turbo_friction_torque", &m_parameters.turbocharger.frictionTorque);
@@ -253,6 +258,7 @@ namespace es_script {
 
         ThrottleNode *m_throttle = nullptr;
         IgnitionModuleNode *m_ignitionModule = nullptr;
+        FunctionNode *m_fuelStopCurve = nullptr;
         FuelNode *m_fuel = nullptr;
 
         Engine::Parameters m_parameters;

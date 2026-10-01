@@ -33,6 +33,13 @@ public node vehicle_channel => __engine_sim__vehicle_channel { /* void */ }
 public node transmission_channel => __engine_sim__transmission_channel { /* void */ }
 public node throttle_channel => __engine_sim__throttle_channel { /* void */ }
 
+private node flat_fuel_stop_curve {
+    alias output __out:
+        function(1000.0)
+            .add_sample(0.0, 1.0)
+            .add_sample(1000.0, 1.0);
+}
+
 private node turbulence_to_flame_speed_ratio_default {
     alias output __out:
         function(5.0)
@@ -85,11 +92,13 @@ private node _engine => __engine_sim__engine {
 
     input compression_ignition [bool];
     input max_fuel_mass_per_cycle [float];
+    input fuel_stop_curve [function];
     input injection_duration [float];
     input ignition_delay [float];
     input combustion_duration [float];
     input premixed_burn_fraction [float];
     input autoignition_temperature [float];
+    input ignition_delay_correlation [bool];
     input autoignition_pressure [float];
     input turbo_enabled [bool];
     input turbo_shaft_inertia [float];
@@ -162,10 +171,16 @@ public node engine {
 
     input compression_ignition: false;
     input max_fuel_mass_per_cycle: 0 * units.g;
+    // Full-load delivery versus engine speed as a fraction of the fuel stop
+    // (a mechanical pump's torque-control curve). Default: flat.
+    input fuel_stop_curve: flat_fuel_stop_curve();
     input injection_duration: 0 * units.deg;
     input ignition_delay: 0 * units.deg;
     input combustion_duration: 0 * units.deg;
     input premixed_burn_fraction: 0.20;
+    // true: ignition delay from the cylinder state (Assanis et al. 2003
+    // correlation, Livengood-Wu integral) instead of ignition_delay.
+    input ignition_delay_correlation: false;
     input autoignition_temperature: 550 * units.K;
     input autoignition_pressure: 1.0 * units.MPa;
     input turbo_enabled: false;
@@ -238,11 +253,13 @@ public node engine {
 
             compression_ignition: compression_ignition,
             max_fuel_mass_per_cycle: max_fuel_mass_per_cycle,
+            fuel_stop_curve: fuel_stop_curve,
             injection_duration: injection_duration,
             ignition_delay: ignition_delay,
             combustion_duration: combustion_duration,
             premixed_burn_fraction: premixed_burn_fraction,
             autoignition_temperature: autoignition_temperature,
+            ignition_delay_correlation: ignition_delay_correlation,
             autoignition_pressure: autoignition_pressure,
             turbo_enabled: turbo_enabled,
             turbo_shaft_inertia: turbo_shaft_inertia,
