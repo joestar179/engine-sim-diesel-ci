@@ -13,21 +13,46 @@ This repository is an enhancement overlay and deterministic CI reconstruction
 project, not a complete Engine Simulator source checkout. Read this file before
 running or changing anything.
 
-## 0c. Acceptance criteria and calibration policy (user, 2026-10-01)
+## 0c. Acceptance criteria and calibration policy (user-agreed, 2026-10-01)
 
-- **Goals (all three must hold):**
-  - sound fidelity;
-  - staying within physical bounds;
-  - achieving close to the actual rated specs.
-- **Specs that count:** torque curve, power curve, fuel consumption (BSFC).
-  - At the rated point: within **3 %**.
-  - Everywhere else on the documented curves: within **10 %**.
-  - Airflow, EGT and boost are secondary checks.
-- **Calibration** at the MR level is acceptable: the model is an approximation.
-  - Only on equipment and C parameters (dimensions, timings, pump rates, valve flow, cam, restrictions).
-  - Every calibrated value must stay inside a stated physically plausible range, written next to it in the MR.
-  - Physics constants and global model code are not fitted.
-- **Sound gate:** an engine is not done until it has been rendered and checked for audible regressions.
+Goals: sound fidelity, physical bounds, close to the actual rated specs.
+
+**Specs** (documented curves):
+
+| Spec | At rated | Rest of curve |
+|---|---|---|
+| Torque, power | ±3 % target, ±5 % acceptable (the rating's own tolerance) | ±10 % |
+| BSFC | ±5 % | ±10 % |
+| Curve shape | peak-torque speed within one data step (≈200 rpm); torque rise (rated → peak) within ±5 points | — |
+
+**Calibration vs validation:**
+- A spec used to set a C value is not a check.
+- Each engine's scorecard lists its calibration points and its held-out checks (other speeds, EGT, airflow, boost, motoring friction).
+- "Validated" requires held-out checks to pass.
+
+**Data grades:**
+- Validation engines: exact-configuration data; strict criteria.
+- Calibration engines: family-level or incomplete data; reported as calibrated, never as validated, and never a reason to change physics.
+
+**Physical bounds** (hard limits; a calibration that breaks one is rejected):
+- NA volumetric efficiency ≤ 1.0, and airflow within ±15 % of documented;
+- full-load AFR on the lean side of the smoke limit;
+- EGT within ±50 K of documented; boost within the documented range;
+- full-load mechanical efficiency 75–92 %;
+- peak cylinder pressure, injection duration and burn duration within the typical range for the engine type (e.g. rotary pump injection 20–30°);
+- idle, fast idle and droop within ±3 % of documented.
+
+**Calibration** happens only at the MR level:
+- only on equipment or C parameters (dimensions, timings, pump rates, valve flow, cam, restrictions);
+- each value inside a stated plausible range written in the MR;
+- physics constants and global code are not fitted.
+
+**Sound gate** (an engine is not done until):
+- firing frequency and harmonic structure are correct;
+- there is no clipping, underrun or clicks;
+- physics runs under 80 % of one core;
+- the 150–600 / 600–2500 / 2500–8000 Hz band balance is within a few dB of a reference recording of the same model, where one exists;
+- a listening check has been done.
 
 ## 0a. Standing directive — token economy
 
