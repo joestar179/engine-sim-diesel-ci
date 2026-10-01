@@ -163,10 +163,13 @@ public node honda_gx390_validated {
         velocity_decay: intake_velocity_decay
     )
 
-    // Production muffler (J1349 rating hardware): C 1.5 L (1-2.5 L), outlet
-    // equivalent 20 mm (15-25 mm) at cd 0.6 -> 36.8 CFM.
+    // Production muffler 18310-Z5T-010 (J1349 rating hardware): C 1.5 L
+    // (1-2.5 L); outlet equivalent 24.5 mm (15-25 mm) at cd 0.6 -> 55.3 CFM,
+    // placing the WOT back-pressure at the middle of Honda's allowable
+    // 6.0-12.5 kPa at 3600 rpm (F, Honda GX tech manual p. 9). The 3000 rpm
+    // window (4.6-10.5 kPa) is a held-out check.
     exhaust_system_parameters es_params(
-        outlet_flow_rate: k_carb(36.8),
+        outlet_flow_rate: k_carb(55.3),
         primary_tube_length: 3.0 * units.inch,
         primary_flow_rate: k_carb(200.0),
         velocity_decay: 1.0,

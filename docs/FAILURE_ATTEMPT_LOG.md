@@ -1134,6 +1134,36 @@ The shape is flat. Set: DF150 46°, TF250 37°.
 - 46°/37° rated injection is long for rotary pumps (typical 20–30°): either the jet mixing is somewhat fast (e.g. no wall impingement: x_st ≈ 85 mm > bore/2 = 53 mm) or a loss is missing.
 - TF250 at 1000 rpm is +7.5 %.
 
+## GX390 muffler inside Honda's back-pressure window; mixture source rejected (2026-10-01)
+
+**Mixture (λ) — still U:**
+- Supplement v2 offers the CPSC/Intertek 2010 test of Honda GX390 GCANK-1254782 (`C:\es\run\assets\CPSC_Intertek_2010_GX390_emissions.pdf`).
+- The report's cover letter says the engine is a "prototype generator engine designed for low CO emission rates". It measured A/F 14.4 (λ ≈ 1.0) and CO 28 g/kWh, against 368-408 g/kWh certified for Honda's carburetted 389 cm3 families.
+- Not representative of the stock BE88A carburettor; not used.
+
+**Muffler (C, bounded by F data):**
+- Outlet k_carb 36.8 → 55.3 CFM (equivalent 20 → 24.5 mm at cd 0.6, within the stated 15-25 mm).
+- Rule stated in advance: place the 3600 rpm WOT back-pressure at the middle of Honda's 6.0-12.5 kPa (GX tech manual p. 9). Iterations: 48.7 gave 11.9 kPa; 55.3 gave 10.3 kPa.
+- Held-out 3000 rpm window 4.6-10.5: 8.1 kPa (PASS).
+
+**Result:**
+
+| rpm | 2000 | 2200 | 2400 | 2500 | 2600 | 2800 | 3000 | 3200 | 3400 | 3600 |
+|---|---|---|---|---|---|---|---|---|---|---|
+| Sim torque (N m) | 27.92 | 27.87 | 28.03 | 27.52 | 27.41 | 26.82 | 26.14 | 25.80 | 25.38 | 24.96 |
+| vs documented | +13.0 % | +8.4 % | +6.6 % | +3.8 % | +3.8 % | +2.0 % | +0.9 % | +2.4 % | +4.9 % | +8.1 % |
+
+- Power at 3600: 9.41 kW (+8.2 %).
+- Sensitivity across the allowable window: 11.9 kPa gives 9.15 kW; 10.3 kPa gives 9.41 kW.
+- With the exhaust inside Honda's documented range, the GX390 is +1 to +13 % (rated +8 %). FAIL vs ±5 %, and FAIL at 2000 rpm (±10 %).
+
+**Remaining contributors (each needs evidence):**
+1. Ambient basis: SAE J1349 corrects to 99 kPa dry air, 25 C; the sim runs at 101.325 kPa → ~+2.3 % (open register item: selectable ambient).
+2. Air-cleaner restriction (dual element 17210-ZE3-505 / 17218-ZE3-000) is not modelled (U).
+3. Dissociation of burned gas is not modelled (A).
+4. PNH friction for a small air-cooled engine (fmep ~73 kPa at 3600).
+5. Carburettor venturi (C 22 mm) and mixture (U).
+
 ## SI flame-speed check against published correlations (2026-10-01) — no change
 
 | Input | Sim | Published | Verdict |
