@@ -1134,6 +1134,24 @@ The shape is flat. Set: DF150 46°, TF250 37°.
 - 46°/37° rated injection is long for rotary pumps (typical 20–30°): either the jet mixing is somewhat fast (e.g. no wall impingement: x_st ≈ 85 mm > bore/2 = 53 mm) or a loss is missing.
 - TF250 at 1000 rpm is +7.5 %.
 
+## Rich-combustion chemistry (frozen water-gas products) — checked before coding, rejected (2026-10-01)
+
+Proposal: rich SI burning forms CO/H2 in water-gas equilibrium (K = 3.5) instead of completely burning the O2-limited fuel fraction.
+
+Pre-check (CH1.87, LHV fractions):
+
+| λ | 0.70 | 0.80 | 0.85 | 0.88 | 0.92 | 0.96 | 1.00 |
+|---|---|---|---|---|---|---|---|
+| Released, frozen WGS | 0.602 | 0.733 | 0.799 | 0.839 | 0.893 | 0.946 | 1.000 |
+| Released, sim (0.97 λ) | 0.679 | 0.776 | 0.825 | 0.854 | 0.892 | 0.931 | 0.970 |
+
+**Conclusion:**
+- Frozen rich chemistry releases less at rich λ. It would steepen the sim's "leaner = more power" trend (the wrong direction) and change almost nothing at the documented GX390 λ ≈ 0.92.
+- Not implemented.
+- The real power maximum near φ ≈ 1.1 comes from high-temperature dissociation at stoichiometric (heat withheld at peak T, returned late in expansion), per the Heywood fuel-air cycle.
+- Evaporative charge cooling raises power at rich λ. It corrects the trend but increases the absolute excess.
+- Next candidate: dissociation. Quantify with a cycle calculation (as products_cycle.py) before any code.
+
 ## GX390 mixture anchor from the CPSC / University of Alabama study (2026-10-01) — evaluation, no model change
 
 **Source:**
