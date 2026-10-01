@@ -127,8 +127,16 @@ void Intake::process(double dt) {
     m_system.dissipateExcessVelocity();
     m_system.updateVelocity(dt, m_velocityDecay);
 
-    if (m_flow > 0) m_totalFuelInjected += fuelAirMix.p_fuel * m_flow;
-    if (idleCircuitFlow > 0) m_totalFuelInjected += fuelMix.p_fuel * idleCircuitFlow;
+    // Fuel metered = net fuel through the carburettor: reverse flow (intake
+    // reversion) returns plenum mixture to the atmosphere and is subtracted,
+    // so mixture pumped back and forth is not counted twice. Accounting only.
+    const double p_fuelPlenum = m_system.mix().p_fuel;
+    m_totalFuelInjected += (m_flow > 0)
+        ? fuelAirMix.p_fuel * m_flow
+        : p_fuelPlenum * m_flow;
+    m_totalFuelInjected += (idleCircuitFlow > 0)
+        ? fuelMix.p_fuel * idleCircuitFlow
+        : p_fuelPlenum * idleCircuitFlow;
 }
 
 void Intake::recordForcedInductionAir(double airMoles) {

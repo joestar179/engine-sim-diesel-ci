@@ -1134,6 +1134,46 @@ The shape is flat. Set: DF150 46°, TF250 37°.
 - 46°/37° rated injection is long for rotary pumps (typical 20–30°): either the jet mixing is somewhat fast (e.g. no wall impingement: x_st ≈ 85 mm > bore/2 = 53 mm) or a loss is missing.
 - TF250 at 1000 rpm is +7.5 %.
 
+## Honda GX390 validation build and SI fuel-counter correction (2026-10-01)
+
+**Reclassification (user decision):**
+- Kohler CH750 is a **calibration engine**: family-grade curve, fuel only from family-parent cycle emissions, ignition/cam/rod U, serial lock incomplete.
+- Its cycle result (sim ~23 % too efficient) is indicative only and is no basis for a physics change.
+- Honda GX390UT2 QAE2 is the small-petrol **validation engine**.
+
+**New script:** `assets/engines/validation/honda_gx390_validated.mr` + `assets/honda_gx390_validated_main.mr`.
+- D: bore, stroke, CR 8.2, crankpin, ignition 10 deg @ 1400 rpm / range 10-22 deg, ball-bearing crank (main-bearing PNH term off), slipper-lifter OHV.
+- C (stated ranges; none set from a rating): valves 34/29 mm, lift 5.6 mm, cam 190 deg @ 0.050 in / LSA 110, rod 84 mm, carb venturi 22 mm (k_carb 66.7), muffler 1.5 L with a 20 mm outlet, shared port cd 0.6.
+- Valve flow uses the Deere geometry rule.
+- First run showed a torque drop at 3600 rpm: timing samples were up to 1500 rpm apart against a 500 rpm filter radius. Samples are now every 500 rpm.
+
+**Fuel-counter correction** (`src/intake.cpp`, accounting only, pin updated):
+- `m_totalFuelInjected` added forward carb flow only. Intake reversion (plenum mixture pushed back to the atmosphere and re-inducted) was counted twice.
+- Reverse flow now subtracts the plenum fuel fraction. No gas state changes.
+- Effect:
+  - GX390 metered fuel −24 to −32 % (burned/metered 0.56 → 0.74);
+  - Kohler −1.3 % (307.5 → 303.7 g/kWh at 3600 rpm);
+  - torque unchanged (±2 % run-to-run at 2000 rpm).
+- The Kohler cycle figures above predate this correction (gap ~1 point larger).
+
+**GX390 result (all held out):**
+
+| Check | Sim | Documented | Result |
+|---|---|---|---|
+| Power @ 3600 | 11.08 kW | 8.7 kW (J1349 net) | +27 % FAIL |
+| Torque 2000 / 2500 / 3000 / 3600 | 32.5 / 31.8 / 30.6 / 29.4 | 24.7 / 26.5 / 25.9 / 23.1 N m | +31 / +20 / +18 / +27 % FAIL |
+| Peak-torque speed | ~2000 (flat to 2500) | 2500 | FAIL (shape) |
+| Torque rise rated → peak | 10.5 % | 14.8 % | PASS (±5 points) |
+| Fuel @ 7.0 kW, 3600 (λ 0.80 stock, U) | 14.87 MJ/kWh (342.6 g/kWh) | 3.5 L/h → 15.4-15.9 MJ/kWh (density 0.72-0.76, E0/E10) | −3.5 to −6.5 % (borderline) |
+
+**Reading:**
+- Trapped-charge VE is ~0.78-0.83 (from burned fuel at λ 0.8): plausible.
+- Brake efficiency on burned fuel is 35.6 % at WOT 3600 and 32.9 % at 7 kW.
+- The part-load fuel point is close at λ 0.8, but full-load torque is +18 to +31 %.
+- Without airflow or λ data the full-load excess cannot be split between breathing (C valves, cam, carb, muffler) and efficiency. The part-load fuel check depends on λ (fuel ∝ 1/λ).
+- No calibration made. Stopped for user direction.
+- Sound: the counter change touches no audio input. The GX390 sound gate has not been run.
+
 ## Kohler CH750 cycle fuel check from certification emissions (2026-10-01)
 
 Failure signature: `validation | Kohler CH750 cycle fuel energy -20..-24 % (sim too efficient) | SI heat-to-brake-work chain`

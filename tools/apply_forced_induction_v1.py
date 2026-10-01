@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """Install the locked Generic Forced-Induction V1 source as readable files.
 
 This stage intentionally replaces the accepted generated turbo core only after
@@ -119,7 +119,7 @@ PINNED_PRODUCTION_TEMPLATES = {
     "src/engine.cpp": "05a615b2ea76a1cc8aec82e8c6059c4f65503393365e697917277abafb76ebb8",
     "src/exhaust_system.cpp": "82371111c1405bfd72a581be18d2b2274bd63819d92103d73b0970a5f7895d20",
     "src/forced_induction_system.cpp": "7670b6247dbffb2424c63145e2db56e651588838b14ddc2f4f89b5cc2d6f6302",
-    "src/intake.cpp": "81076fbcf04b0da18dfb8ce954729b2902510119f35b760860dfa7503b388d70",
+    "src/intake.cpp": "6ec2f9497ae3cb7a780782508950d2197f398c94caa38626966e01287ccc93df",
     "src/piston_engine_simulator.cpp": "33a92b7592b53b7eda5d10cfeee39d9458b095a8a38853074fe06d4fc27dfb11",
     "src/turbocharger_model.cpp": "c64f89a3228ebb97afd974042c1ff8576587c3df3350744f16f5080d4eef68b7",
     "include/telemetry_log.h": "d3776a08765e4335b8d27b392bcda73ac70ae72f53fb6d951da69fa186aeed63",

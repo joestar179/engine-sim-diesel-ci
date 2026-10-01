@@ -135,8 +135,14 @@ Open issues (highest impact first):
 4. **Cummins 4B/4BT inputs.** Injection timing U (12 deg C), turbo hardware
    U, and documented airflow inconsistent (33 L/s implies volumetric
    efficiency 0.67).
-5. **Petrol: coherent model validated on the Kohler CH750; stock SI scripts
-   not yet re-derived.**
+5. **Petrol: small-petrol validation engine is now the Honda GX390 (Kohler
+   CH750 reclassified as a calibration engine, 2026-10-01).**
+   - GX390 (`honda_gx390_validated.mr`, no value set from a rating):
+     - power +27 %, torque +18 to +31 % over 2000-3600 rpm (FAIL);
+     - torque rise passes;
+     - fuel at the 7.0 kW continuous point −3.5 to −6.5 % at λ 0.8 (λ U);
+     - full-load excess not yet split between breathing (C) and efficiency.
+   - Fuel counter now subtracts intake reversion (accounting only).
    - `kohler_ch750_validated.mr` (documented CR, real gasoline, PNH friction,
      unified heat transfer, flame expansion): 21.0 kW at 3600 rpm (doc 20.1,
      +4.4 %); peak torque reference corrected to 55.9 N m at 3200 rpm (current
