@@ -853,6 +853,33 @@ Small-engine sims are 7–15 % too efficient at low speed: 4045DF150 +11 % torqu
 - Simulated mechanical efficiency at low speed is still high (DF150 93 %, TF250 95 % at 1000 rpm).
 - Starts and idle verified: both engines ~846 rpm (doc 850).
 
+## Timing curve reverted (reference pump calibrations)
+
+The speed-advance curve (commit 0c84a44) was an assumption chosen after seeing the gap, and comparable calibrations contradict it. Both are Stanadyne DB4 mechanical pumps, engine rpm, pump degrees:
+
+- **DB4429-5514, John Deere 4045TF157 genset** (rated 1500): advance 0 at 1500 full load (134.5–138.5 mm³), 5–7 at light load (36–44 mm³), 8–9 at high idle.
+- **DB4329-6095, VM D753TE3** (rated 2600, 7–10 % droop): advance 0–0.3 at 2600 full load (≥ 70 mm³) and part load (58–62 mm³), 2.7–3.7 at light load (40 mm³), 8.5–9.5 at high idle, ≥ 3 at low idle.
+
+The advance acts at light and no load, and is ~0 at full load. CTM207 p. 195's "more than 8° retarded" is a diagnostic threshold, not the advance authority.
+
+**Reverted** to the documented constant full-load timing (DF150 8.0°, TF250 4.5°); the curves are removed. The ignition wrap fix is kept.
+
+**Reconfirmed** with the current build (matches the earlier constant-timing runs):
+
+| Engine | 1000 rpm | 1400 | 1800 | 2200 | Rated |
+|---|---|---|---|---|---|
+| DF150 torque, N·m | 322 | 307 | 281 | 251 | 232 |
+| TF250 torque, N·m | 418 | 477 | 456 | 408 | 373 |
+
+The low-speed excess is open again. Not modelled: light-load advance (affects part load and idle, not full load).
+
+**Rating basis** (Deere performance sheets, verbatim): "Gross Rated Power (without fan)", "guaranteed within + or – 5% at SAE J1995 and ISO 3046 conditions: 29.31 in.Hg (99 kPa) barometer".
+
+- J1995 gross deducts the oil, coolant and injection pump loads; the sim models none of these.
+- The sim runs at 101.3 kPa.
+
+All power/torque comparisons are full load: rack 1.000, except the TF250 at 1000 rpm at 0.991 (smoke limiter).
+
 ## Handover incident: transient worktree loss
 
 Failure signature: `handover | uncommitted temporary worktree unavailable on continuation | workspace persistence layer`

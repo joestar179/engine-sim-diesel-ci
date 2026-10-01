@@ -43,25 +43,55 @@ before it is considered done:
 ## 0b. Open issues and parameter register (keep current)
 
 Status key: S = sourced, D = derived from documented data or measurement,
-A = assumption. Replace every A with S or D before relying on it.
+A = assumption, R = derived from documented inputs. Replace every A with S or
+D before relying on it. Validation engines and their sources:
+`assets/engines/validation/validation_diesel_i4.mr`,
+`docs/reference/diesel_validation_engine_reference_pack.md`.
 
 Open issues (highest impact first):
 
-1. **16-251B boost below spec.** With real-gas gamma the 16-251B now gives SFC 158 (doc 168 g/BHP.h), brake 39.6 % (doc 38-40 %), exhaust 31.7 %, turbine inlet 917 K (doc 873 K), turbo 2533 hp vs no-turbo 1874 hp; boost 156 kPa vs documented 258 kPa. Remaining suspects: combustion products treated as air-like, missing blow-through scavenging, turbine design point assumptions. 6-251D (350B) turbo data unsourced: turbo does not spool.
-2. **Ratings (checks, never targets):** 16-251B 2533 hp at 1000 rpm with the sourced fuel stop (rated
-   2400); 6-251D 793 hp at 1100 rpm (class ~1200–1400). Fuel stops must come
-   from documented BSFC or rack delivery, never be fitted to these ratings.
-3. **Stock-engine impact is not assessed.** The enthalpy-transport fix in
-   `GasSystem::flow` is physically correct but changes every engine's breathing,
-   power and sound, including the stock spark-ignition engines.
-4. **Sound:** low end weak with the current 16-251B MR settings (impulse
-   response `minimal_muffling_01`, `hf_gain` 0.122, `noise` 1.0); A/B renders in
-   `C:\es\run\renders\lf_ab`. Gas model uses gamma 1.40 for all gas (hot
-   combustion gas ~1.28-1.33): likely cause of the too-high efficiency and low
-   boost (proposed core fix).
-5. **Gate 6B** shadow governor predates `k_p`, `droop` and the smoke limiter.
-6. SI engines have no structure-borne knock layer (no pressure-rise rate).
-7. **Real-time budget:** 16-251B physics ~118 % of one core at 3 kHz on the i7-7700HQ (real-gas model ~8 % of that); GUI will fall behind. Options: fewer fluid sub-steps for slow large engines, lower sim frequency, further per-flow optimisation.
+1. **Low-speed power excess (small diesels).** At full load the 4045DF150 is
+   +11 % torque at 1000 rpm, about +2 % at rated; the TF250 is +11.5 % at
+   1000 rpm; the Cummins 4B is +12 to +15 % at 1500 rpm.
+   - Simulated gross indicated efficiency is ~45 % at all speeds.
+   - Simulated mechanical efficiency is 94 % at 1000 rpm, which is
+     implausible: friction is missing at low speed.
+   - Tried and rejected:
+     - constant rated friction (circular, over-corrects);
+     - Chen-Flynn anchored at rated (needs coefficients 5-15x the
+       literature range);
+     - a speed-advance timing curve (reference pump calibrations show 0
+       advance at full load).
+   - Missing physics:
+     - accessory loads: oil, coolant and injection pumps are deducted in the
+       documented SAE J1995 gross ratings but absent in the sim;
+     - a component friction model from geometry.
+   - The documented ratings are +-5 % at a 99 kPa barometer; the sim runs at
+     101.3 kPa.
+2. **16-251B boost below spec.** 166 kPa vs documented 258 kPa.
+   - The generic turbo model reproduces documented boost on the 4045TF250
+     (114 kPa gauge vs 109-133).
+   - Suspected ALCO-specific inputs: combustion phasing (ignition 19-22 deg
+     BTDC, 13 MPa peak pressure), the 45.5 x 0.88 fuel energy, and intake
+     drag 0.30. The ALCO scripts have not received the small-engine fixes.
+3. **Sound: NA vs turbo exhaust source inconsistent.**
+   - NA engines radiate runner pressure; turbo engines (since 05cb2f0)
+     radiate the post-turbine volume, ~25 dB weaker raw.
+   - With one global knock level (2.2e-3, from the TF250 recording) the
+     DF150 still has no knock.
+   - User to choose: (B) revert the turbo source, or (C) radiate every
+     engine from the gas entering its outlet pipe.
+   - Both recordings show 600 Hz-8 kHz content the sim lacks (25-35 dB):
+     mechanical noise is not modelled.
+   - The user finds the turbo slightly too loud (parked).
+4. **Cummins 4B/4BT inputs.** Injection timing U (12 deg C), turbo hardware
+   U, and documented airflow inconsistent (33 L/s implies volumetric
+   efficiency 0.67).
+5. **Stock-engine impact is not assessed** for the enthalpy, real-gas and
+   ignition-wrap changes.
+6. **Real-time budget:** 16-251B physics ~118 % of one core at 3 kHz; the
+   small engines run at 63-78 % at 10 kHz.
+7. **Gate 6B** shadow governor predates `k_p`, `droop` and the smoke limiter.
 
 Parameters:
 
@@ -69,21 +99,27 @@ Parameters:
 |---|---|---|---|
 | Air O2 fraction (diesel/turbo paths) | 0.2095 | S | Composition of dry air; stock 0.25 kept for SI premixed intakes |
 | Flow energy = enthalpy | u(T) + R T per mol | S | First law for open systems |
-| Gas heat capacity | rigid 5/2 R + N2/O2 vibration (theta 3353 / 2239 K) | S | Statistical mechanics (harmonic oscillator) |
+| Gas heat capacity | rigid 5/2 R + N2/O2 vibration (theta 3353 / 2239 K) | S | Statistical mechanics |
 | Combustion products as air-like; dynamic-pressure and choked-flow gamma 1.4 | - | A | Simplification |
-| Hohenberg heat-transfer constants | 130, −0.06, 0.8, −0.4, +1.4 | S | Hohenberg, SAE 790825 |
-| Smoke-limited equivalence ratio | 0.75 (combustion O2 limit; limiter λ = 1/0.75) | S (range) | Heywood, *ICE Fundamentals*: DI diesel ~0.7–0.8; midpoint chosen |
-| Wall temperature in heat transfer | 90 °C | A | Stock value; real diesel surfaces ~400–500 K |
-| Governor droop | 0.03 | A | Typical 3–5 %; the ALCO governor may be isochronous |
-| Turbo friction law split | 0.3 const / 0.7 ∝ speed | A (fitted) | Keeps the documented 6-251D 90–180 s rundown |
-| Turbo sound source | √(turbine + compressor power) | A | Modelling choice |
-| Knock band / noise share | 1.6 kHz Q 1.5 / 0.3 | A | Qualitative (Austen & Priede); transient-dominant after user report |
-| Turbo tone: tonal share / band Q / 2nd harmonic | 0.8 / 30 / 0.35 | A | Blade-pass tone dominant (user: "breeze, not whistle") |
-| Knock / turbo global levels | 4e-4 / 15 | D | One reference render each |
-| 16-251B fuel stop | 0.84 g | D | 720A rated SFC 168 g/BHP.h (IRIMEE) x 2400 BHP (MI-1016B) |
-| Fuel energy input | 45.5 kJ/g x 0.88 = 40.0 kJ/g | A | Diesel LHV ~42.6-43 kJ/g; sim SFC 148 vs documented 168 g/BHP.h |
+| Hohenberg heat-transfer constants | 130, -0.06, 0.8, -0.4, +1.4 | S | Hohenberg, SAE 790825 |
+| CI wall surface temperatures | piston 573 K, head 503 K, liner 423 K | S (typical) | Heywood ch. 12, full-load DI diesel; replaces 90 C coolant wall |
+| CI ignition delay | Assanis et al. 2003, Livengood-Wu | S | Opt-in (`ignition_delay_correlation`); ALCO still uses fixed 4 deg |
+| Smoke-limited equivalence ratio | 0.75 (limiter lambda 1/0.75) | S (range) | Heywood: DI diesel ~0.7-0.8 |
+| Intake momentum drag (velocity_decay) | 1.0 small engines; 0.30 ALCO | C / A | Runner loss coefficient ~1 velocity head; 0.30 over-rammed (VE 1.09) |
+| Diesel fuel (validation engines) | LHV 42.8 kJ/g x 0.98 | S | ALCO scripts still 45.5 x 0.88 = 40.0 kJ/g (A) |
+| Fuel-stop curves (Deere) | documented power x BSFC per speed | R | Pump full-load delivery |
+| Deere injection timing | 8.0 / 4.5 deg BTDC, constant | D / R | CTM207 rated full-load; reference DB4 calibrations: 0 advance at full load |
+| Port discharge coefficient | 0.6 on min(curtain, 0.88 d throat) | C | Valve sizes and cam C |
+| TF250 turbine expansion ratio | 2.0 | C (prior, not fitted) | Nozzle area U; fits boost/EGT/air/power together |
+| Governor droop (Deere) | 0.080 / 0.083 | R | Documented fast idle / rated |
+| Governor droop (ALCO default) | 0.03 | A | ALCO governor may be isochronous |
+| Turbo friction law split | 0.3 const / 0.7 proportional to speed | A (fitted) | Keeps the documented 6-251D 90-180 s rundown |
+| Knock source / level | cylinder-mean dp/dt; 2.2e-3 | D | Level set once from the 4045TF250 recording |
+| Knock band / noise share | 1.6 kHz Q 1.5 / 0.3 | A | Qualitative (Austen & Priede) |
+| Turbo tone / level | blade-pass, Q 30, 2nd harmonic 0.35; 15 | A / D | One reference render |
+| 16-251B fuel stop | 0.84 g | D | 720A SFC 168 g/BHP.h x 2400 BHP |
 | 16-251B governor `k_p`/`k_s`/crank limit | 3 / 0.016 / 0.35 | D | Probe stability tuning |
-| Simulation frequency | 3 kHz / 10 kHz | D | Measured real-time budget |
+| Simulation frequency | 3 kHz ALCO 16 / 10 kHz others | D | Measured real-time budget |
 
 ## 1. Mandatory reading and stop state
 
