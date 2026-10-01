@@ -322,11 +322,13 @@ public node alco_16_251b_v16 {
     fuel diesel_fuel(
         name: "Diesel No. 2 [C12H23 approximation]",
         molecular_mass: 167.3 * units.g,
-        energy_density: 45.5 * units.kJ / units.g,
+        // LHV of No. 2 diesel (S, 42.6-43.0); combustion efficiency 0.98 (S,
+        // Heywood ch. 4). Was 45.5 (the HHV) x 0.88 = 40.0 kJ/g released.
+        energy_density: 42.8 * units.kJ / units.g,
         density: 0.84 * units.kg / units.L,
         molecular_afr: 17.75,
-        max_burning_efficiency: 0.88,
-        burning_efficiency_randomness: 0.08,
+        max_burning_efficiency: 0.98,
+        burning_efficiency_randomness: 0.02,
         low_efficiency_attenuation: 0.75,
         max_turbulence_effect: 2.0,
         max_dilution_effect: 5.0
@@ -369,7 +371,10 @@ public node alco_16_251b_v16 {
         // (The WDM-2 2600-BHP rating of the same engine would give 0.91 g.)
         max_fuel_mass_per_cycle: 0.84 * units.g,
         injection_duration: 24 * units.deg,
-        ignition_delay: 4 * units.deg,
+        // Ignition delay from the cylinder state (Assanis et al. 2003,
+        // Livengood-Wu), validated on the 4045 engines; was a fixed 4 deg.
+        ignition_delay_correlation: true,
+        ignition_delay: 0 * units.deg,
         combustion_duration: 50 * units.deg,
         premixed_burn_fraction: 0.18,
         autoignition_temperature: 550 * units.K,
@@ -489,6 +494,31 @@ public node alco_16_251b_v16 {
             step; audio input bandwidth is 1.5 kHz vs the synthesizer's
             1.9 kHz input filter.
         */
+        /*
+            Mechanical friction: Patton-Nitschke-Heywood component model (as
+            on the validation engines; Sandoval MIT 2003 pp. 13-16).
+              C  9 main bearings (8 crankpins), journals 0.75 B, rod journals
+                 0.68 B, bearing length 0.4 D; 2 camshafts x 9 bearings
+              C  4 valves per cylinder, lift 0.85 in (cam lobes below); OHV
+                 constants of Sandoval table 4.2
+              A  oil viscosity ratio 1.28 (15W-40 class at 90 C)
+              A  PNH was fitted on smaller engines (bores to ~110 mm)
+        */
+        component_friction: true,
+        main_bearing_count: 9,
+        main_bearing_diameter: 0.75 * 9.0 * units.inch,
+        main_bearing_length: 0.4 * 0.75 * 9.0 * units.inch,
+        rod_bearing_diameter: 0.68 * 9.0 * units.inch,
+        rod_bearing_length: 0.4 * 0.68 * 9.0 * units.inch,
+        cam_bearing_count: 18,
+        valve_count: 64,
+        max_valve_lift: 0.85 * units.inch,
+        valvetrain_flat_follower: 400.0,
+        valvetrain_roller_follower: 0.0,
+        valvetrain_oscillating_hydrodynamic: 0.5,
+        valvetrain_oscillating_mixed: 32.1,
+        oil_viscosity_ratio: 1.28,
+
         simulation_frequency: 3000,
         hf_gain: 0.122,
         noise: 1.0,
@@ -544,7 +574,9 @@ public node alco_16_251b_v16 {
         throw: stroke / 2,
         flywheel_mass: flywheel_mass,
         mass: crank_mass,
-        friction_torque: 800 * units.lb_ft,
+        // Mechanical friction from the component model (engine inputs
+        // component_friction ...); the former 800 lb ft stand-in is removed.
+        friction_torque: 0 * units.Nm,
         moment_of_inertia: crank_moment + flywheel_moment + accessory_moment,
         position_x: 0.0,
         position_y: 0.0,
@@ -627,7 +659,9 @@ public node alco_16_251b_v16 {
         idle_throttle_plate_position: 0.0,
         throttle_gamma: 1.0,
         molecular_afr: 17.75,
-        velocity_decay: 0.30
+        // Runner loss coefficient (velocity heads), as validated on the 4045:
+        // 0.30 over-rammed the cylinders (volumetric efficiency 1.09).
+        velocity_decay: 1.0
     )
 
     /*

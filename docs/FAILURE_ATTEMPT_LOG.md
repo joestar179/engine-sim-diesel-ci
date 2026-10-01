@@ -926,6 +926,36 @@ The 4B residual is in its indicated work (timing U, documented BSFC 244 implies 
 
 **Checks:** idles DF150 842, TF250 845, Cummins 991 rpm. Unit tests unchanged (47 pass, same 4 upstream failures). ALCO smoke passes (model off). CPU 63 % (TF250).
 
+## ALCO 16-251B with the validated small-engine settings
+
+**Applied to `alco_16_251b_native.mr`:**
+- fuel LHV 42.8 × 0.98 (was 45.5 × 0.88);
+- intake velocity_decay 1.0 (was 0.30);
+- ignition-delay correlation (was a fixed 4°);
+- PNH component friction with C geometry (9 mains, journals 0.75/0.68 B, 18 cam bearings, 64 valves, 0.85 in lift; 1782 N·m ≈ 128 kPa at rated), replacing the 800 lb·ft crank stand-in.
+
+**Rated 1000 rpm, full load:**
+
+| Variant | Power | SFC (doc 168) | Brake eff. (doc ≈ 37 %) | Boost (doc 258 kPa) | T3 | Peak pressure |
+|---|---|---|---|---|---|---|
+| Before | 2557 hp | 157 | 40.0 % | 160 kPa | 669 °C | 13.3 MPa at +6° |
+| After | 2764 hp | 145 | 43.2 % | 166 kPa | 697 °C | 12.7 MPa at +8° |
+| Burn 65° | 2737 hp | 147 | 42.8 % | 173 kPa | 712 °C | 10.8 MPa at +10° |
+| Burn 80° | 2665 hp | 151 | 41.6 % | 182 kPa | 727 °C | 9.6 MPa at +8° |
+| SOI 22° | 2798 hp | 143 | 43.7 % | 168 kPa | 703 °C | 11.7 MPa at +10° |
+
+- **Combustion phasing and burn duration are weak levers** (≤ 1.6 points of efficiency, +16 kPa boost). The old 45.5 × 0.88 fuel energy had masked part of the excess.
+- **Reference (web, Indian Railways 251 material):** peak firing pressure at 10–15° ATDC for good economy. The 251 uses jerk pumps with a constant-stroke plunger, bottom helix and constant injection timing.
+- IRIMEE: later engines gained efficiency from a faster injection rate (17 mm plunger, modified lifter); the double-helix pump paper (ASME ICEF2007) is paywalled.
+
+**Open — the ALCO-specific efficiency gap (~6 points), candidates:**
+- engine-driven locomotive auxiliaries and large-engine friction beyond PNH (fitted on ~100 mm bores);
+- the rating and SFC basis (gross vs traction HP, conditions);
+- injection characteristics of the original pumps (MI-1000 data needed);
+- heat loss in a large, old engine.
+
+The settings stay; they are the validated generic ones.
+
 ## Handover incident: transient worktree loss
 
 Failure signature: `handover | uncommitted temporary worktree unavailable on continuation | workspace persistence layer`

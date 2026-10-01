@@ -61,12 +61,18 @@ Open issues (highest impact first):
      - ambient 101.3 kPa vs the 99 kPa rating basis;
      - light-load advance not modelled.
    - The ALCO and stock engines still use the side-thrust friction.
-2. **16-251B boost below spec.** 166 kPa vs documented 258 kPa.
-   - The generic turbo model reproduces documented boost on the 4045TF250
-     (114 kPa gauge vs 109-133).
-   - Suspected ALCO-specific inputs: combustion phasing (ignition 19-22 deg
-     BTDC, 13 MPa peak pressure), the 45.5 x 0.88 fuel energy, and intake
-     drag 0.30. The ALCO scripts have not received the small-engine fixes.
+2. **16-251B too efficient, boost below spec.**
+   - With the validated small-engine settings (LHV fuel, intake drag 1.0,
+     delay correlation, PNH friction): 2764 hp, SFC 145 vs 168, brake 43 %
+     vs ~37 %, boost 166 vs 258 kPa, peak pressure at +8 deg ATDC (reference
+     10-15).
+   - Burn duration and timing are weak levers (burn 80 deg: 41.6 %,
+     182 kPa).
+   - Candidates:
+     - locomotive auxiliaries and large-engine friction beyond PNH;
+     - the rating / SFC basis;
+     - original pump injection characteristics (MI-1000);
+     - heat loss.
 3. **Sound: NA vs turbo exhaust source inconsistent.**
    - NA engines radiate runner pressure; turbo engines (since 05cb2f0)
      radiate the post-turbine volume, ~25 dB weaker raw.

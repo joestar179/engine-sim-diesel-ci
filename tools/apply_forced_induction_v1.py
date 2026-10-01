@@ -104,7 +104,7 @@ public node set_engine {
 # may add tests and build wiring but must not alter the code under test.
 PINNED_PRODUCTION_TEMPLATES = {
     "assets/alco_16_251b_main.mr": "de603c279f374f62bd5b47ef0edebbabfbe083b01bdc2ab057620ff1af4c61f4",
-    "assets/engines/alco/alco_16_251b_native.mr": "1a187da5a87fec866d516a197b8e59163b91f308ce2f607ed6f6319acadc588d",
+    "assets/engines/alco/alco_16_251b_native.mr": "3788fab67ba888cbc4612b41dc387fa0bf1a91321f30a296f8152a4856e9c303",
     "es/objects/objects.mr": "164966d6ed578a716c4a2d63c881114bdd356af97bb8fb91ac7318306928e085",
     "include/combustion_chamber.h": "f6712576de17d8949e31b04d21e6c66c1e1685efa0d1cf5a72cc44fac6081325",
     "include/engine.h": "163e4024e858e0690fb7abb2a7d4674178b95279cc1c0d77e00f98aff93c646b",
