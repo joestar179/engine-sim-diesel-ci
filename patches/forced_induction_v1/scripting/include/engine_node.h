@@ -169,6 +169,7 @@ namespace es_script {
             ccParams.StartingPressure = units::pressure(1.0, units::atm);
             ccParams.StartingTemperature = units::celcius(25.0);
             ccParams.MeanPistonSpeedToTurbulence = meanPistonSpeedToTurbulence;
+            ccParams.ChamberAreaRatio = m_chamberAreaRatio;
 
             for (int i = 0; i < engine->getCylinderCount(); ++i) {
                 ccParams.Piston = engine->getPiston(i);
@@ -221,6 +222,7 @@ namespace es_script {
             addInput("valvetrain_oscillating_hydrodynamic", &m_frictionParameters.oscillatingHydrodynamic);
             addInput("valvetrain_oscillating_mixed", &m_frictionParameters.oscillatingMixed);
             addInput("oil_viscosity_ratio", &m_frictionParameters.viscosityRatio);
+            addInput("chamber_area_ratio", &m_chamberAreaRatio);
             addInput("injection_duration", &m_parameters.compressionIgnition.injectionDuration);
             addInput("ignition_delay", &m_parameters.compressionIgnition.ignitionDelay);
             addInput("combustion_duration", &m_parameters.compressionIgnition.combustionDuration);
@@ -302,6 +304,7 @@ namespace es_script {
         IgnitionModuleNode *m_ignitionModule = nullptr;
         FunctionNode *m_fuelStopCurve = nullptr;
         EngineFrictionModel::Parameters m_frictionParameters;
+        double m_chamberAreaRatio = 1.0;
         FuelNode *m_fuel = nullptr;
 
         Engine::Parameters m_parameters;

@@ -27,6 +27,11 @@ class CombustionChamber : public atg_scs::ForceGenerator {
             double StartingPressure;
             double StartingTemperature;
             double CrankcasePressure;
+            // Gas-side surface of the combustion chamber (fire deck) and of the
+            // piston crown, each relative to the bore area (flat = 1.0). Real
+            // chambers (valve recesses, chamber pocket, squish band, bowl) are
+            // larger. Equipment geometry; affects the wall heat-transfer area.
+            double ChamberAreaRatio = 1.0;
         };
 
         struct FlameEvent {
@@ -117,6 +122,7 @@ class CombustionChamber : public atg_scs::ForceGenerator {
         // Cumulative gas-to-wall heat loss (J, positive = out of the gas).
         // Accounting only, for energy-balance diagnostics.
         double m_heatLossTotal;
+        double m_chamberAreaRatio = 1.0;
 
     protected:
         double calculateFrictionForce(double v) const;

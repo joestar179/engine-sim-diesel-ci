@@ -58,6 +58,7 @@ void CombustionChamber::initialize(const Parameters &params) {
     m_fuel = params.Fuel;
     m_crankcasePressure = params.CrankcasePressure;
     m_meanPistonSpeedToTurbulence = params.MeanPistonSpeedToTurbulence;
+    m_chamberAreaRatio = params.ChamberAreaRatio;
 
     m_pistonSpeed = new double[StateSamples];
     m_pressure = new double[StateSamples];
@@ -373,9 +374,12 @@ void CombustionChamber::flow(double dt) {
 
     const double volume = getVolume();
     const double cylinderHeight = volume / m_cylinderCrossSectionSurfaceArea;
+    // Exposed liner + fire deck + piston crown; the last two scale with the
+    // chamber's surface relative to the flat bore area (ChamberAreaRatio).
+    const double endArea = m_cylinderCrossSectionSurfaceArea * m_chamberAreaRatio;
     const double cylinderSurfaceArea =
         cylinderHeight * constants::pi * m_head->getCylinderBank()->getBore()
-        + m_cylinderCrossSectionSurfaceArea * 2;
+        + endArea * 2;
 
     double dT = units::celcius(90.0) - m_system.temperature();
 
@@ -403,7 +407,7 @@ void CombustionChamber::flow(double dt) {
         constexpr double LinerTemperature = 423.0;
         const double linerArea = cylinderHeight * constants::pi * m_head->getCylinderBank()->getBore();
         const double wallTemperature =
-            (m_cylinderCrossSectionSurfaceArea * (PistonCrownTemperature + HeadTemperature)
+            (endArea * (PistonCrownTemperature + HeadTemperature)
                 + linerArea * LinerTemperature) / cylinderSurfaceArea;
         dT = wallTemperature - m_system.temperature();
     }

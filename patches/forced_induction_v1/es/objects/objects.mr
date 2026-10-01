@@ -107,6 +107,7 @@ private node _engine => __engine_sim__engine {
     input valvetrain_oscillating_hydrodynamic [float];
     input valvetrain_oscillating_mixed [float];
     input oil_viscosity_ratio [float];
+    input chamber_area_ratio [float];
     input injection_duration [float];
     input ignition_delay [float];
     input combustion_duration [float];
@@ -211,6 +212,8 @@ public node engine {
     input valvetrain_oscillating_hydrodynamic: 0.0;
     input valvetrain_oscillating_mixed: 0.0;
     input oil_viscosity_ratio: 1.0;
+    // Fire-deck and piston-crown surface relative to the bore area (flat 1.0).
+    input chamber_area_ratio: 1.0;
     input injection_duration: 0 * units.deg;
     input ignition_delay: 0 * units.deg;
     input combustion_duration: 0 * units.deg;
@@ -319,6 +322,7 @@ public node engine {
             valvetrain_oscillating_hydrodynamic: valvetrain_oscillating_hydrodynamic,
             valvetrain_oscillating_mixed: valvetrain_oscillating_mixed,
             oil_viscosity_ratio: oil_viscosity_ratio,
+            chamber_area_ratio: chamber_area_ratio,
             injection_duration: injection_duration,
             ignition_delay: ignition_delay,
             combustion_duration: combustion_duration,

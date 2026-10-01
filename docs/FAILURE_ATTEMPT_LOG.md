@@ -1134,6 +1134,36 @@ The shape is flat. Set: DF150 46°, TF250 37°.
 - 46°/37° rated injection is long for rotary pumps (typical 20–30°): either the jet mixing is somewhat fast (e.g. no wall impingement: x_st ≈ 85 mm > bore/2 = 53 mm) or a loss is missing.
 - TF250 at 1000 rpm is +7.5 %.
 
+## Chamber surface area and heat-transfer correlation (2026-10-01) — low merit, default unchanged
+
+**Input added (equipment geometry, default 1.0 = previous behaviour):**
+- Engine `chamber_area_ratio`: fire-deck and piston-crown surface relative to the bore area, scaling the wall heat-transfer area.
+- Plumbed through `objects.mr`, `engine_node.h` and `CombustionChamber::Parameters`; production pins updated.
+- Default reproduces GX390 9.410 kW exactly.
+
+**GX390 sensitivity (WOT 3600, λ 0.80, temporary copies):**
+
+| Ratio | Power | J1349 vs 8.7 kW | Wall | Brake | Exhaust/residual |
+|---|---|---|---|---|---|
+| 1.0 | 9.41 kW | +5.2 % | 12.0 % | 29.2 % | 54.5 % |
+| 1.2 | 9.40 kW | +5.2 % | 13.3 % | — | — |
+| 1.3 | 9.31 kW | +4.1 % | 13.8 % | — | — |
+| 1.4 | 9.29 kW | +3.9 % | 14.4 % | 28.8 % | 53.0 % |
+
+- Extra wall heat comes mostly out of exhaust energy, not work: ~0.17 points of brake per point of wall loss.
+- Area therefore explains ≤ ~1.3 %. The earlier −6 to −8 % estimate is withdrawn.
+- Closing the GX390 excess by heat loss alone would need ~26 % of released heat to the walls, i.e. roughly double the Hohenberg coefficient.
+
+**Correlation:** comparative studies often rank Hohenberg as the most accurate for SI too (above Woschni; Frontiers in Energy Research 2022 and similar). No justification to switch or scale it.
+
+**Conclusion:**
+- Heat loss and friction are not the source of the GX390's remaining +5 % (J1349, λ 0.8).
+- The ratio input stays available for documented chamber geometry; no defaults applied.
+- Remaining unknowns are breathing inputs without data (air cleaner U, carburettor venturi C 22 mm). The GX390 is parked at:
+  - power +5 % (J1349);
+  - curve −2 to +10 %;
+  - fuel within the family scatter (λ 0.88-0.96).
+
 ## Friction and heat loss: merit check (2026-10-01) — no change
 
 **Correction:**
