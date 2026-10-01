@@ -160,7 +160,16 @@ private node validation_diesel_i4 {
 
     input max_fuel;            // fuel stop, per cylinder event
     input fuel_stop_curve;
-    input injection_duration: 22 * units.deg;     // C
+    input injection_duration: 22 * units.deg;     // C (prescribed path only)
+    /*
+        Injection hardware. nozzle_hole_count > 0 switches injection and
+        combustion to nozzle hydraulics + mixing-controlled burn (generic
+        CompressionIgnitionModel path); injection and combustion durations
+        are then outputs, not inputs.
+    */
+    input nozzle_hole_count: 0;
+    input nozzle_hole_diameter: 0.0;
+    input injection_pressure: 0.0;
     input combustion_duration: 60 * units.deg;    // C
     input premixed_burn_fraction: 0.15;           // C
     input timing_curve;
@@ -245,6 +254,9 @@ private node validation_diesel_i4 {
         valvetrain_oscillating_mixed: 32.1,
         oil_viscosity_ratio: 1.28,
         injection_duration: injection_duration,
+        nozzle_hole_count: nozzle_hole_count,
+        nozzle_hole_diameter: nozzle_hole_diameter,
+        injection_pressure: injection_pressure,
         // Ignition delay from the simulated cylinder state (Assanis et al.
         // 2003, Livengood-Wu integral); no crank-angle delay constant.
         ignition_delay_correlation: true,
@@ -755,6 +767,17 @@ public node deere_4045df150 {
             intake_flow_rate: k_carb(400),                // C air cleaner
             exhaust_pipe_diameter: 63.5 * units.mm,       // D recommended pipe
             exhaust_outlet_flow_rate: k_carb(500),        // C silencer
+            // F: RE60062 nozzles (CTM207): 4 holes x 0.27 mm, opening
+            // 238-244 bar. A: injection pressure = opening pressure midpoint
+            // (lower bound; mean line pressure not documented)
+            // Hardware path (nozzle_hole_count > 0) tested and not used: with a
+            // constant injection pressure the burn shortens in crank degrees
+            // at low speed (+7 % torque at 1000 rpm vs +4 % prescribed). A
+            // mechanical pump's delivery rate scales with speed (nozzle
+            // pressure ~ speed^2); its delivery rate is not documented.
+            nozzle_hole_count: 0,
+            nozzle_hole_diameter: 0.27 * units.mm,
+            injection_pressure: 24.1 * units.MPa,
             turbo_enabled: false,
             turbo: no_turbo()
         );
@@ -797,6 +820,11 @@ public node deere_4045tf250 {
             intake_flow_rate: k_carb(600),                // C air cleaner
             exhaust_pipe_diameter: 102 * units.mm,        // D recommended pipe
             exhaust_outlet_flow_rate: k_carb(800),        // C silencer
+            // F: RE48786 nozzles (CTM207): 4 holes x 0.29 mm, opening
+            // 255-260 bar. A: injection pressure = opening pressure midpoint
+            nozzle_hole_count: 0,
+            nozzle_hole_diameter: 0.29 * units.mm,
+            injection_pressure: 25.75 * units.MPa,
             turbo_enabled: turbo_enabled,
             turbo: s2a_class_turbo(expansion_ratio: turbine_design_pressure_ratio)
         );

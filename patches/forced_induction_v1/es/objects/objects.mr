@@ -113,6 +113,11 @@ private node _engine => __engine_sim__engine {
     input premixed_burn_fraction [float];
     input autoignition_temperature [float];
     input ignition_delay_correlation [bool];
+    input nozzle_hole_count [int];
+    input nozzle_hole_diameter [float];
+    input injection_pressure [float];
+    input nozzle_discharge_coefficient [float];
+    input spray_turbulence_coefficient [float];
     input autoignition_pressure [float];
     input turbo_enabled [bool];
     input turbo_shaft_inertia [float];
@@ -211,6 +216,15 @@ public node engine {
     // true: ignition delay from the cylinder state (Assanis et al. 2003
     // correlation, Livengood-Wu integral) instead of ignition_delay.
     input ignition_delay_correlation: false;
+    // Injection hardware (nozzle_hole_count > 0 switches injection and
+    // combustion to nozzle hydraulics + mixing-controlled burn). Discharge
+    // coefficient: textbook value for diesel nozzle holes. The spray
+    // turbulence coefficient is one global diesel constant (set once).
+    input nozzle_hole_count: 0;
+    input nozzle_hole_diameter: 0.0;
+    input injection_pressure: 0.0;
+    input nozzle_discharge_coefficient: 0.7;
+    input spray_turbulence_coefficient: 0.2;
     input autoignition_temperature: 550 * units.K;
     input autoignition_pressure: 1.0 * units.MPa;
     input turbo_enabled: false;
@@ -304,6 +318,11 @@ public node engine {
             premixed_burn_fraction: premixed_burn_fraction,
             autoignition_temperature: autoignition_temperature,
             ignition_delay_correlation: ignition_delay_correlation,
+            nozzle_hole_count: nozzle_hole_count,
+            nozzle_hole_diameter: nozzle_hole_diameter,
+            injection_pressure: injection_pressure,
+            nozzle_discharge_coefficient: nozzle_discharge_coefficient,
+            spray_turbulence_coefficient: spray_turbulence_coefficient,
             autoignition_pressure: autoignition_pressure,
             turbo_enabled: turbo_enabled,
             turbo_shaft_inertia: turbo_shaft_inertia,

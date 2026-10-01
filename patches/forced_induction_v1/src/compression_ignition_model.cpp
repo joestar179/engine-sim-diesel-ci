@@ -31,6 +31,8 @@ void CompressionIgnitionModel::beginEvent(
 
     const double omega = std::max(std::abs(engineSpeedRadPerSec), 1.0);
     event.active = true;
+    event.fuelMolecularMass = fuelMolecularMass;
+    event.maxDuration = 2.0 * 3.14159265358979 / omega;   // one revolution
     event.targetFuelMoles = fuelMass / fuelMolecularMass;
     event.injectionDurationSeconds = std::max(m_parameters.injectionDuration / omega, 1.0e-6);
     event.ignitionDelaySeconds = m_parameters.ignitionDelay / omega;
@@ -51,6 +53,71 @@ double CompressionIgnitionModel::ignitionDelayTime(
     const double T = std::max(temperature, 200.0);
     const double phi = std::max(equivalenceRatio, 0.05);
     return 2.4e-3 * std::pow(phi, -0.2) * std::pow(pBar, -1.02) * std::exp(2100.0 / T);
+}
+
+CompressionIgnitionModel::StepResult CompressionIgnitionModel::stepHardware(
+    Event &event,
+    double dt,
+    double cylinderTemperature,
+    double cylinderPressure) const
+{
+    StepResult result;
+    const Parameters &p = m_parameters;
+    const double end = event.elapsed + dt;
+    const double L = std::max(event.lengthScale, 1.0e-3);
+
+    // Injection: nozzle hydraulics (Bernoulli through the holes).
+    const double remaining = event.targetFuelMoles - event.injectedFuelMoles;
+    if (remaining > 0.0 && event.fuelDensity > 0.0 && event.fuelMolecularMass > 0.0) {
+        const double dp = std::max(0.0, p.injectionPressure - cylinderPressure);
+        const double v = std::sqrt(2.0 * dp / event.fuelDensity);
+        const double area = p.nozzleHoles * 0.25 * 3.14159265358979
+            * p.nozzleHoleDiameter * p.nozzleHoleDiameter;
+        const double massRate = p.nozzleDischargeCoefficient * area * event.fuelDensity * v;
+        const double moles = std::min(remaining, massRate * dt / event.fuelMolecularMass);
+        result.fuelMolesToInject = std::max(0.0, moles);
+        event.injectedFuelMoles += result.fuelMolesToInject;
+        event.sprayVelocity = v;
+    }
+    else {
+        // After the end of injection the spray turbulence decays on the
+        // turnover time L / u.
+        const double u = p.sprayTurbulenceCoefficient * event.sprayVelocity + event.pistonTurbulence;
+        event.sprayVelocity *= std::exp(-dt * u / L);
+    }
+
+    // Ignition (correlation or fixed delay), as on the prescribed path.
+    if (p.ignitionDelayCorrelation && event.ignitionTime < 0.0 && event.injectedFuelMoles > 0.0) {
+        event.ignitionIntegral += dt / ignitionDelayTime(
+            cylinderTemperature, cylinderPressure, event.equivalenceRatio);
+        if (event.ignitionIntegral >= 1.0) event.ignitionTime = end;
+    }
+    if (!p.ignitionDelayCorrelation && event.ignitionTime < 0.0 && end >= event.ignitionDelaySeconds) {
+        event.ignitionTime = end;
+    }
+    const bool conditionsMet =
+        cylinderTemperature >= p.autoignitionTemperature
+        && cylinderPressure >= p.autoignitionPressure;
+
+    // Mixing-controlled burn: fuel present and not yet burned, at the rate of
+    // the turbulence through the chamber length scale. Fuel injected during
+    // the delay is all available at ignition (premixed spike).
+    if (event.ignitionTime >= 0.0 && conditionsMet) {
+        event.combustionStarted = true;
+        result.combustionStarted = true;
+        const double u = event.pistonTurbulence + p.sprayTurbulenceCoefficient * event.sprayVelocity;
+        const double available = std::max(0.0, event.injectedFuelMoles - event.demandedBurnFuelMoles);
+        const double burn = available * (1.0 - std::exp(-dt * u / L));
+        result.fuelMolesToBurn = burn;
+        event.demandedBurnFuelMoles += burn;
+    }
+
+    event.elapsed = end;
+    const bool injected = event.injectedFuelMoles >= event.targetFuelMoles * (1.0 - 1.0e-9);
+    const bool burned = event.demandedBurnFuelMoles >= event.targetFuelMoles * 0.999;
+    if ((injected && burned) || event.elapsed >= event.maxDuration) event.active = false;
+    result.active = event.active;
+    return result;
 }
 
 double CompressionIgnitionModel::wiebe(double normalizedProgress, double a, double m) {
@@ -75,6 +142,7 @@ CompressionIgnitionModel::StepResult CompressionIgnitionModel::step(
 {
     StepResult result;
     if (!enabled() || !event.active || dt <= 0.0) return result;
+    if (usesInjectionHardware()) return stepHardware(event, dt, cylinderTemperature, cylinderPressure);
 
     const double start = event.elapsed;
     const double end = start + dt;

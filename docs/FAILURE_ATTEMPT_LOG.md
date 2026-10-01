@@ -1033,6 +1033,30 @@ The upstream was cloned at 56725cc (Piranha 432f0b1, Delta b7d0a04) in `C:\es\up
 
 **Consequence:** every stock SI script's hand-set timing (and burning-efficiency, friction) knobs were tuned to the old flame and friction. Stock Kohler at its 50° now gives 4.1 kW. The stock engines need the same re-derivation — open.
 
+## Diesel combustion from injection hardware (option 1): implemented, not adopted
+
+**Code:** opt-in path in `CompressionIgnitionModel` (`stepHardware`), switched on by `nozzle_hole_count > 0`.
+
+- Injection rate = Cd · n · π/4 d² · √(2 ρ_f (p_inj − p_cyl)), with Cd 0.7 (textbook).
+- Ignition: the existing correlation.
+- Burn rate = (injected − burned) · u/L, with L = bore/2 and u = 0.5 S̄p (the SI flame model's turbulence) + C_s · spray velocity (decaying after the end of injection on L/u). Fuel injected during the delay burns at ignition, so the premixed spike emerges.
+- C_s is one global diesel constant (`spray_turbulence_coefficient`, default 0.2).
+- Deere nozzle data (CTM207, F): DF150 4 × 0.27 mm at 238–244 bar; TF250 4 × 0.29 mm at 255–260 bar. Injection pressure = opening-pressure midpoint (A).
+
+**DF150 full-load torque vs documented:**
+
+| C_s | 1000 rpm | 1800 rpm | 2500 rpm |
+|---|---|---|---|
+| 0.2 | +4.7 % | −3.2 % | −8.1 % |
+| 0.4 | +9.4 % | +7.1 % | +6.6 % |
+| 0.8 | +11 % | +12 % | +14 % |
+| 1.6 | +11 % | +13 % | +17 % (burn follows injection) |
+
+- Set to match rated (C_s ≈ 0.3), 1000 rpm is ≈ +7 %: worse than the prescribed path with PNH friction (+4 %).
+- **Cause:** with a constant injection pressure, spray velocity and mixing are constant in time, so the burn shortens in crank degrees at low speed. A mechanical (cam-driven) pump delivers at a rate proportional to speed, so the nozzle pressure rises ~ speed² above the opening pressure, and injection and mixing stay roughly constant in crank angle — the prescribed path's assumption.
+- Modelling the pump needs its delivery rate (plunger diameter, cam lift rate), which is undocumented for these rotary pumps.
+- **Not adopted:** the Deere scripts keep the nozzle data (documented) with `nozzle_hole_count: 0`. DF150 results are unchanged (301 / 231 N·m at 1000 / 2500 rpm).
+
 ## Handover incident: transient worktree loss
 
 Failure signature: `handover | uncommitted temporary worktree unavailable on continuation | workspace persistence layer`

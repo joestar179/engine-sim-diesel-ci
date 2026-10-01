@@ -16,6 +16,20 @@ public:
         // of the Assanis et al. 2003 DI-diesel correlation); ignitionDelay
         // is then unused. false: fixed crank-angle ignitionDelay.
         bool ignitionDelayCorrelation = false;
+
+        // Injection and combustion from the injection hardware (used when
+        // nozzleHoles > 0; otherwise the prescribed injection/combustion
+        // durations above are used).
+        //   injection rate  Cd n (pi/4 d^2) sqrt(2 rho_f (p_inj - p_cyl))
+        //   burn rate       (injected - burned) x u / L, L = bore / 2,
+        //                   u = 0.5 x mean piston speed (the turbulence of
+        //                   the spark-ignition flame model) + C_s x spray
+        //                   velocity (decaying after end of injection)
+        int nozzleHoles = 0;
+        double nozzleHoleDiameter = 0.0;        // m
+        double injectionPressure = 0.0;         // Pa
+        double nozzleDischargeCoefficient = 0.7;
+        double sprayTurbulenceCoefficient = 0.0;
     };
 
     struct Event {
@@ -31,6 +45,14 @@ public:
         double equivalenceRatio = 0.5;      // overall, set by the chamber
         double ignitionIntegral = 0.0;      // Livengood-Wu: ignition at 1
         double ignitionTime = -1.0;         // s after start of injection
+
+        // Hardware-driven path (set by the chamber at the start of the event).
+        double fuelDensity = 0.0;           // kg/m^3
+        double fuelMolecularMass = 0.0;     // kg/mol
+        double lengthScale = 0.0;           // m, bore / 2
+        double pistonTurbulence = 0.0;      // m/s, 0.5 x mean piston speed
+        double sprayVelocity = 0.0;         // m/s
+        double maxDuration = 0.0;           // s, abandon an unlit event
     };
 
     struct StepResult {
@@ -45,11 +67,13 @@ public:
     void initialize(const Parameters &parameters);
     const Parameters &parameters() const { return m_parameters; }
     bool enabled() const { return m_parameters.enabled; }
+    bool usesInjectionHardware() const { return m_parameters.nozzleHoles > 0 && m_parameters.injectionPressure > 0.0; }
 
     void beginEvent(Event &event, double fuelMass, double fuelMolecularMass, double engineSpeedRadPerSec) const;
     StepResult step(Event &event, double dt, double cylinderTemperature, double cylinderPressure) const;
 
     static double wiebe(double normalizedProgress, double a, double m);
+    StepResult stepHardware(Event &event, double dt, double cylinderTemperature, double cylinderPressure) const;
     // Assanis et al. (2003): tau = 2.4 phi^-0.2 p^-1.02 exp(2100/T) ms,
     // p in bar, T in K. Returns seconds.
     static double ignitionDelayTime(double temperature, double pressure, double equivalenceRatio);

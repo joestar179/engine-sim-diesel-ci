@@ -252,6 +252,11 @@ void CombustionChamber::beginCompressionIgnitionEvent(double fuelMass) {
         fuelMass,
         m_fuel->getMolecularMass(),
         m_engine->getSpeed());
+    // Injection-hardware path: chamber length scale, piston turbulence (the
+    // spark-ignition flame model's 0.5 x mean piston speed) and fuel density.
+    m_compressionIgnitionEvent.lengthScale = m_head->getCylinderBank()->getBore() / 2.0;
+    m_compressionIgnitionEvent.pistonTurbulence = 0.5 * std::abs(calculateMeanPistonSpeed());
+    m_compressionIgnitionEvent.fuelDensity = m_fuel->getDensity();
     // Overall equivalence ratio of the event (ignition-delay correlation).
     if (m_lastInjectionTrappedO2 > 0.0 && m_fuel->getMolecularMass() > 0.0) {
         m_compressionIgnitionEvent.equivalenceRatio =
