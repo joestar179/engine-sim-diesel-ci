@@ -1134,6 +1134,35 @@ The shape is flat. Set: DF150 46°, TF250 37°.
 - 46°/37° rated injection is long for rotary pumps (typical 20–30°): either the jet mixing is somewhat fast (e.g. no wall impingement: x_st ≈ 85 mm > bore/2 = 53 mm) or a loss is missing.
 - TF250 at 1000 rpm is +7.5 %.
 
+## SI flame-speed check against published correlations (2026-10-01) — no change
+
+| Input | Sim | Published | Verdict |
+|---|---|---|---|
+| u' | 0.5 × mean piston speed (`engine_node.h`) | ~0.5 Sp at TDC, open chamber (Heywood sec. 8.4) | matches |
+| Entrainment | S_T/S_L = 1.5 u'/S_L for u'/S_L ≥ 5, i.e. S_T = 1.5 u' (S_L has no effect at WOT) | Keck/Tabaczynski u' + S_L plus eddy burn-up (Heywood sec. 14.4); S_T/u' ~1-2 typical | in range or faster |
+| S_L | upstream fit evaluated with λ where φ is expected; no residual dilution | Metghalchi-Keck | minor bug; matters only at low u'/S_L (idle) |
+| Burn durations (GX390 3600 WOT) | 0-10 % ~22 deg, 10-90 % ~33 deg | typical 15-25 / 25-40 deg | typical |
+
+- The flame is not too slow by the correlations; a strictly sourced model would be slightly slower.
+- The earlier "sim MBT ~37 deg vs Honda 22 deg ⇒ flame too slow" inference is withdrawn: it assumed Honda's timing is MBT, which is not documented.
+- No measured GX390 pressure trace or burn data was found (two searches).
+- No code change.
+
+**GX390 scorecard (current physics, D/F inputs, no rating-based calibration):**
+
+| rpm | 2000 | 2200 | 2400 | 2500 | 2600 | 2800 | 3000 | 3200 | 3400 | 3600 |
+|---|---|---|---|---|---|---|---|---|---|---|
+| Sim torque (N m) | 26.44 | 26.10 | 25.77 | 25.97 | 25.59 | 24.98 | 24.60 | 24.18 | 23.68 | 23.30 |
+| Documented (N m) | 24.70 | 25.70 | 26.30 | 26.50 | 26.40 | 26.30 | 25.90 | 25.20 | 24.20 | 23.08 |
+| Difference | +7.0 % | +1.6 % | −2.0 % | −2.0 % | −3.1 % | −5.0 % | −5.0 % | −4.0 % | −2.1 % | +1.0 % |
+
+- Curve: all within ±10 % (PASS).
+- Rated power: 8.78 vs 8.7 kW, +0.9 % (PASS, ±3 % target).
+- Peak torque: 26.44 vs 26.5 N m (PASS). Peak speed 2000 vs 2500 (FAIL, but the sim curve is flat: 26.0 at 2500).
+- Torque rise: 13.5 vs 14.8 % (PASS).
+- Fuel at 7.0 kW: 17.91 MJ/kWh (412.7 g/kWh) vs 15.4-15.9 → +13 to +16 % at λ 0.80 (stock mixture). Mixture is U; at λ 0.85 it would be ~+6 to +9 %. Not checkable until λ is known.
+- Bound FAIL: exhaust back-pressure 16.2 kPa @ 3600 vs Honda 6.0-12.5. The muffler C must move into range, which raises power slightly.
+
 ## Burned-gas properties: combustion products as their own species (2026-10-01)
 
 **Change** (one layer: burned-gas state; production pins updated):
