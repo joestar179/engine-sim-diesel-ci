@@ -1,0 +1,1898 @@
+{
+  "engine_id": "P2",
+  "engine_name": "Honda GX390UT2 QAE2",
+  "research_freeze": "2026-10-01",
+  "configuration_lock": {
+    "lock_status": "strong",
+    "model": {
+      "parameter": "Exact model/type",
+      "value": "GX390UT2 QAE2",
+      "unit": null,
+      "grade": "D",
+      "sources": [
+        {
+          "title": "Honda GX390RT2/GX390T2/GX390UT2 Shop Manual 62Z5F000",
+          "url": "https://www.honda-engines-eu.com/files/files/shop-manual-gx390-ut2-en.pdf",
+          "locator": "pp. 1-2–1-6, 2-2–2-3, 3-10–3-11 (PDF pp. 6–10, 18–19, 38–39)",
+          "quality": "OEM primary"
+        },
+        {
+          "title": "Honda Power Dealer — GX390UT2 QAE2 CARBURETOR (1)",
+          "url": "https://planopower.powerdealer.honda.com/parts/engines/engines/gx/GX390/GX390UT2-QAE2/Z5T0E1400H/references",
+          "locator": "Ref. 9 and Ref. 11; serial applicability",
+          "quality": "OEM dealer parts frontend"
+        }
+      ],
+      "note": null,
+      "formula": null,
+      "suggested_source": null
+    },
+    "production_range": {
+      "parameter": "Locked serial range",
+      "value": "GCBCT-1000001–1114708",
+      "unit": null,
+      "grade": "D",
+      "sources": [
+        {
+          "title": "Honda Power Dealer — GX390UT2 QAE2 RECOIL STARTER (1)",
+          "url": "https://maritimesolutions.marinedealer.honda.com/parts/engines/engines/gx/GX390/GX390UT2-QAE2/Z5T0E1100B/references",
+          "locator": "Ref. 1; serial 1000001–1114708",
+          "quality": "OEM dealer parts frontend"
+        },
+        {
+          "title": "Honda Power Dealer — GX390UT2 QAE2 CARBURETOR (1)",
+          "url": "https://planopower.powerdealer.honda.com/parts/engines/engines/gx/GX390/GX390UT2-QAE2/Z5T0E1400H/references",
+          "locator": "Ref. 9 and Ref. 11; serial applicability",
+          "quality": "OEM dealer parts frontend"
+        }
+      ],
+      "note": null,
+      "formula": null,
+      "suggested_source": null
+    },
+    "calendar_years": {
+      "parameter": "Calendar production years",
+      "value": null,
+      "unit": null,
+      "grade": "U",
+      "sources": [],
+      "note": null,
+      "formula": null,
+      "suggested_source": "Honda serial-number production-date record."
+    },
+    "market": {
+      "parameter": "Market",
+      "value": "U.S.A.",
+      "unit": null,
+      "grade": "D",
+      "sources": [
+        {
+          "title": "Honda Power Dealer — GX390UT2 QAE2 RECOIL STARTER (1)",
+          "url": "https://maritimesolutions.marinedealer.honda.com/parts/engines/engines/gx/GX390/GX390UT2-QAE2/Z5T0E1100B/references",
+          "locator": "Ref. 1; serial 1000001–1114708",
+          "quality": "OEM dealer parts frontend"
+        }
+      ],
+      "note": "Recoil assembly explicitly tagged FOR U.S.A.",
+      "formula": null,
+      "suggested_source": null
+    },
+    "pto": {
+      "parameter": "PTO family",
+      "value": "Q type",
+      "unit": null,
+      "grade": "D",
+      "sources": [
+        {
+          "title": "Honda GX390RT2/GX390T2/GX390UT2 Shop Manual 62Z5F000",
+          "url": "https://www.honda-engines-eu.com/files/files/shop-manual-gx390-ut2-en.pdf",
+          "locator": "pp. 1-2–1-6, 2-2–2-3, 3-10–3-11 (PDF pp. 6–10, 18–19, 38–39)",
+          "quality": "OEM primary"
+        }
+      ],
+      "note": null,
+      "formula": null,
+      "suggested_source": null
+    },
+    "rating_code": {
+      "parameter": "Rating basis",
+      "value": "SAE J1349 net",
+      "unit": null,
+      "grade": "D",
+      "sources": [
+        {
+          "title": "Honda GX390RT2/GX390T2/GX390UT2 Shop Manual 62Z5F000",
+          "url": "https://www.honda-engines-eu.com/files/files/shop-manual-gx390-ut2-en.pdf",
+          "locator": "pp. 1-2–1-6, 2-2–2-3, 3-10–3-11 (PDF pp. 6–10, 18–19, 38–39)",
+          "quality": "OEM primary"
+        }
+      ],
+      "note": null,
+      "formula": null,
+      "suggested_source": null
+    },
+    "fuel_system": {
+      "parameter": "Fuel system",
+      "value": "Keihin/Honda float carburetor 16100-Z5T-901, code BE88A A",
+      "unit": null,
+      "grade": "D",
+      "sources": [
+        {
+          "title": "Honda Power Dealer — GX390UT2 QAE2 CARBURETOR (1)",
+          "url": "https://planopower.powerdealer.honda.com/parts/engines/engines/gx/GX390/GX390UT2-QAE2/Z5T0E1400H/references",
+          "locator": "Ref. 9 and Ref. 11; serial applicability",
+          "quality": "OEM dealer parts frontend"
+        }
+      ],
+      "note": null,
+      "formula": null,
+      "suggested_source": null
+    },
+    "starter": {
+      "parameter": "Starting hardware",
+      "value": "31210-ZE3-033 electric starter + 28400-Z5T-305ZA recoil",
+      "unit": null,
+      "grade": "D",
+      "sources": [
+        {
+          "title": "Honda Power Dealer — GX390UT2 QAE2 STARTER MOTOR (1)",
+          "url": "https://maritimesolutions.marinedealer.honda.com/parts/engines/engines/gx/GX390/GX390UT2-QAE2/Z5T0E2100B/references",
+          "locator": "Ref. 4; serial 1000001–9999999",
+          "quality": "OEM dealer parts frontend"
+        },
+        {
+          "title": "Honda Power Dealer — GX390UT2 QAE2 RECOIL STARTER (1)",
+          "url": "https://maritimesolutions.marinedealer.honda.com/parts/engines/engines/gx/GX390/GX390UT2-QAE2/Z5T0E1100B/references",
+          "locator": "Ref. 1; serial 1000001–1114708",
+          "quality": "OEM dealer parts frontend"
+        }
+      ],
+      "note": null,
+      "formula": null,
+      "suggested_source": null
+    }
+  },
+  "sections": [
+    {
+      "title": "1. Performance and rating basis",
+      "rows": [
+        {
+          "parameter": "Net power",
+          "value": 8.7,
+          "unit": "kW @ 3600 rpm",
+          "grade": "D",
+          "sources": [
+            {
+              "title": "Honda GX390RT2/GX390T2/GX390UT2 Shop Manual 62Z5F000",
+              "url": "https://www.honda-engines-eu.com/files/files/shop-manual-gx390-ut2-en.pdf",
+              "locator": "pp. 1-2–1-6, 2-2–2-3, 3-10–3-11 (PDF pp. 6–10, 18–19, 38–39)",
+              "quality": "OEM primary"
+            },
+            {
+              "title": "Honda Engines — GX340/390 model page",
+              "url": "https://engines.honda.com/models/model-detail/x-large-gx",
+              "locator": "GX390 Specifications; Performance Curves; SAE J1349 note",
+              "quality": "OEM primary"
+            }
+          ],
+          "note": "SAE J1349 production-engine net rating.",
+          "formula": null,
+          "suggested_source": null
+        },
+        {
+          "parameter": "Continuous rated power",
+          "value": 7.0,
+          "unit": "kW @ 3600 rpm",
+          "grade": "D",
+          "sources": [
+            {
+              "title": "Honda GX390RT2/GX390T2/GX390UT2 Shop Manual 62Z5F000",
+              "url": "https://www.honda-engines-eu.com/files/files/shop-manual-gx390-ut2-en.pdf",
+              "locator": "pp. 1-2–1-6, 2-2–2-3, 3-10–3-11 (PDF pp. 6–10, 18–19, 38–39)",
+              "quality": "OEM primary"
+            }
+          ],
+          "note": null,
+          "formula": null,
+          "suggested_source": null
+        },
+        {
+          "parameter": "Maximum net torque",
+          "value": 26.5,
+          "unit": "N·m @ 2500 rpm",
+          "grade": "D",
+          "sources": [
+            {
+              "title": "Honda GX390RT2/GX390T2/GX390UT2 Shop Manual 62Z5F000",
+              "url": "https://www.honda-engines-eu.com/files/files/shop-manual-gx390-ut2-en.pdf",
+              "locator": "pp. 1-2–1-6, 2-2–2-3, 3-10–3-11 (PDF pp. 6–10, 18–19, 38–39)",
+              "quality": "OEM primary"
+            },
+            {
+              "title": "Honda Engines — GX340/390 model page",
+              "url": "https://engines.honda.com/models/model-detail/x-large-gx",
+              "locator": "GX390 Specifications; Performance Curves; SAE J1349 note",
+              "quality": "OEM primary"
+            }
+          ],
+          "note": null,
+          "formula": null,
+          "suggested_source": null
+        },
+        {
+          "parameter": "Rated torque derived from 8.7 kW @ 3600",
+          "value": 23.077,
+          "unit": "N·m",
+          "grade": "R",
+          "sources": [
+            {
+              "title": "Honda GX390RT2/GX390T2/GX390UT2 Shop Manual 62Z5F000",
+              "url": "https://www.honda-engines-eu.com/files/files/shop-manual-gx390-ut2-en.pdf",
+              "locator": "pp. 1-2–1-6, 2-2–2-3, 3-10–3-11 (PDF pp. 6–10, 18–19, 38–39)",
+              "quality": "OEM primary"
+            }
+          ],
+          "note": null,
+          "formula": "T=P/ω=8700/(2π·3600/60)",
+          "suggested_source": null
+        },
+        {
+          "parameter": "Idle speed",
+          "value": 1400,
+          "unit": "rpm ±150",
+          "grade": "D",
+          "sources": [
+            {
+              "title": "Honda GX390RT2/GX390T2/GX390UT2 Shop Manual 62Z5F000",
+              "url": "https://www.honda-engines-eu.com/files/files/shop-manual-gx390-ut2-en.pdf",
+              "locator": "pp. 1-2–1-6, 2-2–2-3, 3-10–3-11 (PDF pp. 6–10, 18–19, 38–39)",
+              "quality": "OEM primary"
+            }
+          ],
+          "note": null,
+          "formula": null,
+          "suggested_source": null
+        },
+        {
+          "parameter": "Maximum no-load governed speed",
+          "value": 3850,
+          "unit": "rpm ±150",
+          "grade": "D",
+          "sources": [
+            {
+              "title": "Honda GX390RT2/GX390T2/GX390UT2 Shop Manual 62Z5F000",
+              "url": "https://www.honda-engines-eu.com/files/files/shop-manual-gx390-ut2-en.pdf",
+              "locator": "pp. 1-2–1-6, 2-2–2-3, 3-10–3-11 (PDF pp. 6–10, 18–19, 38–39)",
+              "quality": "OEM primary"
+            }
+          ],
+          "note": "Service setting/limit; do not call this a redline.",
+          "formula": null,
+          "suggested_source": null
+        },
+        {
+          "parameter": "Recommended operating speed range",
+          "value": "2000–3600",
+          "unit": "rpm",
+          "grade": "D",
+          "sources": [
+            {
+              "title": "Honda GX390RT2/GX390T2/GX390UT2 Shop Manual 62Z5F000",
+              "url": "https://www.honda-engines-eu.com/files/files/shop-manual-gx390-ut2-en.pdf",
+              "locator": "pp. 1-2–1-6, 2-2–2-3, 3-10–3-11 (PDF pp. 6–10, 18–19, 38–39)",
+              "quality": "OEM primary"
+            }
+          ],
+          "note": null,
+          "formula": null,
+          "suggested_source": null
+        },
+        {
+          "parameter": "Electronic rev limiter cut speed",
+          "value": null,
+          "unit": "rpm",
+          "grade": "U",
+          "sources": [],
+          "note": "Honda states the GX240–390 digital CDI includes a rev limiter, but no cut threshold is published on the cited model page.",
+          "formula": null,
+          "suggested_source": "Honda ignition-system engineering data / CDI module specification."
+        },
+        {
+          "parameter": "Governor type",
+          "value": "mechanical centrifugal",
+          "unit": null,
+          "grade": "D",
+          "sources": [
+            {
+              "title": "Honda GX390RT2/GX390T2/GX390UT2 Shop Manual 62Z5F000",
+              "url": "https://www.honda-engines-eu.com/files/files/shop-manual-gx390-ut2-en.pdf",
+              "locator": "pp. 1-2–1-6, 2-2–2-3, 3-10–3-11 (PDF pp. 6–10, 18–19, 38–39)",
+              "quality": "OEM primary"
+            }
+          ],
+          "note": null,
+          "formula": null,
+          "suggested_source": null
+        },
+        {
+          "parameter": "Governor droop/regulation",
+          "value": null,
+          "unit": "%",
+          "grade": "U",
+          "sources": [],
+          "note": null,
+          "formula": null,
+          "suggested_source": "Honda OEM governor performance/test specification for GX390UT2 QAE2."
+        },
+        {
+          "parameter": "Rating standard",
+          "value": "SAE J1349 net",
+          "unit": null,
+          "grade": "D",
+          "sources": [
+            {
+              "title": "Honda GX390RT2/GX390T2/GX390UT2 Shop Manual 62Z5F000",
+              "url": "https://www.honda-engines-eu.com/files/files/shop-manual-gx390-ut2-en.pdf",
+              "locator": "pp. 1-2–1-6, 2-2–2-3, 3-10–3-11 (PDF pp. 6–10, 18–19, 38–39)",
+              "quality": "OEM primary"
+            }
+          ],
+          "note": null,
+          "formula": null,
+          "suggested_source": null
+        },
+        {
+          "parameter": "Rating hardware basis",
+          "value": "manufacturer production muffler and air cleaner in place",
+          "unit": null,
+          "grade": "F",
+          "sources": [
+            {
+              "title": "Honda Engines — GX340/390 model page",
+              "url": "https://engines.honda.com/models/model-detail/x-large-gx",
+              "locator": "GX390 Specifications; Performance Curves; SAE J1349 note",
+              "quality": "OEM primary"
+            }
+          ],
+          "note": "Honda GX390 family/model page; not QAE2-suffix-specific.",
+          "formula": null,
+          "suggested_source": null
+        },
+        {
+          "parameter": "Rating barometer",
+          "value": null,
+          "unit": "kPa",
+          "grade": "U",
+          "sources": [],
+          "note": null,
+          "formula": null,
+          "suggested_source": "SAE J1349 test report or Honda homologation test sheet."
+        },
+        {
+          "parameter": "Rating inlet temperature",
+          "value": null,
+          "unit": "°C",
+          "grade": "U",
+          "sources": [],
+          "note": null,
+          "formula": null,
+          "suggested_source": "SAE J1349 test report or Honda homologation test sheet."
+        },
+        {
+          "parameter": "Rating humidity",
+          "value": null,
+          "unit": "% RH / vapour pressure",
+          "grade": "U",
+          "sources": [],
+          "note": null,
+          "formula": null,
+          "suggested_source": "SAE J1349 test report or Honda homologation test sheet."
+        },
+        {
+          "parameter": "Stated production tolerance",
+          "value": null,
+          "unit": "%",
+          "grade": "U",
+          "sources": [],
+          "note": "Honda warns mass-production engines may vary, but gives no numeric tolerance.",
+          "formula": null,
+          "suggested_source": "Honda engine rating certification/test report."
+        },
+        {
+          "parameter": "Full-load fuel consumption at continuous rating",
+          "value": 3.5,
+          "unit": "L/h @ 7.0 kW, 3600 rpm",
+          "grade": "D",
+          "sources": [
+            {
+              "title": "Honda GX390RT2/GX390T2/GX390UT2 Shop Manual 62Z5F000",
+              "url": "https://www.honda-engines-eu.com/files/files/shop-manual-gx390-ut2-en.pdf",
+              "locator": "pp. 1-2–1-6, 2-2–2-3, 3-10–3-11 (PDF pp. 6–10, 18–19, 38–39)",
+              "quality": "OEM primary"
+            }
+          ],
+          "note": null,
+          "formula": null,
+          "suggested_source": null
+        },
+        {
+          "parameter": "Volumetric specific fuel consumption",
+          "value": 0.5,
+          "unit": "L/kWh",
+          "grade": "R",
+          "sources": [
+            {
+              "title": "Honda GX390RT2/GX390T2/GX390UT2 Shop Manual 62Z5F000",
+              "url": "https://www.honda-engines-eu.com/files/files/shop-manual-gx390-ut2-en.pdf",
+              "locator": "pp. 1-2–1-6, 2-2–2-3, 3-10–3-11 (PDF pp. 6–10, 18–19, 38–39)",
+              "quality": "OEM primary"
+            }
+          ],
+          "note": null,
+          "formula": "3.5 L/h ÷ 7.0 kW",
+          "suggested_source": null
+        },
+        {
+          "parameter": "BSFC at continuous rating",
+          "value": null,
+          "unit": "g/kWh",
+          "grade": "U",
+          "sources": [],
+          "note": "Do not convert L/h to mass without a documented test-fuel density.",
+          "formula": null,
+          "suggested_source": "Honda dyno/fuel-consumption test sheet with fuel density/specification."
+        },
+        {
+          "parameter": "Part-load fuel consumption/BSFC",
+          "value": null,
+          "unit": null,
+          "grade": "U",
+          "sources": [],
+          "note": null,
+          "formula": null,
+          "suggested_source": "Honda OEM application/dyno test report."
+        },
+        {
+          "parameter": "Motoring/friction power or FMEP",
+          "value": null,
+          "unit": null,
+          "grade": "U",
+          "sources": [],
+          "note": null,
+          "formula": null,
+          "suggested_source": "Honda technical paper / motoring dyno test."
+        }
+      ]
+    },
+    {
+      "title": "2. Physical-bounds checks",
+      "rows": [
+        {
+          "parameter": "Cylinder compression",
+          "value": "0.51–0.69",
+          "unit": "MPa @ 600 rpm",
+          "grade": "D",
+          "sources": [
+            {
+              "title": "Honda GX390RT2/GX390T2/GX390UT2 Shop Manual 62Z5F000",
+              "url": "https://www.honda-engines-eu.com/files/files/shop-manual-gx390-ut2-en.pdf",
+              "locator": "pp. 1-2–1-6, 2-2–2-3, 3-10–3-11 (PDF pp. 6–10, 18–19, 38–39)",
+              "quality": "OEM primary"
+            }
+          ],
+          "note": "Service compression-pressure check; not peak firing pressure.",
+          "formula": null,
+          "suggested_source": null
+        },
+        {
+          "parameter": "Airflow at rated speed",
+          "value": null,
+          "unit": "kg/s or m³/s",
+          "grade": "U",
+          "sources": [],
+          "note": null,
+          "formula": null,
+          "suggested_source": "Honda OEM dyno intake-airflow test or calibrated flow bench."
+        },
+        {
+          "parameter": "Exhaust gas temperature",
+          "value": null,
+          "unit": "°C",
+          "grade": "U",
+          "sources": [],
+          "note": null,
+          "formula": null,
+          "suggested_source": "OEM emissions/durability test report."
+        },
+        {
+          "parameter": "Full-load AFR/lambda",
+          "value": null,
+          "unit": null,
+          "grade": "U",
+          "sources": [],
+          "note": null,
+          "formula": null,
+          "suggested_source": "Honda emissions calibration/dyno report."
+        },
+        {
+          "parameter": "Peak firing pressure",
+          "value": null,
+          "unit": "MPa",
+          "grade": "U",
+          "sources": [],
+          "note": null,
+          "formula": null,
+          "suggested_source": "Honda combustion-development/SAE paper."
+        },
+        {
+          "parameter": "Maximum exhaust backpressure",
+          "value": null,
+          "unit": "kPa",
+          "grade": "U",
+          "sources": [],
+          "note": null,
+          "formula": null,
+          "suggested_source": "Honda OEM installation/application manual."
+        },
+        {
+          "parameter": "Maximum intake restriction",
+          "value": null,
+          "unit": "kPa",
+          "grade": "U",
+          "sources": [],
+          "note": null,
+          "formula": null,
+          "suggested_source": "Honda OEM installation/application manual."
+        },
+        {
+          "parameter": "Boost/manifold pressure",
+          "value": "naturally aspirated",
+          "unit": null,
+          "grade": "D",
+          "sources": [
+            {
+              "title": "Honda GX390RT2/GX390T2/GX390UT2 Shop Manual 62Z5F000",
+              "url": "https://www.honda-engines-eu.com/files/files/shop-manual-gx390-ut2-en.pdf",
+              "locator": "pp. 1-2–1-6, 2-2–2-3, 3-10–3-11 (PDF pp. 6–10, 18–19, 38–39)",
+              "quality": "OEM primary"
+            }
+          ],
+          "note": null,
+          "formula": null,
+          "suggested_source": null
+        }
+      ]
+    },
+    {
+      "title": "3. Geometry",
+      "rows": [
+        {
+          "parameter": "Cylinder count/layout",
+          "value": "1, inline/single cylinder; cylinder axis inclined 25°",
+          "unit": null,
+          "grade": "D",
+          "sources": [
+            {
+              "title": "Honda GX390RT2/GX390T2/GX390UT2 Shop Manual 62Z5F000",
+              "url": "https://www.honda-engines-eu.com/files/files/shop-manual-gx390-ut2-en.pdf",
+              "locator": "pp. 1-2–1-6, 2-2–2-3, 3-10–3-11 (PDF pp. 6–10, 18–19, 38–39)",
+              "quality": "OEM primary"
+            }
+          ],
+          "note": null,
+          "formula": null,
+          "suggested_source": null
+        },
+        {
+          "parameter": "Bore",
+          "value": 88.0,
+          "unit": "mm",
+          "grade": "D",
+          "sources": [
+            {
+              "title": "Honda GX390RT2/GX390T2/GX390UT2 Shop Manual 62Z5F000",
+              "url": "https://www.honda-engines-eu.com/files/files/shop-manual-gx390-ut2-en.pdf",
+              "locator": "pp. 1-2–1-6, 2-2–2-3, 3-10–3-11 (PDF pp. 6–10, 18–19, 38–39)",
+              "quality": "OEM primary"
+            }
+          ],
+          "note": null,
+          "formula": null,
+          "suggested_source": null
+        },
+        {
+          "parameter": "Stroke",
+          "value": 64.0,
+          "unit": "mm",
+          "grade": "D",
+          "sources": [
+            {
+              "title": "Honda GX390RT2/GX390T2/GX390UT2 Shop Manual 62Z5F000",
+              "url": "https://www.honda-engines-eu.com/files/files/shop-manual-gx390-ut2-en.pdf",
+              "locator": "pp. 1-2–1-6, 2-2–2-3, 3-10–3-11 (PDF pp. 6–10, 18–19, 38–39)",
+              "quality": "OEM primary"
+            }
+          ],
+          "note": null,
+          "formula": null,
+          "suggested_source": null
+        },
+        {
+          "parameter": "Displacement",
+          "value": 389,
+          "unit": "cm³",
+          "grade": "D",
+          "sources": [
+            {
+              "title": "Honda GX390RT2/GX390T2/GX390UT2 Shop Manual 62Z5F000",
+              "url": "https://www.honda-engines-eu.com/files/files/shop-manual-gx390-ut2-en.pdf",
+              "locator": "pp. 1-2–1-6, 2-2–2-3, 3-10–3-11 (PDF pp. 6–10, 18–19, 38–39)",
+              "quality": "OEM primary"
+            }
+          ],
+          "note": null,
+          "formula": null,
+          "suggested_source": null
+        },
+        {
+          "parameter": "Geometric displacement check",
+          "value": 389.256,
+          "unit": "cm³",
+          "grade": "R",
+          "sources": [
+            {
+              "title": "Honda GX390RT2/GX390T2/GX390UT2 Shop Manual 62Z5F000",
+              "url": "https://www.honda-engines-eu.com/files/files/shop-manual-gx390-ut2-en.pdf",
+              "locator": "pp. 1-2–1-6, 2-2–2-3, 3-10–3-11 (PDF pp. 6–10, 18–19, 38–39)",
+              "quality": "OEM primary"
+            }
+          ],
+          "note": null,
+          "formula": "π/4·(0.088 m)^2·0.064 m",
+          "suggested_source": null
+        },
+        {
+          "parameter": "Compression ratio",
+          "value": "8.2 ± 0.2:1",
+          "unit": null,
+          "grade": "D",
+          "sources": [
+            {
+              "title": "Honda GX390RT2/GX390T2/GX390UT2 Shop Manual 62Z5F000",
+              "url": "https://www.honda-engines-eu.com/files/files/shop-manual-gx390-ut2-en.pdf",
+              "locator": "pp. 1-2–1-6, 2-2–2-3, 3-10–3-11 (PDF pp. 6–10, 18–19, 38–39)",
+              "quality": "OEM primary"
+            }
+          ],
+          "note": null,
+          "formula": null,
+          "suggested_source": null
+        },
+        {
+          "parameter": "Firing order",
+          "value": "not applicable — one cylinder",
+          "unit": null,
+          "grade": "R",
+          "sources": [
+            {
+              "title": "Honda GX390RT2/GX390T2/GX390UT2 Shop Manual 62Z5F000",
+              "url": "https://www.honda-engines-eu.com/files/files/shop-manual-gx390-ut2-en.pdf",
+              "locator": "pp. 1-2–1-6, 2-2–2-3, 3-10–3-11 (PDF pp. 6–10, 18–19, 38–39)",
+              "quality": "OEM primary"
+            }
+          ],
+          "note": null,
+          "formula": "single documented cylinder ⇒ no multi-cylinder firing-order sequence",
+          "suggested_source": null
+        },
+        {
+          "parameter": "Connecting-rod centre-to-centre length",
+          "value": null,
+          "unit": "mm",
+          "grade": "U",
+          "sources": [],
+          "note": null,
+          "formula": null,
+          "suggested_source": "Honda dimensional overhaul drawing / connecting-rod manufacturing drawing."
+        },
+        {
+          "parameter": "Compression height",
+          "value": null,
+          "unit": "mm",
+          "grade": "U",
+          "sources": [],
+          "note": null,
+          "formula": null,
+          "suggested_source": "Honda piston manufacturing drawing."
+        },
+        {
+          "parameter": "Deck height",
+          "value": null,
+          "unit": "mm",
+          "grade": "U",
+          "sources": [],
+          "note": null,
+          "formula": null,
+          "suggested_source": "Honda crankcase dimensional drawing."
+        },
+        {
+          "parameter": "Combustion-chamber volume/geometry",
+          "value": null,
+          "unit": "cm³",
+          "grade": "U",
+          "sources": [],
+          "note": null,
+          "formula": null,
+          "suggested_source": "Honda cylinder-head drawing or measured casting."
+        },
+        {
+          "parameter": "Crankpin diameter",
+          "value": "35.975–35.985",
+          "unit": "mm new",
+          "grade": "D",
+          "sources": [
+            {
+              "title": "Honda GX390RT2/GX390T2/GX390UT2 Shop Manual 62Z5F000",
+              "url": "https://www.honda-engines-eu.com/files/files/shop-manual-gx390-ut2-en.pdf",
+              "locator": "pp. 1-2–1-6, 2-2–2-3, 3-10–3-11 (PDF pp. 6–10, 18–19, 38–39)",
+              "quality": "OEM primary"
+            }
+          ],
+          "note": null,
+          "formula": null,
+          "suggested_source": null
+        },
+        {
+          "parameter": "Crank main journal diameters",
+          "value": null,
+          "unit": "mm",
+          "grade": "U",
+          "sources": [],
+          "note": "The cited truncated shop-manual service table gives crankpin diameter but not a clean main-journal OD value.",
+          "formula": null,
+          "suggested_source": "Full GX390UT2 overhaul manual crankshaft/bearing pages."
+        },
+        {
+          "parameter": "Main/rod journal widths",
+          "value": null,
+          "unit": "mm",
+          "grade": "U",
+          "sources": [],
+          "note": null,
+          "formula": null,
+          "suggested_source": "Honda crankshaft manufacturing drawing."
+        },
+        {
+          "parameter": "Number of main bearings",
+          "value": 2,
+          "unit": null,
+          "grade": "F",
+          "sources": [
+            {
+              "title": "Honda Engines — GX340/390 model page",
+              "url": "https://engines.honda.com/models/model-detail/x-large-gx",
+              "locator": "GX390 Specifications; Performance Curves; SAE J1349 note",
+              "quality": "OEM primary"
+            }
+          ],
+          "note": "Honda model page states ball-bearing-supported crankshaft; exact bearing arrangement should still be confirmed from the QAE2 parts illustration.",
+          "formula": null,
+          "suggested_source": null
+        }
+      ]
+    },
+    {
+      "title": "4. Valvetrain and breathing",
+      "rows": [
+        {
+          "parameter": "Valve arrangement",
+          "value": "OHV, one intake + one exhaust valve",
+          "unit": null,
+          "grade": "R",
+          "sources": [
+            {
+              "title": "Honda GX390RT2/GX390T2/GX390UT2 Shop Manual 62Z5F000",
+              "url": "https://www.honda-engines-eu.com/files/files/shop-manual-gx390-ut2-en.pdf",
+              "locator": "pp. 1-2–1-6, 2-2–2-3, 3-10–3-11 (PDF pp. 6–10, 18–19, 38–39)",
+              "quality": "OEM primary"
+            }
+          ],
+          "note": null,
+          "formula": "shop manual specifies separate IN and EX valve clearances/stems for the single cylinder",
+          "suggested_source": null
+        },
+        {
+          "parameter": "Valves per cylinder",
+          "value": 2,
+          "unit": null,
+          "grade": "R",
+          "sources": [
+            {
+              "title": "Honda GX390RT2/GX390T2/GX390UT2 Shop Manual 62Z5F000",
+              "url": "https://www.honda-engines-eu.com/files/files/shop-manual-gx390-ut2-en.pdf",
+              "locator": "pp. 1-2–1-6, 2-2–2-3, 3-10–3-11 (PDF pp. 6–10, 18–19, 38–39)",
+              "quality": "OEM primary"
+            }
+          ],
+          "note": null,
+          "formula": "1 intake + 1 exhaust",
+          "suggested_source": null
+        },
+        {
+          "parameter": "Intake valve head diameter",
+          "value": null,
+          "unit": "mm",
+          "grade": "U",
+          "sources": [],
+          "note": null,
+          "formula": null,
+          "suggested_source": "Honda cylinder-head/valve dimensional drawing; aftermarket figures conflict."
+        },
+        {
+          "parameter": "Exhaust valve head diameter",
+          "value": null,
+          "unit": "mm",
+          "grade": "U",
+          "sources": [],
+          "note": null,
+          "formula": null,
+          "suggested_source": "Honda cylinder-head/valve dimensional drawing; aftermarket figures conflict."
+        },
+        {
+          "parameter": "Valve guide ID",
+          "value": "6.600–6.615",
+          "unit": "mm",
+          "grade": "D",
+          "sources": [
+            {
+              "title": "Honda GX390RT2/GX390T2/GX390UT2 Shop Manual 62Z5F000",
+              "url": "https://www.honda-engines-eu.com/files/files/shop-manual-gx390-ut2-en.pdf",
+              "locator": "pp. 1-2–1-6, 2-2–2-3, 3-10–3-11 (PDF pp. 6–10, 18–19, 38–39)",
+              "quality": "OEM primary"
+            }
+          ],
+          "note": null,
+          "formula": null,
+          "suggested_source": null
+        },
+        {
+          "parameter": "Valve stem OD intake",
+          "value": "6.575–6.590",
+          "unit": "mm",
+          "grade": "D",
+          "sources": [
+            {
+              "title": "Honda GX390RT2/GX390T2/GX390UT2 Shop Manual 62Z5F000",
+              "url": "https://www.honda-engines-eu.com/files/files/shop-manual-gx390-ut2-en.pdf",
+              "locator": "pp. 1-2–1-6, 2-2–2-3, 3-10–3-11 (PDF pp. 6–10, 18–19, 38–39)",
+              "quality": "OEM primary"
+            }
+          ],
+          "note": null,
+          "formula": null,
+          "suggested_source": null
+        },
+        {
+          "parameter": "Valve stem OD exhaust",
+          "value": "6.535–6.550",
+          "unit": "mm",
+          "grade": "D",
+          "sources": [
+            {
+              "title": "Honda GX390RT2/GX390T2/GX390UT2 Shop Manual 62Z5F000",
+              "url": "https://www.honda-engines-eu.com/files/files/shop-manual-gx390-ut2-en.pdf",
+              "locator": "pp. 1-2–1-6, 2-2–2-3, 3-10–3-11 (PDF pp. 6–10, 18–19, 38–39)",
+              "quality": "OEM primary"
+            }
+          ],
+          "note": null,
+          "formula": null,
+          "suggested_source": null
+        },
+        {
+          "parameter": "Valve seat width",
+          "value": "1.0–1.2",
+          "unit": "mm",
+          "grade": "D",
+          "sources": [
+            {
+              "title": "Honda GX390RT2/GX390T2/GX390UT2 Shop Manual 62Z5F000",
+              "url": "https://www.honda-engines-eu.com/files/files/shop-manual-gx390-ut2-en.pdf",
+              "locator": "pp. 1-2–1-6, 2-2–2-3, 3-10–3-11 (PDF pp. 6–10, 18–19, 38–39)",
+              "quality": "OEM primary"
+            }
+          ],
+          "note": null,
+          "formula": null,
+          "suggested_source": null
+        },
+        {
+          "parameter": "Valve lash intake",
+          "value": "0.15 ± 0.02",
+          "unit": "mm cold/service setting",
+          "grade": "D",
+          "sources": [
+            {
+              "title": "Honda GX390RT2/GX390T2/GX390UT2 Shop Manual 62Z5F000",
+              "url": "https://www.honda-engines-eu.com/files/files/shop-manual-gx390-ut2-en.pdf",
+              "locator": "pp. 1-2–1-6, 2-2–2-3, 3-10–3-11 (PDF pp. 6–10, 18–19, 38–39)",
+              "quality": "OEM primary"
+            }
+          ],
+          "note": null,
+          "formula": null,
+          "suggested_source": null
+        },
+        {
+          "parameter": "Valve lash exhaust",
+          "value": "0.20 ± 0.02",
+          "unit": "mm cold/service setting",
+          "grade": "D",
+          "sources": [
+            {
+              "title": "Honda GX390RT2/GX390T2/GX390UT2 Shop Manual 62Z5F000",
+              "url": "https://www.honda-engines-eu.com/files/files/shop-manual-gx390-ut2-en.pdf",
+              "locator": "pp. 1-2–1-6, 2-2–2-3, 3-10–3-11 (PDF pp. 6–10, 18–19, 38–39)",
+              "quality": "OEM primary"
+            }
+          ],
+          "note": null,
+          "formula": null,
+          "suggested_source": null
+        },
+        {
+          "parameter": "Cam height intake",
+          "value": "32.498–32.698",
+          "unit": "mm",
+          "grade": "D",
+          "sources": [
+            {
+              "title": "Honda GX390RT2/GX390T2/GX390UT2 Shop Manual 62Z5F000",
+              "url": "https://www.honda-engines-eu.com/files/files/shop-manual-gx390-ut2-en.pdf",
+              "locator": "pp. 1-2–1-6, 2-2–2-3, 3-10–3-11 (PDF pp. 6–10, 18–19, 38–39)",
+              "quality": "OEM primary"
+            }
+          ],
+          "note": "Cam height is not valve lift.",
+          "formula": null,
+          "suggested_source": null
+        },
+        {
+          "parameter": "Cam height exhaust",
+          "value": "31.985–32.185",
+          "unit": "mm",
+          "grade": "D",
+          "sources": [
+            {
+              "title": "Honda GX390RT2/GX390T2/GX390UT2 Shop Manual 62Z5F000",
+              "url": "https://www.honda-engines-eu.com/files/files/shop-manual-gx390-ut2-en.pdf",
+              "locator": "pp. 1-2–1-6, 2-2–2-3, 3-10–3-11 (PDF pp. 6–10, 18–19, 38–39)",
+              "quality": "OEM primary"
+            }
+          ],
+          "note": "Cam height is not valve lift.",
+          "formula": null,
+          "suggested_source": null
+        },
+        {
+          "parameter": "Maximum valve lift",
+          "value": null,
+          "unit": "mm",
+          "grade": "U",
+          "sources": [],
+          "note": "Do not substitute cam height for lift.",
+          "formula": null,
+          "suggested_source": "Honda cam profile drawing or direct measurement."
+        },
+        {
+          "parameter": "Cam timing IVO/IVC/EVO/EVC",
+          "value": null,
+          "unit": "deg crank",
+          "grade": "U",
+          "sources": [],
+          "note": null,
+          "formula": null,
+          "suggested_source": "Honda camshaft timing diagram/cam card."
+        },
+        {
+          "parameter": "Duration at 1 mm / 0.050 in",
+          "value": null,
+          "unit": "deg",
+          "grade": "U",
+          "sources": [],
+          "note": null,
+          "formula": null,
+          "suggested_source": "Honda cam profile drawing or measured cam card."
+        },
+        {
+          "parameter": "Lobe separation",
+          "value": null,
+          "unit": "deg",
+          "grade": "U",
+          "sources": [],
+          "note": null,
+          "formula": null,
+          "suggested_source": "Honda cam profile drawing."
+        },
+        {
+          "parameter": "Follower type",
+          "value": "slipper-type valve lifter, pushrod/rocker OHV train",
+          "unit": null,
+          "grade": "D",
+          "sources": [
+            {
+              "title": "Honda GX390RT2/GX390T2/GX390UT2 Shop Manual 62Z5F000",
+              "url": "https://www.honda-engines-eu.com/files/files/shop-manual-gx390-ut2-en.pdf",
+              "locator": "pp. 1-2–1-6, 2-2–2-3, 3-10–3-11 (PDF pp. 6–10, 18–19, 38–39)",
+              "quality": "OEM primary"
+            }
+          ],
+          "note": "Shop-manual lubrication table names valve-lifter shaft/slipper, pushrod and rocker arm.",
+          "formula": null,
+          "suggested_source": null
+        },
+        {
+          "parameter": "Variable timing/lift",
+          "value": "none documented for valves",
+          "unit": null,
+          "grade": "D",
+          "sources": [
+            {
+              "title": "Honda GX390RT2/GX390T2/GX390UT2 Shop Manual 62Z5F000",
+              "url": "https://www.honda-engines-eu.com/files/files/shop-manual-gx390-ut2-en.pdf",
+              "locator": "pp. 1-2–1-6, 2-2–2-3, 3-10–3-11 (PDF pp. 6–10, 18–19, 38–39)",
+              "quality": "OEM primary"
+            }
+          ],
+          "note": "Variable timing in this engine is ignition timing, not valve timing.",
+          "formula": null,
+          "suggested_source": null
+        },
+        {
+          "parameter": "Port/throat diameters",
+          "value": null,
+          "unit": "mm",
+          "grade": "U",
+          "sources": [],
+          "note": null,
+          "formula": null,
+          "suggested_source": "Honda head casting drawing or measured port geometry."
+        },
+        {
+          "parameter": "Head flow versus lift",
+          "value": null,
+          "unit": "cfm @ test depression",
+          "grade": "U",
+          "sources": [],
+          "note": null,
+          "formula": null,
+          "suggested_source": "Reputable GX390 cylinder-head flow-bench report with depression stated."
+        }
+      ]
+    },
+    {
+      "title": "5. Intake and exhaust",
+      "rows": [
+        {
+          "parameter": "Carburetor architecture",
+          "value": "horizontal butterfly/float type",
+          "unit": null,
+          "grade": "D",
+          "sources": [
+            {
+              "title": "Honda GX390RT2/GX390T2/GX390UT2 Shop Manual 62Z5F000",
+              "url": "https://www.honda-engines-eu.com/files/files/shop-manual-gx390-ut2-en.pdf",
+              "locator": "pp. 1-2–1-6, 2-2–2-3, 3-10–3-11 (PDF pp. 6–10, 18–19, 38–39)",
+              "quality": "OEM primary"
+            },
+            {
+              "title": "Honda Engines — GX340/390 model page",
+              "url": "https://engines.honda.com/models/model-detail/x-large-gx",
+              "locator": "GX390 Specifications; Performance Curves; SAE J1349 note",
+              "quality": "OEM primary"
+            }
+          ],
+          "note": null,
+          "formula": null,
+          "suggested_source": null
+        },
+        {
+          "parameter": "Exact carburetor assembly",
+          "value": "16100-Z5T-901, BE88A A",
+          "unit": null,
+          "grade": "D",
+          "sources": [
+            {
+              "title": "Honda Power Dealer — GX390UT2 QAE2 CARBURETOR (1)",
+              "url": "https://planopower.powerdealer.honda.com/parts/engines/engines/gx/GX390/GX390UT2-QAE2/Z5T0E1400H/references",
+              "locator": "Ref. 9 and Ref. 11; serial applicability",
+              "quality": "OEM dealer parts frontend"
+            }
+          ],
+          "note": "Valid for locked serial interval; later QAE2 carburetors differ.",
+          "formula": null,
+          "suggested_source": null
+        },
+        {
+          "parameter": "Carburetor throat/venturi diameter",
+          "value": null,
+          "unit": "mm",
+          "grade": "U",
+          "sources": [],
+          "note": null,
+          "formula": null,
+          "suggested_source": "Keihin/Honda BE88A dimensional drawing."
+        },
+        {
+          "parameter": "Carburetor flow rating",
+          "value": null,
+          "unit": "cfm @ test depression",
+          "grade": "U",
+          "sources": [],
+          "note": null,
+          "formula": null,
+          "suggested_source": "Keihin/Honda carburetor flow specification."
+        },
+        {
+          "parameter": "Exact air-cleaner configuration",
+          "value": null,
+          "unit": null,
+          "grade": "U",
+          "sources": [],
+          "note": "GX390UT2 supports several cleaner types; QAE2 exact assembly not locked by the cited general shop manual.",
+          "formula": null,
+          "suggested_source": "QAE2 Air Cleaner parts illustration for the locked serial interval."
+        },
+        {
+          "parameter": "Intake runner length/area/plenum",
+          "value": null,
+          "unit": null,
+          "grade": "U",
+          "sources": [],
+          "note": null,
+          "formula": null,
+          "suggested_source": "QAE2 intake/carb insulator drawings or direct measurement."
+        },
+        {
+          "parameter": "Muffler/exhaust type",
+          "value": null,
+          "unit": null,
+          "grade": "U",
+          "sources": [],
+          "note": "Honda J1349 model rating uses a production muffler, but exact QAE2 muffler assembly/geometry is not resolved here.",
+          "formula": null,
+          "suggested_source": "QAE2 Muffler parts illustration + dimensional measurement."
+        },
+        {
+          "parameter": "Exhaust primary/pipe dimensions",
+          "value": null,
+          "unit": "mm",
+          "grade": "U",
+          "sources": [],
+          "note": null,
+          "formula": null,
+          "suggested_source": "QAE2 muffler/exhaust engineering drawing."
+        }
+      ]
+    },
+    {
+      "title": "6. Fuel and ignition",
+      "rows": [
+        {
+          "parameter": "Fuel",
+          "value": "unleaded gasoline, pump octane 86 or higher",
+          "unit": null,
+          "grade": "D",
+          "sources": [
+            {
+              "title": "Honda GX390RT2/GX390T2/GX390UT2 Shop Manual 62Z5F000",
+              "url": "https://www.honda-engines-eu.com/files/files/shop-manual-gx390-ut2-en.pdf",
+              "locator": "pp. 1-2–1-6, 2-2–2-3, 3-10–3-11 (PDF pp. 6–10, 18–19, 38–39)",
+              "quality": "OEM primary"
+            }
+          ],
+          "note": null,
+          "formula": null,
+          "suggested_source": null
+        },
+        {
+          "parameter": "Carburetor assembly",
+          "value": "16100-Z5T-901 BE88A A",
+          "unit": null,
+          "grade": "D",
+          "sources": [
+            {
+              "title": "Honda Power Dealer — GX390UT2 QAE2 CARBURETOR (1)",
+              "url": "https://planopower.powerdealer.honda.com/parts/engines/engines/gx/GX390/GX390UT2-QAE2/Z5T0E1400H/references",
+              "locator": "Ref. 9 and Ref. 11; serial applicability",
+              "quality": "OEM dealer parts frontend"
+            }
+          ],
+          "note": null,
+          "formula": null,
+          "suggested_source": null
+        },
+        {
+          "parameter": "Main nozzle",
+          "value": "16166-Z5T-901 listed among QAE2-compatible nozzle entries",
+          "unit": null,
+          "grade": "D",
+          "sources": [
+            {
+              "title": "Honda Power Dealer — GX390UT2 QAE2 CARBURETOR (1)",
+              "url": "https://planopower.powerdealer.honda.com/parts/engines/engines/gx/GX390/GX390UT2-QAE2/Z5T0E1400H/references",
+              "locator": "Ref. 9 and Ref. 11; serial applicability",
+              "quality": "OEM dealer parts frontend"
+            }
+          ],
+          "note": "The parts page lists alternative nozzles too; this does not identify the calibrated jet size.",
+          "formula": null,
+          "suggested_source": null
+        },
+        {
+          "parameter": "Main jet calibration",
+          "value": null,
+          "unit": "jet number",
+          "grade": "U",
+          "sources": [],
+          "note": "Exact BE88A-A jet selection is not stated in the cited QAE2 page; shop-manual p.2-3 lists other carb codes, not BE88A.",
+          "formula": null,
+          "suggested_source": "Honda carburetor calibration sheet for 16100-Z5T-901 / BE88A A and locked serial interval."
+        },
+        {
+          "parameter": "Pilot jet/screw calibration",
+          "value": null,
+          "unit": null,
+          "grade": "U",
+          "sources": [],
+          "note": null,
+          "formula": null,
+          "suggested_source": "Honda BE88A A carburetor calibration sheet."
+        },
+        {
+          "parameter": "Fuel pressure",
+          "value": "gravity feed / float carburetor",
+          "unit": null,
+          "grade": "D",
+          "sources": [
+            {
+              "title": "Honda GX390RT2/GX390T2/GX390UT2 Shop Manual 62Z5F000",
+              "url": "https://www.honda-engines-eu.com/files/files/shop-manual-gx390-ut2-en.pdf",
+              "locator": "pp. 1-2–1-6, 2-2–2-3, 3-10–3-11 (PDF pp. 6–10, 18–19, 38–39)",
+              "quality": "OEM primary"
+            }
+          ],
+          "note": "No injection fuel rail.",
+          "formula": null,
+          "suggested_source": null
+        },
+        {
+          "parameter": "Full-load target AFR",
+          "value": null,
+          "unit": null,
+          "grade": "U",
+          "sources": [],
+          "note": null,
+          "formula": null,
+          "suggested_source": "Honda emissions/dyno calibration report."
+        },
+        {
+          "parameter": "Ignition system",
+          "value": "CDI magneto, digital/variable timing family",
+          "unit": null,
+          "grade": "D",
+          "sources": [
+            {
+              "title": "Honda GX390RT2/GX390T2/GX390UT2 Shop Manual 62Z5F000",
+              "url": "https://www.honda-engines-eu.com/files/files/shop-manual-gx390-ut2-en.pdf",
+              "locator": "pp. 1-2–1-6, 2-2–2-3, 3-10–3-11 (PDF pp. 6–10, 18–19, 38–39)",
+              "quality": "OEM primary"
+            }
+          ],
+          "note": "Manual explicitly specifies CDI magneto; Honda model page describes variable-timing digital CDI.",
+          "formula": null,
+          "suggested_source": null
+        },
+        {
+          "parameter": "Base ignition timing",
+          "value": 10,
+          "unit": "°BTDC @ 1400 rpm",
+          "grade": "D",
+          "sources": [
+            {
+              "title": "Honda GX390RT2/GX390T2/GX390UT2 Shop Manual 62Z5F000",
+              "url": "https://www.honda-engines-eu.com/files/files/shop-manual-gx390-ut2-en.pdf",
+              "locator": "pp. 1-2–1-6, 2-2–2-3, 3-10–3-11 (PDF pp. 6–10, 18–19, 38–39)",
+              "quality": "OEM primary"
+            }
+          ],
+          "note": null,
+          "formula": null,
+          "suggested_source": null
+        },
+        {
+          "parameter": "Spark advance range",
+          "value": "10–22",
+          "unit": "°BTDC",
+          "grade": "D",
+          "sources": [
+            {
+              "title": "Honda GX390RT2/GX390T2/GX390UT2 Shop Manual 62Z5F000",
+              "url": "https://www.honda-engines-eu.com/files/files/shop-manual-gx390-ut2-en.pdf",
+              "locator": "pp. 1-2–1-6, 2-2–2-3, 3-10–3-11 (PDF pp. 6–10, 18–19, 38–39)",
+              "quality": "OEM primary"
+            }
+          ],
+          "note": null,
+          "formula": null,
+          "suggested_source": null
+        },
+        {
+          "parameter": "Ignition timing versus rpm/load schedule",
+          "value": null,
+          "unit": "°BTDC",
+          "grade": "U",
+          "sources": [],
+          "note": "Only range and one base point are published.",
+          "formula": null,
+          "suggested_source": "Honda CDI advance map / ignition module engineering specification."
+        },
+        {
+          "parameter": "Spark plug",
+          "value": "NGK BPR6ES / DENSO W20EPR-U",
+          "unit": null,
+          "grade": "D",
+          "sources": [
+            {
+              "title": "Honda GX390RT2/GX390T2/GX390UT2 Shop Manual 62Z5F000",
+              "url": "https://www.honda-engines-eu.com/files/files/shop-manual-gx390-ut2-en.pdf",
+              "locator": "pp. 1-2–1-6, 2-2–2-3, 3-10–3-11 (PDF pp. 6–10, 18–19, 38–39)",
+              "quality": "OEM primary"
+            }
+          ],
+          "note": null,
+          "formula": null,
+          "suggested_source": null
+        },
+        {
+          "parameter": "Spark plug gap",
+          "value": "0.7–0.8",
+          "unit": "mm",
+          "grade": "D",
+          "sources": [
+            {
+              "title": "Honda GX390RT2/GX390T2/GX390UT2 Shop Manual 62Z5F000",
+              "url": "https://www.honda-engines-eu.com/files/files/shop-manual-gx390-ut2-en.pdf",
+              "locator": "pp. 1-2–1-6, 2-2–2-3, 3-10–3-11 (PDF pp. 6–10, 18–19, 38–39)",
+              "quality": "OEM primary"
+            }
+          ],
+          "note": null,
+          "formula": null,
+          "suggested_source": null
+        }
+      ]
+    },
+    {
+      "title": "7. Forced induction",
+      "rows": [
+        {
+          "parameter": "Forced induction",
+          "value": "not applicable — naturally aspirated",
+          "unit": null,
+          "grade": "D",
+          "sources": [
+            {
+              "title": "Honda GX390RT2/GX390T2/GX390UT2 Shop Manual 62Z5F000",
+              "url": "https://www.honda-engines-eu.com/files/files/shop-manual-gx390-ut2-en.pdf",
+              "locator": "pp. 1-2–1-6, 2-2–2-3, 3-10–3-11 (PDF pp. 6–10, 18–19, 38–39)",
+              "quality": "OEM primary"
+            }
+          ],
+          "note": null,
+          "formula": null,
+          "suggested_source": null
+        },
+        {
+          "parameter": "Turbocharger/supercharger data",
+          "value": null,
+          "unit": null,
+          "grade": "U",
+          "sources": [],
+          "note": "Not applicable to locked configuration.",
+          "formula": null,
+          "suggested_source": null
+        }
+      ]
+    },
+    {
+      "title": "8. Mechanical and dynamics",
+      "rows": [
+        {
+          "parameter": "Dry weight, Q PTO type",
+          "value": 31.7,
+          "unit": "kg",
+          "grade": "D",
+          "sources": [
+            {
+              "title": "Honda GX390RT2/GX390T2/GX390UT2 Shop Manual 62Z5F000",
+              "url": "https://www.honda-engines-eu.com/files/files/shop-manual-gx390-ut2-en.pdf",
+              "locator": "pp. 1-2–1-6, 2-2–2-3, 3-10–3-11 (PDF pp. 6–10, 18–19, 38–39)",
+              "quality": "OEM primary"
+            }
+          ],
+          "note": "QAE2 is explicitly a Q-type PTO in the type table.",
+          "formula": null,
+          "suggested_source": null
+        },
+        {
+          "parameter": "Overall dimensions, Q PTO type",
+          "value": "405 × 460 × 448",
+          "unit": "mm L×W×H",
+          "grade": "D",
+          "sources": [
+            {
+              "title": "Honda GX390RT2/GX390T2/GX390UT2 Shop Manual 62Z5F000",
+              "url": "https://www.honda-engines-eu.com/files/files/shop-manual-gx390-ut2-en.pdf",
+              "locator": "pp. 1-2–1-6, 2-2–2-3, 3-10–3-11 (PDF pp. 6–10, 18–19, 38–39)",
+              "quality": "OEM primary"
+            }
+          ],
+          "note": null,
+          "formula": null,
+          "suggested_source": null
+        },
+        {
+          "parameter": "PTO shaft type",
+          "value": "Q type, straight shaft",
+          "unit": null,
+          "grade": "D",
+          "sources": [
+            {
+              "title": "Honda GX390RT2/GX390T2/GX390UT2 Shop Manual 62Z5F000",
+              "url": "https://www.honda-engines-eu.com/files/files/shop-manual-gx390-ut2-en.pdf",
+              "locator": "pp. 1-2–1-6, 2-2–2-3, 3-10–3-11 (PDF pp. 6–10, 18–19, 38–39)",
+              "quality": "OEM primary"
+            },
+            {
+              "title": "Honda Engines — GX340/390 model page",
+              "url": "https://engines.honda.com/models/model-detail/x-large-gx",
+              "locator": "GX390 Specifications; Performance Curves; SAE J1349 note",
+              "quality": "OEM primary"
+            }
+          ],
+          "note": null,
+          "formula": null,
+          "suggested_source": null
+        },
+        {
+          "parameter": "Rotating inertia",
+          "value": null,
+          "unit": "kg·m²",
+          "grade": "U",
+          "sources": [],
+          "note": null,
+          "formula": null,
+          "suggested_source": "Honda flywheel/crank inertial-property drawing or torsional analysis data."
+        },
+        {
+          "parameter": "Flywheel mass",
+          "value": null,
+          "unit": "kg",
+          "grade": "U",
+          "sources": [],
+          "note": null,
+          "formula": null,
+          "suggested_source": "Honda QAE2 flywheel drawing/BOM with mass."
+        },
+        {
+          "parameter": "Piston mass",
+          "value": null,
+          "unit": "kg",
+          "grade": "U",
+          "sources": [],
+          "note": null,
+          "formula": null,
+          "suggested_source": "Honda production piston drawing or weighing."
+        },
+        {
+          "parameter": "Connecting-rod mass",
+          "value": null,
+          "unit": "kg",
+          "grade": "U",
+          "sources": [],
+          "note": null,
+          "formula": null,
+          "suggested_source": "Honda production rod drawing or weighing."
+        },
+        {
+          "parameter": "Lubrication",
+          "value": "forced splash",
+          "unit": null,
+          "grade": "D",
+          "sources": [
+            {
+              "title": "Honda GX390RT2/GX390T2/GX390UT2 Shop Manual 62Z5F000",
+              "url": "https://www.honda-engines-eu.com/files/files/shop-manual-gx390-ut2-en.pdf",
+              "locator": "pp. 1-2–1-6, 2-2–2-3, 3-10–3-11 (PDF pp. 6–10, 18–19, 38–39)",
+              "quality": "OEM primary"
+            }
+          ],
+          "note": null,
+          "formula": null,
+          "suggested_source": null
+        },
+        {
+          "parameter": "Oil capacity",
+          "value": 1.1,
+          "unit": "L",
+          "grade": "D",
+          "sources": [
+            {
+              "title": "Honda GX390RT2/GX390T2/GX390UT2 Shop Manual 62Z5F000",
+              "url": "https://www.honda-engines-eu.com/files/files/shop-manual-gx390-ut2-en.pdf",
+              "locator": "pp. 1-2–1-6, 2-2–2-3, 3-10–3-11 (PDF pp. 6–10, 18–19, 38–39)",
+              "quality": "OEM primary"
+            }
+          ],
+          "note": null,
+          "formula": null,
+          "suggested_source": null
+        },
+        {
+          "parameter": "Recommended oil",
+          "value": "SAE 10W-30, API SE or later (general use)",
+          "unit": null,
+          "grade": "D",
+          "sources": [
+            {
+              "title": "Honda GX390RT2/GX390T2/GX390UT2 Shop Manual 62Z5F000",
+              "url": "https://www.honda-engines-eu.com/files/files/shop-manual-gx390-ut2-en.pdf",
+              "locator": "pp. 1-2–1-6, 2-2–2-3, 3-10–3-11 (PDF pp. 6–10, 18–19, 38–39)",
+              "quality": "OEM primary"
+            }
+          ],
+          "note": null,
+          "formula": null,
+          "suggested_source": null
+        },
+        {
+          "parameter": "Cooling",
+          "value": "forced air",
+          "unit": null,
+          "grade": "D",
+          "sources": [
+            {
+              "title": "Honda GX390RT2/GX390T2/GX390UT2 Shop Manual 62Z5F000",
+              "url": "https://www.honda-engines-eu.com/files/files/shop-manual-gx390-ut2-en.pdf",
+              "locator": "pp. 1-2–1-6, 2-2–2-3, 3-10–3-11 (PDF pp. 6–10, 18–19, 38–39)",
+              "quality": "OEM primary"
+            }
+          ],
+          "note": null,
+          "formula": null,
+          "suggested_source": null
+        },
+        {
+          "parameter": "Starter motor unit",
+          "value": "31210-ZE3-033",
+          "unit": null,
+          "grade": "D",
+          "sources": [
+            {
+              "title": "Honda Power Dealer — GX390UT2 QAE2 STARTER MOTOR (1)",
+              "url": "https://maritimesolutions.marinedealer.honda.com/parts/engines/engines/gx/GX390/GX390UT2-QAE2/Z5T0E2100B/references",
+              "locator": "Ref. 4; serial 1000001–9999999",
+              "quality": "OEM dealer parts frontend"
+            }
+          ],
+          "note": null,
+          "formula": null,
+          "suggested_source": null
+        },
+        {
+          "parameter": "Recoil starter assembly",
+          "value": "28400-Z5T-305ZA, R280 Power Red (U.S.)",
+          "unit": null,
+          "grade": "D",
+          "sources": [
+            {
+              "title": "Honda Power Dealer — GX390UT2 QAE2 RECOIL STARTER (1)",
+              "url": "https://maritimesolutions.marinedealer.honda.com/parts/engines/engines/gx/GX390/GX390UT2-QAE2/Z5T0E1100B/references",
+              "locator": "Ref. 1; serial 1000001–1114708",
+              "quality": "OEM dealer parts frontend"
+            }
+          ],
+          "note": "Reason locked serial upper bound is 1114708.",
+          "formula": null,
+          "suggested_source": null
+        },
+        {
+          "parameter": "Cranking speed",
+          "value": null,
+          "unit": "rpm",
+          "grade": "U",
+          "sources": [],
+          "note": null,
+          "formula": null,
+          "suggested_source": "Honda starter-system test spec under defined battery voltage/temperature."
+        },
+        {
+          "parameter": "Mean piston speed @ 3600 rpm",
+          "value": 7.68,
+          "unit": "m/s",
+          "grade": "R",
+          "sources": [
+            {
+              "title": "Honda GX390RT2/GX390T2/GX390UT2 Shop Manual 62Z5F000",
+              "url": "https://www.honda-engines-eu.com/files/files/shop-manual-gx390-ut2-en.pdf",
+              "locator": "pp. 1-2–1-6, 2-2–2-3, 3-10–3-11 (PDF pp. 6–10, 18–19, 38–39)",
+              "quality": "OEM primary"
+            }
+          ],
+          "note": null,
+          "formula": "2·stroke·rpm/60",
+          "suggested_source": null
+        },
+        {
+          "parameter": "Peak-torque BMEP",
+          "value": 0.856,
+          "unit": "MPa",
+          "grade": "R",
+          "sources": [
+            {
+              "title": "Honda GX390RT2/GX390T2/GX390UT2 Shop Manual 62Z5F000",
+              "url": "https://www.honda-engines-eu.com/files/files/shop-manual-gx390-ut2-en.pdf",
+              "locator": "pp. 1-2–1-6, 2-2–2-3, 3-10–3-11 (PDF pp. 6–10, 18–19, 38–39)",
+              "quality": "OEM primary"
+            }
+          ],
+          "note": null,
+          "formula": "4πT/Vd for four-stroke",
+          "suggested_source": null
+        },
+        {
+          "parameter": "Rated-point BMEP",
+          "value": 0.745,
+          "unit": "MPa",
+          "grade": "R",
+          "sources": [
+            {
+              "title": "Honda GX390RT2/GX390T2/GX390UT2 Shop Manual 62Z5F000",
+              "url": "https://www.honda-engines-eu.com/files/files/shop-manual-gx390-ut2-en.pdf",
+              "locator": "pp. 1-2–1-6, 2-2–2-3, 3-10–3-11 (PDF pp. 6–10, 18–19, 38–39)",
+              "quality": "OEM primary"
+            }
+          ],
+          "note": null,
+          "formula": "4πT/Vd; T derived from 8.7 kW @ 3600",
+          "suggested_source": null
+        }
+      ]
+    },
+    {
+      "title": "9. Sound references",
+      "rows": [
+        {
+          "parameter": "Exact locked-engine recording with known stock exhaust, rpm and load",
+          "value": null,
+          "unit": "URL",
+          "grade": "U",
+          "sources": [],
+          "note": "No recording met all provenance requirements in this pass.",
+          "formula": null,
+          "suggested_source": "Bench recording of GX390UT2 QAE2 with production muffler; tachometer/logged load and microphone distance documented."
+        },
+        {
+          "parameter": "Combustion-event fundamental at 3600 rpm",
+          "value": 30.0,
+          "unit": "Hz",
+          "grade": "R",
+          "sources": [
+            {
+              "title": "Honda GX390RT2/GX390T2/GX390UT2 Shop Manual 62Z5F000",
+              "url": "https://www.honda-engines-eu.com/files/files/shop-manual-gx390-ut2-en.pdf",
+              "locator": "pp. 1-2–1-6, 2-2–2-3, 3-10–3-11 (PDF pp. 6–10, 18–19, 38–39)",
+              "quality": "OEM primary"
+            }
+          ],
+          "note": null,
+          "formula": "1 cylinder × 3600 rpm ÷ 120 for a four-stroke",
+          "suggested_source": null
+        },
+        {
+          "parameter": "Combustion-event fundamental at 1400 rpm idle",
+          "value": 11.667,
+          "unit": "Hz",
+          "grade": "R",
+          "sources": [
+            {
+              "title": "Honda GX390RT2/GX390T2/GX390UT2 Shop Manual 62Z5F000",
+              "url": "https://www.honda-engines-eu.com/files/files/shop-manual-gx390-ut2-en.pdf",
+              "locator": "pp. 1-2–1-6, 2-2–2-3, 3-10–3-11 (PDF pp. 6–10, 18–19, 38–39)",
+              "quality": "OEM primary"
+            }
+          ],
+          "note": null,
+          "formula": "1 cylinder × 1400 rpm ÷ 120",
+          "suggested_source": null
+        }
+      ]
+    }
+  ],
+  "performance_curve": {
+    "status": "usable with digitisation uncertainty",
+    "source": {
+      "title": "Honda GX390RT2/GX390T2/GX390UT2 Shop Manual 62Z5F000",
+      "url": "https://www.honda-engines-eu.com/files/files/shop-manual-gx390-ut2-en.pdf",
+      "locator": "pp. 1-2–1-6, 2-2–2-3, 3-10–3-11 (PDF pp. 6–10, 18–19, 38–39)",
+      "quality": "OEM primary"
+    },
+    "note": "Honda publishes the GX390UT2 curve graph but not a numeric table. Torque points below are approximate digitisation. Exact anchors are 26.5 N·m @ 2500 rpm and 8.7 kW @ 3600 rpm. Power is derived from digitised torque except the exact 3600-rpm anchor. Do not overfit simulator parameters to sub-percent differences in digitised points.",
+    "points": [
+      {
+        "rpm": 2000,
+        "torque_Nm": 24.7,
+        "torque_grade": "D",
+        "power_kW": 5.17,
+        "power_grade": "R",
+        "bsfc_g_per_kWh": null,
+        "fuel_rate_L_per_h": null,
+        "fuel_grade": "U",
+        "note": "Torque digitised approximately from Honda shop-manual p.1-6; ±~0.3 N·m / ±~50 rpm reading uncertainty. Power derived from torque except the exact 8.7 kW @ 3600 anchor."
+      },
+      {
+        "rpm": 2200,
+        "torque_Nm": 25.7,
+        "torque_grade": "D",
+        "power_kW": 5.92,
+        "power_grade": "R",
+        "bsfc_g_per_kWh": null,
+        "fuel_rate_L_per_h": null,
+        "fuel_grade": "U",
+        "note": "Torque digitised approximately from Honda shop-manual p.1-6; ±~0.3 N·m / ±~50 rpm reading uncertainty. Power derived from torque except the exact 8.7 kW @ 3600 anchor."
+      },
+      {
+        "rpm": 2400,
+        "torque_Nm": 26.3,
+        "torque_grade": "D",
+        "power_kW": 6.61,
+        "power_grade": "R",
+        "bsfc_g_per_kWh": null,
+        "fuel_rate_L_per_h": null,
+        "fuel_grade": "U",
+        "note": "Torque digitised approximately from Honda shop-manual p.1-6; ±~0.3 N·m / ±~50 rpm reading uncertainty. Power derived from torque except the exact 8.7 kW @ 3600 anchor."
+      },
+      {
+        "rpm": 2500,
+        "torque_Nm": 26.5,
+        "torque_grade": "D",
+        "power_kW": 6.94,
+        "power_grade": "R",
+        "bsfc_g_per_kWh": null,
+        "fuel_rate_L_per_h": null,
+        "fuel_grade": "U",
+        "note": "26.5 N·m @ 2500 rpm is an exact tabulated Honda anchor; surrounding points are digitised."
+      },
+      {
+        "rpm": 2600,
+        "torque_Nm": 26.4,
+        "torque_grade": "D",
+        "power_kW": 7.19,
+        "power_grade": "R",
+        "bsfc_g_per_kWh": null,
+        "fuel_rate_L_per_h": null,
+        "fuel_grade": "U",
+        "note": "Torque digitised approximately from Honda shop-manual p.1-6; ±~0.3 N·m / ±~50 rpm reading uncertainty. Power derived from torque except the exact 8.7 kW @ 3600 anchor."
+      },
+      {
+        "rpm": 2800,
+        "torque_Nm": 26.3,
+        "torque_grade": "D",
+        "power_kW": 7.71,
+        "power_grade": "R",
+        "bsfc_g_per_kWh": null,
+        "fuel_rate_L_per_h": null,
+        "fuel_grade": "U",
+        "note": "Torque digitised approximately from Honda shop-manual p.1-6; ±~0.3 N·m / ±~50 rpm reading uncertainty. Power derived from torque except the exact 8.7 kW @ 3600 anchor."
+      },
+      {
+        "rpm": 3000,
+        "torque_Nm": 25.9,
+        "torque_grade": "D",
+        "power_kW": 8.14,
+        "power_grade": "R",
+        "bsfc_g_per_kWh": null,
+        "fuel_rate_L_per_h": null,
+        "fuel_grade": "U",
+        "note": "Torque digitised approximately from Honda shop-manual p.1-6; ±~0.3 N·m / ±~50 rpm reading uncertainty. Power derived from torque except the exact 8.7 kW @ 3600 anchor."
+      },
+      {
+        "rpm": 3200,
+        "torque_Nm": 25.2,
+        "torque_grade": "D",
+        "power_kW": 8.44,
+        "power_grade": "R",
+        "bsfc_g_per_kWh": null,
+        "fuel_rate_L_per_h": null,
+        "fuel_grade": "U",
+        "note": "Torque digitised approximately from Honda shop-manual p.1-6; ±~0.3 N·m / ±~50 rpm reading uncertainty. Power derived from torque except the exact 8.7 kW @ 3600 anchor."
+      },
+      {
+        "rpm": 3400,
+        "torque_Nm": 24.2,
+        "torque_grade": "D",
+        "power_kW": 8.62,
+        "power_grade": "R",
+        "bsfc_g_per_kWh": null,
+        "fuel_rate_L_per_h": null,
+        "fuel_grade": "U",
+        "note": "Torque digitised approximately from Honda shop-manual p.1-6; ±~0.3 N·m / ±~50 rpm reading uncertainty. Power derived from torque except the exact 8.7 kW @ 3600 anchor."
+      },
+      {
+        "rpm": 3600,
+        "torque_Nm": 23.08,
+        "torque_grade": "D",
+        "power_kW": 8.7,
+        "power_grade": "D",
+        "bsfc_g_per_kWh": null,
+        "fuel_rate_L_per_h": 3.5,
+        "fuel_grade": "D",
+        "note": "Torque digitised approximately from Honda shop-manual p.1-6; ±~0.3 N·m / ±~50 rpm reading uncertainty. Power derived from torque except the exact 8.7 kW @ 3600 anchor."
+      }
+    ]
+  },
+  "unresolved": [
+    "Independent BSFC curve and part-load fuel-consumption map.",
+    "Exact BE88A A main/pilot jet calibration for locked serial interval.",
+    "Full ignition advance map (rpm and load), not just 10° base / 10–22° range.",
+    "Cam timing events, true valve lift, duration and lobe separation.",
+    "Valve head diameters and port/throat geometry from a primary drawing.",
+    "Connecting-rod length, compression height, deck height, chamber geometry.",
+    "Crank main-journal diameters/widths and bearing widths from full dimensional drawing.",
+    "Airflow, AFR/lambda, EGT, peak firing pressure, intake restriction and exhaust backpressure limits.",
+    "Component masses/inertias and starter cranking-speed curve.",
+    "A stock-exhaust exact-QAE2 recording with documented rpm/load/microphone geometry."
+  ],
+  "do_not_confuse_with": [
+    {
+      "item": "GX390RT2/T2 and other GX390UT2 type codes",
+      "difference": "Same 389 cm³ engine family but PTO, controls, starting/charging, air cleaner, carburetor and emissions hardware can differ. Do not import suffix-specific hardware.",
+      "grade": "F",
+      "sources": [
+        {
+          "title": "Honda GX390RT2/GX390T2/GX390UT2 Shop Manual 62Z5F000",
+          "url": "https://www.honda-engines-eu.com/files/files/shop-manual-gx390-ut2-en.pdf",
+          "locator": "pp. 1-2–1-6, 2-2–2-3, 3-10–3-11 (PDF pp. 6–10, 18–19, 38–39)",
+          "quality": "OEM primary"
+        }
+      ]
+    },
+    {
+      "item": "QAE2 after GCBCT-1549653",
+      "difference": "Carburetor assembly changes away from 16100-Z5T-901; therefore not in the locked interval.",
+      "grade": "D",
+      "sources": [
+        {
+          "title": "Honda Power Dealer — GX390UT2 QAE2 CARBURETOR (1)",
+          "url": "https://planopower.powerdealer.honda.com/parts/engines/engines/gx/GX390/GX390UT2-QAE2/Z5T0E1400H/references",
+          "locator": "Ref. 9 and Ref. 11; serial applicability",
+          "quality": "OEM dealer parts frontend"
+        }
+      ]
+    },
+    {
+      "item": "QAE2 after GCBCT-1114708",
+      "difference": "U.S. recoil assembly changes from Power Red 28400-Z5T-305ZA to black 28400-Z5T-305ZB; excluded to keep the lock exact.",
+      "grade": "D",
+      "sources": [
+        {
+          "title": "Honda Power Dealer — GX390UT2 QAE2 RECOIL STARTER (1)",
+          "url": "https://maritimesolutions.marinedealer.honda.com/parts/engines/engines/gx/GX390/GX390UT2-QAE2/Z5T0E1100B/references",
+          "locator": "Ref. 1; serial 1000001–1114708",
+          "quality": "OEM dealer parts frontend"
+        }
+      ]
+    }
+  ]
+}
