@@ -1134,6 +1134,32 @@ The shape is flat. Set: DF150 46°, TF250 37°.
 - 46°/37° rated injection is long for rotary pumps (typical 20–30°): either the jet mixing is somewhat fast (e.g. no wall impingement: x_st ≈ 85 mm > bore/2 = 53 mm) or a loss is missing.
 - TF250 at 1000 rpm is +7.5 %.
 
+## Dissociation quantified (Cantera fuel-air cycle) — small, not implemented (2026-10-01)
+
+**Method** (`tools/reference/dissociation_cycle.py`, Cantera 3.2, NASA Glenn data):
+- Ideal constant-volume cycle at CR 8.2, iso-octane, T1 330 K.
+- Equilibrium (UV burn, shifting SV expansion) vs frozen major products (rich: CO/H2 at water-gas K 3.5), work per kg air.
+
+| λ | 0.80 | 0.88 | 0.92 | 0.96 | 1.00 | 1.10 |
+|---|---|---|---|---|---|---|
+| Equilibrium (kJ/kg air) | 1270.6 | 1286.8 | 1290.5 | 1289.5 | 1277.5 | 1196.0 |
+| Frozen (kJ/kg air) | 1277.0 | 1298.2 | 1307.1 | 1315.1 | 1322.4 | 1220.0 |
+| Ratio | 0.995 | 0.991 | 0.987 | 0.980 | 0.966 | 0.980 |
+
+Peak temperature: equilibrium 2844-2900 K vs frozen 2911-3165 K.
+
+**Reading:**
+- Dissociation costs 0.5 % (λ 0.8) to 3.4 % (λ 1.0) of ideal-cycle work; 1.3 % at the documented GX390 λ 0.92.
+- In a real engine (finite burn, wall heat loss, lower peak T) the cost is smaller.
+- It moves the work maximum from λ 1.0 (frozen) to λ ≈ 0.92-0.96 (equilibrium): it explains the rich-side power peak.
+- Frozen work rises 3.0 % from λ 0.80 to 0.96 (the sim showed +4.6 %); with equilibrium the rise is 1.5 %.
+- Lean diesels (λ ≥ 1.5) are unaffected.
+
+**Decision:**
+- Not implemented now: equilibrium chemistry in GasSystem for ~1 % at the GX390.
+- It is the correct physics for the λ trend; recorded as the A item "dissociation not modelled" (magnitude now quantified).
+- The GX390 excess at λ 0.92 (J1349 ≈ +9.5 %) lies mostly elsewhere: friction, wall heat transfer, air cleaner (U), carb venturi (C).
+
 ## Rich-combustion chemistry (frozen water-gas products) — checked before coding, rejected (2026-10-01)
 
 Proposal: rich SI burning forms CO/H2 in water-gas equilibrium (K = 3.5) instead of completely burning the O2-limited fuel fraction.

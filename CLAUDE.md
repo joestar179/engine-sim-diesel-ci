@@ -173,7 +173,7 @@ Parameters:
 | Air O2 fraction (diesel/turbo paths) | 0.2095 | S | Composition of dry air; stock 0.25 kept for SI premixed intakes |
 | Flow energy = enthalpy | u(T) + R T per mol | S | First law for open systems |
 | Gas heat capacity | rigid 5/2 R + N2/O2 vibration (theta 3353 / 2239 K) | S | Statistical mechanics |
-| Combustion products (CO2 + H2O) heat capacity | own species: rigid 2.75 R + CO2/H2O normal modes (harmonic oscillators), transported as `p_products` | S | Statistical mechanics, NIST frequencies (2026-10-01); dissociation not modelled (A) |
+| Combustion products (CO2 + H2O) heat capacity | own species: rigid 2.75 R + CO2/H2O normal modes (harmonic oscillators), transported as `p_products` | S | Statistical mechanics, NIST frequencies (2026-10-01); dissociation not modelled (A): costs 0.5-3.4 % of ideal-cycle work for λ 0.8-1.0 (tools/reference/dissociation_cycle.py) and sets the rich-side power peak |
 | Dynamic-pressure and choked-flow gamma 1.4 | - | A | Simplification |
 | SI burn rate | two-zone entrainment rho_u x swept volume at S_T; y = E x/(1+(E-1)x) | S | Heywood sec. 14.4; replaces front at E x S_T (late burn up to E x too fast) |
 | Hohenberg heat-transfer constants | 130, -0.06, 0.8, -0.4, +1.4 | S | Hohenberg, SAE 790825 |
