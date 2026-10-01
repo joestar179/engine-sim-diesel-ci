@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env python3
+#!/usr/bin/env python3
 """Install the locked Generic Forced-Induction V1 source as readable files.
 
 This stage intentionally replaces the accepted generated turbo core only after
