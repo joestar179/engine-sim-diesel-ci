@@ -1134,6 +1134,45 @@ The shape is flat. Set: DF150 46°, TF250 37°.
 - 46°/37° rated injection is long for rotary pumps (typical 20–30°): either the jet mixing is somewhat fast (e.g. no wall impingement: x_st ≈ 85 mm > bore/2 = 53 mm) or a loss is missing.
 - TF250 at 1000 rpm is +7.5 %.
 
+## GX390 mixture anchor from the CPSC / University of Alabama study (2026-10-01) — evaluation, no model change
+
+**Source:**
+- University of Alabama, "Low Carbon Monoxide Emission Prototype Portable Generator Build Description and Performance Evaluation", within CPSC "Technology Demonstration of a Prototype Low CO Emission Portable Generator" (2012), https://www.cpsc.gov/s3fs-public/129846%20portgen.pdf, Table 5 (pp. 25-26 of the UA report). Local copy `C:\es\run\assets\CPSC_UA_2012_low_CO_generator.pdf`.
+- Quoted in Federal Register 81 FR 83556 (Nov 21, 2016).
+
+**Data:**
+- Two stock carburetted Honda GX390 generator units, measured before any modification.
+- Wide-band AFR sensor (±0.2 AFR). Fuel: 87 octane non-oxygenated pump gasoline (stoichiometric 14.6 per the report).
+- Mode 1: 3600 rpm, governor-controlled, 5.5 kW electrical, engine power *estimated* 7.6 kW from the alternator efficiency curve (shaft not accessible).
+
+| Mode | OEM baseline unit AFR | Fuel | Pre-mod unit AFR | Fuel |
+|---|---|---|---|---|
+| 1 | 12.82 (λ 0.88) | 2.40 kg/h | 13.98 (λ 0.96) | 2.36 kg/h |
+| 6 (idle) | 10.80 | — | 11.26 | — |
+
+Both units get progressively richer as load falls. Grade F (family units, not the locked QAE2).
+
+**Simulation** (temporary copies, carburettor mixture set; MR unchanged):
+
+| λ | 7.0 kW @ 3600 | 7.6 kW @ 3600 | WOT power (J1349) |
+|---|---|---|---|
+| 0.80 | 2.85 kg/h | 3.05 | 9.16 kW |
+| 0.88 | 2.53 kg/h | 2.72 | 9.35 kW |
+| 0.92 | 2.40 kg/h | 2.57 | 9.50 kW |
+| 0.96 | 2.28 kg/h | 2.44 | 9.57 kW |
+
+- Honda 3.5 L/h at 7.0 kW = 2.52-2.66 kg/h (0.72-0.76 kg/L). Sim matches at λ 0.88; −5 to −10 % at 0.92; −10 to −14 % at 0.96.
+- UA measured 2.36-2.40 kg/h at an estimated 7.6 kW. Sim +3 % at λ 0.96; +13 % at λ 0.88 (same-unit comparisons).
+- The two sources differ by ~15-18 % in BSFC (UA 311-316 vs Honda 360-380 g/kWh). UA's engine power is an alternator-curve estimate.
+- The sim lies between them: the fuel check is consistent within the family scatter but cannot be sharpened below ~±8 %.
+
+**Finding — mixture/power trend:**
+- The sim's WOT power rises 4.6 % from λ 0.80 to 0.96. Real SI engines peak near λ 0.85-0.9 and lose a few % toward λ 1.
+- Likely missing physics:
+  - charge cooling by fuel evaporation (latent heat, denser charge when rich);
+  - the energy of partial oxidation (rich burning to CO/H2), whereas the sim burns the O2-limited fraction completely.
+- Adopting the documented λ therefore raises the GX390 J1349 power excess from +5.2 % to +7.5-10 %.
+
 ## GX390: SAE J1349 ambient basis and air-cleaner sensitivity (2026-10-01) — no model change
 
 **Ambient basis:**
