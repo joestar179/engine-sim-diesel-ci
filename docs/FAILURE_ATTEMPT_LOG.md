@@ -880,6 +880,52 @@ The low-speed excess is open again. Not modelled: light-load advance (affects pa
 
 All power/torque comparisons are full load: rack 1.000, except the TF250 at 1000 rpm at 0.991 (smoke limiter).
 
+## Component friction model (Patton-Nitschke-Heywood)
+
+**Sources** (user-supplied, in `C:\es\run\assets`, not committed):
+- D. Sandoval, "An Improved Friction Model for Spark Ignition Engines", MIT 2003, pp. 13–16, table 4.2, appendix A.1/A.2 (PNH SAE 890836 restated).
+- Rakopoulos & Giakoumis, "Prediction of friction development during transient diesel engine operation using a detailed model", eq. 26: injection-pump drive = hydraulic work. At 240–260 bar nozzle pressure it is < 0.2 % of power; not modelled.
+
+**Implementation:** `EngineFrictionModel`, original PNH coefficients, opt-in via the `component_friction` input.
+
+- Terms: crank seals + main bearings + turbulent dissipation; piston skirt + rings + rod bearings; ring gas loading (intake/ambient pressure); valvetrain (+4.12 kPa cam-seal boundary); auxiliaries 6.23 + 5.22e-3 N − 1.79e-7 N² (oil pump, water pump, non-charging alternator; fitted on small high-speed diesels).
+- Sandoval's oil-viscosity scaling on the hydrodynamic terms: 15W-40 at 90 °C → 1.28.
+- Bore, stroke, cylinder count and compression ratio come from the engine geometry; bearing and valvetrain geometry from the script.
+- `Simulator::updateMechanicalFriction()` (called after `Engine::update`, so the probe and bench use it too) refreshes the crank Coulomb friction constraint each step.
+- The side-thrust piston friction is off when the model is on.
+
+**Validation engines:** C geometry — main journal 0.75 B, rod journal 0.68 B, length 0.4 D, 5 mains, 4 cam bearings; OHV flat-tappet constants 400 / 0.5 / 32.1. Offline, ±10 % bearing size changes DF150 torque by < 1.5 %.
+
+**Full-load torque**, sim vs documented (nothing fitted):
+
+| rpm | DF150 | TF250 |
+|---|---|---|
+| 1000 | 302 / 290 (+4.1 %) | 395 / 375 (+5.3 %) |
+| 1200 | 306 / 292 (+4.8 %) | 427 / 434 (−1.6 %) |
+| 1400 | 294 / 286 (+2.8 %) | 461 / 445 (+3.6 %) |
+| 1600 | 285 / 278 (+2.5 %) | 458 / 440 (+4.1 %) |
+| 1800 | 272 / 270 (+0.7 %) | 442 / 428 (+3.3 %) |
+| 2000 | 257 / 260 (−1.2 %) | 426 / 415 (+2.7 %) |
+| 2200 | 248 / 248 (0.0 %) | 397 / 396 (+0.3 %) |
+| 2400 | 232 / 235 (−1.3 %) | 363 / 371 (−2.2 %) |
+| 2500 | 234 / 228 (+2.6 %) | — |
+| Motoring at rated | 22.4 vs 22 kW | 22.3 vs 21 kW |
+
+- Previously the DF150 was +11.1 % at 1000 rpm; the TF250 was +11.4 % at 1000 rpm.
+- Every point is within the ±5 % rating guarantee except the TF250 at 1000 rpm (+5.3 %).
+- TF250 boost unchanged (114 kPa gauge).
+
+**Cummins at 1500 rpm:**
+
+| Engine | Standby | Prime | Motoring |
+|---|---|---|---|
+| 4B | 29.5 vs 27 kW (+9 %) | 26.0 vs 24 (+8 %) | 9.1 vs 8.2 kW |
+| 4BT | 38.2 vs 40 (−4.5 %) | 34.2 vs 36 (−5 %) | 10.3 vs 8.2 kW |
+
+The 4B residual is in its indicated work (timing U, documented BSFC 244 implies 34 % brake efficiency).
+
+**Checks:** idles DF150 842, TF250 845, Cummins 991 rpm. Unit tests unchanged (47 pass, same 4 upstream failures). ALCO smoke passes (model off). CPU 63 % (TF250).
+
 ## Handover incident: transient worktree loss
 
 Failure signature: `handover | uncommitted temporary worktree unavailable on continuation | workspace persistence layer`

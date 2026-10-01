@@ -93,6 +93,20 @@ private node _engine => __engine_sim__engine {
     input compression_ignition [bool];
     input max_fuel_mass_per_cycle [float];
     input fuel_stop_curve [function];
+    input component_friction [bool];
+    input main_bearing_count [int];
+    input main_bearing_diameter [float];
+    input main_bearing_length [float];
+    input rod_bearing_diameter [float];
+    input rod_bearing_length [float];
+    input cam_bearing_count [int];
+    input valve_count [int];
+    input max_valve_lift [float];
+    input valvetrain_flat_follower [float];
+    input valvetrain_roller_follower [float];
+    input valvetrain_oscillating_hydrodynamic [float];
+    input valvetrain_oscillating_mixed [float];
+    input oil_viscosity_ratio [float];
     input injection_duration [float];
     input ignition_delay [float];
     input combustion_duration [float];
@@ -174,6 +188,22 @@ public node engine {
     // Full-load delivery versus engine speed as a fraction of the fuel stop
     // (a mechanical pump's torque-control curve). Default: flat.
     input fuel_stop_curve: flat_fuel_stop_curve();
+    // Component mechanical friction (Patton-Nitschke-Heywood). Off by
+    // default: the stock per-piston side-thrust friction is used.
+    input component_friction: false;
+    input main_bearing_count: 0;
+    input main_bearing_diameter: 0.0;
+    input main_bearing_length: 0.0;
+    input rod_bearing_diameter: 0.0;
+    input rod_bearing_length: 0.0;
+    input cam_bearing_count: 0;
+    input valve_count: 0;
+    input max_valve_lift: 0.0;
+    input valvetrain_flat_follower: 0.0;
+    input valvetrain_roller_follower: 0.0;
+    input valvetrain_oscillating_hydrodynamic: 0.0;
+    input valvetrain_oscillating_mixed: 0.0;
+    input oil_viscosity_ratio: 1.0;
     input injection_duration: 0 * units.deg;
     input ignition_delay: 0 * units.deg;
     input combustion_duration: 0 * units.deg;
@@ -254,6 +284,20 @@ public node engine {
             compression_ignition: compression_ignition,
             max_fuel_mass_per_cycle: max_fuel_mass_per_cycle,
             fuel_stop_curve: fuel_stop_curve,
+            component_friction: component_friction,
+            main_bearing_count: main_bearing_count,
+            main_bearing_diameter: main_bearing_diameter,
+            main_bearing_length: main_bearing_length,
+            rod_bearing_diameter: rod_bearing_diameter,
+            rod_bearing_length: rod_bearing_length,
+            cam_bearing_count: cam_bearing_count,
+            valve_count: valve_count,
+            max_valve_lift: max_valve_lift,
+            valvetrain_flat_follower: valvetrain_flat_follower,
+            valvetrain_roller_follower: valvetrain_roller_follower,
+            valvetrain_oscillating_hydrodynamic: valvetrain_oscillating_hydrodynamic,
+            valvetrain_oscillating_mixed: valvetrain_oscillating_mixed,
+            oil_viscosity_ratio: oil_viscosity_ratio,
             injection_duration: injection_duration,
             ignition_delay: ignition_delay,
             combustion_duration: combustion_duration,

@@ -511,6 +511,9 @@ double CombustionChamber::lastEventAfr() const {
 }
 
 double CombustionChamber::calculateFrictionForce(double v_s) const {
+    // The component friction model (Engine::getFrictionModel) includes the
+    // piston and ring friction; the side-thrust model is then not applied.
+    if (m_engine->usesComponentFriction()) return 0.0;
     const double cylinderWallForce = m_piston->calculateCylinderWallForce();
 
     const double F_coul = m_frictionModel.frictionCoeff * cylinderWallForce;

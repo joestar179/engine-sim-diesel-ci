@@ -188,6 +188,27 @@ private node validation_diesel_i4 {
         4045DF150 (documented 0.84); results are insensitive above 1.
     */
     input intake_velocity_decay: 1.0;
+
+    /*
+        Mechanical friction: Patton-Nitschke-Heywood component model (SAE
+        890836; equations and constants as in Sandoval, MIT 2003, pp. 13-16,
+        A.2). Replaces the stock per-piston side-thrust friction. Pumping is
+        simulated, not modelled. Documented motoring friction power and the
+        torque curves are CHECKS, not fitted.
+          C  bearing geometry from typical proportions: main journal 0.75 B,
+             rod journal 0.68 B, bearing length 0.4 D (+-10 % changes the
+             4045DF150 full-load torque by < 1.5 %)
+          C  OHV pushrod valvetrain with flat tappets: Sandoval table 4.2 OHV
+             constants (flat 400, oscillating hydrodynamic 0.5, mixed 32.1)
+          A  oil SAE 15W-40 at 90 C: 13.6 cSt high-shear (Sandoval A.2 Vogel
+             constants) / PNH reference 10.6 cSt = 1.28 on the hydrodynamic
+             terms
+    */
+    input main_bearing_count: 5;
+    input main_bearing_diameter: 0.75 * bore;
+    input rod_bearing_diameter: 0.68 * bore;
+    input cam_bearing_count: 4;
+    input max_valve_lift: 11.8 * units.mm;
     input turbo_enabled: false;
     input turbo;
     alias output __out: engine;
@@ -209,6 +230,20 @@ private node validation_diesel_i4 {
         compression_ignition: true,
         max_fuel_mass_per_cycle: max_fuel,
         fuel_stop_curve: fuel_stop_curve,
+        component_friction: true,
+        main_bearing_count: main_bearing_count,
+        main_bearing_diameter: main_bearing_diameter,
+        main_bearing_length: 0.4 * main_bearing_diameter,
+        rod_bearing_diameter: rod_bearing_diameter,
+        rod_bearing_length: 0.4 * rod_bearing_diameter,
+        cam_bearing_count: cam_bearing_count,
+        valve_count: 8,
+        max_valve_lift: max_valve_lift,
+        valvetrain_flat_follower: 400.0,
+        valvetrain_roller_follower: 0.0,
+        valvetrain_oscillating_hydrodynamic: 0.5,
+        valvetrain_oscillating_mixed: 32.1,
+        oil_viscosity_ratio: 1.28,
         injection_duration: injection_duration,
         // Ignition delay from the simulated cylinder state (Assanis et al.
         // 2003, Livengood-Wu integral); no crank-angle delay constant.

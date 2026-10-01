@@ -50,24 +50,17 @@ D before relying on it. Validation engines and their sources:
 
 Open issues (highest impact first):
 
-1. **Low-speed power excess (small diesels).** At full load the 4045DF150 is
-   +11 % torque at 1000 rpm, about +2 % at rated; the TF250 is +11.5 % at
-   1000 rpm; the Cummins 4B is +12 to +15 % at 1500 rpm.
-   - Simulated gross indicated efficiency is ~45 % at all speeds.
-   - Simulated mechanical efficiency is 94 % at 1000 rpm, which is
-     implausible: friction is missing at low speed.
-   - Tried and rejected:
-     - constant rated friction (circular, over-corrects);
-     - Chen-Flynn anchored at rated (needs coefficients 5-15x the
-       literature range);
-     - a speed-advance timing curve (reference pump calibrations show 0
-       advance at full load).
-   - Missing physics:
-     - accessory loads: oil, coolant and injection pumps are deducted in the
-       documented SAE J1995 gross ratings but absent in the sim;
-     - a component friction model from geometry.
-   - The documented ratings are +-5 % at a 99 kPa barometer; the sim runs at
-     101.3 kPa.
+1. **Small-diesel friction: resolved by the PNH component model** (enabled on
+   the validation engines).
+   - Deere full-load torque is within -2 to +5 % over the whole curve
+     (rating tolerance +-5 %); motoring friction is 22.4 / 22.3 kW vs
+     documented 22 / 21 kW. Nothing fitted.
+   - Remaining:
+     - Cummins 4B +8 to +9 % (indicated side; timing U);
+     - TF250 +5.3 % at 1000 rpm;
+     - ambient 101.3 kPa vs the 99 kPa rating basis;
+     - light-load advance not modelled.
+   - The ALCO and stock engines still use the side-thrust friction.
 2. **16-251B boost below spec.** 166 kPa vs documented 258 kPa.
    - The generic turbo model reproduces documented boost on the 4045TF250
      (114 kPa gauge vs 109-133).
@@ -104,6 +97,7 @@ Parameters:
 | Hohenberg heat-transfer constants | 130, -0.06, 0.8, -0.4, +1.4 | S | Hohenberg, SAE 790825 |
 | CI wall surface temperatures | piston 573 K, head 503 K, liner 423 K | S (typical) | Heywood ch. 12, full-load DI diesel; replaces 90 C coolant wall |
 | CI ignition delay | Assanis et al. 2003, Livengood-Wu | S | Opt-in (`ignition_delay_correlation`); ALCO still uses fixed 4 deg |
+| Mechanical friction (validation engines) | Patton-Nitschke-Heywood components, original constants, viscosity ratio 1.28 | S (model) / C (bearing geometry) | Sandoval MIT 2003 pp. 13-16; bearings 0.75/0.68 B, L 0.4 D |
 | Smoke-limited equivalence ratio | 0.75 (limiter lambda 1/0.75) | S (range) | Heywood: DI diesel ~0.7-0.8 |
 | Intake momentum drag (velocity_decay) | 1.0 small engines; 0.30 ALCO | C / A | Runner loss coefficient ~1 velocity head; 0.30 over-rammed (VE 1.09) |
 | Diesel fuel (validation engines) | LHV 42.8 kJ/g x 0.98 | S | ALCO scripts still 45.5 x 0.88 = 40.0 kJ/g (A) |

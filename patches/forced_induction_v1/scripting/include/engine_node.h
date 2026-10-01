@@ -126,6 +126,27 @@ namespace es_script {
             }
 
             m_ignitionModule->generate(engine, &context);
+            {
+                // Component friction: engine geometry from the built engine,
+                // bearing and valvetrain geometry from the script (m -> mm).
+                EngineFrictionModel::Parameters f = m_frictionParameters;
+                f.cylinders = engine->getCylinderCount();
+                if (f.enabled && engine->getCylinderBankCount() > 0 && engine->getCrankshaftCount() > 0) {
+                    const double bore = engine->getCylinderBank(0)->getBore();
+                    const double stroke = 2.0 * engine->getCrankshaft(0)->getThrow();
+                    const double swept = constants::pi / 4.0 * bore * bore * stroke;
+                    const double clearance = engine->getHead(0)->getCombustionChamberVolume();
+                    f.bore = bore * 1000.0;
+                    f.stroke = stroke * 1000.0;
+                    f.compressionRatio = clearance > 0.0 ? (swept + clearance) / clearance : 0.0;
+                    f.mainBearingDiameter *= 1000.0;
+                    f.mainBearingLength *= 1000.0;
+                    f.rodBearingDiameter *= 1000.0;
+                    f.rodBearingLength *= 1000.0;
+                    f.maxValveLift *= 1000.0;
+                }
+                engine->initializeFrictionModel(f);
+            }
             if (m_fuelStopCurve != nullptr) {
                 engine->setFuelStopCurve(m_fuelStopCurve->generate(&context));
             }
@@ -186,6 +207,20 @@ namespace es_script {
             addInput("compression_ignition", &m_parameters.compressionIgnition.enabled);
             addInput("max_fuel_mass_per_cycle", &m_parameters.compressionIgnition.maxFuelMassPerCycle);
             addInput("fuel_stop_curve", &m_fuelStopCurve);
+            addInput("component_friction", &m_frictionParameters.enabled);
+            addInput("main_bearing_count", &m_frictionParameters.mainBearings);
+            addInput("main_bearing_diameter", &m_frictionParameters.mainBearingDiameter);
+            addInput("main_bearing_length", &m_frictionParameters.mainBearingLength);
+            addInput("rod_bearing_diameter", &m_frictionParameters.rodBearingDiameter);
+            addInput("rod_bearing_length", &m_frictionParameters.rodBearingLength);
+            addInput("cam_bearing_count", &m_frictionParameters.camBearings);
+            addInput("valve_count", &m_frictionParameters.valves);
+            addInput("max_valve_lift", &m_frictionParameters.maxValveLift);
+            addInput("valvetrain_flat_follower", &m_frictionParameters.flatFollower);
+            addInput("valvetrain_roller_follower", &m_frictionParameters.rollerFollower);
+            addInput("valvetrain_oscillating_hydrodynamic", &m_frictionParameters.oscillatingHydrodynamic);
+            addInput("valvetrain_oscillating_mixed", &m_frictionParameters.oscillatingMixed);
+            addInput("oil_viscosity_ratio", &m_frictionParameters.viscosityRatio);
             addInput("injection_duration", &m_parameters.compressionIgnition.injectionDuration);
             addInput("ignition_delay", &m_parameters.compressionIgnition.ignitionDelay);
             addInput("combustion_duration", &m_parameters.compressionIgnition.combustionDuration);
@@ -259,6 +294,7 @@ namespace es_script {
         ThrottleNode *m_throttle = nullptr;
         IgnitionModuleNode *m_ignitionModule = nullptr;
         FunctionNode *m_fuelStopCurve = nullptr;
+        EngineFrictionModel::Parameters m_frictionParameters;
         FuelNode *m_fuel = nullptr;
 
         Engine::Parameters m_parameters;

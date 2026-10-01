@@ -193,6 +193,15 @@ double Engine::getFullRackFuelMass() const {
     return stop * std::max(0.0, m_fuelStopCurve->sampleTriangle(std::abs(getSpeed())));
 }
 
+double Engine::getComponentFrictionTorque() const {
+    if (!m_frictionModel.enabled()) return 0.0;
+    const double ambient = units::pressure(1.0, units::atm);
+    const double intake = (getIntakeCount() > 0)
+        ? getIntake(0)->m_system.pressure() / ambient
+        : 1.0;
+    return m_frictionModel.torque(std::abs(getRpm()), intake);
+}
+
 double Engine::getFuelMassPerCycleCommand() const {
     return getFullRackFuelMass() * m_fuelRack;
 }

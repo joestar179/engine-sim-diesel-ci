@@ -388,6 +388,18 @@ void PistonEngineSimulator::destroy() {
     m_delayFilters = nullptr;
 }
 
+void PistonEngineSimulator::updateMechanicalFriction() {
+    if (m_crankshaftFrictionConstraints == nullptr || !m_engine->usesComponentFriction()) return;
+    Crankshaft *output = m_engine->getOutputCrankshaft();
+    const double model = m_engine->getComponentFrictionTorque();
+    for (int i = 0; i < m_engine->getCrankshaftCount(); ++i) {
+        Crankshaft *crankshaft = m_engine->getCrankshaft(i);
+        const double torque = crankshaft->getFrictionTorque() + (crankshaft == output ? model : 0.0);
+        m_crankshaftFrictionConstraints[i].m_minTorque = -torque;
+        m_crankshaftFrictionConstraints[i].m_maxTorque = torque;
+    }
+}
+
 void PistonEngineSimulator::writeToSynthesizer() {
     const int exhaustSystemCount = m_engine->getExhaustSystemCount();
     for (int i = 0; i < exhaustSystemCount; ++i) {

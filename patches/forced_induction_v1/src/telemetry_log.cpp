@@ -393,6 +393,7 @@ void TelemetryLog::writeSnapshot() {
     kv("rack_max", m_rackMax);
     kv("rack_mean", m_rackSum / n);
     kv("fuel_cmd_g", e->getFuelMassPerCycleCommand() * 1000.0);
+    kv("component_friction_Nm", e->getComponentFrictionTorque());
     kv("ignition", e->getIgnitionModule()->m_enabled ? 1 : 0);
     kv("timing_adv_deg", e->getIgnitionModule()->getTimingAdvance() * 180.0 / constants::pi);
     kv("starter", s->m_starterMotor.m_enabled ? 1 : 0);

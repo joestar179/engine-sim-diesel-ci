@@ -60,6 +60,7 @@ add_library(engine-sim STATIC
     src/diesel_governor.cpp
     src/fuel_rack_governor_model.cpp
     src/compression_ignition_model.cpp
+    src/engine_friction_model.cpp
     src/turbocharger_model.cpp
     src/forced_induction_system.cpp
     src/telemetry_log.cpp
