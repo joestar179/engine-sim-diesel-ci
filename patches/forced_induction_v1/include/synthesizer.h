@@ -37,8 +37,11 @@ class Synthesizer {
             //  - turbo: -20 dB for the ALCO 16-251B in the same free rev
             //    (low compressor power); it grows as sqrt(power) under load.
             // Structure-borne combustion noise ("diesel knock"): level per unit
-            // of structural force rate sum(piston area * combustion dp/dt), N/s.
-            float combustionNoiseLevel = 4.0e-4f;
+            // of cylinder-mean combustion pressure-rise rate, Pa/s. Set once
+            // (global) from a recording of the exact engine: John Deere
+            // 4045TF250 at 1625 rpm, where the 600-2500 Hz band is ~5 dB
+            // below the 150-600 Hz band (docs/FAILURE_ATTEMPT_LOG.md).
+            float combustionNoiseLevel = 2.2e-3f;
             // Turbocharger: level per sqrt(W) of turbine + compressor power.
             float turboSoundLevel = 15.0f;
             // Fraction of the turbo layer that is tonal (the rest is narrow-band
@@ -50,7 +53,7 @@ class Synthesizer {
         // Auxiliary input channels written after the exhaust channels when
         // Parameters::exhaustChannelCount >= 0 (see AuxiliaryChannel).
         enum AuxiliaryChannel {
-            StructuralForceRate = 0,    // N/s, >= 0
+            CombustionPressureRate = 0, // Pa/s, cylinder mean, >= 0
             TurboBladePassFrequency,    // Hz
             TurboAmplitude,             // sqrt(W)
             AuxiliaryChannelCount

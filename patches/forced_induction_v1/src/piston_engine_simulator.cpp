@@ -468,12 +468,18 @@ void PistonEngineSimulator::writeToSynthesizer() {
     // their physics (bore area and combustion dp/dt). It replaces the former
     // direct injection of mean dp/dt into the exhaust channels, which
     // bypassed the exhaust path and dominated the sound at any usable gain.
-    double structuralForceRate = 0.0;
+    //
+    // Source: the combustion pressure-rise rate averaged over the cylinders,
+    // the same per-cylinder convention as the exhaust pressure source above.
+    // (A force rate, sum of piston area x dp/dt, made the knock-to-exhaust
+    // balance depend on engine size: with one global level it was ~25 dB
+    // too quiet on a 4-cylinder 106 mm engine relative to the 16-251B.)
+    double combustionPressureRate = 0.0;
     for (int i = 0; i < cylinderCount; ++i) {
-        const double area = m_engine->getPiston(i)->getCylinderBank()->boreSurfaceArea();
-        structuralForceRate += area
-            * std::max(0.0, m_engine->getChamber(i)->getCombustionPressureRiseRate());
+        combustionPressureRate +=
+            std::max(0.0, m_engine->getChamber(i)->getCombustionPressureRiseRate());
     }
+    combustionPressureRate /= std::max(1, cylinderCount);
 
     // Turbocharger sound is generated in the synthesizer at the audio rate
     // from the blade-pass frequency and sqrt(aerodynamic power of both
@@ -497,7 +503,7 @@ void PistonEngineSimulator::writeToSynthesizer() {
         }
     }
 
-    m_exhaustFlowStagingBuffer[exhaustSystemCount + Synthesizer::StructuralForceRate] = structuralForceRate;
+    m_exhaustFlowStagingBuffer[exhaustSystemCount + Synthesizer::CombustionPressureRate] = combustionPressureRate;
     m_exhaustFlowStagingBuffer[exhaustSystemCount + Synthesizer::TurboBladePassFrequency] = bladePassFrequency;
     m_exhaustFlowStagingBuffer[exhaustSystemCount + Synthesizer::TurboAmplitude] = std::sqrt(turboPower);
 

@@ -758,6 +758,27 @@ The combustion source is the same on both engines.
 
 The validation FAILS on spectral balance. Not repaired yet.
 
+### Knock source: cylinder-mean pressure-rise rate (user steps 1-2)
+
+- **Source:** Σ dp/dt / n (Pa/s), the exhaust path's per-cylinder convention, replacing Σ piston area × dp/dt.
+- **Global level:** set once from the TF250 recording at 1625 rpm, where 600–2.5k sits 4.7 dB below 150–600. Knock-off vs trial-level renders isolate the knock band (the leveler gain follows the exhaust only, so band powers add) → `combustionNoiseLevel` 2.2e-3.
+
+Result:
+
+| Render | 150–600 | 600–2.5k | Change |
+|---|---|---|---|
+| TF250 1625 rpm | −9.1 dB | −17.0 dB | 600–2.5k was −41; idle and rev now carry knock |
+| DF150 ~1570 rpm | −1.4 dB | −33 dB | unchanged |
+| DF150, level 0.05 | | −21 dB | layer works |
+
+**Step 3 conflict (unresolved):** the DF150 recording (unused for calibration) shows the same ~5 dB balance as the TF250, but the sim cannot match both with one level.
+
+- NA engines radiate the exhaust-runner pressure, taken before any volume.
+- Turbo engines (commit 05cb2f0) radiate the 12 L post-turbine volume, a raw signal ~25 dB weaker.
+- The two exhaust sources are taken at inconsistent physical points. Options for the user:
+  - (B) revert the turbo source to runner pressure and calibrate on both recordings;
+  - (C) radiate every engine from the gas entering its radiating pipe (collector / post-turbine), which changes the stock SI engines and needs A/B checks.
+
 ## Handover incident: transient worktree loss
 
 Failure signature: `handover | uncommitted temporary worktree unavailable on continuation | workspace persistence layer`

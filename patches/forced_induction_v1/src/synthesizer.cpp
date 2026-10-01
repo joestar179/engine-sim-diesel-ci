@@ -413,7 +413,7 @@ float Synthesizer::LayerState::white() {
 float Synthesizer::renderLayers(int inputSample) {
     if (m_exhaustChannelCount + AuxiliaryChannelCount > m_inputChannelCount) return 0.0f;
     const int base = m_exhaustChannelCount;
-    const float forceRate = m_inputChannels[base + StructuralForceRate].transferBuffer[inputSample];
+    const float pressureRate = m_inputChannels[base + CombustionPressureRate].transferBuffer[inputSample];
     const float bladePass = m_inputChannels[base + TurboBladePassFrequency].transferBuffer[inputSample];
     const float turboAmplitude = m_inputChannels[base + TurboAmplitude].transferBuffer[inputSample];
 
@@ -421,12 +421,12 @@ float Synthesizer::renderLayers(int inputSample) {
     // part, band-limited by the physics rate) plus noise with the same
     // envelope for the content above that rate, through the structural band.
     const float n = m_layers.white();
-    const float envelope = std::max(0.0f, forceRate);
+    const float envelope = std::max(0.0f, pressureRate);
     // The coherent force-rate transient (synchronous with each combustion
     // event) dominates; a smaller noise share with the same envelope fills
     // in content above the physics rate. The structure rings at the band.
     const float knock = m_audioParameters.combustionNoiseLevel
-        * m_layers.structuralBand.f(forceRate + 0.3f * envelope * n);
+        * m_layers.structuralBand.f(pressureRate + 0.3f * envelope * n);
 
     // Turbocharger: narrow-band noise plus a tonal part at the blade-pass
     // frequency, generated at the audio rate (no imaging, no physics-rate
