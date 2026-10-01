@@ -1,0 +1,6 @@
+import "engine_sim.mr"
+import "themes/default.mr"
+import "engines/validation/mazda_skyactiv_g20.mr"
+
+use_default_theme()
+set_engine(mazda_skyactiv_g20())

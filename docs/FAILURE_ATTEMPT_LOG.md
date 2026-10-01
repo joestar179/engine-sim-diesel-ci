@@ -1134,6 +1134,40 @@ The shape is flat. Set: DF150 46°, TF250 37°.
 - 46°/37° rated injection is long for rotary pumps (typical 20–30°): either the jet mixing is somewhat fast (e.g. no wall impingement: x_st ≈ 85 mm > bore/2 = 53 mm) or a loss is missing.
 - TF250 at 1000 rpm is +7.5 %.
 
+## P3 Mazda SKYACTIV-G 2.0 — first build and EPA point comparison (2026-10-01)
+
+**Build:**
+- Script `assets/engines/validation/mazda_skyactiv_g20.mr`.
+  - Per-point inputs: spark, intake/exhaust cam phase, λ, fuel (Tier 2 / LEV III).
+  - Breathing C values as inputs.
+  - F/R geometry: valves 33.2/28.0, lift 9.9 (R)/8.05, rod 155.2, compression height 25.7, CR 13, PNH with DOHC roller-finger constants (Sandoval table 4.2), throttle 52 mm.
+- Dyno tool: `--map kPa` (throttle bisected to the measured mean plenum pressure).
+- Harness: `tools/reference/mazda_epa_compare.py`.
+  - Split declared before running: torque > 5 N m, sorted by (speed, torque); every third point calibrates, the rest are held out.
+- EPA sheets extracted to `docs/reference/batch02/mazda_epa/` (Tier 2 137 + 36 WOT + 37 min-torque; LEV III 201 + 36 + 37).
+
+**Convention checks:**
+- Sim camshaft advance sign: −1 = events earlier (WOT 2000 rpm, intake phase −40: 123.9 N m vs no combustion with +1; rest 33.4).
+- EPA cam phase: intake ≤ 0 = advance from rest (IVC 110 ABDC), exhaust ≥ 0 = retard from rest (EVC 7 ATDC).
+
+**Run 1 (durations 258/241 deg taken as 0.050 in):** airflow −64 % mean, torque ~0 → wrong duration reading.
+
+**Run 2 (228/211 deg = service diagram read as seat-to-seat, Deere lobe relation):**
+
+| Measure | Result |
+|---|---|
+| Airflow at matched MAP (34 of 42 points) | −29 % mean (sd 12) |
+| — exhaust retard 0-10 / 10-30 / 30-50 deg | −20 / −28 / −36 % |
+| Low-load points | throttle stop cannot reach the measured MAP; torque ≤ 0 |
+| BTE at well-matched points | low: 2995 rpm air −11.5 %, BTE 33.1 vs 37.3; 4494 rpm air −18 %, BTE 29.8 vs 34.8 |
+
+**Reading:**
+- SKYACTIV-G part-load breathing relies on large overlap (exhaust retard up to 44 deg) and the 4-2-1 exhaust's pressure-wave scavenging at overlap.
+- Engine Simulator's gas path is lumped volumes (no 1-D wave dynamics), so it cannot reproduce wave scavenging. The airflow error growing with overlap is consistent with that structural limit.
+- Imposing MAP therefore confounds the efficiency check with a breathing error the model cannot represent.
+
+**Stopped for a decision. No C value calibrated yet.**
+
 ## Deere pump delivery re-derived under the current physics (2026-10-01)
 
 **Rule (unchanged):** pump cam lift rate (C, equipment; plunger/cam data U) is set on documented rated torque. Fuel stops are R from documented power × BSFC.
