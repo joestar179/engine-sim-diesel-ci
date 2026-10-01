@@ -257,6 +257,10 @@ void CombustionChamber::beginCompressionIgnitionEvent(double fuelMass) {
     m_compressionIgnitionEvent.lengthScale = m_head->getCylinderBank()->getBore() / 2.0;
     m_compressionIgnitionEvent.pistonTurbulence = 0.5 * std::abs(calculateMeanPistonSpeed());
     m_compressionIgnitionEvent.fuelDensity = m_fuel->getDensity();
+    // Stoichiometric air/fuel mass ratio from the fuel's O2/fuel molar ratio
+    // (air O2 fraction 0.2095, air molar mass 28.97 g/mol).
+    m_compressionIgnitionEvent.stoichiometricAirFuel =
+        m_fuel->getMolecularAfr() / 0.2095 * 0.02897 / std::max(1.0e-6, m_fuel->getMolecularMass());
     // Overall equivalence ratio of the event (ignition-delay correlation).
     if (m_lastInjectionTrappedO2 > 0.0 && m_fuel->getMolecularMass() > 0.0) {
         m_compressionIgnitionEvent.equivalenceRatio =

@@ -1099,6 +1099,41 @@ The injection stage feeds it:
 
 Cummins and ALCO stay on the prescribed path (nozzle and pump data U). Unit tests unchanged (47 pass, same 4 upstream failures).
 
+## Diesel framework without fitted physics constants (user rule)
+
+User rule: no curve fit on physics. Fits only on measurable equipment parameters (dimensions, timings), set from specs and ratings.
+
+1. **Removed** the global spray coefficient C_s (a fitted physics constant).
+2. **Cylinder-average turbulence** (spray kinetic-energy flux → k = E/m, u = √(2k/3), ε = k^1.5/L), no constants: torque −29 to −33 %, EGT 441 °C. The spray energy spread over the whole charge mixes far too slowly; diesel mixing is local to the jets. Rejected.
+3. **Turbulent-jet entrainment**, published universal constants only (Ricou & Spalding 1961 entrainment 0.32; Hinze centreline decay 6.2 v₀ d_eq/x, d_eq = d √(ρ_f/ρ_a)):
+   - each injected parcel's burnable fraction = entrained air / stoichiometric need = x/x_st, with x² = 2·6.2·v₀·d_eq·t;
+   - fuel mixed during the delay burns at ignition.
+4. **Corrections found on the way:**
+   - the autoignition gate now applies to the start of combustion only (an established flame keeps burning in expansion);
+   - nozzle needle: hole velocity ≥ opening-pressure velocity (fuel flows only when the needle is open; the plunger sets the mass);
+   - **bug:** the parcel buffer (160) overflowed at low speed (8 fluid sub-steps per step) and reset the merged parcel's mixing clock, so the burn lagged at low speed (trace: mixed stalled at 2.7 % while injection reached 6.4 %; CA50 +28° at 1000 rpm vs +13.5° at 2500). Fixed: 512 parcels, mass-weighted merge.
+5. **Equipment fit only:** pump cam lift rate (C) on each engine's rated torque. DF150 sweep (rated delivery over 22/30/38/46/54°, 1000/1800/2500 rpm):
+
+| Delivery | 1000 rpm | 1800 rpm | 2500 rpm |
+|---|---|---|---|
+| 22° | +12.5 % | +11.8 % | +16.6 % |
+| 30° | +8.8 % | +8.2 % | +11.1 % |
+| 38° | +4.6 % | +3.3 % | +6.5 % |
+| 46° | −0.9 % | −2.2 % | +0.4 % |
+| 54° | −6.4 % | −8.5 % | −6.5 % |
+
+The shape is flat. Set: DF150 46°, TF250 37°.
+
+**Result:**
+
+- **DF150** torque −1.0/−1.0/−1.7/−1.8/−2.2/−2.7/−1.2/−1.7/+0.4 % (1000–2500 rpm); BSFC 223–238 (doc 218–237); EGT 575 °C (doc 582); motoring 22.6 kW (22).
+- **TF250** torque +7.5/−0.5/+3.4/+4.3/+3.7/+1.7/+1.0/−0.8 % (1000–2400 rpm); boost ≈ 110 kPa gauge (doc 109–133); EGT 516 °C (495); air 170 g/s (164); AFR 29.3 (28.4).
+- **Checks:** unit tests unchanged; ALCO smoke passes; Kohler unchanged (21.0 kW); CPU 79 %.
+
+**Open:**
+- 46°/37° rated injection is long for rotary pumps (typical 20–30°): either the jet mixing is somewhat fast (e.g. no wall impingement: x_st ≈ 85 mm > bore/2 = 53 mm) or a loss is missing.
+- TF250 at 1000 rpm is +7.5 %.
+
 ## Handover incident: transient worktree loss
 
 Failure signature: `handover | uncommitted temporary worktree unavailable on continuation | workspace persistence layer`

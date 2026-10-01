@@ -78,7 +78,12 @@ CompressionIgnitionModel::StepResult CompressionIgnitionModel::stepHardware(
             const double plungerArea = p.pumpPlungers * 0.25 * Pi * p.pumpPlungerDiameter * p.pumpPlungerDiameter;
             const double volumeRate = plungerArea * p.pumpCamLiftRate * event.omega;
             massRate = event.fuelDensity * volumeRate;
-            v = volumeRate / std::max(1.0e-12, p.nozzleDischargeCoefficient * holeArea);
+            // The needle only opens at the nozzle opening pressure and closes
+            // below it: fuel leaves the holes at no less than the opening-
+            // pressure velocity (at low delivery the injector delivers in
+            // bursts); the plunger sets the mass delivered.
+            const double openingVelocity = std::sqrt(2.0 * std::max(0.0, p.injectionPressure - cylinderPressure) / event.fuelDensity);
+            v = std::max(volumeRate / std::max(1.0e-12, p.nozzleDischargeCoefficient * holeArea), openingVelocity);
         }
         else {
             const double dp = std::max(0.0, p.injectionPressure - cylinderPressure);
@@ -88,13 +93,45 @@ CompressionIgnitionModel::StepResult CompressionIgnitionModel::stepHardware(
         const double moles = std::min(remaining, massRate * dt / event.fuelMolecularMass);
         result.fuelMolesToInject = std::max(0.0, moles);
         event.injectedFuelMoles += result.fuelMolesToInject;
-        event.sprayVelocity = v;
+
+        // New jet parcel: time to entrain its stoichiometric air.
+        if (result.fuelMolesToInject > 0.0 && v > 0.0) {
+            constexpr double Entrainment = 0.32;      // Ricou & Spalding
+            constexpr double VelocityDecay = 6.2;     // Hinze, round jet
+            const double rhoAir = std::max(0.01,
+                cylinderPressure * 0.02897 / (8.31446261815324 * std::max(cylinderTemperature, 200.0)));
+            const double densityRatio = std::sqrt(event.fuelDensity / rhoAir);
+            const double d = p.nozzleHoleDiameter;
+            const double xSt = event.stoichiometricAirFuel * d * densityRatio / Entrainment;
+            const double dEq = d * densityRatio;
+            const double tMix = xSt * xSt / (2.0 * VelocityDecay * v * dEq);
+            // One parcel per call (fluid sub-step); when the buffer is full
+            // the fuel joins the last parcel with mass-weighted injection
+            // time and mixing time (never resetting the parcel's clock).
+            const double moles = result.fuelMolesToInject;
+            if (event.parcelCount < Event::MaxParcels) {
+                const int i = event.parcelCount++;
+                event.parcelMoles[i] = moles;
+                event.parcelTime[i] = end;
+                event.parcelMixTime[i] = tMix;
+            }
+            else {
+                const int i = Event::MaxParcels - 1;
+                const double total = event.parcelMoles[i] + moles;
+                event.parcelTime[i] = (event.parcelTime[i] * event.parcelMoles[i] + end * moles) / total;
+                event.parcelMixTime[i] = (event.parcelMixTime[i] * event.parcelMoles[i] + tMix * moles) / total;
+                event.parcelMoles[i] = total;
+            }
+        }
     }
-    else {
-        // After the end of injection the spray turbulence decays on the
-        // turnover time L / u.
-        const double u = p.sprayTurbulenceCoefficient * event.sprayVelocity + event.pistonTurbulence;
-        event.sprayVelocity *= std::exp(-dt * u / L);
+
+    // Burnable (mixed) fuel: each parcel's entrained air over its need.
+    double mixedMoles = 0.0;
+    for (int i = 0; i < event.parcelCount; ++i) {
+        const double age = end - event.parcelTime[i];
+        if (age <= 0.0) continue;
+        const double fraction = std::min(1.0, std::sqrt(age / std::max(1.0e-9, event.parcelMixTime[i])));
+        mixedMoles += event.parcelMoles[i] * fraction;
     }
 
     // Ignition (correlation or fixed delay), as on the prescribed path.
@@ -110,15 +147,15 @@ CompressionIgnitionModel::StepResult CompressionIgnitionModel::stepHardware(
         cylinderTemperature >= p.autoignitionTemperature
         && cylinderPressure >= p.autoignitionPressure;
 
-    // Mixing-controlled burn: fuel present and not yet burned, at the rate of
-    // the turbulence through the chamber length scale. Fuel injected during
-    // the delay is all available at ignition (premixed spike).
-    if (event.ignitionTime >= 0.0 && conditionsMet) {
+    // Mixing-controlled burn: after ignition the burned fuel follows the
+    // mixed fuel; fuel mixed during the delay burns at ignition (premixed).
+    // The autoignition gate decides the START of combustion only: an
+    // established diffusion flame keeps burning newly mixed fuel during
+    // expansion.
+    if (event.ignitionTime >= 0.0 && (event.combustionStarted || conditionsMet)) {
         event.combustionStarted = true;
         result.combustionStarted = true;
-        const double u = event.pistonTurbulence + p.sprayTurbulenceCoefficient * event.sprayVelocity;
-        const double available = std::max(0.0, event.injectedFuelMoles - event.demandedBurnFuelMoles);
-        const double burn = available * (1.0 - std::exp(-dt * u / L));
+        const double burn = std::max(0.0, std::min(mixedMoles, event.injectedFuelMoles) - event.demandedBurnFuelMoles);
         result.fuelMolesToBurn = burn;
         event.demandedBurnFuelMoles += burn;
     }

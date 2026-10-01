@@ -778,14 +778,17 @@ public node deere_4045df150 {
             // (lower bound; mean line pressure not documented)
             /*
                 Mechanical rotary pump (Stanadyne, CTM207 p. 151) on the common
-                combustion framework. C: plunger and cam data are U; 2 x 7 mm
-                plungers, lift rate such that the rated full delivery
-                (47.4 mg) spans 22 crank degrees (the earlier calibration).
+                combustion framework. C (equipment, set on the rated torque):
+                plunger and cam data are U; 2 x 7 mm plungers, cam lift rate
+                0.01594 mm/deg = rated full delivery (47.4 mg) over 46 crank
+                degrees. Sweep 22/30/38/46/54 deg: 1000/1800/2500 rpm torque
+                +12.5/+11.8/+16.6 % ... -0.9/-2.2/+0.4 % ... -6.4/-8.5/-6.5 %.
+                46 deg is long for a rotary pump (typical 20-30): see log.
             */
             nozzle_hole_count: 4,
             pump_plunger_count: 2,
             pump_plunger_diameter: 7 * units.mm,
-            pump_cam_lift_rate: 0.03332 * units.mm / units.deg,
+            pump_cam_lift_rate: 0.01594 * units.mm / units.deg,
             nozzle_hole_diameter: 0.27 * units.mm,
             injection_pressure: 24.1 * units.MPa,
             turbo_enabled: false,
@@ -833,11 +836,12 @@ public node deere_4045tf250 {
             // F: RE48786 nozzles (CTM207): 4 holes x 0.29 mm, opening
             // 255-260 bar. A: injection pressure = opening pressure midpoint
             // Mechanical rotary pump (Delphi/Lucas, CTM207 p. 152); C as for
-            // the DF150: rated full delivery (72.3 mg) spans 22 crank degrees.
+            // the DF150, set on the rated torque: 0.03022 mm/deg = rated full
+            // delivery (72.3 mg) over 37 crank degrees.
             nozzle_hole_count: 4,
             pump_plunger_count: 2,
             pump_plunger_diameter: 7 * units.mm,
-            pump_cam_lift_rate: 0.05083 * units.mm / units.deg,
+            pump_cam_lift_rate: 0.03022 * units.mm / units.deg,
             nozzle_hole_diameter: 0.29 * units.mm,
             injection_pressure: 25.75 * units.MPa,
             turbo_enabled: turbo_enabled,

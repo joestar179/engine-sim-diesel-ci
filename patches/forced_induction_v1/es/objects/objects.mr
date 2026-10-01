@@ -117,7 +117,6 @@ private node _engine => __engine_sim__engine {
     input nozzle_hole_diameter [float];
     input injection_pressure [float];
     input nozzle_discharge_coefficient [float];
-    input spray_turbulence_coefficient [float];
     input pump_plunger_count [int];
     input pump_plunger_diameter [float];
     input pump_cam_lift_rate [float];
@@ -221,14 +220,12 @@ public node engine {
     input ignition_delay_correlation: false;
     // Injection hardware (nozzle_hole_count > 0 switches injection and
     // combustion to nozzle hydraulics + mixing-controlled burn). Discharge
-    // coefficient: textbook value for diesel nozzle holes. The spray
-    // turbulence coefficient is one global diesel constant, set once (D) on
-    // the John Deere 4045DF150 full-load torque at rated speed (2500 rpm).
+    // coefficient: textbook value for diesel nozzle holes. The spray's
+    // turbulence follows from its kinetic energy (no fitted constant).
     input nozzle_hole_count: 0;
     input nozzle_hole_diameter: 0.0;
     input injection_pressure: 0.0;
     input nozzle_discharge_coefficient: 0.7;
-    input spray_turbulence_coefficient: 0.25;
     // Mechanical pump (pump_plunger_count > 0): plunger delivery sets the
     // injection rate (scales with engine speed). Lift rate in plunger lift
     // per crank angle (e.g. 0.03 * units.mm / units.deg).
@@ -332,7 +329,6 @@ public node engine {
             nozzle_hole_diameter: nozzle_hole_diameter,
             injection_pressure: injection_pressure,
             nozzle_discharge_coefficient: nozzle_discharge_coefficient,
-            spray_turbulence_coefficient: spray_turbulence_coefficient,
             pump_plunger_count: pump_plunger_count,
             pump_plunger_diameter: pump_plunger_diameter,
             pump_cam_lift_rate: pump_cam_lift_rate,

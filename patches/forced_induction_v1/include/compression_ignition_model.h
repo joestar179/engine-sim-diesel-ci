@@ -27,15 +27,21 @@ public:
         //                   engine speed: Q = n_p (pi/4 d_p^2) (dh/dtheta) w;
         //                   hole velocity by continuity v = Q / (Cd A_holes)
         //                   (the opening pressure only lifts the needle)
-        //   burn rate       (injected - burned) x u / L, L = bore / 2,
-        //                   u = 0.5 x mean piston speed (the turbulence of
-        //                   the spark-ignition flame model) + C_s x spray
-        //                   velocity (decaying after end of injection)
+        //   mixing          each injected fuel parcel is a turbulent jet
+        //                   element: entrained air / fuel = 0.32 (x/d)
+        //                   sqrt(rho_a/rho_f) (Ricou & Spalding 1961), jet
+        //                   velocity 6.2 v0 d_eq / x with d_eq = d
+        //                   sqrt(rho_f/rho_a) (Hinze), so x^2 = 2 x 6.2 v0
+        //                   d_eq t. The parcel's burnable fraction is the
+        //                   air it has entrained over its stoichiometric
+        //                   need: min(1, x / x_st). Published universal
+        //                   constants; nothing fitted.
+        //   burn            after ignition, burned = burnable fuel (fuel
+        //                   mixed during the delay burns at ignition)
         int nozzleHoles = 0;
         double nozzleHoleDiameter = 0.0;        // m
         double injectionPressure = 0.0;         // Pa: rail (common rail) or nozzle opening (pump)
         double nozzleDischargeCoefficient = 0.7;
-        double sprayTurbulenceCoefficient = 0.0;
         int pumpPlungers = 0;                   // > 0 selects the mechanical pump
         double pumpPlungerDiameter = 0.0;       // m
         double pumpCamLiftRate = 0.0;           // m of plunger lift per crank radian
@@ -60,7 +66,13 @@ public:
         double fuelMolecularMass = 0.0;     // kg/mol
         double lengthScale = 0.0;           // m, bore / 2
         double pistonTurbulence = 0.0;      // m/s, 0.5 x mean piston speed
-        double sprayVelocity = 0.0;         // m/s
+        double stoichiometricAirFuel = 14.5;  // mass, set by the chamber
+        // Fuel parcels (one per injection step) for the jet-mixing model.
+        static constexpr int MaxParcels = 512;
+        int parcelCount = 0;
+        double parcelMoles[MaxParcels] = {};
+        double parcelTime[MaxParcels] = {};     // s, injection time
+        double parcelMixTime[MaxParcels] = {};  // s, time to reach x_st
         double maxDuration = 0.0;           // s, abandon an unlit event
         double omega = 0.0;                 // rad/s, crank speed at start
     };
