@@ -13,6 +13,22 @@ This repository is an enhancement overlay and deterministic CI reconstruction
 project, not a complete Engine Simulator source checkout. Read this file before
 running or changing anything.
 
+## 0c. Acceptance criteria and calibration policy (user, 2026-10-01)
+
+- **Goals (all three must hold):**
+  - sound fidelity;
+  - staying within physical bounds;
+  - achieving close to the actual rated specs.
+- **Specs that count:** torque curve, power curve, fuel consumption (BSFC).
+  - At the rated point: within **3 %**.
+  - Everywhere else on the documented curves: within **10 %**.
+  - Airflow, EGT and boost are secondary checks.
+- **Calibration** at the MR level is acceptable: the model is an approximation.
+  - Only on equipment and C parameters (dimensions, timings, pump rates, valve flow, cam, restrictions).
+  - Every calibrated value must stay inside a stated physically plausible range, written next to it in the MR.
+  - Physics constants and global model code are not fitted.
+- **Sound gate:** an engine is not done until it has been rendered and checked for audible regressions.
+
 ## 0a. Standing directive — token economy
 
 KEEP TASKS FOCUSED ON THE TOPIC AT HAND. Limit additional scope, extra
