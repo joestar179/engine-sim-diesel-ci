@@ -120,7 +120,10 @@ public node kohler_ch750_validated {
         plenum_cross_section_area: 10.0 * units.cm2,
         intake_flow_rate: k_carb(50.0),
         idle_flow_rate: k_carb(0.0),
-        idle_throttle_plate_position: 0.96,
+        // C: closed-throttle stop. Must let the plate close to the governed
+        // no-load idle (40 CFR 1054 idle mode, 1200 rpm); stock 0.96 still
+        // gave 20 N m at 1200 rpm, 0.98 gives +4 N m, 0.99 gives -3 N m.
+        idle_throttle_plate_position: 0.99,
         throttle_gamma: 1.0,
         velocity_decay: intake_velocity_decay
     )

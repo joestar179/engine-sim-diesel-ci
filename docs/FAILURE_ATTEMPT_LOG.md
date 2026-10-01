@@ -1134,6 +1134,54 @@ The shape is flat. Set: DF150 46°, TF250 37°.
 - 46°/37° rated injection is long for rotary pumps (typical 20–30°): either the jet mixing is somewhat fast (e.g. no wall impingement: x_st ≈ 85 mm > bore/2 = 53 mm) or a loss is missing.
 - TF250 at 1000 rpm is +7.5 %.
 
+## Kohler CH750 cycle fuel check from certification emissions (2026-10-01)
+
+Failure signature: `validation | Kohler CH750 cycle fuel energy -20..-24 % (sim too efficient) | SI heat-to-brake-work chain`
+
+**Data (validation grade for fuel):**
+- Family **KHXS.7472GK** (CH750, CH752, CV752). Source: Rehlko "Published Engine CO2 Values" (EU Stage V type approval): CO2 887 g/kWh on G1, 971 on G2.
+- Matching EPA certification records (public Qlik report; results before DF): G1 CO2 889, CO 325.2, HC+NOx 7.49 g/kWh; G2 CO2 972, CO 252.5, HC+NOx 5.39.
+- Cycle (40 CFR 1054 Appendix B, ISO 8178 G1/G2): 100/75/50/25/10 % of full-load torque plus idle, weighted 0.09/0.20/0.29/0.30/0.07/0.05; G1 at 3060 rpm, G2 at 3600 rpm; idle at governed idle (1200 rpm), torque < 5 %.
+- **Carbon balance** (`tools/reference/carbon_balance.py`; LEV III E10, HC as C1H1.85, 80 % of HC+NOx; water-gas K = [CO][H2O]/([CO2][H2]) = 3.5, Heywood):
+
+| Cycle | BSFC (E10) | Fuel energy | Mean λ | Combustion efficiency | Released energy |
+|---|---|---|---|---|---|
+| G1 | 465 g/kWh | 19.24 MJ/kWh | 0.83 | 0.76 | 14.69 MJ/kWh |
+| G2 | 454 g/kWh | 18.76 MJ/kWh | 0.87 | 0.82 | 15.29 MJ/kWh |
+
+  - Fuel energy per kWh is insensitive to the fuel assumption (energy per kg of carbon: E0 49.65, E10 49.8 MJ). The HC split changes it by < 0.3 %.
+
+**Tooling:**
+- `engine-sim-dyno-sweep --torque Nm`: bisects the speed control at the held speed; adds a `burned_g_s` column (overlay build).
+- `tools/reference/cert_cycle.py` runs the six-mode cycle.
+
+**MR change (one):**
+- `idle_throttle_plate_position` 0.96 → 0.99 (C, closed-throttle stop). At 1200 rpm and zero speed control, 0.96 still gave +20 N·m, so the idle mode was unreachable. Measured: 0.98 gives +4.4 N·m, 0.99 gives −3.2 N·m. Full-load results are unchanged (3600 rpm 55.6 N·m / 20.97 kW).
+
+**Result (sim):**
+
+| Run | G1 fuel energy | G1 released | G2 fuel energy | G2 released | Burned/inducted |
+|---|---|---|---|---|---|
+| Stock mixture λ 0.80 | 15.55 (−19 %) | 11.39 (−22 %) | 15.95 (−15 %) | 11.69 (−24 %) | 0.73 |
+| Emission λ 0.85 (temporary copy, not committed) | 14.65 (−24 %) | 11.40 (−22 %) | 14.95 (−20 %) | 11.64 (−24 %) | 0.78 |
+
+(MJ per brake kWh.)
+
+- The combustion efficiency matches (sim 0.78 vs real 0.76–0.82).
+- The gap is in turning released heat into brake work: sim 31.6 % against 24.5 % real (G1) and 23.5 % (G2), i.e. the sim is about 23 % too efficient over the cycle.
+- At full load the sim BSFC is 304–308 g/kWh (27 % brake efficiency on the fuel).
+
+**Status:**
+- The Kohler fuel check FAILS: −20 to −24 % against ±5 %.
+- No physics change made. The cause is not yet diagnosed.
+- Candidates, each needing evidence before any change:
+  - missing dissociation in hot burned gas;
+  - heat transfer for a small air-cooled engine (Hohenberg, 423–573 K walls);
+  - burn duration and late combustion;
+  - pumping and part-load throttling;
+  - friction share at part load.
+- Ignition advance (C, 20°) and mixture must not be used to close this gap.
+
 ## Handover incident: transient worktree loss
 
 Failure signature: `handover | uncommitted temporary worktree unavailable on continuation | workspace persistence layer`

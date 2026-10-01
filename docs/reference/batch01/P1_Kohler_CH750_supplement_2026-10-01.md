@@ -43,7 +43,26 @@ Reading uncertainty: the curves are drawn splines, not plotted points.
 - Torque derived from the power curve agrees within ~1 % (52.7–53.9 N·m).
 - The spline peak (54.7 @ 3000) is 2 % below the tabulated 55.9 @ 3200: use the tabulated peak for the peak check and the curve for the shape (±10 %).
 
-## Still unresolved for validation grade
+## Cycle fuel consumption from certification emissions (grade F: family parent engine)
 
-- Fuel consumption / BSFC: none found (OEM sources, web). Possible routes: an EU Stage V type-approval CO2 g/kWh figure (carbon balance), a Rehlko application-engineering dyno sheet, or an EPA/CARB certification test report.
+- **Family:** KHXS.7472GK (CH750, CH752, CV752), per the Rehlko "Published Engine CO2 Values" (EU Stage V, Regulation 2016/1628 Art. 43(4)): https://resources.rehlko.com/enginesus/pdf/Published_Engine_CO2_Values.pdf
+  - G1 (3060 rpm): CO2 887 g/kWh, type approval e5*2016/1628*2016/1628SYB3/P*0129*00.
+  - G2 (3600 rpm): CO2 971 g/kWh, type approval e5*2016/1628*2016/1628SRB3/P*0130*00.
+- **EPA certification data** (Small NRSI interactive report, results before DF) for the same family:
+  - MY2022–26: CO2 889, CO 325.2, HC+NOx 7.49 g/kWh (matches G1);
+  - MY2020–21: CO2 972, CO 252.5, HC+NOx 5.39 g/kWh (matches G2);
+  - test fuel CARB LEV III E10.
+- **Cycle** (40 CFR 1054 Appendix B, ISO 8178 G1/G2): 100/75/50/25/10 % torque plus idle, weights 0.09/0.20/0.29/0.30/0.07/0.05.
+- **Carbon balance** (`tools/reference/carbon_balance.py`):
+
+| Cycle | BSFC (E10) | Fuel energy | λ | Combustion efficiency |
+|---|---|---|---|---|
+| G1 | 465 g/kWh | 19.24 MJ/kWh | 0.83 | 0.76 |
+| G2 | 454 g/kWh | 18.76 MJ/kWh | 0.87 | 0.82 |
+
+- **Check:** cycle fuel energy ±5 % (the BSFC criterion applied to the certified cycle). Cycle λ is a measured mixture (equipment input).
+
+## Still unresolved
+
+- MDI ignition advance values, cam timing and nominal lift, rod length, V angle: these remain C (bounded) inputs.
 - MDI ignition advance values, cam timing and nominal lift, rod length, V angle: these remain C (bounded) inputs.

@@ -10,6 +10,9 @@
 //
 // usage: engine-sim-dyno-sweep <script.mr> <rpm,rpm,...>
 //            [--throttle 1.0] [--settle 6] [--measure 3] [--frequency N]
+//            [--torque Nm]  part load: bisect the speed control until the
+//                           held-speed torque equals Nm (steady-state test
+//                           cycles such as 40 CFR 1054 Appendix B / ISO 8178)
 //            overlay build only: [--real-gas 0|1] [--enthalpy-flow 0|1]
 
 #include "../scripting/include/compiler.h"
@@ -64,7 +67,7 @@ int main(int argc, char **argv) {
         std::string item;
         while (std::getline(ss, item, ',')) speeds.push_back(std::atof(item.c_str()));
     }
-    double throttle = 1.0, settle = 6.0, measure = 3.0;
+    double throttle = 1.0, settle = 6.0, measure = 3.0, targetTorque = -1.0;
     int frequency = 0;
     for (int i = 3; i + 1 < argc; i += 2) {
         const std::string a = argv[i];
@@ -72,6 +75,7 @@ int main(int argc, char **argv) {
         else if (a == "--settle") settle = std::atof(argv[i + 1]);
         else if (a == "--measure") measure = std::atof(argv[i + 1]);
         else if (a == "--frequency") frequency = std::atoi(argv[i + 1]);
+        else if (a == "--torque") targetTorque = std::atof(argv[i + 1]);
 #ifdef ENGINE_SIM_OVERLAY
         // Overlay-only diagnostic switches (value 0 = upstream behaviour).
         else if (a == "--real-gas") gas_vibration::enabled = std::atoi(argv[i + 1]) != 0;
@@ -81,7 +85,7 @@ int main(int argc, char **argv) {
 #endif
     }
 
-    std::printf("rpm,torque_Nm,power_kW,fuel_g_s,bsfc_g_kWh\n");
+    std::printf("rpm,speed_control,torque_Nm,power_kW,fuel_g_s,bsfc_g_kWh,burned_g_s\n");
     for (double rpm : speeds) {
         es_script::Compiler compiler;
         compiler.initialize();
@@ -130,6 +134,34 @@ int main(int argc, char **argv) {
         sim->m_dyno.m_enabled = true;
         advance(sim, settle, f);
 
+        // Part load: bisect the speed control (torque rises monotonically
+        // with it) at the held speed, then settle at the result.
+        double control = throttle;
+        if (targetTorque >= 0.0) {
+            double lo = 0.0, hi = 1.0;
+            for (int it = 0; it < 12; ++it) {
+                control = 0.5 * (lo + hi);
+                engine->setSpeedControl(control);
+                advance(sim, 1.5, f);
+                double t = 0.0, pw = 0.0;
+                long long k = 0;
+                advance(sim, 0.5, f, &t, &pw, &k);
+                t /= std::max(1LL, k);
+                pw /= std::max(1LL, k);
+                // The dyno torque opposes rotation: compare magnitudes, and
+                // treat a motored (absorbing) engine as below target.
+                const double brake = pw / std::max(1e-9, std::abs(units::rpm(rpm)));
+                if (brake < units::torque(targetTorque, units::Nm)) lo = control; else hi = control;
+            }
+            control = 0.5 * (lo + hi);
+            engine->setSpeedControl(control);
+            advance(sim, settle, f);
+        }
+
+#ifdef ENGINE_SIM_OVERLAY
+        double burned0 = 0.0;
+        for (int c = 0; c < engine->getCylinderCount(); ++c) burned0 += engine->getChamber(c)->m_nBurntFuel;
+#endif
         const double fuel0 = engine->getTotalFuelMassConsumed();
         double torque = 0.0, power = 0.0;
         long long n = 0;
@@ -137,9 +169,14 @@ int main(int argc, char **argv) {
         const double fuelRate = (engine->getTotalFuelMassConsumed() - fuel0) / measure;   // kg/s
         torque /= std::max(1LL, n);
         power /= std::max(1LL, n);
-        const double kW = std::abs(power) / 1000.0;
-        std::printf("%.0f,%.2f,%.3f,%.4f,%.1f\n", rpm, std::abs(torque), kW, fuelRate * 1000.0,
-            kW > 0.0 ? fuelRate * 1000.0 * 3600.0 / kW : 0.0);
+        const double kW = power / 1000.0;
+        double burnedRate = 0.0;
+#ifdef ENGINE_SIM_OVERLAY
+        for (int c = 0; c < engine->getCylinderCount(); ++c) burnedRate += engine->getChamber(c)->m_nBurntFuel;
+        burnedRate = (burnedRate - burned0) / measure;
+#endif
+        std::printf("%.0f,%.4f,%.2f,%.3f,%.4f,%.1f,%.4f\n", rpm, control, power / units::rpm(rpm), kW,
+            fuelRate * 1000.0, kW > 0.0 ? fuelRate * 1000.0 * 3600.0 / kW : 0.0, burnedRate * 1000.0);
         std::fflush(stdout);
 
         sim->destroy();
