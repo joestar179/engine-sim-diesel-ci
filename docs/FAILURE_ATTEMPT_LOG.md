@@ -1134,6 +1134,25 @@ The shape is flat. Set: DF150 46°, TF250 37°.
 - 46°/37° rated injection is long for rotary pumps (typical 20–30°): either the jet mixing is somewhat fast (e.g. no wall impingement: x_st ≈ 85 mm > bore/2 = 53 mm) or a loss is missing.
 - TF250 at 1000 rpm is +7.5 %.
 
+## Friction and heat loss: merit check (2026-10-01) — no change
+
+**Correction:**
+- Earlier entries quoted GX390 fmep ~73 kPa. That figure divided window energy by 4 s while the tool measured 3 s.
+- Correct values (current physics, λ 0.80): fmep 124 kPa @ 2500 and 119 kPa @ 3600 (1.0 / 1.4 kW), mechanical efficiency 0.87-0.88.
+- This is inside the typical 100-150 kPa for small air-cooled engines. Friction shows no merit as the main cause.
+
+**Wall heat loss:**
+- 13.4 % (2500) and 12.0 % (3600) of released heat, i.e. ~9-10 % of fuel energy at λ 0.8.
+- Typical full-load SI in-cylinder heat loss is ~15-25 % of fuel energy (Heywood ch. 12, order of magnitude). The sim is plausibly low by ~5 points.
+- Roughly half of the lost heat would otherwise become work: about −2.5 % of released energy, i.e. −6 to −8 % brake. That is the size of the remaining GX390 excess.
+- Wall temperatures are consistent: the UA report measured GX390 head temperature 203-227 C vs 230 C (503 K) in the model.
+- Two candidate causes, both geometric/correlation, not fitted:
+  1. Area: piston crown and fire deck are each taken as the flat bore area. Real chamber + piston surface is typically ~1.2-1.4× that (valves, chamber recess, squish).
+  2. Correlation: Hohenberg was developed for DI diesel; Woschni is the usual SI correlation. Their relative magnitude for SI should be checked.
+- Systemic relevance: the ALCO is still too efficient (SFC 155 vs 168) and the Deere was masked by pump calibration. Under-predicted heat loss would affect all engines.
+
+**Merit:** heat loss yes (worth a scoped investigation); friction no.
+
 ## Dissociation quantified (Cantera fuel-air cycle) — small, not implemented (2026-10-01)
 
 **Method** (`tools/reference/dissociation_cycle.py`, Cantera 3.2, NASA Glenn data):
@@ -1273,7 +1292,7 @@ Both units get progressively richer as load falls. Grade F (family units, not th
 1. Ambient basis: SAE J1349 corrects to 99 kPa dry air, 25 C; the sim runs at 101.325 kPa → ~+2.3 % (open register item: selectable ambient).
 2. Air-cleaner restriction (dual element 17210-ZE3-505 / 17218-ZE3-000) is not modelled (U).
 3. Dissociation of burned gas is not modelled (A).
-4. PNH friction for a small air-cooled engine (fmep ~73 kPa at 3600).
+4. PNH friction for a small air-cooled engine (fmep ~73 kPa at 3600 — corrected later to 119 kPa: window error).
 5. Carburettor venturi (C 22 mm) and mixture (U).
 
 ## SI flame-speed check against published correlations (2026-10-01) — no change
