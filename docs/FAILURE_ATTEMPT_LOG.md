@@ -1134,6 +1134,53 @@ The shape is flat. Set: DF150 46°, TF250 37°.
 - 46°/37° rated injection is long for rotary pumps (typical 20–30°): either the jet mixing is somewhat fast (e.g. no wall impingement: x_st ≈ 85 mm > bore/2 = 53 mm) or a loss is missing.
 - TF250 at 1000 rpm is +7.5 %.
 
+## Deere pump delivery re-derived under the current physics (2026-10-01)
+
+**Rule (unchanged):** pump cam lift rate (C, equipment; plunger/cam data U) is set on documented rated torque. Fuel stops are R from documented power × BSFC.
+
+**Sweep (rated point):**
+
+| Engine | Rate (mm/deg) | ~Duration | Torque vs doc |
+|---|---|---|---|
+| DF150 @ 2500 | 0.01594 | 46 deg | −3.6 % |
+| | 0.019 | 39 deg | +0.4 % |
+| | 0.022 | 33 deg | +4.1 % |
+| | 0.026 | 28 deg | +6.8 % |
+| TF250 @ 2400 | 0.03022 | 37 deg | −4.3 % |
+| | 0.035 | 32 deg | −0.3 % |
+| | 0.040 | 28 deg | +3.3 % |
+| | 0.046 | 24 deg | +4.6 % |
+
+**Adopted:** DF150 0.019 (~39 deg), TF250 0.035 (~32 deg). Implied durations shortened by 7 / 5 deg (masking hypothesis partly confirmed). DF150 is still above the typical 20-30 deg.
+
+**Held-out curves (torque N m, sim / documented):**
+
+DF150:
+
+| rpm | 1000 | 1200 | 1400 | 1600 | 1800 | 2000 | 2200 | 2400 | 2500 |
+|---|---|---|---|---|---|---|---|---|---|
+| Sim | 286.1 | 288.1 | 280.5 | 272.8 | 263.0 | 251.7 | 243.7 | 233.6 | 228.9 |
+| Doc | 290 | 292 | 286 | 278 | 270 | 260 | 248 | 235 | 228 |
+| Diff | −1.4 % | −1.3 % | −1.9 % | −1.9 % | −2.6 % | −3.2 % | −1.7 % | −0.6 % | +0.4 % |
+
+- Peak at 1200 (doc 1200). Torque rise 25.9 vs 28.1 %.
+- BSFC 225-238 vs 218-237 g/kWh.
+
+TF250:
+
+| rpm | 1000 | 1200 | 1400 | 1600 | 1800 | 2000 | 2200 | 2400 |
+|---|---|---|---|---|---|---|---|---|
+| Sim | 383.9 | 412.3 | 438.7 | 445.0 | 430.4 | 417.0 | 390.7 | 369.9 |
+| Doc | 375 | 434 | 445 | 440 | 428 | 415 | 396 | 371 |
+| Diff | +2.4 % | −5.0 % | −1.4 % | +1.1 % | +0.6 % | +0.5 % | −1.3 % | −0.3 % |
+
+- Peak at 1600 (doc 1400, one step). Torque rise 20.3 vs 19.9 %.
+- The 1000 rpm point was +7.5 % before.
+
+**Open:**
+- TF250 at 1000 rpm uses ~8 % less fuel than its stop (smoke limiter at low boost): BSFC 212.5 vs 239. The torque match there means ~11 % excess efficiency at that point.
+- EGT, airflow and boost were not re-measured after the physics layers.
+
 ## Chamber surface area and heat-transfer correlation (2026-10-01) — low merit, default unchanged
 
 **Input added (equipment geometry, default 1.0 = previous behaviour):**

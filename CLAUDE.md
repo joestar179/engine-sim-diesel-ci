@@ -135,7 +135,7 @@ Open issues (highest impact first):
 4. **Cummins 4B/4BT inputs.** Injection timing U (12 deg C), turbo hardware
    U, and documented airflow inconsistent (33 L/s implies volumetric
    efficiency 0.67).
-4b. **Physics layers 2026-10-01: SI two-zone burn fix and combustion-product heat capacity.** GX390 8.78 kW @ documented 22 deg (doc 8.7), but sim MBT ~37 deg: the SI mid-burn (10-50 %) is slow (next layer: turbulent flame speed). Kohler 16.9 kW at its C 20 deg timing. Deere −4 to −5 % (pump rates C set under old physics). ALCO 2505 hp, SFC 155 (doc 168).
+4b. **Physics layers 2026-10-01: SI two-zone burn fix and combustion-product heat capacity.** GX390 8.78 kW @ documented 22 deg (doc 8.7), but sim MBT ~37 deg: the SI mid-burn (10-50 %) is slow (next layer: turbulent flame speed). Kohler 16.9 kW at its C 20 deg timing. Deere pump rates re-derived (DF150 39 deg, TF250 32 deg): curves −3.2..+0.4 % / −5.0..+2.4 %. ALCO 2505 hp, SFC 155 (doc 168). GX390 parked as done (J1349 +5.2 %, curve −2..+10 %, fuel within family scatter).
 5. **Petrol: small-petrol validation engine is now the Honda GX390 (Kohler
    CH750 reclassified as a calibration engine, 2026-10-01).**
    - GX390 (`honda_gx390_validated.mr`, no value set from a rating):
