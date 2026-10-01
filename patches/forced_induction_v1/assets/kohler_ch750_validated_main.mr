@@ -1,0 +1,6 @@
+import "engine_sim.mr"
+import "themes/default.mr"
+import "engines/validation/kohler_ch750_validated.mr"
+
+use_default_theme()
+set_engine(kohler_ch750_validated())

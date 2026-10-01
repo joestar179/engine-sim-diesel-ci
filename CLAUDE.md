@@ -86,14 +86,16 @@ Open issues (highest impact first):
 4. **Cummins 4B/4BT inputs.** Injection timing U (12 deg C), turbo hardware
    U, and documented airflow inconsistent (33 L/s implies volumetric
    efficiency 0.67).
-5. **Stock SI engines regressed by the global gas changes (measured).**
-   - Kohler CH750 at 3600 rpm full throttle: upstream 14.4 kW, ours 6.1 kW;
-     published 20.1 kW.
-   - Enthalpy flow cuts VE from 1.37 (impossible; upstream over-breathing) to
-     1.03; real gas lowers efficiency.
-   - Upstream itself reaches 72 % only through compensating errors (VE 1.37
-     x BSFC 618).
-   - Tools: `engine-sim-dyno-sweep` (builds on upstream and ours), upstream
+5. **Petrol: coherent model validated on the Kohler CH750; stock SI scripts
+   not yet re-derived.**
+   - `kohler_ch750_validated.mr` (documented CR, real gasoline, PNH friction,
+     unified heat transfer, flame expansion): 21.0 kW at 3600 rpm (doc 20.1)
+     and 59.0 N m at 3000 rpm (doc 57.2); BSFC ~305.
+   - Upstream itself reached 72 % only via compensating errors (VE 1.37 x
+     BSFC 618).
+   - Every stock SI script's hand timing/fuel/friction knobs were tuned to the
+     old flame and friction: the stock Kohler at 50 deg now gives 4.1 kW.
+   - Tools: `engine-sim-dyno-sweep` (builds on upstream and ours); upstream
      clone in `C:\es\upstream`.
 6. **Real-time budget:** 16-251B physics ~118 % of one core at 3 kHz; the
    small engines run at 63-78 % at 10 kHz.
@@ -110,6 +112,8 @@ Parameters:
 | Hohenberg heat-transfer constants | 130, -0.06, 0.8, -0.4, +1.4 | S | Hohenberg, SAE 790825 |
 | CI wall surface temperatures | piston 573 K, head 503 K, liner 423 K | S (typical) | Heywood ch. 12, full-load DI diesel; replaces 90 C coolant wall |
 | CI ignition delay | Assanis et al. 2003, Livengood-Wu | S | Opt-in (`ignition_delay_correlation`); ALCO still uses fixed 4 deg |
+| SI flame front | upstream flame model + burned-gas expansion E = T_b/T_u (two-zone) | S | Physical density ratio; `combustion_physics::flameExpansion` |
+| Heat transfer (SI and CI) | Hohenberg, gas-side surfaces 573/503/423 K | S | One model for both (`combustion_physics::unifiedHeatTransfer`) |
 | Mechanical friction (validation engines) | Patton-Nitschke-Heywood components, original constants, viscosity ratio 1.28 | S (model) / C (bearing geometry) | Sandoval MIT 2003 pp. 13-16; bearings 0.75/0.68 B, L 0.4 D |
 | Smoke-limited equivalence ratio | 0.75 (limiter lambda 1/0.75) | S (range) | Heywood: DI diesel ~0.7-0.8 |
 | Intake momentum drag (velocity_decay) | 1.0 small engines; 0.30 ALCO | C / A | Runner loss coefficient ~1 velocity head; 0.30 over-rammed (VE 1.09) |

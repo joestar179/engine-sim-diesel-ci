@@ -20,6 +20,7 @@
 #include "../include/units.h"
 #ifdef ENGINE_SIM_OVERLAY
 #include "../include/gas_system.h"
+#include "../include/combustion_chamber.h"
 #endif
 
 #include <cmath>
@@ -75,6 +76,8 @@ int main(int argc, char **argv) {
         // Overlay-only diagnostic switches (value 0 = upstream behaviour).
         else if (a == "--real-gas") gas_vibration::enabled = std::atoi(argv[i + 1]) != 0;
         else if (a == "--enthalpy-flow") gas_vibration::enthalpyFlow = std::atoi(argv[i + 1]) != 0;
+        else if (a == "--unified-heat") combustion_physics::unifiedHeatTransfer = std::atoi(argv[i + 1]) != 0;
+        else if (a == "--flame-expansion") combustion_physics::flameExpansion = std::atoi(argv[i + 1]) != 0;
 #endif
     }
 

@@ -106,7 +106,7 @@ PINNED_PRODUCTION_TEMPLATES = {
     "assets/alco_16_251b_main.mr": "de603c279f374f62bd5b47ef0edebbabfbe083b01bdc2ab057620ff1af4c61f4",
     "assets/engines/alco/alco_16_251b_native.mr": "3788fab67ba888cbc4612b41dc387fa0bf1a91321f30a296f8152a4856e9c303",
     "es/objects/objects.mr": "164966d6ed578a716c4a2d63c881114bdd356af97bb8fb91ac7318306928e085",
-    "include/combustion_chamber.h": "f6712576de17d8949e31b04d21e6c66c1e1685efa0d1cf5a72cc44fac6081325",
+    "include/combustion_chamber.h": "0c9f004c4689a7e42ae7c7f234f782740f4a741874ead443475081744bbb8c0e",
     "include/engine.h": "163e4024e858e0690fb7abb2a7d4674178b95279cc1c0d77e00f98aff93c646b",
     "include/exhaust_system.h": "050d489bb2fc579b0bf350b14797e55bb26e902908f941069d0b2d275e42df90",
     "include/forced_induction_system.h": "57c6bc6a9084bdda1f99d60851a3c6ea53ec0059be36610a8a5e8a151b68ce22",
@@ -115,7 +115,7 @@ PINNED_PRODUCTION_TEMPLATES = {
     "scripting/include/engine_node.h": "c3c828a901516b4113d55eab3c1d2727cca2da3c962c1d3450fcc6f7a6e69ad4",
     "scripting/include/exhaust_system_node.h": "d5f3436f866d9f3608efcd808aa61d079e0eb6f207a9134c046b0a0940755c3d",
     "scripting/src/compiler.cpp": "fb6566d847ab4486d68ee39e813753cc5c0b9d52c7c5b988bb4fbd43ec02eeb0",
-    "src/combustion_chamber.cpp": "9ffe21513ab228bbf23b9195ff68c263004c8f19875cba3f6e10228e8fb567dd",
+    "src/combustion_chamber.cpp": "534e0542a541a74e9a12bb878e5f4286117a055389cd64393619505133b2970d",
     "src/engine.cpp": "05a615b2ea76a1cc8aec82e8c6059c4f65503393365e697917277abafb76ebb8",
     "src/exhaust_system.cpp": "82371111c1405bfd72a581be18d2b2274bd63819d92103d73b0970a5f7895d20",
     "src/forced_induction_system.cpp": "7670b6247dbffb2424c63145e2db56e651588838b14ddc2f4f89b5cc2d6f6302",
@@ -149,6 +149,8 @@ PINNED_PRODUCTION_TEMPLATES = {
 
 NEW_FILES = {
     "assets/alco_16_251b_no_turbo_main.mr",
+    "assets/engines/validation/kohler_ch750_validated.mr",
+    "assets/kohler_ch750_validated_main.mr",
     "test/dyno_sweep.cpp",
     "include/engine_friction_model.h",
     "src/engine_friction_model.cpp",
@@ -175,6 +177,9 @@ NEW_FILES = {
 }
 
 REQUIRED_POSTCONDITIONS = {
+    "include/combustion_chamber.h": [
+        "extern bool flameExpansion;",
+    ],
     "src/engine_friction_model.cpp": [
         "1.22e5 * Dm / (B * B * S * nc)",
         "f.auxiliary = 6.23 + 5.22e-3 * N - 1.79e-7 * N * N;",

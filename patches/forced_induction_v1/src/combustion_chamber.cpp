@@ -220,6 +220,18 @@ void CombustionChamber::ignite() {
             (mixingFactor * rand_s + (1 - mixingFactor));
         m_flameEvent.efficiency =
             efficiencyAttenuation * maxBurningEfficiency;
+        // Two-zone density ratio: burned gas at the same pressure is hotter by
+        // the heat of the charge's fuel (real-gas u(T)); E = T_b / T_u.
+        m_flameEvent.massFractionBurned = 0.0;
+        m_flameEvent.expansion = 1.0;
+        if (combustion_physics::flameExpansion && m_system.n() > 0) {
+            const double Tu = m_system.temperature();
+            const double q = m_system.mix().p_fuel * m_fuel->getMolecularMass()
+                * m_fuel->getEnergyDensity() * m_flameEvent.efficiency;
+            const double ub = m_system.kineticEnergy() / m_system.n() + q;
+            const double Tb = GasSystem::temperatureFromEnergyPerMol(ub, m_system.degreesOfFreedom());
+            if (Tu > 0.0 && Tb > Tu) m_flameEvent.expansion = Tb / Tu;
+        }
         m_flameEvent.flameSpeed = m_fuel->flameSpeed(
             turbulence,
             afr,
@@ -314,7 +326,7 @@ void CombustionChamber::update(double dt) {
 
     updateCycleStates();
 
-    if (m_engine->isCompressionIgnition()) {
+    if (m_engine->isCompressionIgnition() || combustion_physics::unifiedHeatTransfer) {
         const double pistonSpeed = std::abs(calculateMeanPistonSpeed());
         m_heatTransferStepFactor = 130.0
             * std::pow(std::max(getVolume(), 1.0e-6), -0.06)
@@ -351,7 +363,7 @@ void CombustionChamber::flow(double dt) {
     // diesels; scales with pressure, temperature, piston speed and size). The
     // original constant 100 W/m^2K is kept for spark-ignition engines.
     double heatTransferCoefficient = 100.0;
-    if (m_engine->isCompressionIgnition()) {
+    if (m_engine->isCompressionIgnition() || combustion_physics::unifiedHeatTransfer) {
         const double pressureBar = std::max(0.01, m_system.pressure() / 1.0e5);
         const double temperature = std::max(1.0, m_system.temperature());
         // p^0.8 * T^-0.4 = exp(0.8 ln p - 0.4 ln T); the volume and piston
@@ -458,7 +470,10 @@ void CombustionChamber::flow(double dt) {
         const double expansion = volume / m_flameEvent.lastVolume;
         const double lastTravel_x = m_flameEvent.travel_x;
         const double lastTravel_y = m_flameEvent.travel_y * expansion;
-        const double flameSpeed = m_flameEvent.flameSpeed;
+        // The front bounds the burned gas, which occupies E times the volume
+        // of the same mass unburned: it moves at E x S_T relative to the
+        // chamber while mass is entrained at rho_u x A x S_T.
+        const double flameSpeed = m_flameEvent.flameSpeed * m_flameEvent.expansion;
 
         m_flameEvent.travel_x =
             std::fmin(lastTravel_x + dt * flameSpeed, totalTravel_x);
@@ -472,7 +487,16 @@ void CombustionChamber::flow(double dt) {
             const double prevBurnedVolume =
                 lastTravel_x * lastTravel_x * constants::pi * lastTravel_y;
             const double litVolume = burnedVolume - prevBurnedVolume;
-            const double n = (litVolume / volume) * m_system.n();
+            double n = (litVolume / volume) * m_system.n();
+            if (combustion_physics::flameExpansion) {
+                // Mass fraction burned from the burned volume fraction y:
+                // x = y / (E (1 - y) + y).
+                const double E = m_flameEvent.expansion;
+                const double y = std::min(1.0, burnedVolume / volume);
+                const double x = y / (E * (1.0 - y) + y);
+                n = std::max(0.0, x - m_flameEvent.massFractionBurned) * m_flameEvent.total_n;
+                m_flameEvent.massFractionBurned = std::max(m_flameEvent.massFractionBurned, x);
+            }
 
             const double fuelBurned =
                 m_system.react(n * m_flameEvent.efficiency, m_flameEvent.globalMix);
@@ -509,6 +533,15 @@ double CombustionChamber::lastEventAfr() const {
             / (totalFuel * octaneMolarMass);
     }
 }
+
+// Spark-ignition chambers use the same heat transfer as compression ignition
+// (Hohenberg, gas-side surfaces). Diagnostic switch; false = upstream
+// 100 W/m^2K to a 90 C wall.
+bool combustion_physics::unifiedHeatTransfer = true;
+// Diagnostic switch (default true): the spark-ignition flame front grows with
+// the burned-gas volume (density ratio T_b/T_u); false = upstream (burned
+// volume fraction taken as mass fraction).
+bool combustion_physics::flameExpansion = true;
 
 double CombustionChamber::calculateFrictionForce(double v_s) const {
     // The component friction model (Engine::getFrictionModel) includes the

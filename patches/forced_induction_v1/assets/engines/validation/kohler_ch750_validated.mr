@@ -1,0 +1,213 @@
+import "engine_sim.mr"
+
+units units()
+constants constants()
+impulse_response_library ir_lib()
+
+private node wires {
+    output wire1: ignition_wire();
+    output wire2: ignition_wire();
+}
+
+private node gasoline_validated {
+    alias output __out:
+        fuel(
+        name: "Gasoline [LHV 43.4 MJ/kg]",
+        energy_density: 43.4 * units.kJ / units.g,
+        max_burning_efficiency: 0.97,
+        burning_efficiency_randomness: 0.0
+    );
+}
+
+/*
+    Kohler CH750 (Command PRO, V-twin 747 cc), validation version of the stock
+    script (assets/engines/kohler/kohler_ch750.mr is left untouched: CI uses it
+    as the official SI null). Everything not listed below is the stock script.
+    Source: Kohler E-2196 spec sheet / Command PRO brochure (SAE J1940 gross):
+      27 hp (20.1 kW) at 3600 rpm, 57.2 N m peak torque at 3000 rpm.
+    Inputs (each can be switched back to the stock value for A/B):
+      compression_ratio  D 9.4:1 (E-2196, CH 747 cc); stock 50 cc chamber = 8.5
+      fuel               S gasoline LHV 43.4 kJ/g, combustion efficiency 0.97
+                         (Heywood ch. 4, stoichiometric SI); stock 48.1 x 0.8
+                         with randomness 0.5
+      component_friction S PNH (developed for SI engines); C bearing geometry;
+                         stock 10 lb ft crank + side-thrust piston friction
+      intake_velocity_decay  C 1.0 runner loss coefficient (stock default 0.25)
+      advance            C 20 deg (stock 50 deg constant compensated the
+                         upstream flame model's missing burned-gas expansion)
+*/
+public node kohler_ch750_validated {
+    input compression_ratio: 9.4;
+    input fuel: gasoline_validated();
+    input component_friction: true;
+    input crank_friction: 0.0 * units.lb_ft;      // stock: 10 lb ft
+    // C: Kohler's fixed electronic-ignition value is in the service manual
+    // (U). With the coherent physics best torque is at 10-15 deg and 10-25 deg
+    // all give 20.3-21.2 kW at 3600 rpm (published 20.1); 20 deg is used.
+    input advance: 20 * units.deg;
+    // Runner loss coefficient (velocity heads), as validated on the 4045 and
+    // used by the stock Chevrolet 454; stock default 0.25 over-rams.
+    input intake_velocity_decay: 1.0;
+    input engine_name: "Kohler CH750 (validated)";
+    alias output __out: engine;
+
+    label displacement_per_cylinder(constants.pi / 4 * (83 * units.mm) * (83 * units.mm) * (69 * units.mm))
+    label chamber(displacement_per_cylinder / (compression_ratio - 1))
+
+    engine engine(
+        name: engine_name,
+        starter_torque: 50 * units.lb_ft,
+        starter_speed: 500 * units.rpm,
+        redline: 3600 * units.rpm,
+        fuel: fuel,
+        component_friction: component_friction,
+        main_bearing_count: 2,
+        main_bearing_diameter: 0.75 * 83 * units.mm,
+        main_bearing_length: 0.4 * 0.75 * 83 * units.mm,
+        rod_bearing_diameter: 0.68 * 83 * units.mm,
+        rod_bearing_length: 0.4 * 0.68 * 83 * units.mm,
+        cam_bearing_count: 2,
+        valve_count: 4,
+        max_valve_lift: 200 * units.thou,
+        // OHV, hydraulic (flat) lifters: Sandoval table 4.2 OHV constants
+        valvetrain_flat_follower: 400.0,
+        valvetrain_roller_follower: 0.0,
+        valvetrain_oscillating_hydrodynamic: 0.5,
+        valvetrain_oscillating_mixed: 32.1,
+        // Kohler specifies SAE 10W-30: PNH reference oil (A: 90 C)
+        oil_viscosity_ratio: 1.0
+    )
+
+    wires wires()
+
+    crankshaft c0(
+        throw: 69 * units.mm / 2,
+        flywheel_mass: 5 * units.lb,
+        mass: 5 * units.lb,
+        friction_torque: crank_friction,
+        moment_of_inertia: 0.22986844776863666 * 0.5,
+        position_x: 0.0,
+        position_y: 0.0,
+        tdc: constants.pi / 4
+    )
+
+    rod_journal rj0(angle: 0.0)
+    c0
+        .add_rod_journal(rj0)
+
+    piston_parameters piston_params(
+        mass: 400 * units.g,
+        //blowby: k_28inH2O(0.1),
+        compression_height: 1.0 * units.inch,
+        wrist_pin_position: 0.0,
+        displacement: 0.0
+    )
+
+    connecting_rod_parameters cr_params(
+        mass: 300.0 * units.g,
+        moment_of_inertia: 0.0015884918028487504,
+        center_of_mass: 0.0,
+        length: 4.0 * units.inch
+    )
+
+    cylinder_bank_parameters bank_params(
+        bore: 83 * units.mm,
+        deck_height: (4.0 + 1) * units.inch + 69 * units.mm / 2
+    )
+
+    intake intake(
+        plenum_volume: 1.0 * units.L,
+        plenum_cross_section_area: 10.0 * units.cm2,
+        intake_flow_rate: k_carb(50.0),
+        idle_flow_rate: k_carb(0.0),
+        idle_throttle_plate_position: 0.96,
+        throttle_gamma: 1.0,
+        velocity_decay: intake_velocity_decay
+    )
+
+    exhaust_system_parameters es_params(
+        outlet_flow_rate: k_carb(300.0),
+        primary_tube_length: 10.0 * units.inch,
+        primary_flow_rate: k_carb(200.0),
+        velocity_decay: 1.0,
+        volume: 20.0 * units.L
+    )
+
+    exhaust_system exhaust0(
+        es_params,
+        audio_volume: 1.0,
+        impulse_response: ir_lib.default_0
+    )
+
+    cylinder_bank b0(bank_params, angle: -45 * units.deg)
+    b0
+        .add_cylinder(
+            piston: piston(piston_params, blowby: k_28inH2O(0.1)),
+            connecting_rod: connecting_rod(cr_params),
+            rod_journal: rj0,
+            intake: intake,
+            exhaust_system: exhaust0,
+            ignition_wire: wires.wire1
+        )
+
+    cylinder_bank b1(bank_params, angle: 45.0 * units.deg)
+    b1
+        .add_cylinder(
+            piston: piston(piston_params, blowby: k_28inH2O(0.1)),
+            connecting_rod: connecting_rod(cr_params),
+            rod_journal: rj0,
+            intake: intake,
+            exhaust_system: exhaust0,
+            ignition_wire: wires.wire2
+        )
+
+    engine
+        .add_cylinder_bank(b0)
+        .add_cylinder_bank(b1)
+
+    engine.add_crankshaft(c0)
+
+    harmonic_cam_lobe lobe(
+        duration_at_50_thou: 160 * units.deg,
+        gamma: 1.1,
+        lift: 200 * units.thou,
+        steps: 100
+    )
+
+    vtwin90_camshaft_builder camshaft(
+        lobe_profile: lobe,
+        lobe_separation: 114 * units.deg,
+        base_radius: 500 * units.thou
+    )
+
+    b0.set_cylinder_head (
+        generic_small_engine_head(
+            chamber_volume: chamber,
+            intake_camshaft: camshaft.intake_cam_0,
+            exhaust_camshaft: camshaft.exhaust_cam_0
+        )
+    )
+    b1.set_cylinder_head (
+        generic_small_engine_head(
+            chamber_volume: chamber,
+            intake_camshaft: camshaft.intake_cam_1,
+            exhaust_camshaft: camshaft.exhaust_cam_1,
+            flip_display: true
+        )
+    )
+
+    function timing_curve(1000 * units.rpm)
+    timing_curve
+        .add_sample(0000 * units.rpm, advance)
+        .add_sample(1000 * units.rpm, advance)
+        .add_sample(2000 * units.rpm, advance)
+        .add_sample(3000 * units.rpm, advance)
+        .add_sample(4000 * units.rpm, advance)
+
+    engine.add_ignition_module(
+        vtwin90_distributor(
+            wires: wires,
+            timing_curve: timing_curve,
+            rev_limit: 5000 * units.rpm
+        ))
+}

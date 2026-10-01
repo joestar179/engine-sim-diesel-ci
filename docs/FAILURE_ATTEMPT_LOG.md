@@ -995,6 +995,44 @@ The upstream was cloned at 56725cc (Piranha 432f0b1, Delta b7d0a04) in `C:\es\up
 - Enthalpy flow corrects the over-breathing; real gas lowers efficiency further; with both, SI is 30 % of rated.
 - **The stock SI engines are regressed by the global gas changes.** Not repaired; awaiting the user's direction.
 
+## Coherent model: petrol re-derivation on the Kohler CH750
+
+**Validated script:** `assets/engines/validation/kohler_ch750_validated.mr` (stock `kohler_ch750.mr` untouched; CI uses it). Source: Kohler E-2196 / Command PRO brochure — 27 hp (20.1 kW) at 3600, 57.2 N·m at 3000, CR 9.4:1 (CH 747 cc), hydraulic lifters, electronic ignition.
+
+**Step by step**, full-throttle power in kW (current gas physics):
+
+| Step | 1500 | 2400 | 3000 | 3600 | Notes |
+|---|---|---|---|---|---|
+| S0 stock | 4.9 | 6.0 | 6.4 | 6.0 | |
+| S1 CR 9.4 (D) | | | | 6.4 | |
+| S2 gasoline LHV 43.4 × 0.97, randomness 0 (S) | | | | 8.2 | |
+| S3 PNH friction (S, SI-native model; C geometry) | | | | 14.4 | BSFC 464 |
+| Timing sweep on S3 | | | | | Torque rises up to 50° advance: MBT > 50° is unphysical for a small SI engine |
+
+**Diagnosis:** upstream's flame front advances at S_T and takes burned volume fraction as mass fraction. Burned gas occupies T_b/T_u ≈ 3–5× the volume, so the flame area, and hence ρ_u·A·S_T, is underestimated. The stock 50° timing compensates.
+
+- **Test:** flame speed × 3.5 → MBT ~25°, 24.4 kW (+21 %). The intake decay of 0.25 vs 1.0 had no effect on the Kohler (VE 1.02).
+- **Heat transfer:** SI still used 100 W/m²K to a 90 °C wall. The unified Hohenberg + gas-side surfaces → 21.0–21.3 kW at 20–25°, BSFC ~305.
+
+**Implemented** (switches in `combustion_physics`, both default on; `--unified-heat` / `--flame-expansion` in the dyno tool):
+
+1. `unifiedHeatTransfer`: SI chambers use the CI heat transfer (one model).
+2. `flameExpansion`: per event E = T_b/T_u from real-gas u(T) of the charge + fuel heat; the front moves at E·S_T; mass fraction x = y / (E(1 − y) + y). Mass burning rate = ρ_u·A·S_T; upstream's flame concept (geometry, turbulence = 0.5 S̄p, laminar speed, turbulence ratio) is otherwise unchanged.
+
+**Result**, validated Kohler (20° default, C):
+
+| rpm | Torque | Power | BSFC |
+|---|---|---|---|
+| 1500 | 58.4 N·m | 9.2 kW | 345 |
+| 2400 | 61.5 N·m | 15.5 kW | 304 |
+| 3000 | 59.0 N·m (doc 57.2, +3 %) | 18.5 kW | 304 |
+| 3600 | 55.6 N·m | 21.0 kW (doc 20.1, +4 %) | 308 |
+
+- MBT is at 10–15°; anywhere in 10–25° gives 20.3–21.2 kW / 57.1–60.0 N·m. Brake efficiency ≈ 27 %.
+- Diesel unaffected: DF150 2500 rpm 231 N·m, BSFC 235. Unit tests unchanged.
+
+**Consequence:** every stock SI script's hand-set timing (and burning-efficiency, friction) knobs were tuned to the old flame and friction. Stock Kohler at its 50° now gives 4.1 kW. The stock engines need the same re-derivation — open.
+
 ## Handover incident: transient worktree loss
 
 Failure signature: `handover | uncommitted temporary worktree unavailable on continuation | workspace persistence layer`

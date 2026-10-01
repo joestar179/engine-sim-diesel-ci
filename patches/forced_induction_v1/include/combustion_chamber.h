@@ -11,6 +11,11 @@
 #include "compression_ignition_model.h"
 
 class Engine;
+namespace combustion_physics {
+    extern bool unifiedHeatTransfer;
+    extern bool flameExpansion;
+}
+
 class CombustionChamber : public atg_scs::ForceGenerator {
     public:
         struct Parameters {
@@ -34,6 +39,10 @@ class CombustionChamber : public atg_scs::ForceGenerator {
             double lastVolume = 0.0;
             double travel_x = 0.0;
             double travel_y = 0.0;
+            // Burned/unburned density ratio at ignition (T_b / T_u) and the
+            // mass fraction burned so far (two-zone, equal pressure).
+            double expansion = 1.0;
+            double massFractionBurned = 0.0;
             GasSystem::Mix globalMix;
         };
 
