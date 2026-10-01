@@ -86,8 +86,15 @@ Open issues (highest impact first):
 4. **Cummins 4B/4BT inputs.** Injection timing U (12 deg C), turbo hardware
    U, and documented airflow inconsistent (33 L/s implies volumetric
    efficiency 0.67).
-5. **Stock-engine impact is not assessed** for the enthalpy, real-gas and
-   ignition-wrap changes.
+5. **Stock SI engines regressed by the global gas changes (measured).**
+   - Kohler CH750 at 3600 rpm full throttle: upstream 14.4 kW, ours 6.1 kW;
+     published 20.1 kW.
+   - Enthalpy flow cuts VE from 1.37 (impossible; upstream over-breathing) to
+     1.03; real gas lowers efficiency.
+   - Upstream itself reaches 72 % only through compensating errors (VE 1.37
+     x BSFC 618).
+   - Tools: `engine-sim-dyno-sweep` (builds on upstream and ours), upstream
+     clone in `C:\es\upstream`.
 6. **Real-time budget:** 16-251B physics ~118 % of one core at 3 kHz; the
    small engines run at 63-78 % at 10 kHz.
 7. **Gate 6B** shadow governor predates `k_p`, `droop` and the smoke limiter.
