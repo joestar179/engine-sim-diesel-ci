@@ -98,7 +98,9 @@ void CombustionChamber::initialize(const Parameters &params) {
     // created a spurious plenum-runner resonance.
     m_intakeRunnerAndManifold.initialize(
         units::pressure(1.0, units::atm),
-        combustion_physics::inertialRunners ? m_head->getIntakeRunnerVolume() : totalIntakeRunnerVolume,
+        combustion_physics::inertialRunners
+            ? m_head->getIntakeRunnerVolume() + combustion_physics::pipeCavityShare * manifoldRunnerVolume
+            : totalIntakeRunnerVolume,
         units::celcius(25.0));
     m_intakeRunnerAndManifold.setGeometry(
         overallIntakeRunnerLength,
@@ -116,7 +118,9 @@ void CombustionChamber::initialize(const Parameters &params) {
     m_exhaustRunnerLength = overallExhaustRunnerLength;
     m_exhaustRunnerAndPrimary.initialize(
         units::pressure(1.0, units::atm),
-        combustion_physics::inertialRunners ? m_head->getExhaustRunnerVolume() : totalExhaustRunnerVolume,
+        (combustion_physics::inertialRunners && combustion_physics::inertialExhaust)
+            ? m_head->getExhaustRunnerVolume() + combustion_physics::pipeCavityShare * exhaustTubeVolume
+            : totalExhaustRunnerVolume,
         units::celcius(25.0));
     m_exhaustRunnerAndPrimary.setGeometry(
         overallExhaustRunnerLength,
@@ -500,7 +504,7 @@ void CombustionChamber::flow(double dt) {
     // connection. A configured TurboGroup returns its distinct pre-turbine
     // scroll instead; ExhaustSystem::m_system therefore stays post-turbine.
     flowParams.system_1 = m_engine->getExhaustDestination(exhaust);
-    if (combustion_physics::inertialRunners) {
+    if (combustion_physics::inertialRunners && combustion_physics::inertialExhaust) {
         // Exhaust primary with inertia (pulse / scavenging dynamics). Losses:
         // exit 1.0 + pipe friction 0.02 L/D.
         const double A = m_head->getExhaustRunnerCrossSectionArea();
@@ -657,6 +661,8 @@ bool combustion_physics::unbiasedBurnEfficiency = true;
 // inertial pipes (gas column accelerated by the pressure difference, with
 // entry/exit and friction losses); false = upstream quasi-steady orifices.
 bool combustion_physics::inertialRunners = true;
+bool combustion_physics::inertialExhaust = true;
+double combustion_physics::pipeCavityShare = 0.0;
 
 double CombustionChamber::calculateFrictionForce(double v_s) const {
     // The component friction model (Engine::getFrictionModel) includes the

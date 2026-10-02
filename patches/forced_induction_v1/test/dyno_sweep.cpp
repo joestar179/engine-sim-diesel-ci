@@ -140,12 +140,12 @@ void advance(Simulator *sim, double seconds, int frequency,
             static long long traceStep = 0;
             if (trace && engine != nullptr && (++traceStep % std::max(1, std::atoi(std::getenv("ES_RUNNER_TRACE")))) == 0) {
                 CombustionChamber *ch = engine->getChamber(0);
-                std::printf("trace mdot_in %.4f mdot_ex %.4f | p_cyl %.1f p_inrun %.1f p_plenum %.1f p_exrun %.1f p_exh %.1f kPa T_exh %.1f\n",
+                std::printf("trace mdot_in %.4f mdot_ex %.4f | p_cyl %.1f p_inrun %.1f p_plenum %.1f p_exrun %.1f p_exh %.1f kPa T_exh %.1f V_cc %.3f\n",
                     ch->m_intakeRunnerMassFlow, ch->m_exhaustRunnerMassFlow,
                     ch->m_system.pressure() / 1000, ch->m_intakeRunnerAndManifold.pressure() / 1000,
                     engine->getIntake(0)->getSystem()->pressure() / 1000,
                     ch->m_exhaustRunnerAndPrimary.pressure() / 1000,
-                    engine->getExhaustSystem(0)->getSystem()->pressure() / 1000, engine->getExhaustSystem(0)->getSystem()->temperature());
+                    engine->getExhaustSystem(0)->getSystem()->pressure() / 1000, engine->getExhaustSystem(0)->getSystem()->temperature(), ch->getVolume() * 1e6);
                 const ForcedInductionSystem *fi = engine->getForcedInductionSystem();
                 if (fi->groupCount() > 0 && fi->group(0)->enabled()) {
                     const TurboGroup::Telemetry &t = fi->group(0)->telemetry();
@@ -263,6 +263,8 @@ int main(int argc, char **argv) {
         else if (a == "--flame-expansion") combustion_physics::flameExpansion = std::atoi(argv[i + 1]) != 0;
         else if (a == "--unbiased-burn") combustion_physics::unbiasedBurnEfficiency = std::atoi(argv[i + 1]) != 0;
         else if (a == "--inertial-runners") combustion_physics::inertialRunners = std::atoi(argv[i + 1]) != 0;
+        else if (a == "--pipe-cavity-share") combustion_physics::pipeCavityShare = std::atof(argv[i + 1]);
+        else if (a == "--inertial-exhaust") combustion_physics::inertialExhaust = std::atoi(argv[i + 1]) != 0;
         else if (a == "--inertial-after-start") inertialAfterStart = std::atoi(argv[i + 1]);
 #endif
     }
@@ -440,6 +442,9 @@ int main(int argc, char **argv) {
                 (net - brake) / released, brake / released, 1.0 - (net + wall) / released,
                 net > 0.0 ? brake / net : 0.0, probe.a10 * k, probe.a50 * k, probe.a90 * k,
                 probe.peakP * k / 1.0e5, probe.aPeak * k, probe.firings);
+            std::printf("energy: absolute kW: gross(fired segments) %.3f pumping+unfired %.3f net indicated %.3f brake %.3f friction %.3f wall %.3f\n",
+                probe.gross / measure / 1000, probe.pumping / measure / 1000, net / measure / 1000,
+                power / 1000, (net / measure - power) / 1000, wall / measure / 1000);
             std::printf("energy: outlet flow-weighted T %.1f K; sampled moles out %.4f, back-flow %.4f, intake %.4f\n", probe.outN > 0.0 ? probe.outNT / probe.outN : 0.0, probe.outN, probe.inN, probe.airN);
         }
 #endif

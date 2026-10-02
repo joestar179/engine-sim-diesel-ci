@@ -1134,6 +1134,31 @@ The shape is flat. Set: DF150 46°, TF250 37°.
 - 46°/37° rated injection is long for rotary pumps (typical 20–30°): either the jet mixing is somewhat fast (e.g. no wall impingement: x_st ≈ 85 mm > bore/2 = 53 mm) or a loss is missing.
 - TF250 at 1000 rpm is +7.5 %.
 
+## Mazda motoring regression — diagnosis (2026-10-02)
+
+**Tools:**
+- `--energy` prints absolute powers (gross, pumping, net indicated, brake, friction, wall).
+- Trace adds cylinder volume.
+- Diagnostic switches (defaults unchanged, behaviour identical): `combustion_physics::inertialExhaust` (`--inertial-exhaust`) and `pipeCavityShare` (`--pipe-cavity-share`, the share of pipe volume lumped at the valve-side node; default 0). Pins updated.
+
+**Findings** (hand-script Mazda, λ 3, throttle at stop):
+
+1. **Not friction:** friction 9.52 kW with inertia off and on at 4400. Net indicated power is −6.8 → −12.1 kW.
+2. **Exhaust side only:** intake-only inertia gives −35.8 N m (vs −35.4 off); both give −47.0.
+3. **Exhaust stroke:** per-stroke p dV over one cycle (J) is +8.7 / −23.5 / +20.7 / **−54.1** off vs +8.0 / −22.5 / +19.7 / **−88.9** on. The extra ~35 J per cycle is all in the exhaust stroke.
+4. **Runner pressure swings 2-241 kPa** with exhaust inertia (97-104 kPa without); mdot −0.094..+0.215 kg/s.
+   - At EVO the cylinder is at ~10 kPa. The 80 cc port empties into it, and the 0.70 m × 32 mm primary (a rigid slug of ~0.56 g) accelerates to ~270 m/s, then rams the port during the exhaust stroke.
+5. **Pipe-volume split (π-section) does not fix it** (motoring error, 2500 / 3000 / 4000 / 4400 rpm):
+
+| configuration | 2500 | 3000 | 4000 | 4400 |
+|---|---|---|---|---|
+| inertia off | +19 % | +10 % | +5 % | +2 % |
+| share 0 | +30 % | +27 % | +38 % | +35 % |
+| share 0.5 | +38 % | +33 % | +32 % | +28 % |
+| share 1.0 | +39 % | +30 % | +26 % | +12 % |
+
+**Conclusion:** a single rigid-slug column cannot represent a compressible pipe under large pressure ratios (closed-throttle EVO into ~10 kPa, ~10:1). A real pipe carries the disturbance as a wave, with distributed compliance and reflections at the collector. Harmless at full load (Deere and Mazda WOT results hold); wrong at motoring. This is the §0d "no 1-D wave dynamics" limit appearing as an error, not only a missing effect.
+
 ## Mazda full calibration (2026-10-02)
 
 `calibrate.py` (full), current physics. VVT: EPA steady-state max-torque phases at 1000-4000 (D); optimiser above 4000 (icam/ecam 45/0 at 5000, 45/9 at 6000, 15/9 at 7000). MBT 10/20/20/25/25/30/15 deg. **port_cd 0.567 (in range).**

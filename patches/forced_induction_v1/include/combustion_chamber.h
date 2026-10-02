@@ -16,6 +16,8 @@ namespace combustion_physics {
     extern bool flameExpansion;
     extern bool unbiasedBurnEfficiency;
     extern bool inertialRunners;
+    extern bool inertialExhaust;
+    extern double pipeCavityShare;  // share of the pipe volume lumped at the valve-side node (pi-section: 0.5)   // diagnostic: exhaust primary only (with inertialRunners)
 }
 
 class CombustionChamber : public atg_scs::ForceGenerator {
