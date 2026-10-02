@@ -134,6 +134,15 @@ void advance(Simulator *sim, double seconds, int frequency,
                     engine->getIntake(0)->getSystem()->pressure() / 1000,
                     ch->m_exhaustRunnerAndPrimary.pressure() / 1000,
                     engine->getExhaustSystem(0)->getSystem()->pressure() / 1000);
+                const ForcedInductionSystem *fi = engine->getForcedInductionSystem();
+                if (fi->groupCount() > 0 && fi->group(0)->enabled()) {
+                    const TurboGroup::Telemetry &t = fi->group(0)->telemetry();
+                    std::printf("turbo p_scroll %.2f T_scroll %.1f mdot_t %.5f P_t %.1f PR_t %.4f p_post %.2f shaft %.1f PR_c %.4f\n",
+                        t.preTurbinePressure.empty() ? 0.0 : t.preTurbinePressure[0] / 1000,
+                        t.preTurbineTemperature.empty() ? 0.0 : t.preTurbineTemperature[0],
+                        t.turbineMassFlow, t.turbinePower, t.turbinePressureRatio,
+                        t.postTurbinePressure / 1000, t.shaftSpeed, t.compressorPressureRatio);
+                }
             }
 #endif
             if (torqueSum != nullptr) {

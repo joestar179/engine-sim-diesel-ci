@@ -1134,6 +1134,27 @@ The shape is flat. Set: DF150 46°, TF250 37°.
 - 46°/37° rated injection is long for rotary pumps (typical 20–30°): either the jet mixing is somewhat fast (e.g. no wall impingement: x_st ≈ 85 mm > bore/2 = 53 mm) or a loss is missing.
 - TF250 at 1000 rpm is +7.5 %.
 
+## TF250 boost rise with inertial exhaust — diagnosis (option 2, 2026-10-02)
+
+The `ES_RUNNER_TRACE` (dyno_sweep, test tool) now also prints group-0 turbo telemetry. TF250, 2400 rpm, short manifold, 0.05 s per step trace:
+
+| | inertial off | inertial on |
+|---|---|---|
+| scroll p mean [range] kPa | 189.6 [173..210] | 221.6 [207..241] |
+| scroll T K | 880 | 935 |
+| turbine mass flow kg/s | 0.159 | 0.183 |
+| turbine power W (model) | 16 146 | 24 027 |
+| steady-flow estimate from mean state (η 0.70) | 15 855 | 23 698 |
+| exhaust runner p mean [range] | 180.8 [138..209] | 225.9 [192..274] |
+| compressor PR | 2.06 | 2.49 |
+
+- **No pulse gain:** turbine power equals the steady-flow estimate within 1-2 % in both cases. The inertial column adds no pulse energy.
+- **Mechanism:** the inertial pipe is more restrictive than the old orifice.
+  - Pipe A = 10 cm², ζ ≈ 1.25 → ~174 CFM at 5.08 kPa, vs the script's `primary_flow_rate k_carb(400)`, which the element no longer uses.
+  - Runner back-pressure rises (181 → 226 kPa mean). At the same fuel (fuel stop), brake torque falls ~4 %.
+  - The extra energy leaves as hotter exhaust (+55 K) and more flow: turbine power +49 %, then boost, then more air (a positive loop).
+- The turbine C value (expansion ratio 2.0, "fits boost/EGT/air/power together") was set with the old, freer orifice.
+
 ## TF250 short pulse manifold (option 1) — insufficient (2026-10-02)
 
 **Change** (MR only): `validation_diesel_i4.exhaust_primary_tube_length` is an input (default 12 in, unchanged for DF150/Cummins). The TF250 sets 0, so cylinder-to-turbine is the per-cylinder 8-10 in log-manifold distance (0.20-0.25 m; C, range 0.15-0.40 m).
