@@ -80,9 +80,52 @@ insert=anchor+"""python (Join-Path $overlay '.ci\\full_turbo_topology_patch.py')
 if ($LASTEXITCODE -ne 0) { throw 'full turbo topology patch failed' }
 python (Join-Path $overlay '.ci\\restore_engine_metrics_patch.py') $source
 if ($LASTEXITCODE -ne 0) { throw 'Engine metrics restoration patch failed' }
+python (Join-Path $overlay 'tools\\apply_forced_induction_v1.py') $source
+if ($LASTEXITCODE -ne 0) { throw 'readable Generic Forced-Induction V1 application failed' }
+
+if ($env:SOURCE_CAPTURE_ONLY -eq '1') {
+    $capture = Join-Path $logs 'current-turbo-core.zip'
+    if (Test-Path $capture) { Remove-Item -Force $capture }
+    $captureFiles = @(
+        (Join-Path $source 'CMakeLists.txt'),
+        (Join-Path $source 'include/intake.h'),
+        (Join-Path $source 'src/intake.cpp'),
+        (Join-Path $source 'include/exhaust_system.h'),
+        (Join-Path $source 'src/exhaust_system.cpp'),
+        (Join-Path $source 'include/forced_induction_system.h'),
+        (Join-Path $source 'src/forced_induction_system.cpp'),
+        (Join-Path $source 'include/engine.h'),
+        (Join-Path $source 'src/engine.cpp'),
+        (Join-Path $source 'include/combustion_chamber.h'),
+        (Join-Path $source 'src/combustion_chamber.cpp'),
+        (Join-Path $source 'src/piston_engine_simulator.cpp'),
+        (Join-Path $source 'include/turbocharger_model.h'),
+        (Join-Path $source 'src/turbocharger_model.cpp'),
+        (Join-Path $source 'scripting/include/engine_node.h'),
+        (Join-Path $source 'es/objects/objects.mr'),
+        (Join-Path $source 'test/diesel_turbo_model_tests.cpp'),
+        (Join-Path $source 'test/runtime_engine_smoke.cpp')
+    )
+    foreach ($f in $captureFiles) {
+        if (-not (Test-Path $f)) { throw "source capture file missing: $f" }
+    }
+    Compress-Archive -Path $captureFiles -DestinationPath $capture -CompressionLevel Optimal
+    Write-Host 'Captured exact current turbo core source.'
+    exit 0
+}
 """
 if anchor not in s: raise SystemExit('windows_ci enhancement-application anchor missing')
 if "full_turbo_topology_patch.py" not in s:
     s=s.replace(anchor,insert,1)
+
+# Preserve the exact generated core only after a readable generic V1 implementation is added.
 p.write_text(s,encoding='utf-8')
 print('CI full in-series turbo topology hook applied after seed restore')
+
+# Configure the ALCO validation engine as one consumer of the generic core.
+exec(compile(
+    (root/'.ci/generic_v1_alco_asset_patch.py').read_text(encoding='utf-8'),
+    '.ci/generic_v1_alco_asset_patch.py',
+    'exec'
+))
+

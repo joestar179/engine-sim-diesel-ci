@@ -1,0 +1,18 @@
+{
+  "2014-chevrolet-4-3l-ecotec-lv3-engine-tier-2-fuel-test-data-package-10-25-18.zip": {
+    "sha256": "06bf1bd2391b5f3d0a15beb4d7d1d87aaced729bfe118a0abc1e19efcbb4f3bb",
+    "bytes": 5414983
+  },
+  "2014-chevrolet-4-3l-ecotec-lv3-engine-lve-3-fuel-test-data-package-10-25-18.zip": {
+    "sha256": "f11fefcbd0bee036537b168446712e05ab4cbf85038d7d4ac6842f8ed94ad645",
+    "bytes": 5654392
+  },
+  "2014-chevrolet-4-3l-ecotec-lv3-engine-lev-3-fuel-alpha-map-package-10-25-18.zip": {
+    "sha256": "e0e183b0f74d5e81b8880906aefe41f51afa01622242eff6c65f3b37cb17bff8",
+    "bytes": 1713054
+  },
+  "2014-chevrolet-4-3l-ecotec-lv3-engine-tier-2-fuel-alpha-map-package-10-25-18.zip": {
+    "sha256": "26803028feb608ef5a19ed13fce0f0491d2d5032213c4e9cb0cbd1152e17f913",
+    "bytes": 1635672
+  }
+}

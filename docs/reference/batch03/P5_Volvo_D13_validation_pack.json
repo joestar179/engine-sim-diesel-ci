@@ -1,0 +1,905 @@
+[
+  {
+    "name": "base_engine",
+    "value": "Volvo D13 US 2010",
+    "unit": null,
+    "grade": "D",
+    "source": "https://research.chalmers.se/publication/525850/file/525850_Fulltext.pdf p.3 Table 2"
+  },
+  {
+    "name": "bore",
+    "value": 131,
+    "unit": "mm",
+    "grade": "D",
+    "source": "https://research.chalmers.se/publication/525850/file/525850_Fulltext.pdf p.3 Table 2"
+  },
+  {
+    "name": "stroke",
+    "value": 158,
+    "unit": "mm",
+    "grade": "D",
+    "source": "https://research.chalmers.se/publication/525850/file/525850_Fulltext.pdf p.3 Table 2"
+  },
+  {
+    "name": "displacement_nominal",
+    "value": 12.8,
+    "unit": "L",
+    "grade": "D",
+    "source": "https://research.chalmers.se/publication/525850/file/525850_Fulltext.pdf p.3 Table 2"
+  },
+  {
+    "name": "displacement_geometric",
+    "value": 12.77735,
+    "unit": "L",
+    "grade": "R",
+    "source": "pi/4*(0.131 m)^2*(0.158 m)*6"
+  },
+  {
+    "name": "compression_ratio",
+    "value": 16.0,
+    "unit": ":1",
+    "grade": "D",
+    "source": "https://research.chalmers.se/publication/525850/file/525850_Fulltext.pdf p.3 Table 2"
+  },
+  {
+    "name": "rod_length",
+    "value": 259.0,
+    "unit": "mm",
+    "grade": "F",
+    "source": "https://www.scribd.com/document/938147474/Groups-20-26 Volvo Penta D13 family workshop specification"
+  },
+  {
+    "name": "rod_stroke_ratio",
+    "value": 1.6392,
+    "unit": "1",
+    "grade": "R",
+    "source": "259 mm / 158 mm"
+  },
+  {
+    "name": "firing_order",
+    "value": "1-5-3-6-2-4",
+    "unit": null,
+    "grade": "F",
+    "source": "Volvo Penta D13 family workshop specification"
+  },
+  {
+    "name": "piston_bowl_geometry",
+    "value": null,
+    "unit": null,
+    "grade": "U",
+    "source": "not found"
+  },
+  {
+    "name": "intake_valve_head_diameter",
+    "value": 42,
+    "unit": "mm",
+    "grade": "F",
+    "source": "https://studylib.net/doc/27751421/volvo-d13f-engine-workshop-manual D13F/H family specification"
+  },
+  {
+    "name": "exhaust_valve_head_diameter",
+    "value": 40,
+    "unit": "mm",
+    "grade": "F",
+    "source": "https://studylib.net/doc/27751421/volvo-d13f-engine-workshop-manual D13F/H family specification"
+  },
+  {
+    "name": "intake_valve_lift_profile",
+    "value": null,
+    "unit": "mm vs degCA",
+    "grade": "U",
+    "source": "numeric profile not published"
+  },
+  {
+    "name": "exhaust_valve_lift_profile",
+    "value": null,
+    "unit": "mm vs degCA",
+    "grade": "U",
+    "source": "numeric profile not published"
+  },
+  {
+    "name": "egr_route",
+    "value": "long-route",
+    "unit": null,
+    "grade": "D",
+    "source": "https://research.chalmers.se/publication/523780/file/523780_Fulltext.pdf p.25 Table 3.1"
+  },
+  {
+    "name": "charge_air_cooler",
+    "value": "present",
+    "unit": null,
+    "grade": "D",
+    "source": "https://research.chalmers.se/publication/525850/file/525850_Fulltext.pdf Sec.2/Fig.2"
+  },
+  {
+    "name": "turbo_type",
+    "value": "sliding-nozzle variable geometry turbocharger",
+    "unit": null,
+    "grade": "D",
+    "source": "https://techpub.prevostcar.com/content/media/18793/view"
+  },
+  {
+    "name": "turbo_model_exact",
+    "value": null,
+    "unit": null,
+    "grade": "U",
+    "source": "not verified for Chalmers engine"
+  },
+  {
+    "name": "turbo_family",
+    "value": "Holset HE451VE / HE400VG family evidence",
+    "unit": null,
+    "grade": "F",
+    "source": "https://turbos.com/170-032-1618/ ; https://www.rivtron.com/products/he400vg-2835102-turbocharger-d13-engine/"
+  },
+  {
+    "name": "compressor_map",
+    "value": null,
+    "unit": null,
+    "grade": "U",
+    "source": "not found"
+  },
+  {
+    "name": "turbine_map",
+    "value": null,
+    "unit": null,
+    "grade": "U",
+    "source": "not found"
+  },
+  {
+    "name": "turbo_shaft_speed_map",
+    "value": null,
+    "unit": "rpm",
+    "grade": "U",
+    "source": "not found"
+  },
+  {
+    "name": "turbine_inlet_temperature_map",
+    "value": null,
+    "unit": "degC",
+    "grade": "U",
+    "source": "not found"
+  },
+  {
+    "name": "vgt_position_map",
+    "value": null,
+    "unit": "% or rack",
+    "grade": "U",
+    "source": "not found"
+  },
+  {
+    "name": "egr_valve_position_map",
+    "value": null,
+    "unit": "%",
+    "grade": "U",
+    "source": "not found"
+  },
+  {
+    "name": "injection_system",
+    "value": "dual-solenoid electronic unit injection",
+    "unit": null,
+    "grade": "D",
+    "source": "https://techpub.prevostcar.com/content/media/18793/view"
+  },
+  {
+    "name": "common_rail_pressure",
+    "value": "N/A - non-common-rail architecture",
+    "unit": null,
+    "grade": "D",
+    "source": "https://static.nhtsa.gov/odi/tsbs/2021/MC-10203697-0001.pdf"
+  },
+  {
+    "name": "maximum_injection_pressure",
+    "value": 2400,
+    "unit": "bar",
+    "grade": "D",
+    "source": "https://techpub.prevostcar.com/content/media/18793/view"
+  },
+  {
+    "name": "injector_model",
+    "value": "BEBE4G12001 / OE 21458369, 85003658",
+    "unit": null,
+    "grade": "F",
+    "source": "supplier cross-reference; not OEM-verified on test engine"
+  },
+  {
+    "name": "nozzle_model",
+    "value": "L362TBE",
+    "unit": null,
+    "grade": "F",
+    "source": "https://www.wuzetem.pl/produkt/pl362tbe-2/"
+  },
+  {
+    "name": "nozzle_hole_count",
+    "value": null,
+    "unit": "count",
+    "grade": "U",
+    "source": "not reliably found"
+  },
+  {
+    "name": "nozzle_hole_diameter",
+    "value": null,
+    "unit": "mm",
+    "grade": "U",
+    "source": "not found"
+  },
+  {
+    "name": "soi_by_point",
+    "value": null,
+    "unit": "degCA",
+    "grade": "U",
+    "source": "not found"
+  },
+  {
+    "name": "injected_quantity_by_point",
+    "value": null,
+    "unit": "mg/cycle",
+    "grade": "U",
+    "source": "not found"
+  },
+  {
+    "name": "fuel_specification",
+    "value": "ULSD, max 15 ppm sulfur",
+    "unit": null,
+    "grade": "D",
+    "source": "https://techpub.prevostcar.com/content/media/18793/view"
+  },
+  {
+    "name": "test_fuel_lhv",
+    "value": null,
+    "unit": "MJ/kg",
+    "grade": "U",
+    "source": "not published"
+  },
+  {
+    "name": "test_fuel_density",
+    "value": null,
+    "unit": "kg/m3",
+    "grade": "U",
+    "source": "not published"
+  },
+  {
+    "name": "coolant_temperature",
+    "value": null,
+    "unit": "degC",
+    "grade": "U",
+    "source": "not published for selected points"
+  },
+  {
+    "name": "oil_temperature",
+    "value": null,
+    "unit": "degC",
+    "grade": "U",
+    "source": "not published for selected points"
+  },
+  {
+    "name": "peak_power",
+    "value": 373,
+    "unit": "kW",
+    "grade": "D",
+    "source": "https://research.chalmers.se/publication/525850/file/525850_Fulltext.pdf p.3 Table 2"
+  },
+  {
+    "name": "peak_torque",
+    "value": 2373,
+    "unit": "Nm",
+    "grade": "D",
+    "source": "https://research.chalmers.se/publication/525850/file/525850_Fulltext.pdf p.3 Table 2"
+  },
+  {
+    "name": "peak_torque_bmep",
+    "value": 23.3,
+    "unit": "bar",
+    "grade": "R",
+    "source": "4*pi*2373/0.0128"
+  },
+  {
+    "name": "full_load_peak_torque_speed",
+    "value": 1050,
+    "unit": "rpm",
+    "grade": "D",
+    "source": "https://techpub.prevostcar.com/content/media/18793/view"
+  },
+  {
+    "name": "governed_speed",
+    "value": 2100,
+    "unit": "rpm",
+    "grade": "D",
+    "source": "https://techpub.prevostcar.com/content/media/18793/view"
+  },
+  {
+    "name": "full_load_curve_numeric",
+    "value": null,
+    "unit": "rpm-Nm-kW",
+    "grade": "U",
+    "source": "plot documented but not reliably digitised from accessible extraction"
+  },
+  {
+    "name": "fuel_flow_by_ESC_point",
+    "value": null,
+    "unit": "kg/h",
+    "grade": "U",
+    "source": "https://research.chalmers.se/publication/525850/file/525850_Fulltext.pdf measured by AVL730, numeric values unpublished"
+  },
+  {
+    "name": "air_flow_by_ESC_point",
+    "value": null,
+    "unit": "kg/s",
+    "grade": "U",
+    "source": "https://research.chalmers.se/publication/525850/file/525850_Fulltext.pdf measured by calibrated venturi, numeric values unpublished"
+  },
+  {
+    "name": "bsfc_by_ESC_point",
+    "value": null,
+    "unit": "g/kWh",
+    "grade": "U",
+    "source": "cannot derive without fuel-flow values"
+  },
+  {
+    "name": "boost_by_ESC_point",
+    "value": null,
+    "unit": "bar",
+    "grade": "U",
+    "source": "not published"
+  },
+  {
+    "name": "exhaust_manifold_pressure_by_ESC_point",
+    "value": null,
+    "unit": "bar",
+    "grade": "U",
+    "source": "not published as 12-point pre-turbine table"
+  },
+  {
+    "name": "cylinder_pressure_numeric",
+    "value": null,
+    "unit": "bar vs degCA",
+    "grade": "U",
+    "source": "https://odr.chalmers.se/items/a6ef6bc2-c853-4748-9452-7c4f62e89b89 measurement existence confirmed; numeric arrays inaccessible"
+  },
+  {
+    "name": "burn_rate_numeric",
+    "value": null,
+    "unit": "fraction/degCA or J/degCA",
+    "grade": "U",
+    "source": "https://odr.chalmers.se/items/a6ef6bc2-c853-4748-9452-7c4f62e89b89 derived in study; numeric arrays inaccessible"
+  },
+  {
+    "name": "egr_rate_by_ESC_point",
+    "value": null,
+    "unit": "% or kg/s",
+    "grade": "U",
+    "source": "https://publications.lib.chalmers.se/records/fulltext/231723/231723.pdf measurement method documented; trustworthy 12-point numeric map not recovered"
+  },
+  {
+    "name": "fmep_map",
+    "value": null,
+    "unit": "bar",
+    "grade": "U",
+    "source": "not found"
+  },
+  {
+    "name": "motoring_pressure_trace",
+    "value": null,
+    "unit": "bar vs degCA",
+    "grade": "U",
+    "source": "not found"
+  },
+  {
+    "name": "intake_runner_pressure_trace",
+    "value": null,
+    "unit": "bar vs degCA",
+    "grade": "U",
+    "source": "https://odr.chalmers.se/items/a6ef6bc2-c853-4748-9452-7c4f62e89b89 measurement existence confirmed; numeric trace inaccessible"
+  },
+  {
+    "name": "exhaust_runner_pressure_trace",
+    "value": null,
+    "unit": "bar vs degCA",
+    "grade": "U",
+    "source": "https://odr.chalmers.se/items/a6ef6bc2-c853-4748-9452-7c4f62e89b89 measurement existence confirmed; numeric trace inaccessible"
+  },
+  {
+    "name": "A25_speed",
+    "value": 1200,
+    "unit": "rpm",
+    "grade": "D",
+    "source": "https://research.chalmers.se/publication/525850/file/525850_Fulltext.pdf Figs.4-5; digitised, ~±10 rpm"
+  },
+  {
+    "name": "A25_torque",
+    "value": 600,
+    "unit": "Nm",
+    "grade": "D",
+    "source": "https://research.chalmers.se/publication/525850/file/525850_Fulltext.pdf Figs.4-5; digitised, ~±20-30 Nm"
+  },
+  {
+    "name": "A25_bmep",
+    "value": 5.89,
+    "unit": "bar",
+    "grade": "R",
+    "source": "4*pi*600 Nm / 0.0128 m3"
+  },
+  {
+    "name": "A25_brake_power",
+    "value": 75.4,
+    "unit": "kW",
+    "grade": "R",
+    "source": "2*pi*1200*600/60"
+  },
+  {
+    "name": "A25_corrected_exhaust_mass_flow",
+    "value": 180,
+    "unit": "g/s",
+    "grade": "D",
+    "source": "https://research.chalmers.se/publication/525850/file/525850_Fulltext.pdf Fig.4; digitised; published values include 0.75 correction factor"
+  },
+  {
+    "name": "A25_exhaust_outlet_temperature",
+    "value": 300,
+    "unit": "degC",
+    "grade": "D",
+    "source": "https://research.chalmers.se/publication/525850/file/525850_Fulltext.pdf Fig.5; digitised; downstream exhaust outlet, NOT TIT"
+  },
+  {
+    "name": "A50_speed",
+    "value": 1200,
+    "unit": "rpm",
+    "grade": "D",
+    "source": "https://research.chalmers.se/publication/525850/file/525850_Fulltext.pdf Figs.4-5; digitised, ~±10 rpm"
+  },
+  {
+    "name": "A50_torque",
+    "value": 1200,
+    "unit": "Nm",
+    "grade": "D",
+    "source": "https://research.chalmers.se/publication/525850/file/525850_Fulltext.pdf Figs.4-5; digitised, ~±20-30 Nm"
+  },
+  {
+    "name": "A50_bmep",
+    "value": 11.78,
+    "unit": "bar",
+    "grade": "R",
+    "source": "4*pi*1200 Nm / 0.0128 m3"
+  },
+  {
+    "name": "A50_brake_power",
+    "value": 150.8,
+    "unit": "kW",
+    "grade": "R",
+    "source": "2*pi*1200*1200/60"
+  },
+  {
+    "name": "A50_corrected_exhaust_mass_flow",
+    "value": 230,
+    "unit": "g/s",
+    "grade": "D",
+    "source": "https://research.chalmers.se/publication/525850/file/525850_Fulltext.pdf Fig.4; digitised; published values include 0.75 correction factor"
+  },
+  {
+    "name": "A50_exhaust_outlet_temperature",
+    "value": 335,
+    "unit": "degC",
+    "grade": "D",
+    "source": "https://research.chalmers.se/publication/525850/file/525850_Fulltext.pdf Fig.5; digitised; downstream exhaust outlet, NOT TIT"
+  },
+  {
+    "name": "A75_speed",
+    "value": 1200,
+    "unit": "rpm",
+    "grade": "D",
+    "source": "https://research.chalmers.se/publication/525850/file/525850_Fulltext.pdf Figs.4-5; digitised, ~±10 rpm"
+  },
+  {
+    "name": "A75_torque",
+    "value": 1780,
+    "unit": "Nm",
+    "grade": "D",
+    "source": "https://research.chalmers.se/publication/525850/file/525850_Fulltext.pdf Figs.4-5; digitised, ~±20-30 Nm"
+  },
+  {
+    "name": "A75_bmep",
+    "value": 17.48,
+    "unit": "bar",
+    "grade": "R",
+    "source": "4*pi*1780 Nm / 0.0128 m3"
+  },
+  {
+    "name": "A75_brake_power",
+    "value": 223.7,
+    "unit": "kW",
+    "grade": "R",
+    "source": "2*pi*1200*1780/60"
+  },
+  {
+    "name": "A75_corrected_exhaust_mass_flow",
+    "value": 300,
+    "unit": "g/s",
+    "grade": "D",
+    "source": "https://research.chalmers.se/publication/525850/file/525850_Fulltext.pdf Fig.4; digitised; published values include 0.75 correction factor"
+  },
+  {
+    "name": "A75_exhaust_outlet_temperature",
+    "value": 370,
+    "unit": "degC",
+    "grade": "D",
+    "source": "https://research.chalmers.se/publication/525850/file/525850_Fulltext.pdf Fig.5; digitised; downstream exhaust outlet, NOT TIT"
+  },
+  {
+    "name": "A100_speed",
+    "value": 1200,
+    "unit": "rpm",
+    "grade": "D",
+    "source": "https://research.chalmers.se/publication/525850/file/525850_Fulltext.pdf Figs.4-5; digitised, ~±10 rpm"
+  },
+  {
+    "name": "A100_torque",
+    "value": 2350,
+    "unit": "Nm",
+    "grade": "D",
+    "source": "https://research.chalmers.se/publication/525850/file/525850_Fulltext.pdf Figs.4-5; digitised, ~±20-30 Nm"
+  },
+  {
+    "name": "A100_bmep",
+    "value": 23.07,
+    "unit": "bar",
+    "grade": "R",
+    "source": "4*pi*2350 Nm / 0.0128 m3"
+  },
+  {
+    "name": "A100_brake_power",
+    "value": 295.3,
+    "unit": "kW",
+    "grade": "R",
+    "source": "2*pi*1200*2350/60"
+  },
+  {
+    "name": "A100_corrected_exhaust_mass_flow",
+    "value": 345,
+    "unit": "g/s",
+    "grade": "D",
+    "source": "https://research.chalmers.se/publication/525850/file/525850_Fulltext.pdf Fig.4; digitised; published values include 0.75 correction factor"
+  },
+  {
+    "name": "A100_exhaust_outlet_temperature",
+    "value": 410,
+    "unit": "degC",
+    "grade": "D",
+    "source": "https://research.chalmers.se/publication/525850/file/525850_Fulltext.pdf Fig.5; digitised; downstream exhaust outlet, NOT TIT"
+  },
+  {
+    "name": "B25_speed",
+    "value": 1500,
+    "unit": "rpm",
+    "grade": "D",
+    "source": "https://research.chalmers.se/publication/525850/file/525850_Fulltext.pdf Figs.4-5; digitised, ~±10 rpm"
+  },
+  {
+    "name": "B25_torque",
+    "value": 600,
+    "unit": "Nm",
+    "grade": "D",
+    "source": "https://research.chalmers.se/publication/525850/file/525850_Fulltext.pdf Figs.4-5; digitised, ~±20-30 Nm"
+  },
+  {
+    "name": "B25_bmep",
+    "value": 5.89,
+    "unit": "bar",
+    "grade": "R",
+    "source": "4*pi*600 Nm / 0.0128 m3"
+  },
+  {
+    "name": "B25_brake_power",
+    "value": 94.2,
+    "unit": "kW",
+    "grade": "R",
+    "source": "2*pi*1500*600/60"
+  },
+  {
+    "name": "B25_corrected_exhaust_mass_flow",
+    "value": 200,
+    "unit": "g/s",
+    "grade": "D",
+    "source": "https://research.chalmers.se/publication/525850/file/525850_Fulltext.pdf Fig.4; digitised; published values include 0.75 correction factor"
+  },
+  {
+    "name": "B25_exhaust_outlet_temperature",
+    "value": 300,
+    "unit": "degC",
+    "grade": "D",
+    "source": "https://research.chalmers.se/publication/525850/file/525850_Fulltext.pdf Fig.5; digitised; downstream exhaust outlet, NOT TIT"
+  },
+  {
+    "name": "B50_speed",
+    "value": 1500,
+    "unit": "rpm",
+    "grade": "D",
+    "source": "https://research.chalmers.se/publication/525850/file/525850_Fulltext.pdf Figs.4-5; digitised, ~±10 rpm"
+  },
+  {
+    "name": "B50_torque",
+    "value": 1200,
+    "unit": "Nm",
+    "grade": "D",
+    "source": "https://research.chalmers.se/publication/525850/file/525850_Fulltext.pdf Figs.4-5; digitised, ~±20-30 Nm"
+  },
+  {
+    "name": "B50_bmep",
+    "value": 11.78,
+    "unit": "bar",
+    "grade": "R",
+    "source": "4*pi*1200 Nm / 0.0128 m3"
+  },
+  {
+    "name": "B50_brake_power",
+    "value": 188.5,
+    "unit": "kW",
+    "grade": "R",
+    "source": "2*pi*1500*1200/60"
+  },
+  {
+    "name": "B50_corrected_exhaust_mass_flow",
+    "value": 270,
+    "unit": "g/s",
+    "grade": "D",
+    "source": "https://research.chalmers.se/publication/525850/file/525850_Fulltext.pdf Fig.4; digitised; published values include 0.75 correction factor"
+  },
+  {
+    "name": "B50_exhaust_outlet_temperature",
+    "value": 325,
+    "unit": "degC",
+    "grade": "D",
+    "source": "https://research.chalmers.se/publication/525850/file/525850_Fulltext.pdf Fig.5; digitised; downstream exhaust outlet, NOT TIT"
+  },
+  {
+    "name": "B75_speed",
+    "value": 1500,
+    "unit": "rpm",
+    "grade": "D",
+    "source": "https://research.chalmers.se/publication/525850/file/525850_Fulltext.pdf Figs.4-5; digitised, ~±10 rpm"
+  },
+  {
+    "name": "B75_torque",
+    "value": 1780,
+    "unit": "Nm",
+    "grade": "D",
+    "source": "https://research.chalmers.se/publication/525850/file/525850_Fulltext.pdf Figs.4-5; digitised, ~±20-30 Nm"
+  },
+  {
+    "name": "B75_bmep",
+    "value": 17.48,
+    "unit": "bar",
+    "grade": "R",
+    "source": "4*pi*1780 Nm / 0.0128 m3"
+  },
+  {
+    "name": "B75_brake_power",
+    "value": 279.6,
+    "unit": "kW",
+    "grade": "R",
+    "source": "2*pi*1500*1780/60"
+  },
+  {
+    "name": "B75_corrected_exhaust_mass_flow",
+    "value": 340,
+    "unit": "g/s",
+    "grade": "D",
+    "source": "https://research.chalmers.se/publication/525850/file/525850_Fulltext.pdf Fig.4; digitised; published values include 0.75 correction factor"
+  },
+  {
+    "name": "B75_exhaust_outlet_temperature",
+    "value": 355,
+    "unit": "degC",
+    "grade": "D",
+    "source": "https://research.chalmers.se/publication/525850/file/525850_Fulltext.pdf Fig.5; digitised; downstream exhaust outlet, NOT TIT"
+  },
+  {
+    "name": "B100_speed",
+    "value": 1500,
+    "unit": "rpm",
+    "grade": "D",
+    "source": "https://research.chalmers.se/publication/525850/file/525850_Fulltext.pdf Figs.4-5; digitised, ~±10 rpm"
+  },
+  {
+    "name": "B100_torque",
+    "value": 2320,
+    "unit": "Nm",
+    "grade": "D",
+    "source": "https://research.chalmers.se/publication/525850/file/525850_Fulltext.pdf Figs.4-5; digitised, ~±20-30 Nm"
+  },
+  {
+    "name": "B100_bmep",
+    "value": 22.78,
+    "unit": "bar",
+    "grade": "R",
+    "source": "4*pi*2320 Nm / 0.0128 m3"
+  },
+  {
+    "name": "B100_brake_power",
+    "value": 364.4,
+    "unit": "kW",
+    "grade": "R",
+    "source": "2*pi*1500*2320/60"
+  },
+  {
+    "name": "B100_corrected_exhaust_mass_flow",
+    "value": 410,
+    "unit": "g/s",
+    "grade": "D",
+    "source": "https://research.chalmers.se/publication/525850/file/525850_Fulltext.pdf Fig.4; digitised; published values include 0.75 correction factor"
+  },
+  {
+    "name": "B100_exhaust_outlet_temperature",
+    "value": 400,
+    "unit": "degC",
+    "grade": "D",
+    "source": "https://research.chalmers.se/publication/525850/file/525850_Fulltext.pdf Fig.5; digitised; downstream exhaust outlet, NOT TIT"
+  },
+  {
+    "name": "C25_speed",
+    "value": 1800,
+    "unit": "rpm",
+    "grade": "D",
+    "source": "https://research.chalmers.se/publication/525850/file/525850_Fulltext.pdf Figs.4-5; digitised, ~±10 rpm"
+  },
+  {
+    "name": "C25_torque",
+    "value": 500,
+    "unit": "Nm",
+    "grade": "D",
+    "source": "https://research.chalmers.se/publication/525850/file/525850_Fulltext.pdf Figs.4-5; digitised, ~±20-30 Nm"
+  },
+  {
+    "name": "C25_bmep",
+    "value": 4.91,
+    "unit": "bar",
+    "grade": "R",
+    "source": "4*pi*500 Nm / 0.0128 m3"
+  },
+  {
+    "name": "C25_brake_power",
+    "value": 94.2,
+    "unit": "kW",
+    "grade": "R",
+    "source": "2*pi*1800*500/60"
+  },
+  {
+    "name": "C25_corrected_exhaust_mass_flow",
+    "value": 210,
+    "unit": "g/s",
+    "grade": "D",
+    "source": "https://research.chalmers.se/publication/525850/file/525850_Fulltext.pdf Fig.4; digitised; published values include 0.75 correction factor"
+  },
+  {
+    "name": "C25_exhaust_outlet_temperature",
+    "value": 300,
+    "unit": "degC",
+    "grade": "D",
+    "source": "https://research.chalmers.se/publication/525850/file/525850_Fulltext.pdf Fig.5; digitised; downstream exhaust outlet, NOT TIT"
+  },
+  {
+    "name": "C50_speed",
+    "value": 1800,
+    "unit": "rpm",
+    "grade": "D",
+    "source": "https://research.chalmers.se/publication/525850/file/525850_Fulltext.pdf Figs.4-5; digitised, ~±10 rpm"
+  },
+  {
+    "name": "C50_torque",
+    "value": 1000,
+    "unit": "Nm",
+    "grade": "D",
+    "source": "https://research.chalmers.se/publication/525850/file/525850_Fulltext.pdf Figs.4-5; digitised, ~±20-30 Nm"
+  },
+  {
+    "name": "C50_bmep",
+    "value": 9.82,
+    "unit": "bar",
+    "grade": "R",
+    "source": "4*pi*1000 Nm / 0.0128 m3"
+  },
+  {
+    "name": "C50_brake_power",
+    "value": 188.5,
+    "unit": "kW",
+    "grade": "R",
+    "source": "2*pi*1800*1000/60"
+  },
+  {
+    "name": "C50_corrected_exhaust_mass_flow",
+    "value": 300,
+    "unit": "g/s",
+    "grade": "D",
+    "source": "https://research.chalmers.se/publication/525850/file/525850_Fulltext.pdf Fig.4; digitised; published values include 0.75 correction factor"
+  },
+  {
+    "name": "C50_exhaust_outlet_temperature",
+    "value": 320,
+    "unit": "degC",
+    "grade": "D",
+    "source": "https://research.chalmers.se/publication/525850/file/525850_Fulltext.pdf Fig.5; digitised; downstream exhaust outlet, NOT TIT"
+  },
+  {
+    "name": "C75_speed",
+    "value": 1800,
+    "unit": "rpm",
+    "grade": "D",
+    "source": "https://research.chalmers.se/publication/525850/file/525850_Fulltext.pdf Figs.4-5; digitised, ~±10 rpm"
+  },
+  {
+    "name": "C75_torque",
+    "value": 1480,
+    "unit": "Nm",
+    "grade": "D",
+    "source": "https://research.chalmers.se/publication/525850/file/525850_Fulltext.pdf Figs.4-5; digitised, ~±20-30 Nm"
+  },
+  {
+    "name": "C75_bmep",
+    "value": 14.53,
+    "unit": "bar",
+    "grade": "R",
+    "source": "4*pi*1480 Nm / 0.0128 m3"
+  },
+  {
+    "name": "C75_brake_power",
+    "value": 279.0,
+    "unit": "kW",
+    "grade": "R",
+    "source": "2*pi*1800*1480/60"
+  },
+  {
+    "name": "C75_corrected_exhaust_mass_flow",
+    "value": 365,
+    "unit": "g/s",
+    "grade": "D",
+    "source": "https://research.chalmers.se/publication/525850/file/525850_Fulltext.pdf Fig.4; digitised; published values include 0.75 correction factor"
+  },
+  {
+    "name": "C75_exhaust_outlet_temperature",
+    "value": 340,
+    "unit": "degC",
+    "grade": "D",
+    "source": "https://research.chalmers.se/publication/525850/file/525850_Fulltext.pdf Fig.5; digitised; downstream exhaust outlet, NOT TIT"
+  },
+  {
+    "name": "C100_speed",
+    "value": 1800,
+    "unit": "rpm",
+    "grade": "D",
+    "source": "https://research.chalmers.se/publication/525850/file/525850_Fulltext.pdf Figs.4-5; digitised, ~±10 rpm"
+  },
+  {
+    "name": "C100_torque",
+    "value": 1900,
+    "unit": "Nm",
+    "grade": "D",
+    "source": "https://research.chalmers.se/publication/525850/file/525850_Fulltext.pdf Figs.4-5; digitised, ~±20-30 Nm"
+  },
+  {
+    "name": "C100_bmep",
+    "value": 18.65,
+    "unit": "bar",
+    "grade": "R",
+    "source": "4*pi*1900 Nm / 0.0128 m3"
+  },
+  {
+    "name": "C100_brake_power",
+    "value": 358.1,
+    "unit": "kW",
+    "grade": "R",
+    "source": "2*pi*1800*1900/60"
+  },
+  {
+    "name": "C100_corrected_exhaust_mass_flow",
+    "value": 395,
+    "unit": "g/s",
+    "grade": "D",
+    "source": "https://research.chalmers.se/publication/525850/file/525850_Fulltext.pdf Fig.4; digitised; published values include 0.75 correction factor"
+  },
+  {
+    "name": "C100_exhaust_outlet_temperature",
+    "value": 360,
+    "unit": "degC",
+    "grade": "D",
+    "source": "https://research.chalmers.se/publication/525850/file/525850_Fulltext.pdf Fig.5; digitised; downstream exhaust outlet, NOT TIT"
+  }
+]

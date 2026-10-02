@@ -1,0 +1,195 @@
+#ifndef ATG_ENGINE_SIM_COMBUSTION_CHAMBER_H
+#define ATG_ENGINE_SIM_COMBUSTION_CHAMBER_H
+
+#include "scs.h"
+
+#include "piston.h"
+#include "gas_system.h"
+#include "cylinder_head.h"
+#include "units.h"
+#include "fuel.h"
+#include "compression_ignition_model.h"
+
+class Engine;
+namespace combustion_physics {
+    extern bool unifiedHeatTransfer;
+    extern bool flameExpansion;
+    extern bool unbiasedBurnEfficiency;
+    extern bool inertialRunners;
+    extern bool inertialExhaust;
+    extern double pipeCavityShare;  // share of the pipe volume lumped at the valve-side node (pi-section: 0.5)   // diagnostic: exhaust primary only (with inertialRunners)
+}
+
+class CombustionChamber : public atg_scs::ForceGenerator {
+    public:
+        struct Parameters {
+            Piston *Piston;
+            CylinderHead *Head;
+            Fuel *Fuel;
+            Function *MeanPistonSpeedToTurbulence;
+
+            double StartingPressure;
+            double StartingTemperature;
+            double CrankcasePressure;
+            // Gas-side surface of the combustion chamber (fire deck) and of the
+            // piston crown, each relative to the bore area (flat = 1.0). Real
+            // chambers (valve recesses, chamber pocket, squish band, bowl) are
+            // larger. Equipment geometry; affects the wall heat-transfer area.
+            double ChamberAreaRatio = 1.0;
+            // Gas-side surface temperatures (K) for wall heat transfer:
+            // piston crown, head fire deck, exposed liner. Defaults are typical
+            // full-load DI-diesel values (Heywood ch. 12).
+            double PistonWallTemperature = 573.0;
+            double HeadWallTemperature = 503.0;
+            double LinerWallTemperature = 423.0;
+        };
+
+        struct FlameEvent {
+            double lit_n = 0;
+            double total_n = 0;
+            double percentageLit = 0;
+            double efficiency = 1.0;
+            double flameSpeed = 0.0;
+
+            double lastVolume = 0.0;
+            double travel_x = 0.0;
+            double travel_y = 0.0;
+            // Burned/unburned density ratio at ignition (T_b / T_u) and the
+            // mass fraction burned so far (two-zone, equal pressure).
+            double expansion = 1.0;
+            double massFractionBurned = 0.0;
+            GasSystem::Mix globalMix;
+        };
+
+        struct FrictionModelParams {
+            double frictionCoeff = 0.06;
+            double breakawayFriction = units::force(50, units::N);
+            double breakawayFrictionVelocity = units::distance(0.1, units::m);
+            double viscousFrictionCoefficient = units::force(20, units::N);
+        };
+
+    public:
+        CombustionChamber();
+        virtual ~CombustionChamber();
+
+        void initialize(const Parameters &params);
+        void destroy();
+        void setEngine(Engine *engine) { m_engine = engine; }
+        virtual void apply(atg_scs::SystemState *system);
+
+        CylinderHead *getCylinderHead() const { return m_head; }
+        Piston *getPiston() const { return m_piston; }
+
+        double getFrictionForce() const;
+        double getVolume() const;
+        double pistonSpeed() const;
+        double calculateMeanPistonSpeed() const;
+        double calculateFiringPressure() const;
+
+        bool isLit() const { return m_lit; }
+        bool popLitLastFrame();
+
+        void ignite();
+        void beginCompressionIgnitionEvent(double fuelMass);
+        void resetCombustionPressureRiseRate() { m_combustionPressureRiseRate = 0.0; }
+        // Air state captured at the start of the latest injection event.
+        double getLastInjectionTrappedAirMoles() const { return m_lastInjectionTrappedAir; }
+        double getLastInjectionTrappedO2Moles() const { return m_lastInjectionTrappedO2; }
+        double getCombustionPressureRiseRate() const { return m_combustionPressureRiseRate; }
+        void update(double dt);
+        void flow(double dt);
+
+        double lastEventAfr() const;
+
+        double getLastIterationExhaustFlow() const { return m_exhaustFlow; }
+
+        void resetLastTimestepExhaustFlow() {
+            m_lastTimestepTotalExhaustFlow = 0;
+            m_exhaustRunnerPeakPressure = m_exhaustRunnerAndPrimary.pressure();
+            m_exhaustRunnerPeakTemperature = m_exhaustRunnerAndPrimary.temperature();
+        }
+        double getLastTimestepExhaustFlow() const { return m_lastTimestepTotalExhaustFlow; }
+        double getExhaustValveOpeningPressure() const { return m_exhaustValveOpeningPressure; }
+        double getExhaustValveOpeningTemperature() const { return m_exhaustValveOpeningTemperature; }
+        double getExhaustRunnerPeakPressure() const { return m_exhaustRunnerPeakPressure; }
+        double getExhaustRunnerPeakTemperature() const { return m_exhaustRunnerPeakTemperature; }
+        double getTrappedAirMoles() const { return m_system.n_inert() + m_system.n_o2(); }
+
+        void resetLastTimestepIntakeFlow() { m_lastTimestepTotalIntakeFlow = 0; }
+        double getLastTimestepIntakeFlow() const { return m_lastTimestepTotalIntakeFlow; }
+
+        Function *m_meanPistonSpeedToTurbulence;
+        GasSystem m_system;
+        GasSystem m_intakeRunnerAndManifold;
+        GasSystem m_exhaustRunnerAndPrimary;
+        FlameEvent m_flameEvent;
+        bool m_lit;
+
+        FrictionModelParams m_frictionModel;
+
+        double m_peakTemperature;
+        double m_nBurntFuel;
+        // Cumulative gas-to-wall heat loss (J, positive = out of the gas).
+        // Accounting only, for energy-balance diagnostics.
+        double m_heatLossTotal;
+        // Inertial runner state (combustion_physics::inertialRunners), public
+        // for diagnostics.
+        double m_intakeRunnerMassFlow = 0.0;
+        double m_exhaustRunnerMassFlow = 0.0;
+        double m_intakeRunnerLength = 0.0;
+        double m_exhaustRunnerLength = 0.0;
+        double m_chamberAreaRatio = 1.0;
+        double m_pistonWallTemperature = 573.0;
+        double m_headWallTemperature = 503.0;
+        double m_linerWallTemperature = 423.0;
+
+    protected:
+        double calculateFrictionForce(double v) const;
+        void updateCycleStates();
+        void processCompressionIgnition(double dt);
+
+        double m_intakeFlowRate;
+        double m_exhaustFlowRate;
+
+        double m_manifoldToRunnerFlowRate;
+        double m_primaryToCollectorFlowRate;
+
+        double m_cylinderCrossSectionSurfaceArea;
+        double m_cylinderWidthApproximation;
+
+        double m_lastTimestepTotalExhaustFlow;
+        double m_lastTimestepTotalIntakeFlow;
+        double m_exhaustFlow;
+        CompressionIgnitionModel::Event m_compressionIgnitionEvent;
+        double m_combustionPressureRiseRate = 0.0;
+        double m_lastInjectionTrappedAir = 0.0;
+        double m_lastInjectionTrappedO2 = 0.0;
+        // Oxygen the current compression-ignition event may still consume
+        // (mixing-limited utilisation of the trapped charge); < 0: not set.
+        double m_oxygenBudget = -1.0;
+        // Hohenberg factor 130 * V^-0.06 * (Sp + 1.4)^0.8, refreshed once per
+        // simulation step in update() (volume and mean piston speed change
+        // only per step).
+        double m_heatTransferStepFactor = 0.0;
+        double m_exhaustValveOpeningPressure = 0.0;
+        double m_exhaustValveOpeningTemperature = 0.0;
+        double m_exhaustRunnerPeakPressure = 0.0;
+        double m_exhaustRunnerPeakTemperature = 0.0;
+        bool m_exhaustValveWasOpen = false;
+
+        double m_crankcasePressure;
+
+        double *m_pressure;
+        double *m_pistonSpeed;
+        static constexpr int StateSamples = 256;
+
+        bool m_litLastFrame;
+
+        Piston *m_piston;
+        CylinderHead *m_head;
+        Engine *m_engine;
+        Fuel *m_fuel;
+};
+
+#endif /* ATG_ENGINE_SIM_COMBUSTION_CHAMBER_H */
+

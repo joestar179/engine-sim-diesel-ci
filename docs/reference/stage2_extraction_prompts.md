@@ -1,0 +1,429 @@
+# Stage 2 extraction prompts (updated 2026-10-02 for the agreed plan)
+
+One prompt per reference engine (COVERAGE_MATRIX.md §3), plus three Stage 1 searches:
+- S8 handheld two-stroke;
+- S9 locomotive / marine;
+- S10 supercharged petrol.
+
+Each prompt is self-contained (the common block is repeated) so it can be pasted alone.
+
+Plan-driven additions (COVERAGE_MATRIX §5):
+- **hardware-only** inputs; model parameters reported separately;
+- full pipe geometry for **1-D pipes** and runner pressure traces;
+- data for the **two-stroke**, **direct-injection**, **boost-control**, **carburettor-metering** and **supercharger** modules where the engine has them.
+
+Inputs in P1-P5 are tagged by importance for that engine's reference role:
+- **[E] essential:** the pack cannot serve its role without it;
+- **[I] important:** otherwise a default must replace it, weakening the reference;
+- **[N] nice to have.**
+
+Suggested order: P2, P1 (open physics questions), then P4, P3, P5; S8 / S9 / S10 any time.
+
+---
+
+## P1 — University of Michigan TCC-III (fundamental SI reference)
+
+Reference role: SI flame and heat transfer at a second size, gas exchange, 1-D pipe validation.
+
+```
+Extract a validation-grade data pack for the University of Michigan TCC-III optical
+SI engine (571.7 cc single cylinder; Volker Sick group downloads, TCC-III CFD input
+dataset, LES benchmark papers) for a 0-D / 1-D engine simulator.
+
+Common requirements:
+- Return numbers with unit, exact source (URL + page/table/figure) and grade:
+  D exact configuration, F family, R derived (show arithmetic), U not found.
+  Never estimate silently.
+- Report HARDWARE (physical dimensions, measured quantities). Values that exist only
+  as simulation-model parameters (e.g. GT-Power discharge coefficients, friction
+  multipliers, calibrated burn rates) go in a separate section labelled MODEL-DERIVED.
+- Digitise plotted curves as (x, y) pairs at a stated resolution and say so.
+- List every downloadable file (URL, name, contents) and extract the numeric tables
+  requested.
+- Keep one test configuration; flag any mixing of builds.
+- Output a Markdown pack plus JSON {name, value, unit, grade, importance, source}.
+
+Importance tags on each input: [E] essential (the pack cannot serve its reference
+role without it; search hardest for these), [I] important (otherwise a default must
+replace it, weakening the reference), [N] nice to have. Report U for anything not
+found, whatever its tag.
+
+Inputs needed:
+A. [E] bore, stroke, connecting-rod length, compression ratio / clearance volume
+   [I] piston crown and head geometry (pent-roof shape, chamber volume, surface areas)
+   [N] wrist-pin offset
+B. [E] valve count and head diameters
+   [E] intake and exhaust lift vs crank angle (full arrays from the public files)
+   [E] TDC / crank-angle reference used by the lift and pressure data
+   [I] seat and stem diameters, valve clearance
+C. [E] full intake and exhaust pipe geometry as run, suitable for a 1-D pipe model:
+       every segment from inlet / surge tank to valve and valve to exhaust tank, with
+       length, diameter (or area) along the length, tapers, bends, junctions
+   [E] plenum / surge-tank volumes and the boundary pressures / temperatures
+   [I] throttle geometry and position
+   [I] measured valve flow (flow or Cd vs lift)
+D. [E] fuel (composition / LHV / stoichiometric AFR)
+   [E] spark timing and lambda at each operating condition
+   [I] swirl / tumble ratio
+E. [I] wall temperatures (head, liner, piston)
+   [N] coolant / oil temperatures
+
+Outputs needed for each published operating condition (motored and fired), with the
+same importance tags:
+- [E] speed, intake (MAP) and exhaust pressure, intake temperature;
+- [E] trapped / delivered air mass or air flow;
+- [E] crank-angle cylinder pressure (mean cycle; numeric, crank-angle resolution),
+      fired and motored;
+- [E] crank-angle intake-port and exhaust-port / runner pressure traces (needed to
+      validate 1-D pipe dynamics);
+- [I] IMEP, COV of IMEP, burn angles (CA10 / 50 / 90);
+- [N] any brake data (unlikely; mark U).
+```
+
+---
+
+## P2 — Honda GX160 (small SI with brake performance)
+
+Reference role: small SI brake performance; settles the low-speed efficiency question (charge vs efficiency); carburettor metering later.
+
+```
+Extract a validation-grade data pack for the Honda GX160 (163 cc, 68 x 45 mm,
+single-cylinder OHV, float carburettor, air-cooled) for a 0-D / 1-D engine
+simulator, focusing on studies that combine dynamometer data with cylinder pressure
+(1-D simulation / pressure-model studies, manifold optimisation / dyno studies,
+university theses).
+
+Common requirements:
+- Return numbers with unit, exact source (URL + page/table/figure) and grade:
+  D exact configuration, F family, R derived (show arithmetic), U not found.
+  Never estimate silently.
+- Report HARDWARE (physical dimensions, measured quantities). Values that exist only
+  as simulation-model parameters (e.g. GT-Power discharge coefficients, friction
+  multipliers, calibrated burn rates) go in a separate section labelled MODEL-DERIVED.
+- Digitise plotted curves as (x, y) pairs at a stated resolution and say so.
+- List every downloadable file and extract the numeric tables requested.
+- Keep ONE engine build and test set-up per study; never merge studies without
+  flagging it.
+- Output a Markdown pack plus JSON {name, value, unit, grade, importance, source}.
+
+Importance tags on each input: [E] essential (the pack cannot serve its reference
+role without it; search hardest for these), [I] important (otherwise a default must
+replace it, weakening the reference), [N] nice to have. Report U for anything not
+found, whatever its tag.
+
+Inputs needed:
+A. [E] connecting-rod length
+   [E] compression ratio (measured if available; state how)
+   [N] piston-pin offset
+B. [E] valve head diameters
+   [E] lift vs crank angle, or max lift + opening / closing angles with the lift
+       threshold used
+   [I] valve clearance
+   [N] seat and stem diameters
+C. [E] carburettor bore and venturi diameter
+   [E] measured exhaust back-pressure (or muffler restriction) at the test points
+   [I] air cleaner (type, volume, measured restriction)
+   [I] intake path segments (carb, insulator / spacer, port): length and diameter
+   [I] exhaust port and pipe: length and diameter
+   [N] muffler internal geometry (chamber volumes, baffles / perforates, tailpipe)
+   [N] measured flow coefficients
+D. [E] spark timing (fixed advance)
+   [E] measured lambda / AFR vs speed at full load
+   [I] lambda / AFR at part load
+   [I] carburettor metering: main jet size, air-bleed / emulsion details, float level
+   [I] fuel properties (LHV, density, octane)
+E. [N] cylinder-head / oil temperature
+
+Outputs needed (per study, same configuration), with the same importance tags:
+- [E] full-load torque and power vs speed (numeric);
+- [E] AIR FLOW vs speed at full load (critical: separates breathing from efficiency);
+- [E] BSFC (or fuel flow) vs speed at full load;
+- [I] BSFC / fuel flow and air flow at part load;
+- [I] cylinder pressure traces at stated speed / load (numeric), plus burn angles if
+      given (splits indicated efficiency from friction and pumping);
+- [I] motoring / friction data (splits brake from indicated);
+- [I] intake depression;
+- [N] intake and exhaust pressure traces;
+- [N] exhaust temperature.
+State which of these come from the same physical test set-up. The [E] outputs are
+only useful together: torque, air flow and fuel flow must come from the same test.
+```
+
+---
+
+## P3 — Kirloskar TV1 and AVL 5402 (small diesel)
+
+Reference role: small-bore diesel combustion with pressure traces; mechanical pump and governor (TV1); common rail (AVL).
+
+```
+Extract validation-grade data packs for two small single-cylinder DI diesel research
+engines for a 0-D / 1-D engine simulator: (1) Kirloskar TV1 (661 cc, 87.5 x 110 mm,
+CR 17.5, MICO inline pump, mechanical governor) and (2) AVL 5402 (511 cc, common
+rail). Treat them as two separate packs.
+
+Common requirements:
+- Return numbers with unit, exact source (URL + page/table/figure) and grade:
+  D exact configuration, F family, R derived (show arithmetic), U not found.
+  Never estimate silently.
+- Report HARDWARE (physical dimensions, measured quantities). Values that exist only
+  as simulation-model parameters go in a separate section labelled MODEL-DERIVED.
+- Digitise plotted curves as (x, y) pairs at a stated resolution and say so.
+- List every downloadable file and extract the numeric tables requested.
+- Keep one engine build and test set-up per study; flag any mixing (many labs modify
+  these engines).
+- Output a Markdown pack plus JSON {name, value, unit, grade, importance, source}.
+
+Importance tags on each input: [E] essential (the pack cannot serve its reference
+role without it; search hardest for these), [I] important (otherwise a default must
+replace it, weakening the reference), [N] nice to have. Report U for anything not
+found, whatever its tag.
+
+Inputs needed (each engine):
+A. [E] bore, stroke, connecting-rod length, compression ratio
+   [I] bowl geometry (diameter, depth, volume)
+B. [E] valve head diameters and lift vs angle (or max lift + timing with threshold)
+   [N] valve clearance
+C. [I] intake and exhaust pipe geometry as installed in the test cell, suitable for a
+       1-D pipe model (segment lengths and diameters, surge tank / air box volumes)
+   [I] air-flow measurement method
+D. [E] TV1: pump type, plunger diameter and cam lift rate; AVL: rail pressure
+   [E] nozzle holes x diameter
+   [E] dynamic injection timing (start of injection at the test points)
+   [E] fuel lower heating value and density
+   [I] static timing, needle opening pressure, spray included angle
+   [I] measured injection rate shape or duration
+   [I] fuel cetane number
+   [N] spray penetration / liquid length
+E. [N] coolant / oil temperatures
+
+Outputs needed (each operating point, same set-up), with the same importance tags:
+- [E] speed, load (torque or BMEP), fuel flow, AIR FLOW, BSFC;
+- [E] crank-angle cylinder pressure (numeric) at the same points;
+- [I] heat-release rate (numeric; derivable from pressure if not given);
+- [I] exhaust temperature;
+- [I] motoring pressure trace / friction;
+- [N] ignition delay and combustion duration as reported (derivable from pressure);
+- [N] governor characteristic (TV1: speed vs load / droop).
+```
+
+---
+
+## P4 — GM / Opel 1.9 L ECN small-bore diesel (diesel physics reference)
+
+Reference role: diesel combustion physics (spray, ignition, heat release); shared spray / evaporation physics for petrol direct injection.
+
+```
+Extract a validation-grade data pack for the Sandia Engine Combustion Network (ECN)
+small-bore diesel engine (GM / Opel 1.9 L derived, single-cylinder optical / metal
+versions) from the ECN repository (ecn.sandia.gov/engines/small-bore-diesel-engine/)
+for a 0-D / 1-D engine simulator. This engine is also the reference for the shared
+spray / evaporation physics later used for petrol direct injection.
+
+Common requirements:
+- Return numbers with unit, exact source (URL + page/table/figure) and grade:
+  D exact configuration, F family, R derived (show arithmetic), U not found.
+  Never estimate silently.
+- Report HARDWARE (physical dimensions, measured quantities). Values that exist only
+  as simulation-model parameters go in a separate section labelled MODEL-DERIVED.
+- Digitise plotted curves as (x, y) pairs at a stated resolution and say so.
+- List every downloadable file (URL, name, contents) and extract the numeric tables
+  requested.
+- State clearly which hardware version (optical or all-metal, piston bowl, CR) each
+  data set belongs to.
+- Output a Markdown pack plus JSON {name, value, unit, grade, importance, source}.
+
+Importance tags on each input: [E] essential (the pack cannot serve its reference
+role without it; search hardest for these), [I] important (otherwise a default must
+replace it, weakening the reference), [N] nice to have. Report U for anything not
+found, whatever its tag.
+
+Inputs needed:
+A. [E] bore, stroke, connecting-rod length, compression ratio
+   [E] piston bowl geometry and volume
+   [I] squish height
+B. [E] intake and exhaust lift vs crank angle (arrays) and valve diameters
+   [I] measured valve flow coefficients and swirl ratio (vs lift)
+C. [E] intake pressure / temperature and exhaust back-pressure at each point
+       (boundary conditions)
+   [I] intake / exhaust plumbing as run (surge tanks, pipe lengths / diameters)
+D. [E] injector holes x diameter and rail pressure
+   [E] injection rate shape (numeric)
+   [E] SOI / duration commands and hydraulic delays
+   [E] fuel composition, LHV, cetane
+   [I] spray included angle
+   [I] spray penetration, liquid length and spreading angle vs time (engine or
+       matching ECN spray-vessel data, with vessel conditions)
+   [I] fuel volatility / distillation
+E. [I] wall temperatures
+   [N] coolant / oil temperatures
+
+Outputs needed for each published operating point, with the same importance tags:
+- [E] speed, intake pressure / temperature, O2 concentration (EGR), fuel mass per
+      cycle;
+- [E] crank-angle cylinder pressure (numeric);
+- [I] apparent heat-release rate (numeric; derivable from pressure if not given);
+- [I] motored pressure trace at the same intake conditions (compression and heat
+      transfer check);
+- [I] IMEP;
+- [N] emissions / soot, only if alongside the above.
+```
+
+---
+
+## P5 — Volvo D13 (heavy-duty diesel)
+
+Reference role: heat transfer, friction and combustion at large bore; turbo / VGT and boost-control validation.
+
+```
+Extract a validation-grade data pack for the Volvo D13 heavy-duty diesel (12.8 L
+I6, 131 x 158 mm) as used in the Chalmers GT-Power validation thesis (12 ESC points)
+and any related Chalmers / Volvo publications, for a 0-D / 1-D engine simulator.
+
+Common requirements:
+- Return numbers with unit, exact source (URL + page/table/figure) and grade:
+  D exact configuration, F family, R derived (show arithmetic), U not found.
+  Never estimate silently.
+- Report HARDWARE (physical dimensions, measured quantities). Values that exist only
+  as simulation-model parameters (e.g. calibrated VGT efficiency multipliers) go in a
+  separate section labelled MODEL-DERIVED.
+- Digitise plotted curves as (x, y) pairs at a stated resolution and say so.
+- List every downloadable file and extract the numeric tables requested.
+- Keep one engine build / rating; flag any mixing.
+- Output a Markdown pack plus JSON {name, value, unit, grade, importance, source}.
+
+Importance tags on each input: [E] essential (the pack cannot serve its reference
+role without it; search hardest for these), [I] important (otherwise a default must
+replace it, weakening the reference), [N] nice to have. Report U for anything not
+found, whatever its tag.
+
+Inputs needed:
+A. [E] connecting-rod length and compression ratio
+   [I] firing order
+   [N] bowl geometry
+B. [I] valve diameters, lift profiles or timing
+   [N] engine-brake / VVA hardware
+C. [E] turbocharger measured operating points per test point (compressor and
+       turbine pressure ratios, turbine inlet temperature, shaft speed), or maps
+   [I] intake and exhaust manifold and pipe geometry, suitable for a 1-D pipe model
+       (runner lengths / diameters, manifold volumes, pulse division)
+   [I] charge-air cooler (volume, pressure drop, outlet temperature)
+   [I] EGR route and cooler
+D. [I] VGT vane / rack position and EGR valve position per operating point
+   [N] described control strategy (set-points, limits)
+E. [E] injection: holes x diameter, rail pressure, SOI and quantity per point
+   [E] fuel lower heating value and density
+   [I] coolant / oil temperatures
+
+Outputs needed for each ESC point (and any full-load curve), with the same importance
+tags:
+- [E] speed, torque / BMEP, fuel flow, air flow, BSFC;
+- [E] boost, exhaust manifold pressure, turbine inlet temperature;
+- [E] cylinder pressure (numeric; gives indicated work, so separates friction and
+      heat transfer at large bore);
+- [I] EGR rate (essential at any point where EGR is active);
+- [I] burn rate (derivable from pressure if not given);
+- [I] motoring / FMEP data;
+- [I] documented full-load torque / power curve of the same rating;
+- [N] intake / exhaust runner pressure traces.
+```
+
+---
+
+## S8 — Stage 1 search: handheld two-stroke < 100 cc
+
+```
+Stage 1 search (bounded): find two-stroke spark-ignition engines below 100 cc
+(chainsaw, trimmer, leaf blower, model / small motorcycle, small outboard) for which
+public sources give both simulator inputs and measured outputs. Purpose: validating a
+two-stroke module (crankcase scavenging, port timing, tuned expansion chamber,
+diaphragm carburettor) in a 0-D / 1-D engine simulator.
+
+Report hardware (physical dimensions, measured quantities); values that exist only as
+simulation-model parameters must be labelled MODEL-DERIVED.
+
+For each candidate (aim for 2-3, do not pad), score availability as D (exact
+configuration) / P (partial or related) / U (not found) for:
+A geometry: bore, stroke, rod, crankcase volume / primary compression ratio,
+  trapped compression ratio;
+B ports: exhaust, transfer and intake (piston-port or reed) timings, widths, heights,
+  areas vs crank angle, transfer-port angles;
+C intake (carb, reed) and exhaust (expansion chamber / muffler) geometry suitable for
+  a 1-D pipe model;
+D carburettor metering (diaphragm type, jets, pulse-driven fuel pump), mixture, spark
+  timing, fuel / oil ratio;
+E thermal;
+G full-load torque / power curve;
+H fuel flow and AIR FLOW / delivery ratio / trapping and scavenging efficiency;
+I cylinder and crankcase pressure traces;
+J scavenging measurements (tracer gas, short-circuit losses), exhaust pressure traces.
+
+Give source URLs (papers, theses, open datasets), data form (tables / plots / files)
+and the main gaps. Conclude with a recommended candidate and a Stage-2 question.
+```
+
+---
+
+## S9 — Stage 1 search: locomotive / marine medium-speed diesel
+
+```
+Stage 1 search (bounded): find medium-speed diesel engines (bore ~200-260 mm,
+~900-1100 rpm; locomotive, marine or stationary; four-stroke e.g. ALCO 251, GE FDL,
+MAN, Wartsila; and two-stroke e.g. EMD 567 / 645 / 710) for which public sources give
+both simulator inputs and measured outputs. Purpose: validating heat transfer,
+friction and combustion at large bore, the two-stroke module (uniflow scavenging) and
+the scavenge-blower / supercharger module in a 0-D / 1-D engine simulator.
+
+Report hardware (physical dimensions, measured quantities); values that exist only as
+simulation-model parameters must be labelled MODEL-DERIVED.
+
+For each candidate (aim for 2-3, do not pad), score availability as D / P / U for:
+A geometry: bore, stroke, rod, CR, cylinder count, firing order;
+B valves / ports and timing (exhaust valves and scavenge ports for uniflow
+  two-strokes);
+C intake / exhaust manifolds, air box, and the turbocharger / Roots blower
+  arrangement: for EMD-type engines the gear-driven turbo with overrunning clutch or
+  the Roots blower, with drive ratio, displacement and rotor dimensions;
+D injection system (pump / unit injector), timing, nozzle data, fuel;
+E thermal;
+F turbo / blower data (maps, or measured boost, blower speed, turbine inlet
+  temperature, and the clutch engagement / disengagement speed);
+G load curve (power vs speed / notch);
+H SFC and air flow at the same points;
+I cylinder pressure (peak pressure at least);
+J exhaust temperature, friction / motoring, auxiliary loads.
+
+Prefer research papers, theses, service and maintenance manuals (e.g. MI-series),
+classification-society or emissions certification data. Give URLs, data form and
+gaps. Conclude with a recommended candidate per cycle type (four-stroke, two-stroke).
+```
+
+---
+
+## S10 — Stage 1 search: supercharged petrol (automotive)
+
+```
+Stage 1 search (bounded): find mechanically supercharged automotive petrol engines
+(Roots, twin-screw or centrifugal; e.g. GM L67 / LSA / LT4, Jaguar AJ-V8 / V6 SC,
+Mercedes M111 Kompressor, Toyota 1ZZ / 2ZZ supercharged variants, Audi 3.0 TFSI SC,
+Volvo T6 twin-charged) for which public sources give both simulator inputs and
+measured outputs. Purpose: validating a supercharger module (mechanically driven
+compressor, drive ratio, bypass valve, intercooler) in a 0-D / 1-D engine simulator.
+
+Report hardware (physical dimensions, measured quantities); values that exist only as
+simulation-model parameters must be labelled MODEL-DERIVED.
+
+For each candidate (aim for 2-3, do not pad), score availability as D / P / U for:
+A geometry: bore, stroke, rod, CR, layout;
+B valvetrain: valve sizes, lift / timing, VVT;
+C intake / exhaust geometry (1-D-model level), charge cooler volume and pressure drop;
+D supercharger: type, displacement per revolution or impeller size, drive ratio,
+  efficiency or performance map, bypass-valve behaviour, clutch (if any);
+E fuel system (port / direct injection), spark, lambda;
+G full-load torque / power curve;
+H fuel and AIR FLOW at the same points;
+I cylinder pressure;
+J boost vs speed, charge temperature, supercharger drive power.
+
+Prefer EPA / ANL / SAE benchmark data, university theses and OEM technical papers.
+Give URLs, data form and gaps. Conclude with a recommended candidate.
+```

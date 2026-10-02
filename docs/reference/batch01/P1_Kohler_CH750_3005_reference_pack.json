@@ -1,0 +1,1852 @@
+{
+  "engine_id": "P1",
+  "engine_name": "Kohler/Rehlko Command PRO CH750-3005",
+  "research_freeze": "2026-10-01",
+  "configuration_lock": {
+    "lock_status": "usable exact spec-code lock; serial/date interval unresolved",
+    "model": {
+      "parameter": "Exact model/spec",
+      "value": "CH750-3005 BASIC",
+      "unit": null,
+      "grade": "D",
+      "sources": [
+        {
+          "title": "PartsTree — CH750-3005 Basic Version, 27 hp, 747 cc",
+          "url": "https://www.partstree.com/models/ch750-3005-kohler-command-pro-engine-basic-version-27hp-747cc/",
+          "locator": "model header and diagrams",
+          "quality": "Secondary exact-spec parts catalog"
+        },
+        {
+          "title": "PartsWarehouse — Kohler CH750-3005 BASIC 27 HP (20.1 kW)",
+          "url": "https://www.partswarehouse.com/Kohler-CH750-3005-BASIC-27-HP-20-1-kW--s/280231.htm",
+          "locator": "model header",
+          "quality": "Secondary exact-spec parts catalog"
+        }
+      ],
+      "note": null,
+      "formula": null,
+      "suggested_source": null
+    },
+    "assembly": {
+      "parameter": "Current assembly/MPN",
+      "value": "PA-CH750-3005",
+      "unit": null,
+      "grade": "D",
+      "sources": [
+        {
+          "title": "Small Engine Warehouse — CH750-3005 / PA-CH750-3005",
+          "url": "https://www.smallenginewarehouse.com/ch750-3005",
+          "locator": "current product specification listing",
+          "quality": "Secondary exact-spec current retailer"
+        },
+        {
+          "title": "PartsTree — PA-CH750-0005 CH750S BASIC KEY (#CH750-3005)",
+          "url": "https://www.partstree.com/parts/kohler-pa-ch750-0005/",
+          "locator": "superseded to PA-CH750-3005",
+          "quality": "Secondary exact-spec parts catalog"
+        }
+      ],
+      "note": null,
+      "formula": null,
+      "suggested_source": null
+    },
+    "production_range": {
+      "parameter": "Serial/date production range",
+      "value": null,
+      "unit": null,
+      "grade": "U",
+      "sources": [],
+      "note": "Spec code is exact, but no public serial/date boundary was found.",
+      "formula": null,
+      "suggested_source": "Rehlko serial/spec lookup or dealer IPL keyed by serial number."
+    },
+    "market": {
+      "parameter": "Market lock",
+      "value": "U.S. current basic replacement/general-purpose engine",
+      "unit": null,
+      "grade": "D",
+      "sources": [
+        {
+          "title": "Small Engine Warehouse — CH750-3005 / PA-CH750-3005",
+          "url": "https://www.smallenginewarehouse.com/ch750-3005",
+          "locator": "current product specification listing",
+          "quality": "Secondary exact-spec current retailer"
+        }
+      ],
+      "note": "Retailer excludes California shipping; exact emissions label on a physical engine should be recorded before certification work.",
+      "formula": null,
+      "suggested_source": null
+    },
+    "rating": {
+      "parameter": "Exact advertised output",
+      "value": "27 hp (20.1 kW) @ 3600 rpm",
+      "unit": null,
+      "grade": "D",
+      "sources": [
+        {
+          "title": "PartsWarehouse — Kohler CH750-3005 BASIC 27 HP (20.1 kW)",
+          "url": "https://www.partswarehouse.com/Kohler-CH750-3005-BASIC-27-HP-20-1-kW--s/280231.htm",
+          "locator": "model header",
+          "quality": "Secondary exact-spec parts catalog"
+        },
+        {
+          "title": "PartsTree — CH750-3005 Basic Version, 27 hp, 747 cc",
+          "url": "https://www.partstree.com/models/ch750-3005-kohler-command-pro-engine-basic-version-27hp-747cc/",
+          "locator": "model header and diagrams",
+          "quality": "Secondary exact-spec parts catalog"
+        }
+      ],
+      "note": null,
+      "formula": null,
+      "suggested_source": null
+    },
+    "rating_standard": {
+      "parameter": "OEM model-family standard",
+      "value": "SAE J1940 gross",
+      "unit": null,
+      "grade": "F",
+      "sources": [
+        {
+          "title": "Rehlko/Kohler Gasoline Engines Full Line — Command PRO CH620–CH750",
+          "url": "https://resources.kohler.com/power/kohler/enginesUS/pdf/Gasoline_Full_line.pdf",
+          "locator": "Command PRO CH620/640/680/730/740/750, pp. 26–27 of brochure (PDF pp. 25–26)",
+          "quality": "OEM primary"
+        }
+      ],
+      "note": null,
+      "formula": null,
+      "suggested_source": null
+    },
+    "fuel_system": {
+      "parameter": "Current service fuel metering hardware",
+      "value": "carbureted; 24 853 318-S service replacement; Keihin two-barrel family architecture",
+      "unit": null,
+      "grade": "D",
+      "sources": [
+        {
+          "title": "Small Engine Suppliers — Kohler Carburetor 24 853 318-S",
+          "url": "https://www.smallenginesuppliers.com/shop/html/pages/products/Kohler_Carburetors15072.html",
+          "locator": "compatibility/supersession list including CH750-3005",
+          "quality": "Secondary exact-fit parts cross-reference"
+        }
+      ],
+      "note": "As-built carb by serial remains unresolved.",
+      "formula": null,
+      "suggested_source": null
+    },
+    "exhaust": {
+      "parameter": "Exhaust supplied",
+      "value": "muffler not included",
+      "unit": null,
+      "grade": "D",
+      "sources": [
+        {
+          "title": "Small Engine Warehouse — CH750-3005 / PA-CH750-3005",
+          "url": "https://www.smallenginewarehouse.com/ch750-3005",
+          "locator": "current product specification listing",
+          "quality": "Secondary exact-spec current retailer"
+        }
+      ],
+      "note": null,
+      "formula": null,
+      "suggested_source": null
+    }
+  },
+  "sections": [
+    {
+      "title": "1. Performance and rating basis",
+      "rows": [
+        {
+          "parameter": "Exact-spec advertised gross power",
+          "value": 20.1,
+          "unit": "kW (27 hp) @ 3600 rpm",
+          "grade": "D",
+          "sources": [
+            {
+              "title": "PartsWarehouse — Kohler CH750-3005 BASIC 27 HP (20.1 kW)",
+              "url": "https://www.partswarehouse.com/Kohler-CH750-3005-BASIC-27-HP-20-1-kW--s/280231.htm",
+              "locator": "model header",
+              "quality": "Secondary exact-spec parts catalog"
+            },
+            {
+              "title": "PartsTree — CH750-3005 Basic Version, 27 hp, 747 cc",
+              "url": "https://www.partstree.com/models/ch750-3005-kohler-command-pro-engine-basic-version-27hp-747cc/",
+              "locator": "model header and diagrams",
+              "quality": "Secondary exact-spec parts catalog"
+            }
+          ],
+          "note": "Exact CH750-3005 catalogs agree on 27 hp / 20.1 kW.",
+          "formula": null,
+          "suggested_source": null
+        },
+        {
+          "parameter": "Current CH750 family gross power",
+          "value": 20.1,
+          "unit": "kW @ 3600 rpm",
+          "grade": "F",
+          "sources": [
+            {
+              "title": "Rehlko/Kohler Gasoline Engines Full Line — Command PRO CH620–CH750",
+              "url": "https://resources.kohler.com/power/kohler/enginesUS/pdf/Gasoline_Full_line.pdf",
+              "locator": "Command PRO CH620/640/680/730/740/750, pp. 26–27 of brochure (PDF pp. 25–26)",
+              "quality": "OEM primary"
+            }
+          ],
+          "note": "OEM model-level value; exact -3005 spec not named on the OEM table.",
+          "formula": null,
+          "suggested_source": null
+        },
+        {
+          "parameter": "Current CH750 family peak torque",
+          "value": 55.9,
+          "unit": "N·m @ 3200 rpm",
+          "grade": "F",
+          "sources": [
+            {
+              "title": "Rehlko/Kohler Gasoline Engines Full Line — Command PRO CH620–CH750",
+              "url": "https://resources.kohler.com/power/kohler/enginesUS/pdf/Gasoline_Full_line.pdf",
+              "locator": "Command PRO CH620/640/680/730/740/750, pp. 26–27 of brochure (PDF pp. 25–26)",
+              "quality": "OEM primary"
+            }
+          ],
+          "note": null,
+          "formula": null,
+          "suggested_source": null
+        },
+        {
+          "parameter": "Rated torque derived from 20.1 kW @ 3600",
+          "value": 53.317,
+          "unit": "N·m",
+          "grade": "R",
+          "sources": [
+            {
+              "title": "Rehlko/Kohler Gasoline Engines Full Line — Command PRO CH620–CH750",
+              "url": "https://resources.kohler.com/power/kohler/enginesUS/pdf/Gasoline_Full_line.pdf",
+              "locator": "Command PRO CH620/640/680/730/740/750, pp. 26–27 of brochure (PDF pp. 25–26)",
+              "quality": "OEM primary"
+            },
+            {
+              "title": "PartsWarehouse — Kohler CH750-3005 BASIC 27 HP (20.1 kW)",
+              "url": "https://www.partswarehouse.com/Kohler-CH750-3005-BASIC-27-HP-20-1-kW--s/280231.htm",
+              "locator": "model header",
+              "quality": "Secondary exact-spec parts catalog"
+            }
+          ],
+          "note": null,
+          "formula": "T=P/ω=20100/(2π·3600/60)",
+          "suggested_source": null
+        },
+        {
+          "parameter": "Low idle for basic engines",
+          "value": "1200 ± 75",
+          "unit": "rpm",
+          "grade": "F",
+          "sources": [
+            {
+              "title": "Rehlko Command CH18–CH25, CH620–CH750 Service Manual 24 690 06 Rev. P",
+              "url": "https://techcomm.rehlko.com/techcomm/pdf/24_690_06_EN.pdf",
+              "locator": "pp. 5–13, 24–30, 40 ff., 90–97",
+              "quality": "OEM primary"
+            }
+          ],
+          "note": "Service-manual family setting; actual application can differ.",
+          "formula": null,
+          "suggested_source": null
+        },
+        {
+          "parameter": "Maximum no-load engine speed",
+          "value": 3750,
+          "unit": "rpm maximum",
+          "grade": "F",
+          "sources": [
+            {
+              "title": "Rehlko Command CH18–CH25, CH620–CH750 Service Manual 24 690 06 Rev. P",
+              "url": "https://techcomm.rehlko.com/techcomm/pdf/24_690_06_EN.pdf",
+              "locator": "pp. 5–13, 24–30, 40 ff., 90–97",
+              "quality": "OEM primary"
+            }
+          ],
+          "note": "Service-manual family limit; not a calibrated electronic cut/rev limit.",
+          "formula": null,
+          "suggested_source": null
+        },
+        {
+          "parameter": "Redline / limiter cut",
+          "value": null,
+          "unit": "rpm",
+          "grade": "U",
+          "sources": [],
+          "note": null,
+          "formula": null,
+          "suggested_source": "Exact CH750-3005 MDI module timing/limiter specification."
+        },
+        {
+          "parameter": "Governor type",
+          "value": "mechanical centrifugal",
+          "unit": null,
+          "grade": "D",
+          "sources": [
+            {
+              "title": "eReplacementParts — Governor spring 2408948-S",
+              "url": "https://www.ereplacementparts.com/parts/engine/kohler/erp9926654/spring-governor-purple-2408948-s/?ModelID=6136581&ModelNum=CH750-3005&SearchTerm=CH750-3005&SourceCode=1",
+              "locator": "exact-model compatibility",
+              "quality": "Secondary exact-fit parts cross-reference"
+            },
+            {
+              "title": "PartsTree — CH750-3005 Basic Version, 27 hp, 747 cc",
+              "url": "https://www.partstree.com/models/ch750-3005-kohler-command-pro-engine-basic-version-27hp-747cc/",
+              "locator": "model header and diagrams",
+              "quality": "Secondary exact-spec parts catalog"
+            }
+          ],
+          "note": "Exact governor spring/controls exist in the -3005 BOM.",
+          "formula": null,
+          "suggested_source": null
+        },
+        {
+          "parameter": "Governor regulation/droop",
+          "value": 10,
+          "unit": "% nominal",
+          "grade": "F",
+          "sources": [
+            {
+              "title": "Kohler Command PRO 19–27 hp brochure (legacy performance chart)",
+              "url": "https://resources.kohler.com/power/kohler/enginesUS/pdf/command_pro_19_27hp_brochure.pdf",
+              "locator": "maximum power/torque charts; marked SAE J1490 gross",
+              "quality": "OEM primary, historical"
+            }
+          ],
+          "note": "Family brochure states standard 10% mechanical governor; exact -3005 adjustment not independently proven.",
+          "formula": null,
+          "suggested_source": null
+        },
+        {
+          "parameter": "Rating standard",
+          "value": "SAE J1940 gross",
+          "unit": null,
+          "grade": "F",
+          "sources": [
+            {
+              "title": "Rehlko/Kohler Gasoline Engines Full Line — Command PRO CH620–CH750",
+              "url": "https://resources.kohler.com/power/kohler/enginesUS/pdf/Gasoline_Full_line.pdf",
+              "locator": "Command PRO CH620/640/680/730/740/750, pp. 26–27 of brochure (PDF pp. 25–26)",
+              "quality": "OEM primary"
+            }
+          ],
+          "note": "Current OEM CH750 model-family rating basis.",
+          "formula": null,
+          "suggested_source": null
+        },
+        {
+          "parameter": "Service-manual certified power standards",
+          "value": "SAE J1940 & J1995 references",
+          "unit": null,
+          "grade": "F",
+          "sources": [
+            {
+              "title": "Rehlko Command CH18–CH25, CH620–CH750 Service Manual 24 690 06 Rev. P",
+              "url": "https://techcomm.rehlko.com/techcomm/pdf/24_690_06_EN.pdf",
+              "locator": "pp. 5–13, 24–30, 40 ff., 90–97",
+              "quality": "OEM primary"
+            }
+          ],
+          "note": "Service manual says Rehlko horsepower references are Certified Power Ratings per J1940 & J1995.",
+          "formula": null,
+          "suggested_source": null
+        },
+        {
+          "parameter": "Rating test barometer",
+          "value": null,
+          "unit": "kPa",
+          "grade": "U",
+          "sources": [],
+          "note": null,
+          "formula": null,
+          "suggested_source": "Rehlko certified-power test sheet for CH750/CH750-3005."
+        },
+        {
+          "parameter": "Rating test temperature",
+          "value": null,
+          "unit": "°C",
+          "grade": "U",
+          "sources": [],
+          "note": null,
+          "formula": null,
+          "suggested_source": "Rehlko certified-power test sheet."
+        },
+        {
+          "parameter": "Rating humidity",
+          "value": null,
+          "unit": null,
+          "grade": "U",
+          "sources": [],
+          "note": null,
+          "formula": null,
+          "suggested_source": "Rehlko certified-power test sheet."
+        },
+        {
+          "parameter": "Stated tolerance",
+          "value": null,
+          "unit": "%",
+          "grade": "U",
+          "sources": [],
+          "note": null,
+          "formula": null,
+          "suggested_source": "Rehlko certified-power certification report."
+        },
+        {
+          "parameter": "Fuel consumption/BSFC full-load",
+          "value": null,
+          "unit": null,
+          "grade": "U",
+          "sources": [],
+          "note": null,
+          "formula": null,
+          "suggested_source": "Rehlko CH750 dyno test sheet / OEM application engineering data."
+        },
+        {
+          "parameter": "Part-load BSFC/fuel rate",
+          "value": null,
+          "unit": null,
+          "grade": "U",
+          "sources": [],
+          "note": null,
+          "formula": null,
+          "suggested_source": "Rehlko application engineering test data."
+        },
+        {
+          "parameter": "Motoring/friction power or FMEP",
+          "value": null,
+          "unit": null,
+          "grade": "U",
+          "sources": [],
+          "note": null,
+          "formula": null,
+          "suggested_source": "Kohler/Rehlko development dyno or SAE paper."
+        }
+      ]
+    },
+    {
+      "title": "2. Physical-bounds checks",
+      "rows": [
+        {
+          "parameter": "Airflow at rated speed",
+          "value": null,
+          "unit": "kg/s or m³/s",
+          "grade": "U",
+          "sources": [],
+          "note": null,
+          "formula": null,
+          "suggested_source": "Rehlko CH750 application/installation manual or dyno sheet."
+        },
+        {
+          "parameter": "Exhaust gas temperature",
+          "value": null,
+          "unit": "°C",
+          "grade": "U",
+          "sources": [],
+          "note": null,
+          "formula": null,
+          "suggested_source": "Rehlko durability/emissions test data."
+        },
+        {
+          "parameter": "Full-load AFR/lambda",
+          "value": null,
+          "unit": null,
+          "grade": "U",
+          "sources": [],
+          "note": null,
+          "formula": null,
+          "suggested_source": "Keihin carb calibration or Rehlko emissions/dyno data."
+        },
+        {
+          "parameter": "Peak firing pressure",
+          "value": null,
+          "unit": "MPa",
+          "grade": "U",
+          "sources": [],
+          "note": null,
+          "formula": null,
+          "suggested_source": "Kohler/Rehlko combustion-development data."
+        },
+        {
+          "parameter": "Maximum exhaust backpressure",
+          "value": null,
+          "unit": "kPa",
+          "grade": "U",
+          "sources": [],
+          "note": "Do not use retailer pages that state an unlabelled '50' backpressure value.",
+          "formula": null,
+          "suggested_source": "Rehlko OEM installation manual with units."
+        },
+        {
+          "parameter": "Maximum intake restriction",
+          "value": null,
+          "unit": "kPa",
+          "grade": "U",
+          "sources": [],
+          "note": null,
+          "formula": null,
+          "suggested_source": "Rehlko OEM installation manual."
+        },
+        {
+          "parameter": "Boost/manifold pressure",
+          "value": "naturally aspirated",
+          "unit": null,
+          "grade": "F",
+          "sources": [
+            {
+              "title": "Rehlko/Kohler Gasoline Engines Full Line — Command PRO CH620–CH750",
+              "url": "https://resources.kohler.com/power/kohler/enginesUS/pdf/Gasoline_Full_line.pdf",
+              "locator": "Command PRO CH620/640/680/730/740/750, pp. 26–27 of brochure (PDF pp. 25–26)",
+              "quality": "OEM primary"
+            }
+          ],
+          "note": null,
+          "formula": null,
+          "suggested_source": null
+        }
+      ]
+    },
+    {
+      "title": "3. Geometry",
+      "rows": [
+        {
+          "parameter": "Cylinder count/layout",
+          "value": "2-cylinder V-twin, horizontal shaft",
+          "unit": null,
+          "grade": "F",
+          "sources": [
+            {
+              "title": "Rehlko/Kohler Gasoline Engines Full Line — Command PRO CH620–CH750",
+              "url": "https://resources.kohler.com/power/kohler/enginesUS/pdf/Gasoline_Full_line.pdf",
+              "locator": "Command PRO CH620/640/680/730/740/750, pp. 26–27 of brochure (PDF pp. 25–26)",
+              "quality": "OEM primary"
+            }
+          ],
+          "note": null,
+          "formula": null,
+          "suggested_source": null
+        },
+        {
+          "parameter": "V angle",
+          "value": null,
+          "unit": "deg",
+          "grade": "U",
+          "sources": [],
+          "note": null,
+          "formula": null,
+          "suggested_source": "Kohler crankcase/cylinder-angle engineering drawing."
+        },
+        {
+          "parameter": "Bore",
+          "value": 83,
+          "unit": "mm",
+          "grade": "F",
+          "sources": [
+            {
+              "title": "Rehlko/Kohler Gasoline Engines Full Line — Command PRO CH620–CH750",
+              "url": "https://resources.kohler.com/power/kohler/enginesUS/pdf/Gasoline_Full_line.pdf",
+              "locator": "Command PRO CH620/640/680/730/740/750, pp. 26–27 of brochure (PDF pp. 25–26)",
+              "quality": "OEM primary"
+            },
+            {
+              "title": "Rehlko Command CH18–CH25, CH620–CH750 Service Manual 24 690 06 Rev. P",
+              "url": "https://techcomm.rehlko.com/techcomm/pdf/24_690_06_EN.pdf",
+              "locator": "pp. 5–13, 24–30, 40 ff., 90–97",
+              "quality": "OEM primary"
+            }
+          ],
+          "note": null,
+          "formula": null,
+          "suggested_source": null
+        },
+        {
+          "parameter": "Stroke",
+          "value": 69,
+          "unit": "mm",
+          "grade": "F",
+          "sources": [
+            {
+              "title": "Rehlko/Kohler Gasoline Engines Full Line — Command PRO CH620–CH750",
+              "url": "https://resources.kohler.com/power/kohler/enginesUS/pdf/Gasoline_Full_line.pdf",
+              "locator": "Command PRO CH620/640/680/730/740/750, pp. 26–27 of brochure (PDF pp. 25–26)",
+              "quality": "OEM primary"
+            },
+            {
+              "title": "Rehlko Command CH18–CH25, CH620–CH750 Service Manual 24 690 06 Rev. P",
+              "url": "https://techcomm.rehlko.com/techcomm/pdf/24_690_06_EN.pdf",
+              "locator": "pp. 5–13, 24–30, 40 ff., 90–97",
+              "quality": "OEM primary"
+            }
+          ],
+          "note": null,
+          "formula": null,
+          "suggested_source": null
+        },
+        {
+          "parameter": "Displacement",
+          "value": 747,
+          "unit": "cm³",
+          "grade": "D",
+          "sources": [
+            {
+              "title": "PartsTree — CH750-3005 Basic Version, 27 hp, 747 cc",
+              "url": "https://www.partstree.com/models/ch750-3005-kohler-command-pro-engine-basic-version-27hp-747cc/",
+              "locator": "model header and diagrams",
+              "quality": "Secondary exact-spec parts catalog"
+            },
+            {
+              "title": "Small Engine Warehouse — CH750-3005 / PA-CH750-3005",
+              "url": "https://www.smallenginewarehouse.com/ch750-3005",
+              "locator": "current product specification listing",
+              "quality": "Secondary exact-spec current retailer"
+            }
+          ],
+          "note": null,
+          "formula": null,
+          "suggested_source": null
+        },
+        {
+          "parameter": "Geometric displacement check",
+          "value": 746.664,
+          "unit": "cm³",
+          "grade": "R",
+          "sources": [
+            {
+              "title": "Rehlko/Kohler Gasoline Engines Full Line — Command PRO CH620–CH750",
+              "url": "https://resources.kohler.com/power/kohler/enginesUS/pdf/Gasoline_Full_line.pdf",
+              "locator": "Command PRO CH620/640/680/730/740/750, pp. 26–27 of brochure (PDF pp. 25–26)",
+              "quality": "OEM primary"
+            }
+          ],
+          "note": null,
+          "formula": "2·π/4·(0.083 m)^2·0.069 m",
+          "suggested_source": null
+        },
+        {
+          "parameter": "Compression ratio",
+          "value": "9.4:1",
+          "unit": null,
+          "grade": "F",
+          "sources": [
+            {
+              "title": "Rehlko/Kohler Gasoline Engines Full Line — Command PRO CH620–CH750",
+              "url": "https://resources.kohler.com/power/kohler/enginesUS/pdf/Gasoline_Full_line.pdf",
+              "locator": "Command PRO CH620/640/680/730/740/750, pp. 26–27 of brochure (PDF pp. 25–26)",
+              "quality": "OEM primary"
+            }
+          ],
+          "note": null,
+          "formula": null,
+          "suggested_source": null
+        },
+        {
+          "parameter": "Firing order / crank phasing",
+          "value": null,
+          "unit": null,
+          "grade": "U",
+          "sources": [],
+          "note": null,
+          "formula": null,
+          "suggested_source": "CH750 crankshaft/ignition timing engineering drawing."
+        },
+        {
+          "parameter": "Connecting-rod centre-to-centre length",
+          "value": null,
+          "unit": "mm",
+          "grade": "U",
+          "sources": [],
+          "note": null,
+          "formula": null,
+          "suggested_source": "Kohler connecting-rod drawing."
+        },
+        {
+          "parameter": "Compression height",
+          "value": null,
+          "unit": "mm",
+          "grade": "U",
+          "sources": [],
+          "note": null,
+          "formula": null,
+          "suggested_source": "Kohler piston drawing."
+        },
+        {
+          "parameter": "Deck height",
+          "value": null,
+          "unit": "mm",
+          "grade": "U",
+          "sources": [],
+          "note": null,
+          "formula": null,
+          "suggested_source": "Kohler crankcase drawing."
+        },
+        {
+          "parameter": "Combustion-chamber volume/shape",
+          "value": null,
+          "unit": "cm³",
+          "grade": "U",
+          "sources": [],
+          "note": null,
+          "formula": null,
+          "suggested_source": "Kohler cylinder-head drawing or measured casting."
+        },
+        {
+          "parameter": "Flywheel-end main journal OD",
+          "value": "40.913–40.935",
+          "unit": "mm new",
+          "grade": "F",
+          "sources": [
+            {
+              "title": "Rehlko Command CH18–CH25, CH620–CH750 Service Manual 24 690 06 Rev. P",
+              "url": "https://techcomm.rehlko.com/techcomm/pdf/24_690_06_EN.pdf",
+              "locator": "pp. 5–13, 24–30, 40 ff., 90–97",
+              "quality": "OEM primary"
+            }
+          ],
+          "note": null,
+          "formula": null,
+          "suggested_source": null
+        },
+        {
+          "parameter": "Closure-plate-end main journal OD",
+          "value": "40.913–40.935",
+          "unit": "mm new",
+          "grade": "F",
+          "sources": [
+            {
+              "title": "Rehlko Command CH18–CH25, CH620–CH750 Service Manual 24 690 06 Rev. P",
+              "url": "https://techcomm.rehlko.com/techcomm/pdf/24_690_06_EN.pdf",
+              "locator": "pp. 5–13, 24–30, 40 ff., 90–97",
+              "quality": "OEM primary"
+            }
+          ],
+          "note": null,
+          "formula": null,
+          "suggested_source": null
+        },
+        {
+          "parameter": "Connecting-rod journal OD",
+          "value": "35.955–35.973",
+          "unit": "mm new",
+          "grade": "F",
+          "sources": [
+            {
+              "title": "Rehlko Command CH18–CH25, CH620–CH750 Service Manual 24 690 06 Rev. P",
+              "url": "https://techcomm.rehlko.com/techcomm/pdf/24_690_06_EN.pdf",
+              "locator": "pp. 5–13, 24–30, 40 ff., 90–97",
+              "quality": "OEM primary"
+            }
+          ],
+          "note": null,
+          "formula": null,
+          "suggested_source": null
+        },
+        {
+          "parameter": "Main/rod journal widths",
+          "value": null,
+          "unit": "mm",
+          "grade": "U",
+          "sources": [],
+          "note": null,
+          "formula": null,
+          "suggested_source": "Kohler crankshaft production drawing."
+        },
+        {
+          "parameter": "Number of main-journal locations",
+          "value": 2,
+          "unit": null,
+          "grade": "R",
+          "sources": [
+            {
+              "title": "Rehlko Command CH18–CH25, CH620–CH750 Service Manual 24 690 06 Rev. P",
+              "url": "https://techcomm.rehlko.com/techcomm/pdf/24_690_06_EN.pdf",
+              "locator": "pp. 5–13, 24–30, 40 ff., 90–97",
+              "quality": "OEM primary"
+            }
+          ],
+          "note": null,
+          "formula": "service manual separately specifies flywheel-end and closure-plate-end main journals",
+          "suggested_source": null
+        }
+      ]
+    },
+    {
+      "title": "4. Valvetrain and breathing",
+      "rows": [
+        {
+          "parameter": "Valvetrain",
+          "value": "OHV with hydraulic valve lifters",
+          "unit": null,
+          "grade": "F",
+          "sources": [
+            {
+              "title": "Rehlko/Kohler Gasoline Engines Full Line — Command PRO CH620–CH750",
+              "url": "https://resources.kohler.com/power/kohler/enginesUS/pdf/Gasoline_Full_line.pdf",
+              "locator": "Command PRO CH620/640/680/730/740/750, pp. 26–27 of brochure (PDF pp. 25–26)",
+              "quality": "OEM primary"
+            }
+          ],
+          "note": null,
+          "formula": null,
+          "suggested_source": null
+        },
+        {
+          "parameter": "Valves per cylinder",
+          "value": 2,
+          "unit": null,
+          "grade": "R",
+          "sources": [
+            {
+              "title": "Rehlko Command CH18–CH25, CH620–CH750 Service Manual 24 690 06 Rev. P",
+              "url": "https://techcomm.rehlko.com/techcomm/pdf/24_690_06_EN.pdf",
+              "locator": "pp. 5–13, 24–30, 40 ff., 90–97",
+              "quality": "OEM primary"
+            }
+          ],
+          "note": null,
+          "formula": "one documented intake valve + one exhaust valve per cylinder",
+          "suggested_source": null
+        },
+        {
+          "parameter": "Intake valve head diameter",
+          "value": "33.37–33.63",
+          "unit": "mm",
+          "grade": "F",
+          "sources": [
+            {
+              "title": "Rehlko Command CH18–CH25, CH620–CH750 Service Manual 24 690 06 Rev. P",
+              "url": "https://techcomm.rehlko.com/techcomm/pdf/24_690_06_EN.pdf",
+              "locator": "pp. 5–13, 24–30, 40 ff., 90–97",
+              "quality": "OEM primary"
+            }
+          ],
+          "note": null,
+          "formula": null,
+          "suggested_source": null
+        },
+        {
+          "parameter": "Exhaust valve head diameter",
+          "value": "29.37–29.63",
+          "unit": "mm",
+          "grade": "F",
+          "sources": [
+            {
+              "title": "Rehlko Command CH18–CH25, CH620–CH750 Service Manual 24 690 06 Rev. P",
+              "url": "https://techcomm.rehlko.com/techcomm/pdf/24_690_06_EN.pdf",
+              "locator": "pp. 5–13, 24–30, 40 ff., 90–97",
+              "quality": "OEM primary"
+            }
+          ],
+          "note": null,
+          "formula": null,
+          "suggested_source": null
+        },
+        {
+          "parameter": "Valve guide ID",
+          "value": "7.038–7.058",
+          "unit": "mm",
+          "grade": "F",
+          "sources": [
+            {
+              "title": "Rehlko Command CH18–CH25, CH620–CH750 Service Manual 24 690 06 Rev. P",
+              "url": "https://techcomm.rehlko.com/techcomm/pdf/24_690_06_EN.pdf",
+              "locator": "pp. 5–13, 24–30, 40 ff., 90–97",
+              "quality": "OEM primary"
+            }
+          ],
+          "note": null,
+          "formula": null,
+          "suggested_source": null
+        },
+        {
+          "parameter": "Nominal valve-seat angle",
+          "value": 45,
+          "unit": "deg",
+          "grade": "F",
+          "sources": [
+            {
+              "title": "Rehlko Command CH18–CH25, CH620–CH750 Service Manual 24 690 06 Rev. P",
+              "url": "https://techcomm.rehlko.com/techcomm/pdf/24_690_06_EN.pdf",
+              "locator": "pp. 5–13, 24–30, 40 ff., 90–97",
+              "quality": "OEM primary"
+            }
+          ],
+          "note": null,
+          "formula": null,
+          "suggested_source": null
+        },
+        {
+          "parameter": "Intake valve minimum service lift",
+          "value": 8.07,
+          "unit": "mm",
+          "grade": "F",
+          "sources": [
+            {
+              "title": "Rehlko Command CH18–CH25, CH620–CH750 Service Manual 24 690 06 Rev. P",
+              "url": "https://techcomm.rehlko.com/techcomm/pdf/24_690_06_EN.pdf",
+              "locator": "pp. 5–13, 24–30, 40 ff., 90–97",
+              "quality": "OEM primary"
+            }
+          ],
+          "note": "This is a minimum service specification, not nominal maximum lift.",
+          "formula": null,
+          "suggested_source": null
+        },
+        {
+          "parameter": "Exhaust valve minimum service lift",
+          "value": 8.07,
+          "unit": "mm",
+          "grade": "F",
+          "sources": [
+            {
+              "title": "Rehlko Command CH18–CH25, CH620–CH750 Service Manual 24 690 06 Rev. P",
+              "url": "https://techcomm.rehlko.com/techcomm/pdf/24_690_06_EN.pdf",
+              "locator": "pp. 5–13, 24–30, 40 ff., 90–97",
+              "quality": "OEM primary"
+            }
+          ],
+          "note": "This is a minimum service specification, not nominal maximum lift.",
+          "formula": null,
+          "suggested_source": null
+        },
+        {
+          "parameter": "Nominal maximum valve lift",
+          "value": null,
+          "unit": "mm",
+          "grade": "U",
+          "sources": [],
+          "note": "Do not substitute the 8.07 mm service minimum.",
+          "formula": null,
+          "suggested_source": "Kohler cam profile / nominal lobe data."
+        },
+        {
+          "parameter": "IVO/IVC/EVO/EVC",
+          "value": null,
+          "unit": "deg crank",
+          "grade": "U",
+          "sources": [],
+          "note": null,
+          "formula": null,
+          "suggested_source": "Kohler cam card / engineering drawing."
+        },
+        {
+          "parameter": "Duration at 0.050 in / 1 mm",
+          "value": null,
+          "unit": "deg",
+          "grade": "U",
+          "sources": [],
+          "note": null,
+          "formula": null,
+          "suggested_source": "Kohler cam profile or measured cam card."
+        },
+        {
+          "parameter": "Lobe separation",
+          "value": null,
+          "unit": "deg",
+          "grade": "U",
+          "sources": [],
+          "note": null,
+          "formula": null,
+          "suggested_source": "Kohler cam profile."
+        },
+        {
+          "parameter": "Port/throat diameters",
+          "value": null,
+          "unit": "mm",
+          "grade": "U",
+          "sources": [],
+          "note": null,
+          "formula": null,
+          "suggested_source": "Kohler head casting drawing or measurement."
+        },
+        {
+          "parameter": "Cylinder-head flow versus lift",
+          "value": null,
+          "unit": "cfm @ depression",
+          "grade": "U",
+          "sources": [],
+          "note": null,
+          "formula": null,
+          "suggested_source": "Reputable CH750 head flow-bench test with depression and head casting identified."
+        }
+      ]
+    },
+    {
+      "title": "5. Intake and exhaust",
+      "rows": [
+        {
+          "parameter": "Exact intake manifold kit",
+          "value": "2416487-S",
+          "unit": null,
+          "grade": "D",
+          "sources": [
+            {
+              "title": "eReplacementParts — Intake manifold kit 2416487-S",
+              "url": "https://www.ereplacementparts.com/parts/engine/kohler/erp9927198/kit-intake-manifold-2416487-s/?ModelID=6136576&ModelNum=CH750-3005&SearchTerm=CH750-3005&SourceCode=1",
+              "locator": "exact-model compatibility",
+              "quality": "Secondary exact-fit parts cross-reference"
+            }
+          ],
+          "note": null,
+          "formula": null,
+          "suggested_source": null
+        },
+        {
+          "parameter": "Intake runner length/area/plenum",
+          "value": null,
+          "unit": null,
+          "grade": "U",
+          "sources": [],
+          "note": null,
+          "formula": null,
+          "suggested_source": "2416487-S engineering drawing or physical measurement."
+        },
+        {
+          "parameter": "Carburetor architecture",
+          "value": "Keihin two-barrel side-draft, fixed main jets, self-relieving choke",
+          "unit": null,
+          "grade": "F",
+          "sources": [
+            {
+              "title": "Rehlko Command CH18–CH25, CH620–CH750 Service Manual 24 690 06 Rev. P",
+              "url": "https://techcomm.rehlko.com/techcomm/pdf/24_690_06_EN.pdf",
+              "locator": "pp. 5–13, 24–30, 40 ff., 90–97",
+              "quality": "OEM primary"
+            }
+          ],
+          "note": null,
+          "formula": null,
+          "suggested_source": null
+        },
+        {
+          "parameter": "Current service replacement carburetor",
+          "value": "24 853 318-S",
+          "unit": null,
+          "grade": "D",
+          "sources": [
+            {
+              "title": "Small Engine Suppliers — Kohler Carburetor 24 853 318-S",
+              "url": "https://www.smallenginesuppliers.com/shop/html/pages/products/Kohler_Carburetors15072.html",
+              "locator": "compatibility/supersession list including CH750-3005",
+              "quality": "Secondary exact-fit parts cross-reference"
+            }
+          ],
+          "note": "Exact -3005 compatibility; supersedes several older carb assemblies. Treat as current service hardware, not proof of the as-built carb on every historical -3005.",
+          "formula": null,
+          "suggested_source": null
+        },
+        {
+          "parameter": "Original-production carburetor by serial",
+          "value": null,
+          "unit": null,
+          "grade": "U",
+          "sources": [],
+          "note": "CH750-3005 existed across carburetor revisions.",
+          "formula": null,
+          "suggested_source": "Kohler spec-number + serial-number parts bulletin / PB-247 applicability."
+        },
+        {
+          "parameter": "Carburetor flow rating/throttle bores",
+          "value": null,
+          "unit": null,
+          "grade": "U",
+          "sources": [],
+          "note": null,
+          "formula": null,
+          "suggested_source": "Keihin/Kohler carb engineering drawing."
+        },
+        {
+          "parameter": "Air-cleaner group",
+          "value": "10-24-336",
+          "unit": null,
+          "grade": "D",
+          "sources": [
+            {
+              "title": "PartsTree — CH750-3005 Basic Version, 27 hp, 747 cc",
+              "url": "https://www.partstree.com/models/ch750-3005-kohler-command-pro-engine-basic-version-27hp-747cc/",
+              "locator": "model header and diagrams",
+              "quality": "Secondary exact-spec parts catalog"
+            }
+          ],
+          "note": "Exact -3005 parts group; dimensions/restriction still unresolved.",
+          "formula": null,
+          "suggested_source": null
+        },
+        {
+          "parameter": "Air-cleaner restriction",
+          "value": null,
+          "unit": "kPa",
+          "grade": "U",
+          "sources": [],
+          "note": null,
+          "formula": null,
+          "suggested_source": "Rehlko installation manual or filter performance curve."
+        },
+        {
+          "parameter": "Fuel tank",
+          "value": "none supplied with engine",
+          "unit": null,
+          "grade": "D",
+          "sources": [
+            {
+              "title": "Small Engine Warehouse — CH750-3005 / PA-CH750-3005",
+              "url": "https://www.smallenginewarehouse.com/ch750-3005",
+              "locator": "current product specification listing",
+              "quality": "Secondary exact-spec current retailer"
+            }
+          ],
+          "note": null,
+          "formula": null,
+          "suggested_source": null
+        },
+        {
+          "parameter": "Muffler",
+          "value": "not included with current PA-CH750-3005 engine package",
+          "unit": null,
+          "grade": "D",
+          "sources": [
+            {
+              "title": "Small Engine Warehouse — CH750-3005 / PA-CH750-3005",
+              "url": "https://www.smallenginewarehouse.com/ch750-3005",
+              "locator": "current product specification listing",
+              "quality": "Secondary exact-spec current retailer"
+            }
+          ],
+          "note": "Critical for acoustics: exhaust system is application-specific.",
+          "formula": null,
+          "suggested_source": null
+        },
+        {
+          "parameter": "Exhaust manifold/header type and dimensions",
+          "value": null,
+          "unit": null,
+          "grade": "U",
+          "sources": [],
+          "note": null,
+          "formula": null,
+          "suggested_source": "Host-equipment exhaust specification or exact Kohler exhaust kit if a target application is selected."
+        }
+      ]
+    },
+    {
+      "title": "6. Fuel and ignition",
+      "rows": [
+        {
+          "parameter": "Fuel system",
+          "value": "carbureted, pulse/mechanical fuel pump fitted",
+          "unit": null,
+          "grade": "D",
+          "sources": [
+            {
+              "title": "Small Engine Warehouse — CH750-3005 / PA-CH750-3005",
+              "url": "https://www.smallenginewarehouse.com/ch750-3005",
+              "locator": "current product specification listing",
+              "quality": "Secondary exact-spec current retailer"
+            },
+            {
+              "title": "PartsTree — CH750-3005 Basic Version, 27 hp, 747 cc",
+              "url": "https://www.partstree.com/models/ch750-3005-kohler-command-pro-engine-basic-version-27hp-747cc/",
+              "locator": "model header and diagrams",
+              "quality": "Secondary exact-spec parts catalog"
+            }
+          ],
+          "note": null,
+          "formula": null,
+          "suggested_source": null
+        },
+        {
+          "parameter": "Current service carburetor assembly",
+          "value": "24 853 318-S",
+          "unit": null,
+          "grade": "D",
+          "sources": [
+            {
+              "title": "Small Engine Suppliers — Kohler Carburetor 24 853 318-S",
+              "url": "https://www.smallenginesuppliers.com/shop/html/pages/products/Kohler_Carburetors15072.html",
+              "locator": "compatibility/supersession list including CH750-3005",
+              "quality": "Secondary exact-fit parts cross-reference"
+            }
+          ],
+          "note": null,
+          "formula": null,
+          "suggested_source": null
+        },
+        {
+          "parameter": "Carburetor main-jet sizes",
+          "value": null,
+          "unit": null,
+          "grade": "U",
+          "sources": [],
+          "note": null,
+          "formula": null,
+          "suggested_source": "Kohler/Keihin calibration sheet for 24 853 318-S and altitude kit table."
+        },
+        {
+          "parameter": "Fuel pressure",
+          "value": null,
+          "unit": "kPa",
+          "grade": "U",
+          "sources": [],
+          "note": null,
+          "formula": null,
+          "suggested_source": "Kohler pulse fuel-pump delivery-pressure specification."
+        },
+        {
+          "parameter": "Full-load target AFR",
+          "value": null,
+          "unit": null,
+          "grade": "U",
+          "sources": [],
+          "note": null,
+          "formula": null,
+          "suggested_source": "Kohler carb/emissions dyno calibration."
+        },
+        {
+          "parameter": "Ignition control module",
+          "value": "25 584 14-S MDI module",
+          "unit": null,
+          "grade": "D",
+          "sources": [
+            {
+              "title": "Jacks Small Engines — CH750-3005 Ignition/Electrical 5-24-943",
+              "url": "https://www.jackssmallengines.com/jacks-parts-lookup/manufacturer/kohler/command-pro-twin-ch-cv17-25-ch-cv620-750/ch750/ch750-3005-basic-27-hp-20-1-kw/ignition-electrical-5-24-943",
+              "locator": "25 A stator kit and MDI module",
+              "quality": "Secondary exact-spec parts catalog"
+            }
+          ],
+          "note": null,
+          "formula": null,
+          "suggested_source": null
+        },
+        {
+          "parameter": "Charging stator",
+          "value": "28 085 02-S, 25 A stator kit",
+          "unit": null,
+          "grade": "D",
+          "sources": [
+            {
+              "title": "Jacks Small Engines — CH750-3005 Ignition/Electrical 5-24-943",
+              "url": "https://www.jackssmallengines.com/jacks-parts-lookup/manufacturer/kohler/command-pro-twin-ch-cv17-25-ch-cv620-750/ch750/ch750-3005-basic-27-hp-20-1-kw/ignition-electrical-5-24-943",
+              "locator": "25 A stator kit and MDI module",
+              "quality": "Secondary exact-spec parts catalog"
+            }
+          ],
+          "note": null,
+          "formula": null,
+          "suggested_source": null
+        },
+        {
+          "parameter": "Base ignition timing",
+          "value": null,
+          "unit": "°BTDC",
+          "grade": "U",
+          "sources": [],
+          "note": null,
+          "formula": null,
+          "suggested_source": "MDI module 25 584 14-S timing specification."
+        },
+        {
+          "parameter": "Ignition advance versus rpm/load",
+          "value": null,
+          "unit": "°BTDC",
+          "grade": "U",
+          "sources": [],
+          "note": null,
+          "formula": null,
+          "suggested_source": "MDI module 25 584 14-S advance map."
+        },
+        {
+          "parameter": "Knock limit/control",
+          "value": null,
+          "unit": null,
+          "grade": "U",
+          "sources": [],
+          "note": "No knock-sensing control documented for the locked configuration in the cited sources.",
+          "formula": null,
+          "suggested_source": null
+        }
+      ]
+    },
+    {
+      "title": "7. Forced induction",
+      "rows": [
+        {
+          "parameter": "Forced induction",
+          "value": "not applicable — naturally aspirated",
+          "unit": null,
+          "grade": "F",
+          "sources": [
+            {
+              "title": "Rehlko/Kohler Gasoline Engines Full Line — Command PRO CH620–CH750",
+              "url": "https://resources.kohler.com/power/kohler/enginesUS/pdf/Gasoline_Full_line.pdf",
+              "locator": "Command PRO CH620/640/680/730/740/750, pp. 26–27 of brochure (PDF pp. 25–26)",
+              "quality": "OEM primary"
+            }
+          ],
+          "note": null,
+          "formula": null,
+          "suggested_source": null
+        },
+        {
+          "parameter": "Turbocharger/supercharger data",
+          "value": null,
+          "unit": null,
+          "grade": "U",
+          "sources": [],
+          "note": "Not applicable to locked configuration.",
+          "formula": null,
+          "suggested_source": null
+        }
+      ]
+    },
+    {
+      "title": "8. Mechanical and dynamics",
+      "rows": [
+        {
+          "parameter": "Dry engine weight",
+          "value": 48,
+          "unit": "kg",
+          "grade": "F",
+          "sources": [
+            {
+              "title": "Rehlko/Kohler Gasoline Engines Full Line — Command PRO CH620–CH750",
+              "url": "https://resources.kohler.com/power/kohler/enginesUS/pdf/Gasoline_Full_line.pdf",
+              "locator": "Command PRO CH620/640/680/730/740/750, pp. 26–27 of brochure (PDF pp. 25–26)",
+              "quality": "OEM primary"
+            }
+          ],
+          "note": "OEM CH750 model-family value.",
+          "formula": null,
+          "suggested_source": null
+        },
+        {
+          "parameter": "Current exact-spec retailer dry weight",
+          "value": 110,
+          "unit": "lb",
+          "grade": "D",
+          "sources": [
+            {
+              "title": "Small Engine Warehouse — CH750-3005 / PA-CH750-3005",
+              "url": "https://www.smallenginewarehouse.com/ch750-3005",
+              "locator": "current product specification listing",
+              "quality": "Secondary exact-spec current retailer"
+            }
+          ],
+          "note": "Secondary retailer value; conflicts with OEM family 105 lb/48 kg, so do not average.",
+          "formula": null,
+          "suggested_source": null
+        },
+        {
+          "parameter": "Overall dimensions, OEM CH750 family",
+          "value": "355 × 451 × 568",
+          "unit": "mm L×W×H",
+          "grade": "F",
+          "sources": [
+            {
+              "title": "Rehlko/Kohler Gasoline Engines Full Line — Command PRO CH620–CH750",
+              "url": "https://resources.kohler.com/power/kohler/enginesUS/pdf/Gasoline_Full_line.pdf",
+              "locator": "Command PRO CH620/640/680/730/740/750, pp. 26–27 of brochure (PDF pp. 25–26)",
+              "quality": "OEM primary"
+            }
+          ],
+          "note": null,
+          "formula": null,
+          "suggested_source": null
+        },
+        {
+          "parameter": "Current exact-spec retailer dimensions",
+          "value": "14 × 17.7 × 19",
+          "unit": "in L×W×H",
+          "grade": "D",
+          "sources": [
+            {
+              "title": "Small Engine Warehouse — CH750-3005 / PA-CH750-3005",
+              "url": "https://www.smallenginewarehouse.com/ch750-3005",
+              "locator": "current product specification listing",
+              "quality": "Secondary exact-spec current retailer"
+            }
+          ],
+          "note": "Secondary metadata conflicts in height with current OEM family; retain as conflict, not calibration truth.",
+          "formula": null,
+          "suggested_source": null
+        },
+        {
+          "parameter": "PTO shaft",
+          "value": "1-1/8 in diameter × 4 in long keyed shaft",
+          "unit": null,
+          "grade": "D",
+          "sources": [
+            {
+              "title": "Small Engine Warehouse — CH750-3005 / PA-CH750-3005",
+              "url": "https://www.smallenginewarehouse.com/ch750-3005",
+              "locator": "current product specification listing",
+              "quality": "Secondary exact-spec current retailer"
+            }
+          ],
+          "note": null,
+          "formula": null,
+          "suggested_source": null
+        },
+        {
+          "parameter": "Rotating inertia",
+          "value": null,
+          "unit": "kg·m²",
+          "grade": "U",
+          "sources": [],
+          "note": null,
+          "formula": null,
+          "suggested_source": "Kohler crankshaft/flywheel inertia report or CAD mass properties."
+        },
+        {
+          "parameter": "Flywheel mass",
+          "value": null,
+          "unit": "kg",
+          "grade": "U",
+          "sources": [],
+          "note": null,
+          "formula": null,
+          "suggested_source": "Exact -3005 flywheel part drawing/BOM mass."
+        },
+        {
+          "parameter": "Piston mass",
+          "value": null,
+          "unit": "kg",
+          "grade": "U",
+          "sources": [],
+          "note": null,
+          "formula": null,
+          "suggested_source": "Kohler piston drawing or weighing."
+        },
+        {
+          "parameter": "Connecting-rod mass",
+          "value": null,
+          "unit": "kg",
+          "grade": "U",
+          "sources": [],
+          "note": null,
+          "formula": null,
+          "suggested_source": "Kohler rod drawing or weighing."
+        },
+        {
+          "parameter": "Lubrication",
+          "value": "full-pressure with full-flow filter",
+          "unit": null,
+          "grade": "F",
+          "sources": [
+            {
+              "title": "Rehlko/Kohler Gasoline Engines Full Line — Command PRO CH620–CH750",
+              "url": "https://resources.kohler.com/power/kohler/enginesUS/pdf/Gasoline_Full_line.pdf",
+              "locator": "Command PRO CH620/640/680/730/740/750, pp. 26–27 of brochure (PDF pp. 25–26)",
+              "quality": "OEM primary"
+            }
+          ],
+          "note": null,
+          "formula": null,
+          "suggested_source": null
+        },
+        {
+          "parameter": "Oil refill capacity",
+          "value": 1.9,
+          "unit": "L",
+          "grade": "D",
+          "sources": [
+            {
+              "title": "Small Engine Warehouse — CH750-3005 / PA-CH750-3005",
+              "url": "https://www.smallenginewarehouse.com/ch750-3005",
+              "locator": "current product specification listing",
+              "quality": "Secondary exact-spec current retailer"
+            }
+          ],
+          "note": null,
+          "formula": null,
+          "suggested_source": null
+        },
+        {
+          "parameter": "Oil viscosity guidance",
+          "value": "API SJ or higher; 5W-30 / 10W-30 / SAE 30 / 10W-50 by ambient temperature",
+          "unit": null,
+          "grade": "F",
+          "sources": [
+            {
+              "title": "Rehlko Command CH18–CH25, CH620–CH750 Service Manual 24 690 06 Rev. P",
+              "url": "https://techcomm.rehlko.com/techcomm/pdf/24_690_06_EN.pdf",
+              "locator": "pp. 5–13, 24–30, 40 ff., 90–97",
+              "quality": "OEM primary"
+            }
+          ],
+          "note": null,
+          "formula": null,
+          "suggested_source": null
+        },
+        {
+          "parameter": "Cooling",
+          "value": "air",
+          "unit": null,
+          "grade": "F",
+          "sources": [
+            {
+              "title": "Rehlko/Kohler Gasoline Engines Full Line — Command PRO CH620–CH750",
+              "url": "https://resources.kohler.com/power/kohler/enginesUS/pdf/Gasoline_Full_line.pdf",
+              "locator": "Command PRO CH620/640/680/730/740/750, pp. 26–27 of brochure (PDF pp. 25–26)",
+              "quality": "OEM primary"
+            }
+          ],
+          "note": null,
+          "formula": null,
+          "suggested_source": null
+        },
+        {
+          "parameter": "Starter type",
+          "value": "12 V electric, solenoid-shift family; exact -3005 BOM contains solenoid-shift starter entries",
+          "unit": null,
+          "grade": "D",
+          "sources": [
+            {
+              "title": "Small Engine Warehouse — CH750-3005 / PA-CH750-3005",
+              "url": "https://www.smallenginewarehouse.com/ch750-3005",
+              "locator": "current product specification listing",
+              "quality": "Secondary exact-spec current retailer"
+            },
+            {
+              "title": "eReplacementParts — Kohler CH750-3005 exact-model parts",
+              "url": "https://www.ereplacementparts.com/models/engine/kohler/id704853/ch750-3005/",
+              "locator": "Starting diagram, page L",
+              "quality": "Secondary exact-spec parts catalog"
+            }
+          ],
+          "note": null,
+          "formula": null,
+          "suggested_source": null
+        },
+        {
+          "parameter": "Starter assembly exact current part number",
+          "value": null,
+          "unit": null,
+          "grade": "U",
+          "sources": [],
+          "note": "Exact model BOM contains multiple legacy/superseded starter numbers; a serial-number lock is needed.",
+          "formula": null,
+          "suggested_source": "Kohler -3005 serial-specific parts lookup."
+        },
+        {
+          "parameter": "Cranking speed",
+          "value": null,
+          "unit": "rpm",
+          "grade": "U",
+          "sources": [],
+          "note": null,
+          "formula": null,
+          "suggested_source": "Kohler starter-system performance test at defined battery voltage/temperature."
+        },
+        {
+          "parameter": "Mean piston speed @ 3600 rpm",
+          "value": 8.28,
+          "unit": "m/s",
+          "grade": "R",
+          "sources": [
+            {
+              "title": "Rehlko/Kohler Gasoline Engines Full Line — Command PRO CH620–CH750",
+              "url": "https://resources.kohler.com/power/kohler/enginesUS/pdf/Gasoline_Full_line.pdf",
+              "locator": "Command PRO CH620/640/680/730/740/750, pp. 26–27 of brochure (PDF pp. 25–26)",
+              "quality": "OEM primary"
+            }
+          ],
+          "note": null,
+          "formula": "2·stroke·rpm/60",
+          "suggested_source": null
+        },
+        {
+          "parameter": "Peak-torque BMEP",
+          "value": 0.941,
+          "unit": "MPa",
+          "grade": "R",
+          "sources": [
+            {
+              "title": "Rehlko/Kohler Gasoline Engines Full Line — Command PRO CH620–CH750",
+              "url": "https://resources.kohler.com/power/kohler/enginesUS/pdf/Gasoline_Full_line.pdf",
+              "locator": "Command PRO CH620/640/680/730/740/750, pp. 26–27 of brochure (PDF pp. 25–26)",
+              "quality": "OEM primary"
+            }
+          ],
+          "note": null,
+          "formula": "4πT/Vd for four-stroke",
+          "suggested_source": null
+        },
+        {
+          "parameter": "Rated-point BMEP",
+          "value": 0.897,
+          "unit": "MPa",
+          "grade": "R",
+          "sources": [
+            {
+              "title": "Rehlko/Kohler Gasoline Engines Full Line — Command PRO CH620–CH750",
+              "url": "https://resources.kohler.com/power/kohler/enginesUS/pdf/Gasoline_Full_line.pdf",
+              "locator": "Command PRO CH620/640/680/730/740/750, pp. 26–27 of brochure (PDF pp. 25–26)",
+              "quality": "OEM primary"
+            }
+          ],
+          "note": null,
+          "formula": "4πT/Vd; T derived from 20.1 kW @ 3600",
+          "suggested_source": null
+        }
+      ]
+    },
+    {
+      "title": "9. Sound references",
+      "rows": [
+        {
+          "parameter": "Exact locked-engine recording with known exhaust, rpm and load",
+          "value": null,
+          "unit": "URL",
+          "grade": "U",
+          "sources": [],
+          "note": "No recording met the exact-configuration + documented-exhaust + documented-speed/load standard in this pass. The current basic engine is sold without a muffler, so 'stock CH750-3005 sound' is not uniquely defined.",
+          "formula": null,
+          "suggested_source": "Bench-record PA-CH750-3005 with a selected documented Kohler muffler or chosen host application; log tachometer/load/mic distance."
+        },
+        {
+          "parameter": "Two-cylinder combustion-event rate @ 3600 rpm",
+          "value": 60.0,
+          "unit": "events/s",
+          "grade": "R",
+          "sources": [
+            {
+              "title": "Rehlko/Kohler Gasoline Engines Full Line — Command PRO CH620–CH750",
+              "url": "https://resources.kohler.com/power/kohler/enginesUS/pdf/Gasoline_Full_line.pdf",
+              "locator": "Command PRO CH620/640/680/730/740/750, pp. 26–27 of brochure (PDF pp. 25–26)",
+              "quality": "OEM primary"
+            }
+          ],
+          "note": null,
+          "formula": "2 cylinders × 3600 rpm ÷ 120; this does not establish firing phase/spacing",
+          "suggested_source": null
+        },
+        {
+          "parameter": "Two-cylinder combustion-event rate @ 1200 rpm",
+          "value": 20.0,
+          "unit": "events/s",
+          "grade": "R",
+          "sources": [
+            {
+              "title": "Rehlko Command CH18–CH25, CH620–CH750 Service Manual 24 690 06 Rev. P",
+              "url": "https://techcomm.rehlko.com/techcomm/pdf/24_690_06_EN.pdf",
+              "locator": "pp. 5–13, 24–30, 40 ff., 90–97",
+              "quality": "OEM primary"
+            }
+          ],
+          "note": null,
+          "formula": "2 cylinders × 1200 rpm ÷ 120",
+          "suggested_source": null
+        }
+      ]
+    }
+  ],
+  "performance_curve": {
+    "status": "locked-current full curve unresolved",
+    "current_validation_anchors": [
+      {
+        "rpm": 3200,
+        "torque_Nm": 55.9,
+        "grade": "F",
+        "source": {
+          "title": "Rehlko/Kohler Gasoline Engines Full Line — Command PRO CH620–CH750",
+          "url": "https://resources.kohler.com/power/kohler/enginesUS/pdf/Gasoline_Full_line.pdf",
+          "locator": "Command PRO CH620/640/680/730/740/750, pp. 26–27 of brochure (PDF pp. 25–26)",
+          "quality": "OEM primary"
+        },
+        "note": "Current OEM CH750 model-family peak-torque anchor."
+      },
+      {
+        "rpm": 3600,
+        "power_kW": 20.1,
+        "grade": "D",
+        "source": {
+          "title": "PartsWarehouse — Kohler CH750-3005 BASIC 27 HP (20.1 kW)",
+          "url": "https://www.partswarehouse.com/Kohler-CH750-3005-BASIC-27-HP-20-1-kW--s/280231.htm",
+          "locator": "model header",
+          "quality": "Secondary exact-spec parts catalog"
+        },
+        "note": "Exact CH750-3005 advertised rating; OEM CH750 family independently agrees."
+      }
+    ],
+    "historical_family_curve_rejected_as_locked_target": [
+      {
+        "rpm": 2000,
+        "torque_Nm": 53.55,
+        "torque_grade": "F",
+        "power_kW": null,
+        "power_grade": "U",
+        "bsfc_g_per_kWh": null,
+        "fuel_rate": null,
+        "note": "Historical CH750 family brochure curve; NOT an admissible locked-current calibration target. It is marked SAE J1490 gross and its 3600-rpm endpoint conflicts with the current 20.1 kW SAE J1940 CH750 rating."
+      },
+      {
+        "rpm": 2200,
+        "torque_Nm": 54.23,
+        "torque_grade": "F",
+        "power_kW": 16.4,
+        "power_grade": "F",
+        "bsfc_g_per_kWh": null,
+        "fuel_rate": null,
+        "note": "Historical CH750 family brochure curve; NOT an admissible locked-current calibration target. It is marked SAE J1490 gross and its 3600-rpm endpoint conflicts with the current 20.1 kW SAE J1940 CH750 rating."
+      },
+      {
+        "rpm": 2400,
+        "torque_Nm": 54.91,
+        "torque_grade": "F",
+        "power_kW": 17.1,
+        "power_grade": "F",
+        "bsfc_g_per_kWh": null,
+        "fuel_rate": null,
+        "note": "Historical CH750 family brochure curve; NOT an admissible locked-current calibration target. It is marked SAE J1490 gross and its 3600-rpm endpoint conflicts with the current 20.1 kW SAE J1940 CH750 rating."
+      },
+      {
+        "rpm": 2600,
+        "torque_Nm": 55.32,
+        "torque_grade": "F",
+        "power_kW": 18.0,
+        "power_grade": "F",
+        "bsfc_g_per_kWh": null,
+        "fuel_rate": null,
+        "note": "Historical CH750 family brochure curve; NOT an admissible locked-current calibration target. It is marked SAE J1490 gross and its 3600-rpm endpoint conflicts with the current 20.1 kW SAE J1940 CH750 rating."
+      },
+      {
+        "rpm": 2800,
+        "torque_Nm": 55.59,
+        "torque_grade": "F",
+        "power_kW": 19.0,
+        "power_grade": "F",
+        "bsfc_g_per_kWh": null,
+        "fuel_rate": null,
+        "note": "Historical CH750 family brochure curve; NOT an admissible locked-current calibration target. It is marked SAE J1490 gross and its 3600-rpm endpoint conflicts with the current 20.1 kW SAE J1940 CH750 rating."
+      },
+      {
+        "rpm": 3000,
+        "torque_Nm": 55.72,
+        "torque_grade": "F",
+        "power_kW": 20.0,
+        "power_grade": "F",
+        "bsfc_g_per_kWh": null,
+        "fuel_rate": null,
+        "note": "Historical CH750 family brochure curve; NOT an admissible locked-current calibration target. It is marked SAE J1490 gross and its 3600-rpm endpoint conflicts with the current 20.1 kW SAE J1940 CH750 rating."
+      },
+      {
+        "rpm": 3200,
+        "torque_Nm": 55.72,
+        "torque_grade": "F",
+        "power_kW": 21.0,
+        "power_grade": "F",
+        "bsfc_g_per_kWh": null,
+        "fuel_rate": null,
+        "note": "Historical CH750 family brochure curve; NOT an admissible locked-current calibration target. It is marked SAE J1490 gross and its 3600-rpm endpoint conflicts with the current 20.1 kW SAE J1940 CH750 rating."
+      },
+      {
+        "rpm": 3400,
+        "torque_Nm": 55.45,
+        "torque_grade": "F",
+        "power_kW": 21.9,
+        "power_grade": "F",
+        "bsfc_g_per_kWh": null,
+        "fuel_rate": null,
+        "note": "Historical CH750 family brochure curve; NOT an admissible locked-current calibration target. It is marked SAE J1490 gross and its 3600-rpm endpoint conflicts with the current 20.1 kW SAE J1940 CH750 rating."
+      },
+      {
+        "rpm": 3600,
+        "torque_Nm": 54.91,
+        "torque_grade": "F",
+        "power_kW": 22.7,
+        "power_grade": "F",
+        "bsfc_g_per_kWh": null,
+        "fuel_rate": null,
+        "note": "Historical CH750 family brochure curve; NOT an admissible locked-current calibration target. It is marked SAE J1490 gross and its 3600-rpm endpoint conflicts with the current 20.1 kW SAE J1940 CH750 rating."
+      }
+    ],
+    "historical_curve_source": {
+      "title": "Kohler Command PRO 19–27 hp brochure (legacy performance chart)",
+      "url": "https://resources.kohler.com/power/kohler/enginesUS/pdf/command_pro_19_27hp_brochure.pdf",
+      "locator": "maximum power/torque charts; marked SAE J1490 gross",
+      "quality": "OEM primary, historical"
+    },
+    "note": "Do not fit the current CH750-3005 simulator to the legacy curve. The old chart is marked SAE J1490 gross and reaches 22.7 kW at 3600 rpm, incompatible with the current 20.1 kW SAE J1940 model rating. A current serial-specific curve remains U."
+  },
+  "unresolved": [
+    "Exact serial/date production interval for the current PA-CH750-3005 configuration. This is the main configuration-lock weakness.",
+    "Current locked-configuration full-load torque and power curve. A legacy OEM curve exists but conflicts with current endpoint/rating basis and is intentionally not used as a validation target.",
+    "Full-load and part-load fuel-consumption/BSFC data.",
+    "Original-production carburetor and jetting by serial; 24 853 318-S is a current service replacement.",
+    "MDI ignition timing/advance map and exact limiter cut speed.",
+    "V angle, firing phasing/order, rod length, piston compression height, deck height and chamber geometry.",
+    "Nominal valve lift, cam timing/duration/LSA and head-flow data.",
+    "Airflow, AFR/lambda, EGT, peak firing pressure, intake restriction and exhaust backpressure limits.",
+    "Component masses/inertias and serial-specific starter assembly/cranking-speed curve.",
+    "Exact acoustic reference: PA-CH750-3005 is sold without a muffler, so an application/exhaust must be locked first."
+  ],
+  "do_not_confuse_with": [
+    {
+      "item": "Legacy CH750 30 hp literature",
+      "difference": "Older CH750 documents/listings report ~30 hp / 22.3 kW and different torque behavior. Do not merge these with the current 27 hp CH750-3005 target.",
+      "grade": "F",
+      "sources": [
+        {
+          "title": "Kohler Command PRO 19–27 hp brochure (legacy performance chart)",
+          "url": "https://resources.kohler.com/power/kohler/enginesUS/pdf/command_pro_19_27hp_brochure.pdf",
+          "locator": "maximum power/torque charts; marked SAE J1490 gross",
+          "quality": "OEM primary, historical"
+        }
+      ]
+    },
+    {
+      "item": "Legacy OEM CH750 curve marked SAE J1490 gross",
+      "difference": "Legacy chart reaches 22.7 kW at 3600 rpm while current OEM CH750 is 20.1 kW at 3600 SAE J1940. The legacy curve is retained only as family/history evidence.",
+      "grade": "F",
+      "sources": [
+        {
+          "title": "Kohler Command PRO 19–27 hp brochure (legacy performance chart)",
+          "url": "https://resources.kohler.com/power/kohler/enginesUS/pdf/command_pro_19_27hp_brochure.pdf",
+          "locator": "maximum power/torque charts; marked SAE J1490 gross",
+          "quality": "OEM primary, historical"
+        }
+      ]
+    },
+    {
+      "item": "2021 Grupo Rumbo CH750-3005 listing",
+      "difference": "Exact spec number but lists 55.9 N·m @ 2800 rpm and an internally inconsistent 27 hp = 19.4 kW conversion. It is a historical/distributor snapshot, not merged into the locked current target.",
+      "grade": "D",
+      "sources": [
+        {
+          "title": "Grupo Rumbo Productos de Fuerza 2021",
+          "url": "https://irp.cdn-website.com/8cf4aa5b/files/uploaded/Catalogo_RumboGlobal_2021_09_Productos-de-fuerza.pdf",
+          "locator": "p. 128, CH750-3005",
+          "quality": "Historical distributor catalog"
+        }
+      ]
+    },
+    {
+      "item": "PA-CH750-0005 assembly number",
+      "difference": "Older basic-key assembly number; PartsTree says it is superseded to PA-CH750-3005.",
+      "grade": "D",
+      "sources": [
+        {
+          "title": "PartsTree — PA-CH750-0005 CH750S BASIC KEY (#CH750-3005)",
+          "url": "https://www.partstree.com/parts/kohler-pa-ch750-0005/",
+          "locator": "superseded to PA-CH750-3005",
+          "quality": "Secondary exact-spec parts catalog"
+        }
+      ]
+    },
+    {
+      "item": "CH752 / CH742 and vertical CV750 variants",
+      "difference": "Related 747 cm³ engines but different torque/compression/induction or shaft orientation; never substitute their curves or hardware.",
+      "grade": "F",
+      "sources": [
+        {
+          "title": "Rehlko/Kohler Gasoline Engines Full Line — Command PRO CH620–CH750",
+          "url": "https://resources.kohler.com/power/kohler/enginesUS/pdf/Gasoline_Full_line.pdf",
+          "locator": "Command PRO CH620/640/680/730/740/750, pp. 26–27 of brochure (PDF pp. 25–26)",
+          "quality": "OEM primary"
+        }
+      ]
+    }
+  ]
+}

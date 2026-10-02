@@ -1,0 +1,893 @@
+{
+  "title": "P3 Mazda SKYACTIV-G 2.0 geometry follow-up",
+  "lock": "2014 North-American Mazda SKYACTIV-G 2.0 L, 13.0:1, naturally aspirated GDI, EPA/NVFEL test engine",
+  "grades": {
+    "D": "exact EPA test article",
+    "F": "engine family or named stock-replacement hardware",
+    "R": "derived from documented values",
+    "U": "not found"
+  },
+  "sections": {
+    "1. Valves": [
+      {
+        "Parameter": "Intake valve head diameter",
+        "Value": "33.20 (1.307)",
+        "Unit": "mm (in)",
+        "Grade": "F",
+        "Source/locator": "Freccia Engine Valves Catalog 43 — Mazda section p. 325: 2014 Mazda 3 2.0 16V, engines PEY6/PEY7, OE PE01-12-111 / PE01-12-121 — https://www.enginepartsuk.net/sites/default/files/freccia-43.pdf",
+        "Notes": "Freccia R6823/SNT, stock-replacement for Mazda OE PE01-12-111; catalog explicitly lists 2014 Mazda 3 2.0 16V PEY6/PEY7."
+      },
+      {
+        "Parameter": "Intake valve stem diameter",
+        "Value": "5.50 (0.2165)",
+        "Unit": "mm (in)",
+        "Grade": "F",
+        "Source/locator": "Freccia Engine Valves Catalog 43 — Mazda section p. 325: 2014 Mazda 3 2.0 16V, engines PEY6/PEY7, OE PE01-12-111 / PE01-12-121 — https://www.enginepartsuk.net/sites/default/files/freccia-43.pdf",
+        "Notes": ""
+      },
+      {
+        "Parameter": "Intake valve overall length",
+        "Value": "107.05 (4.2146)",
+        "Unit": "mm (in)",
+        "Grade": "F",
+        "Source/locator": "Freccia Engine Valves Catalog 43 — Mazda section p. 325: 2014 Mazda 3 2.0 16V, engines PEY6/PEY7, OE PE01-12-111 / PE01-12-121 — https://www.enginepartsuk.net/sites/default/files/freccia-43.pdf",
+        "Notes": "Freccia catalog gives 107.05 mm; some retailer feeds round the same R6823/SNT to 107 mm."
+      },
+      {
+        "Parameter": "Intake valve seat angle",
+        "Value": "45",
+        "Unit": "deg",
+        "Grade": "F",
+        "Source/locator": "Freccia Engine Valves Catalog 43 — Mazda section p. 325: 2014 Mazda 3 2.0 16V, engines PEY6/PEY7, OE PE01-12-111 / PE01-12-121 — https://www.enginepartsuk.net/sites/default/files/freccia-43.pdf",
+        "Notes": ""
+      },
+      {
+        "Parameter": "Exhaust valve head diameter",
+        "Value": "28.00 (1.1024)",
+        "Unit": "mm (in)",
+        "Grade": "F",
+        "Source/locator": "Freccia Engine Valves Catalog 43 — Mazda section p. 325: 2014 Mazda 3 2.0 16V, engines PEY6/PEY7, OE PE01-12-111 / PE01-12-121 — https://www.enginepartsuk.net/sites/default/files/freccia-43.pdf",
+        "Notes": "Freccia R6824/RNT, stock-replacement for Mazda OE PE01-12-121."
+      },
+      {
+        "Parameter": "Exhaust valve stem diameter",
+        "Value": "5.50 (0.2165)",
+        "Unit": "mm (in)",
+        "Grade": "F",
+        "Source/locator": "Freccia Engine Valves Catalog 43 — Mazda section p. 325: 2014 Mazda 3 2.0 16V, engines PEY6/PEY7, OE PE01-12-111 / PE01-12-121 — https://www.enginepartsuk.net/sites/default/files/freccia-43.pdf",
+        "Notes": ""
+      },
+      {
+        "Parameter": "Exhaust valve overall length",
+        "Value": "117.0 (4.6063)",
+        "Unit": "mm (in)",
+        "Grade": "F",
+        "Source/locator": "Freccia Engine Valves Catalog 43 — Mazda section p. 325: 2014 Mazda 3 2.0 16V, engines PEY6/PEY7, OE PE01-12-111 / PE01-12-121 — https://www.enginepartsuk.net/sites/default/files/freccia-43.pdf",
+        "Notes": "Freccia catalog gives 117 mm; some current retailer feeds list 116.9 mm."
+      },
+      {
+        "Parameter": "Exhaust valve seat angle",
+        "Value": "45",
+        "Unit": "deg",
+        "Grade": "F",
+        "Source/locator": "Freccia Engine Valves Catalog 43 — Mazda section p. 325: 2014 Mazda 3 2.0 16V, engines PEY6/PEY7, OE PE01-12-111 / PE01-12-121 — https://www.enginepartsuk.net/sites/default/files/freccia-43.pdf",
+        "Notes": ""
+      },
+      {
+        "Parameter": "Intake valve seat/throat inner diameter",
+        "Value": "",
+        "Unit": "mm",
+        "Grade": "U",
+        "Source/locator": "",
+        "Notes": ""
+      },
+      {
+        "Parameter": "Exhaust valve seat/throat inner diameter",
+        "Value": "",
+        "Unit": "mm",
+        "Grade": "U",
+        "Source/locator": "",
+        "Notes": ""
+      }
+    ],
+    "2. Valve lift / cam geometry": [
+      {
+        "Parameter": "Intake cam lobe height (not valve lift)",
+        "Value": "41.57 (1.637)",
+        "Unit": "mm (in)",
+        "Grade": "F",
+        "Source/locator": "Mazda 6 2014 Engine Workshop Manual SKYACTIV-G 2.0 — 01-10-28 CAMSHAFT INSPECTION; standard cam height — https://revisiedata.nl/onewebmedia/Mazda%206%202014%20-Engine%20Workshop%20Manual%20SKYACTIV-G%202.0.pdf",
+        "Notes": "Workshop service specification. Cam height alone cannot be converted to valve lift without base-circle diameter and rocker geometry."
+      },
+      {
+        "Parameter": "Exhaust cam lobe height (not valve lift)",
+        "Value": "40.37 (1.589)",
+        "Unit": "mm (in)",
+        "Grade": "F",
+        "Source/locator": "Mazda 6 2014 Engine Workshop Manual SKYACTIV-G 2.0 — 01-10-28 CAMSHAFT INSPECTION; standard cam height — https://revisiedata.nl/onewebmedia/Mazda%206%202014%20-Engine%20Workshop%20Manual%20SKYACTIV-G%202.0.pdf",
+        "Notes": ""
+      },
+      {
+        "Parameter": "Intake cam base-circle diameter",
+        "Value": "",
+        "Unit": "mm",
+        "Grade": "U",
+        "Source/locator": "",
+        "Notes": ""
+      },
+      {
+        "Parameter": "Exhaust cam base-circle diameter",
+        "Value": "",
+        "Unit": "mm",
+        "Grade": "U",
+        "Source/locator": "",
+        "Notes": ""
+      },
+      {
+        "Parameter": "Rocker effective ratio",
+        "Value": "",
+        "Unit": ":1",
+        "Grade": "U",
+        "Source/locator": "",
+        "Notes": ""
+      },
+      {
+        "Parameter": "Stock intake valve maximum lift",
+        "Value": "",
+        "Unit": "mm",
+        "Grade": "U",
+        "Source/locator": "",
+        "Notes": "EPA/FEV physically measured the lift profile for GT-Power, but the numeric profile was not located in public print."
+      },
+      {
+        "Parameter": "Stock exhaust valve maximum lift",
+        "Value": "8.05 (0.3169)",
+        "Unit": "mm (in)",
+        "Grade": "F",
+        "Source/locator": "BBR GTi — bespoke SKYACTIV camshaft development — stock-valvetrain measurements; OEM exhaust maximum lift and intake VVT travel — https://bbrgti.com/blogs/news/bbr-is-proud-to-offer-it-s-bespoke-skyactiv-camshafts-as-a-standalone-product",
+        "Notes": "BBR states the OEM 2.0 SKYACTIV exhaust cam/valvetrain maximum lift is 8.05 mm, from its stock-valvetrain development measurements; checking condition not stated."
+      },
+      {
+        "Parameter": "Follower / lash system",
+        "Value": "Needle-roller rocker/follower with hydraulic lash adjuster; nominal running lash maintained at 0",
+        "Unit": "",
+        "Grade": "F",
+        "Source/locator": "Mazda CX-5 Technical Guide / Textbook — SKYACTIV-G 2.0 — 01-10A-20 valve-timing diagram; HLA/roller-rocker description — https://manuals.plus/m/e4202dddc24e05f9b19b06d6ef8ce5bb036df5dda818027aaad3854359e7a115",
+        "Notes": "SKYACTIV-G 2.0 family technical guide. Mazda3 BM parts catalog identifies PE01-12-130 rocker and P301-12-100 HLA; intake/exhaust cams PE01-12-420 / PE01-12-440."
+      }
+    ],
+    "3. Cam timing / phasing": [
+      {
+        "Parameter": "EPA intake phaser authority",
+        "Value": "75 crank° advance from base IVC position of 58° BTDC",
+        "Unit": "deg crank",
+        "Grade": "D",
+        "Source/locator": "Ellies, Schenk & Dekraker, Benchmarking and Hardware-in-the-Loop Operation of a 2014 MAZDA SkyActiv 2.0L 13:1 Compression Ratio Engine, SAE 2016-01-1007 — p. 2, Table 1 / engine description and cam-phaser paragraph — https://www.epa.gov/sites/default/files/2016-10/documents/2016-01-1007-benchmark-hil-operat-2014-mazda-skyactiv-2.0l.pdf",
+        "Notes": "Preserved exactly as EPA words it. Do not reinterpret the unusual 'IVC 58° BTDC' reference without the GT-Power cam definition."
+      },
+      {
+        "Parameter": "EPA exhaust phaser authority",
+        "Value": "45 crank° retard from base EVC position of 14° ATDC",
+        "Unit": "deg crank",
+        "Grade": "D",
+        "Source/locator": "Ellies, Schenk & Dekraker, Benchmarking and Hardware-in-the-Loop Operation of a 2014 MAZDA SkyActiv 2.0L 13:1 Compression Ratio Engine, SAE 2016-01-1007 — p. 2, Table 1 / engine description and cam-phaser paragraph — https://www.epa.gov/sites/default/files/2016-10/documents/2016-01-1007-benchmark-hil-operat-2014-mazda-skyactiv-2.0l.pdf",
+        "Notes": "Exact test-engine statement."
+      },
+      {
+        "Parameter": "Family intake IVO phasing limits",
+        "Value": "42° BTDC to 32° ATDC",
+        "Unit": "deg crank",
+        "Grade": "F",
+        "Source/locator": "Mazda3 09/2013–05/2016 Service Information — CAMSHAFT [SKYACTIV-G 1.5/2.0/2.5] — SKYACTIV-G 2.0 valve-timing table — https://charm.li/Mazda/Mazda3%2009%2F2013%20-%2005%2F2016%20%28d9g6-1a-21b_ver17%29/esicont/srvc/html/id0110h6001400.html",
+        "Notes": "Exact 2013–2016 Mazda3 SKYACTIV-G 2.0 service table; checking height is not stated."
+      },
+      {
+        "Parameter": "Family intake IVC phasing limits",
+        "Value": "36° ABDC to 110° ABDC",
+        "Unit": "deg crank",
+        "Grade": "F",
+        "Source/locator": "Mazda3 09/2013–05/2016 Service Information — CAMSHAFT [SKYACTIV-G 1.5/2.0/2.5] — SKYACTIV-G 2.0 valve-timing table — https://charm.li/Mazda/Mazda3%2009%2F2013%20-%2005%2F2016%20%28d9g6-1a-21b_ver17%29/esicont/srvc/html/id0110h6001400.html",
+        "Notes": "74° total range; checking height not stated."
+      },
+      {
+        "Parameter": "Family exhaust EVO phasing limits",
+        "Value": "54° BBDC to 9° BBDC",
+        "Unit": "deg crank",
+        "Grade": "F",
+        "Source/locator": "Mazda3 09/2013–05/2016 Service Information — CAMSHAFT [SKYACTIV-G 1.5/2.0/2.5] — SKYACTIV-G 2.0 valve-timing table — https://charm.li/Mazda/Mazda3%2009%2F2013%20-%2005%2F2016%20%28d9g6-1a-21b_ver17%29/esicont/srvc/html/id0110h6001400.html",
+        "Notes": "45° total range; exact 2013–2016 Mazda3 2.0 family."
+      },
+      {
+        "Parameter": "Family exhaust EVC phasing limits",
+        "Value": "7° ATDC to 52° ATDC",
+        "Unit": "deg crank",
+        "Grade": "F",
+        "Source/locator": "Mazda3 09/2013–05/2016 Service Information — CAMSHAFT [SKYACTIV-G 1.5/2.0/2.5] — SKYACTIV-G 2.0 valve-timing table — https://charm.li/Mazda/Mazda3%2009%2F2013%20-%2005%2F2016%20%28d9g6-1a-21b_ver17%29/esicont/srvc/html/id0110h6001400.html",
+        "Notes": "45° total range; exact 2013–2016 Mazda3 2.0 family."
+      },
+      {
+        "Parameter": "Family intake event duration from diagram",
+        "Value": "258",
+        "Unit": "deg crank",
+        "Grade": "R",
+        "Source/locator": "Mazda3 09/2013–05/2016 Service Information — CAMSHAFT [SKYACTIV-G 1.5/2.0/2.5] — SKYACTIV-G 2.0 valve-timing table — https://charm.li/Mazda/Mazda3%2009%2F2013%20-%2005%2F2016%20%28d9g6-1a-21b_ver17%29/esicont/srvc/html/id0110h6001400.html",
+        "Notes": "Derived at the diagram's unspecified checking reference: 42 + 180 + 36 = 258°, equivalently (180−32)+110 = 258°. NOT duration @1 mm or .050 in."
+      },
+      {
+        "Parameter": "Family exhaust event duration from diagram",
+        "Value": "241",
+        "Unit": "deg crank",
+        "Grade": "R",
+        "Source/locator": "Mazda3 09/2013–05/2016 Service Information — CAMSHAFT [SKYACTIV-G 1.5/2.0/2.5] — SKYACTIV-G 2.0 valve-timing table — https://charm.li/Mazda/Mazda3%2009%2F2013%20-%2005%2F2016%20%28d9g6-1a-21b_ver17%29/esicont/srvc/html/id0110h6001400.html",
+        "Notes": "Derived at unspecified checking reference: 54 + 180 + 7 = 241°, equivalently 9 + 180 + 52 = 241°. NOT duration @1 mm or .050 in."
+      },
+      {
+        "Parameter": "Base/unphased IVO",
+        "Value": "",
+        "Unit": "deg crank",
+        "Grade": "U",
+        "Source/locator": "",
+        "Notes": ""
+      },
+      {
+        "Parameter": "Base/unphased IVC at stated checking height",
+        "Value": "",
+        "Unit": "deg crank",
+        "Grade": "U",
+        "Source/locator": "",
+        "Notes": "EPA gives a 'base IVC 58° BTDC' reference for phaser authority, but without the GT-Power cam-profile/checking convention this is not converted into a conventional valve event."
+      },
+      {
+        "Parameter": "Base/unphased EVO",
+        "Value": "",
+        "Unit": "deg crank",
+        "Grade": "U",
+        "Source/locator": "",
+        "Notes": ""
+      },
+      {
+        "Parameter": "Base/unphased EVC at stated checking height",
+        "Value": "",
+        "Unit": "deg crank",
+        "Grade": "U",
+        "Source/locator": "",
+        "Notes": "EPA gives base EVC 14° ATDC as the exhaust-phaser reference."
+      },
+      {
+        "Parameter": "Intake duration @1 mm / .050 in",
+        "Value": "",
+        "Unit": "deg crank",
+        "Grade": "U",
+        "Source/locator": "",
+        "Notes": ""
+      },
+      {
+        "Parameter": "Exhaust duration @1 mm / .050 in",
+        "Value": "",
+        "Unit": "deg crank",
+        "Grade": "U",
+        "Source/locator": "",
+        "Notes": ""
+      },
+      {
+        "Parameter": "Base intake lobe centreline",
+        "Value": "",
+        "Unit": "deg",
+        "Grade": "U",
+        "Source/locator": "",
+        "Notes": ""
+      },
+      {
+        "Parameter": "Base exhaust lobe centreline",
+        "Value": "",
+        "Unit": "deg",
+        "Grade": "U",
+        "Source/locator": "",
+        "Notes": ""
+      }
+    ],
+    "4. Chamber / piston / gasket / compression-ratio closure": [
+      {
+        "Parameter": "Exact per-cylinder swept volume",
+        "Value": "499.411",
+        "Unit": "cm³",
+        "Grade": "R",
+        "Source/locator": "Ellies, Schenk & Dekraker, Benchmarking and Hardware-in-the-Loop Operation of a 2014 MAZDA SkyActiv 2.0L 13:1 Compression Ratio Engine, SAE 2016-01-1007 — p. 2, Table 1 / engine description and cam-phaser paragraph — https://www.epa.gov/sites/default/files/2016-10/documents/2016-01-1007-benchmark-hil-operat-2014-mazda-skyactiv-2.0l.pdf",
+        "Notes": "π/4 × (83.5 mm)^2 × 91.2 mm = 499.411 cm³."
+      },
+      {
+        "Parameter": "Required total clearance volume at 13.0:1",
+        "Value": "41.618",
+        "Unit": "cm³/cyl",
+        "Grade": "R",
+        "Source/locator": "Ellies, Schenk & Dekraker, Benchmarking and Hardware-in-the-Loop Operation of a 2014 MAZDA SkyActiv 2.0L 13:1 Compression Ratio Engine, SAE 2016-01-1007 — p. 2, Table 1 / engine description and cam-phaser paragraph — https://www.epa.gov/sites/default/files/2016-10/documents/2016-01-1007-benchmark-hil-operat-2014-mazda-skyactiv-2.0l.pdf",
+        "Notes": "Vc = Vd/(CR−1) = 499.411/(13−1) = 41.618 cm³."
+      },
+      {
+        "Parameter": "Combustion-chamber volume",
+        "Value": "",
+        "Unit": "cm³",
+        "Grade": "U",
+        "Source/locator": "",
+        "Notes": ""
+      },
+      {
+        "Parameter": "Piston cavity/dish volume",
+        "Value": "",
+        "Unit": "cm³",
+        "Grade": "U",
+        "Source/locator": "",
+        "Notes": "Named replacement piston publishes cavity dimensions, but the cavity shape is not sufficiently specified to calculate its volume without estimation."
+      },
+      {
+        "Parameter": "Stock-replacement piston compression height",
+        "Value": "25.70 (1.0118)",
+        "Unit": "mm (in)",
+        "Grade": "F",
+        "Source/locator": "TEIKIN Piston Catalog Vol.19 — 42220 / Mazda SKYACTIV-G 1998 cc — Mazda SKYACTIV-G 1998 cc row; reference PEY2-11-SA0A; CD 25.70 mm, TL 54.60 mm, pin 21×45 mm — https://www.scribd.com/document/465203337/Teikin-Vol-19",
+        "Notes": "TEIKIN 42220 / OE PEY2-11-SA0A. Mazda service data identify PEY2-11-SA0 as the 13.0:1 piston family. Previous 34.0-mm PEY3 entry was wrong-variant (PEY3 is the 14.0:1 piston family) and has been removed."
+      },
+      {
+        "Parameter": "Stock-replacement piston overall length",
+        "Value": "54.60 (2.1496)",
+        "Unit": "mm (in)",
+        "Grade": "F",
+        "Source/locator": "TEIKIN Piston Catalog Vol.19 — 42220 / Mazda SKYACTIV-G 1998 cc — Mazda SKYACTIV-G 1998 cc row; reference PEY2-11-SA0A; CD 25.70 mm, TL 54.60 mm, pin 21×45 mm — https://www.scribd.com/document/465203337/Teikin-Vol-19",
+        "Notes": "TEIKIN 42220 / OE PEY2-11-SA0A."
+      },
+      {
+        "Parameter": "Stock-replacement piston crown recess depth",
+        "Value": "",
+        "Unit": "mm (in)",
+        "Grade": "U",
+        "Source/locator": "",
+        "Notes": "Previous value came from PEY3-11-SA0A, which Mazda identifies as the 14.0:1 piston family; removed from the locked 13.0:1 pack."
+      },
+      {
+        "Parameter": "Stock-replacement piston crown recess diameter",
+        "Value": "",
+        "Unit": "mm (in)",
+        "Grade": "U",
+        "Source/locator": "",
+        "Notes": "Previous value came from PEY3-11-SA0A, which Mazda identifies as the 14.0:1 piston family; removed from the locked 13.0:1 pack."
+      },
+      {
+        "Parameter": "Stock-replacement piston valve-pocket depth",
+        "Value": "",
+        "Unit": "mm (in)",
+        "Grade": "U",
+        "Source/locator": "",
+        "Notes": "Previous value came from PEY3-11-SA0A, which Mazda identifies as the 14.0:1 piston family; removed from the locked 13.0:1 pack."
+      },
+      {
+        "Parameter": "Stock-replacement piston pin diameter",
+        "Value": "21.00 (0.8268)",
+        "Unit": "mm (in)",
+        "Grade": "F",
+        "Source/locator": "TEIKIN Piston Catalog Vol.19 — 42220 / Mazda SKYACTIV-G 1998 cc — Mazda SKYACTIV-G 1998 cc row; reference PEY2-11-SA0A; CD 25.70 mm, TL 54.60 mm, pin 21×45 mm — https://www.scribd.com/document/465203337/Teikin-Vol-19",
+        "Notes": "TEIKIN 42220 / OE PEY2-11-SA0A; pin length 45.00 mm."
+      },
+      {
+        "Parameter": "Elring replacement head gasket compressed/catalog thickness",
+        "Value": "0.50 (0.0197)",
+        "Unit": "mm (in)",
+        "Grade": "F",
+        "Source/locator": "Elring passenger-car gasket catalog — Mazda PE-VPR/VPS, PEY2/4-7 — Mazda table p. 372: Elring 935.800 / OE PE01-10-271, 0.50 mm, 85 mm bore — https://www.elring.com/CELUM/10008/10019/45684.pdf",
+        "Notes": "Elring 935.800 cross-references Mazda OE PE01-10-271 for PE-VPR/VPS/PEY family."
+      },
+      {
+        "Parameter": "Elring replacement head gasket bore",
+        "Value": "85.0 (3.3465)",
+        "Unit": "mm (in)",
+        "Grade": "F",
+        "Source/locator": "Elring passenger-car gasket catalog — Mazda PE-VPR/VPS, PEY2/4-7 — Mazda table p. 372: Elring 935.800 / OE PE01-10-271, 0.50 mm, 85 mm bore — https://www.elring.com/CELUM/10008/10019/45684.pdf",
+        "Notes": ""
+      },
+      {
+        "Parameter": "Elring replacement gasket geometric volume",
+        "Value": "2.837",
+        "Unit": "cm³/cyl",
+        "Grade": "R",
+        "Source/locator": "Elring passenger-car gasket catalog — Mazda PE-VPR/VPS, PEY2/4-7 — Mazda table p. 372: Elring 935.800 / OE PE01-10-271, 0.50 mm, 85 mm bore — https://www.elring.com/CELUM/10008/10019/45684.pdf",
+        "Notes": "π/4 × (85 mm)^2 × 0.50 mm /1000 = 2.837 cm³. This is geometric cylinder volume of the catalog dimensions, not proof of installed OEM compressed volume."
+      },
+      {
+        "Parameter": "Deck clearance",
+        "Value": "",
+        "Unit": "mm",
+        "Grade": "U",
+        "Source/locator": "",
+        "Notes": ""
+      },
+      {
+        "Parameter": "13.0:1 independently reconstructed from chamber+piston+gasket+deck",
+        "Value": "No",
+        "Unit": "",
+        "Grade": "U",
+        "Source/locator": "",
+        "Notes": "Exact chamber volume, piston cavity volume and deck clearance remain missing; therefore the documented 13.0:1 cannot yet be independently closed by geometry."
+      }
+    ],
+    "5. Bottom end / bearings": [
+      {
+        "Parameter": "Connecting-rod centre-to-centre length",
+        "Value": "155.2 (6.110)",
+        "Unit": "mm (in)",
+        "Grade": "F",
+        "Source/locator": "Mazda SKYACTIV-G 2.0 Workshop Manual mirror — Connecting Rod Inspection — CONNECTING ROD INSPECTION id011000502800; centre-to-centre distance and big-end clearance — https://www.scribd.com/document/524011807/2-0skyactiv",
+        "Notes": "SKYACTIV-G 2.0 workshop specification."
+      },
+      {
+        "Parameter": "Piston compression height",
+        "Value": "25.70 (1.0118)",
+        "Unit": "mm (in)",
+        "Grade": "F",
+        "Source/locator": "TEIKIN Piston Catalog Vol.19 — 42220 / Mazda SKYACTIV-G 1998 cc — Mazda SKYACTIV-G 1998 cc row; reference PEY2-11-SA0A; CD 25.70 mm, TL 54.60 mm, pin 21×45 mm — https://www.scribd.com/document/465203337/Teikin-Vol-19",
+        "Notes": "TEIKIN 42220 / OE PEY2-11-SA0A. Mazda service data identify PEY2-11-SA0 as the 13.0:1 piston family. Previous 34.0-mm PEY3 entry was wrong-variant (PEY3 is the 14.0:1 piston family) and has been removed."
+      },
+      {
+        "Parameter": "Main-bearing axial width",
+        "Value": "18.0 (0.7087)",
+        "Unit": "mm (in)",
+        "Grade": "F",
+        "Source/locator": "Freccia MB19-105400 main-bearing set, OE PEY1-11-SG0 — product dimensions: width 18 mm, ID 47 mm, housing 52 mm, shell 2.5 mm — https://www.ebay.de/itm/820018725941",
+        "Notes": "Freccia MB19-105400, OE cross PEY1-11-SG0. Treat as stock-replacement hardware, not exact EPA test-article measurement."
+      },
+      {
+        "Parameter": "Rod-bearing axial width",
+        "Value": "",
+        "Unit": "mm",
+        "Grade": "U",
+        "Source/locator": "",
+        "Notes": "A 16.64–16.89 mm MAHLE bearing appears widely in Mazda catalogs but its OE cross-reference is older LF-family hardware, so it was rejected rather than misapplied to PE-VPS."
+      },
+      {
+        "Parameter": "Number of crankshaft main bearings",
+        "Value": "5",
+        "Unit": "bearing positions",
+        "Grade": "F",
+        "Source/locator": "Mazda3 09/2013–05/2016 Service Information — CRANKSHAFT, MAIN BEARING — Construction: steel crankshaft has five bearings and eight counterweights; No.3 thrust bearing — https://charm.li/Mazda/Mazda3%2009%2F2013%20-%2005%2F2016%20%28d9g6-1a-21b_ver17%29/esicont/srvc/html/id0110h6000600.html",
+        "Notes": "Mazda3 2013–2016 SKYACTIV-G 2.0 family service information states the steel crankshaft has five bearings and eight counterweights; thrust bearings are at No.3 journal."
+      }
+    ],
+    "6. Intake geometry": [
+      {
+        "Parameter": "Throttle-body OE family",
+        "Value": "PE01-13-640 / -640A / -640B (later PEAR variants also cataloged)",
+        "Unit": "",
+        "Grade": "F",
+        "Source/locator": "Mazda 3 2014 genuine parts catalog — 2.0L throttle body / inlet manifold — 2.0L throttle body and inlet manifold listings; PE/PEAR part-number family — https://partsouq.com/en/catalog/genuine/parts?c=MAZDA2020&gid=51",
+        "Notes": "Genuine-parts catalog confirms 2.0-L Mazda3 throttle-body family; exact EPA donor VIN is not published."
+      },
+      {
+        "Parameter": "Stock-replacement throttle main bore",
+        "Value": "55 (2.165)",
+        "Unit": "mm (in)",
+        "Grade": "F",
+        "Source/locator": "Stock-replacement throttle body for Mazda OE PE01-13-640/640A/640B — 55 mm main bore / 52 mm throttle plate; OE cross-reference — https://www.maxpeedingrods.com/product/throttle-body-for-mazda-3-20l-2012-2018-cx-3-2016-2018-cx-5-25l-pe0113640b.html",
+        "Notes": "Replacement for Mazda OE PE01-13-640B family."
+      },
+      {
+        "Parameter": "Stock-replacement throttle plate diameter",
+        "Value": "52 (2.047)",
+        "Unit": "mm (in)",
+        "Grade": "F",
+        "Source/locator": "Stock-replacement throttle body for Mazda OE PE01-13-640/640A/640B — 55 mm main bore / 52 mm throttle plate; OE cross-reference — https://www.maxpeedingrods.com/product/throttle-body-for-mazda-3-20l-2012-2018-cx-3-2016-2018-cx-5-25l-pe0113640b.html",
+        "Notes": ""
+      },
+      {
+        "Parameter": "Intake plenum volume",
+        "Value": "",
+        "Unit": "L",
+        "Grade": "U",
+        "Source/locator": "",
+        "Notes": "EPA/FEV states that air-box/plenum volumes were physically measured for GT-Power but does not print the numeric values."
+      },
+      {
+        "Parameter": "Intake runner length",
+        "Value": "",
+        "Unit": "mm",
+        "Grade": "U",
+        "Source/locator": "",
+        "Notes": "Measured by EPA/FEV for the GT-Power model; numeric deck not located."
+      },
+      {
+        "Parameter": "Intake runner diameter / cross-section",
+        "Value": "",
+        "Unit": "mm / mm²",
+        "Grade": "U",
+        "Source/locator": "",
+        "Notes": ""
+      }
+    ],
+    "7. Exhaust 4-2-1 geometry": [
+      {
+        "Parameter": "Exhaust layout",
+        "Value": "Long-path 4-2-1",
+        "Unit": "",
+        "Grade": "F",
+        "Source/locator": "Mazda Technical Review 2011 No.29 — SKYACTIV Powertrain — SKYACTIV-G combustion / piston cavity / 4-2-1 exhaust discussion and Fig. 9 — https://www.mazda.com/content/dam/mazda/corporate/mazda-com/en/pdf/innovation/monozukuri/technology/tech-review/2011/giho_all2011.pdf",
+        "Notes": "Mazda SKYACTIV-G family technical paper."
+      },
+      {
+        "Parameter": "Published exhaust path-length requirement",
+        "Value": "≥600 (≥23.62)",
+        "Unit": "mm (in)",
+        "Grade": "F",
+        "Source/locator": "Mazda Motor Corp., JP4816383B2 — Spark ignition direct injection gasoline engine — Description of exhaust pipe 140 / independent pipes 141: example L1≈300 mm; total path L≥600 mm; catalyst downstream of manifold — https://patents.google.com/patent/JP4816383B2/en",
+        "Notes": "Mazda patent embodiment defines total path L from exhaust port to downstream end of downstream collecting portion as 600 mm or longer. Family/design evidence, not proof of exact production 2014 pipe metrology."
+      },
+      {
+        "Parameter": "Patent example independent-pipe path L1",
+        "Value": "≈300 (≈11.81)",
+        "Unit": "mm (in)",
+        "Grade": "F",
+        "Source/locator": "Mazda Motor Corp., JP4816383B2 — Spark ignition direct injection gasoline engine — Description of exhaust pipe 140 / independent pipes 141: example L1≈300 mm; total path L≥600 mm; catalyst downstream of manifold — https://patents.google.com/patent/JP4816383B2/en",
+        "Notes": "Patent says each independent exhaust pipe 141 is set to a relatively long path L1, e.g. 300 mm. This is an embodiment/example, not exact 2014 production primary length."
+      },
+      {
+        "Parameter": "Primary pipe length",
+        "Value": "",
+        "Unit": "mm",
+        "Grade": "U",
+        "Source/locator": "",
+        "Notes": ""
+      },
+      {
+        "Parameter": "Primary pipe inner diameter",
+        "Value": "",
+        "Unit": "mm",
+        "Grade": "U",
+        "Source/locator": "",
+        "Notes": ""
+      },
+      {
+        "Parameter": "Secondary pipe length",
+        "Value": "",
+        "Unit": "mm",
+        "Grade": "U",
+        "Source/locator": "",
+        "Notes": ""
+      },
+      {
+        "Parameter": "Secondary pipe inner diameter",
+        "Value": "",
+        "Unit": "mm",
+        "Grade": "U",
+        "Source/locator": "",
+        "Notes": ""
+      },
+      {
+        "Parameter": "1→2 / 2→1 merge positions",
+        "Value": "",
+        "Unit": "mm from exhaust valve/port",
+        "Grade": "U",
+        "Source/locator": "",
+        "Notes": ""
+      },
+      {
+        "Parameter": "Distance from exhaust port/collector to catalyst",
+        "Value": "",
+        "Unit": "mm",
+        "Grade": "U",
+        "Source/locator": "",
+        "Notes": "Mazda family papers explain the looped long-path packaging and catalyst warm-up tradeoff but do not publish a dimension."
+      },
+      {
+        "Parameter": "Patent catalyst position",
+        "Value": "Downstream of exhaust manifold / downstream collecting section",
+        "Unit": "",
+        "Grade": "F",
+        "Source/locator": "Mazda Motor Corp., JP4816383B2 — Spark ignition direct injection gasoline engine — Description of exhaust pipe 140 / independent pipes 141: example L1≈300 mm; total path L≥600 mm; catalyst downstream of manifold — https://patents.google.com/patent/JP4816383B2/en",
+        "Notes": "Patent describes catalyst unit 146 connected to exhaust pipe 145 downstream of manifold 144. Exact production distance remains U."
+      }
+    ],
+    "8. Record-only geometry context": [
+      {
+        "Parameter": "Valve count",
+        "Value": "4 per cylinder",
+        "Unit": "valves/cyl",
+        "Grade": "F",
+        "Source/locator": "Mazda CX-5 Technical Guide / Textbook — SKYACTIV-G 2.0 — 01-10A-20 valve-timing diagram; HLA/roller-rocker description — https://manuals.plus/m/e4202dddc24e05f9b19b06d6ef8ce5bb036df5dda818027aaad3854359e7a115",
+        "Notes": ""
+      },
+      {
+        "Parameter": "Firing order",
+        "Value": "1-3-4-2",
+        "Unit": "",
+        "Grade": "F",
+        "Source/locator": "Prins VSI-2.1 DI technical system info — Mazda 2.0 PE-VPS 121 kW 2012–2016 — engine identification / firing-order data — https://www.prinsautogas.com/sites/default/files/media/members/technical-system-info/vsi-2-di/vsi-2-di%20semi-dedicated%20iv/Mazda%202.0%20PE-VPS%20121kW%202012-2016%201308300%20VSI-2.0%20di.pdf",
+        "Notes": "PE-VPS 121 kW 2012–2016 family/application data; not promoted to D for the unidentified EPA donor engine code."
+      },
+      {
+        "Parameter": "Balance-shaft configuration of exact EPA test article",
+        "Value": "",
+        "Unit": "",
+        "Grade": "U",
+        "Source/locator": "",
+        "Notes": "Accessible workshop indexes are not sufficiently unambiguous to document presence/absence for the exact North-American 2.0 EPA article."
+      },
+      {
+        "Parameter": "Flywheel / dual-mass flywheel",
+        "Value": "",
+        "Unit": "",
+        "Grade": "U",
+        "Source/locator": "",
+        "Notes": "EPA paper does not identify the donor transmission/flywheel configuration."
+      }
+    ]
+  },
+  "derived_compression_ratio_check": {
+    "bore_mm": 83.5,
+    "stroke_mm": 91.2,
+    "documented_CR": 13.0,
+    "swept_volume_cc_per_cyl": 499.4105018410047,
+    "required_total_clearance_volume_cc_per_cyl": 41.61754182008372,
+    "elring_85mm_x_0.50mm_geometric_volume_cc": 2.837250865273282,
+    "ajusa_85mm_x_0.40mm_geometric_volume_cc": 2.2698006922186256,
+    "status": "Still not independently closable: 13:1 PEY2 piston compression height is now bounded at 25.70 mm by stock-replacement data, but exact head chamber volume, PEY2 crown/cavity net volume, deck clearance and exact installed gasket remain unresolved."
+  },
+  "unresolved": [
+    {
+      "item": "EPA/FEV GT-Power numeric input deck (valve lift curves, intake volumes/runners, exhaust geometry)",
+      "most_promising_remaining_source": "FEV North America model files/GT-Power deck underlying SAE 2016-01-0565; EPA-HQ-OAR-2015-0827 attachments or direct EPA/FEV author archive. Public paper confirms the measurements but does not print the numbers."
+    },
+    {
+      "item": "Stock intake maximum valve lift and complete intake/exhaust lift-vs-crank-angle profiles",
+      "most_promising_remaining_source": "Same EPA/FEV GT-Power valve-profile input data; PE01-12-420 / PE01-12-440 cam metrology if deck cannot be recovered."
+    },
+    {
+      "item": "Exact 2014 production 4-2-1 primary/secondary IDs and split lengths",
+      "most_promising_remaining_source": "EPA/FEV measured exhaust GT-Power geometry deck or direct metrology/CAD of the North-American 2014 Mazda3 PE-VPS manifold. Mazda patent supplies only example L1≈300 mm and total L≥600 mm."
+    },
+    {
+      "item": "Intake/exhaust seat or throat inner diameters",
+      "most_promising_remaining_source": "Mazda cylinder-head engineering drawing or FEV/EPA GT-Power head-flow/geometry input deck."
+    },
+    {
+      "item": "Stock intake maximum valve lift",
+      "most_promising_remaining_source": "FEV/EPA measured valve-lift profile used in SAE 2016-01-0565 GT-Power model; request/locate GT-Power input deck in EPA-HQ-OAR-2015-0827 attachments."
+    },
+    {
+      "item": "Cam base-circle diameters and effective rocker ratios",
+      "most_promising_remaining_source": "2014 Mazda3 BM PE-VPS camshaft/rocker engineering drawings or FEV measured valvetrain geometry file."
+    },
+    {
+      "item": "Base/unphased IVO/IVC/EVO/EVC with checking height",
+      "most_promising_remaining_source": "FEV/EPA GT-Power cam-profile definition; Mazda PE-VPS camshaft engineering drawing."
+    },
+    {
+      "item": "Duration @1 mm / 0.050 in and base lobe centrelines",
+      "most_promising_remaining_source": "FEV/EPA measured lift profile / production cam design drawing."
+    },
+    {
+      "item": "Exact combustion-chamber volume",
+      "most_promising_remaining_source": "Mazda PE-VPS cylinder-head engineering drawing or instrumented teardown burette measurement of unmodified 13:1 North-American head."
+    },
+    {
+      "item": "Exact piston cavity/dome volume",
+      "most_promising_remaining_source": "Mazda PE-VPS piston drawing or metrology of OE piston; stock-replacement linear cavity dimensions are insufficient for volume."
+    },
+    {
+      "item": "OEM-installed gasket compressed thickness/bore for the exact test article",
+      "most_promising_remaining_source": "EPA donor VIN parts record or Mazda VIN-specific EPC/engineering drawing; aftermarket OE-cross gaskets conflict."
+    },
+    {
+      "item": "Deck clearance",
+      "most_promising_remaining_source": "Mazda block/piston assembly drawing or direct teardown measurement."
+    },
+    {
+      "item": "Rod-bearing axial width for PE-VPS",
+      "most_promising_remaining_source": "Mazda PE-VPS rod-bearing engineering drawing or PE-series stock-replacement bearing catalog with PE-specific OE cross."
+    },
+    {
+      "item": "Intake plenum volume",
+      "most_promising_remaining_source": "FEV/EPA GT-Power input deck; SAE 2016-01-0565 states it was measured by water filling."
+    },
+    {
+      "item": "Intake runner length and cross-section",
+      "most_promising_remaining_source": "FEV/EPA GT-Power intake geometry file or Mazda PE01/PE11/PEAR manifold CAD."
+    },
+    {
+      "item": "Exact primary/secondary 4-2-1 lengths and inner diameters",
+      "most_promising_remaining_source": "FEV/EPA measured exhaust-manifold GT-Power geometry file or Mazda PE-VPS exhaust-manifold engineering drawing."
+    },
+    {
+      "item": "4-2-1 merge coordinates and distance to catalyst",
+      "most_promising_remaining_source": "Same GT-Power exhaust input deck / production CAD."
+    },
+    {
+      "item": "Exact balance-shaft and flywheel/DMF configuration of EPA donor",
+      "most_promising_remaining_source": "EPA NVFEL donor build sheet / VIN-specific Mazda parts record."
+    }
+  ],
+  "conflicts": [
+    {
+      "Parameter": "Head-gasket thickness for Mazda OE PE01-10-271",
+      "A": "Elring 935.800 / Payen AH8360: 0.50 mm, 85 mm bore",
+      "Source A": "Elring passenger-car gasket catalog — Mazda PE-VPR/VPS, PEY2/4-7 — Mazda table p. 372: Elring 935.800 / OE PE01-10-271, 0.50 mm, 85 mm bore — https://www.elring.com/CELUM/10008/10019/45684.pdf",
+      "B": "Ajusa 10215400: 0.40 mm, 85 mm bore; Reinz 61-10017-00 lists 87.5 mm bore",
+      "Source B": "OE PE01-10-271 replacement-gasket comparison — AJUSA 10215400 0.4 mm × 85 mm; Payen AH8360 0.5 mm × 85 mm; Reinz 61-10017-00 87.5 mm bore — https://www.autodoc.parts/car-parts/oem/pe0110271",
+      "Treatment": "Aftermarket OE-cross parts conflict. None is promoted to exact installed D geometry."
+    },
+    {
+      "Parameter": "Exhaust valve overall length",
+      "A": "Freccia catalog: 117.0 mm",
+      "Source A": "Freccia Engine Valves Catalog 43 — Mazda section p. 325: 2014 Mazda 3 2.0 16V, engines PEY6/PEY7, OE PE01-12-111 / PE01-12-121 — https://www.enginepartsuk.net/sites/default/files/freccia-43.pdf",
+      "B": "Current Freccia retailer feed: 116.9 mm for R6824/RNT",
+      "Source B": "Freccia R6824/RNT stock-replacement exhaust valve (OE PE01-12-121) — product specifications / OE cross-reference — https://www.motointegrator.fr/produits/1834994-soupape-dechappement-freccia-r6824rnt",
+      "Treatment": "Retain both as F stock-replacement data; no averaging. 0.1 mm is likely catalog/rounding revision but not assumed."
+    },
+    {
+      "Parameter": "Piston compression height / compression-ratio variant",
+      "A": "25.70 mm — TEIKIN 42220 / OE PEY2-11-SA0A; Mazda service data identify PEY2 as 13.0:1",
+      "Source A": "TEIKIN Piston Catalog Vol.19 — 42220 / Mazda SKYACTIV-G 1998 cc — Mazda SKYACTIV-G 1998 cc row; reference PEY2-11-SA0A; CD 25.70 mm, TL 54.60 mm, pin 21×45 mm — https://www.scribd.com/document/465203337/Teikin-Vol-19; Mazda SKYACTIV-G 2.0 engine service specification — Compression ratio table: 13.0:1 (PEY2-11-SA0); 14.0:1 (PEY3-11-SA0) — https://mazda6.neocities.org/esicont/srvc/html/id0100000002de",
+      "B": "34.0 mm value previously cited from PEY3-11-SA0A",
+      "Source B": "Previous geometry-pack source; Mazda service data identify PEY3 as 14.0:1",
+      "Treatment": "Not a valid conflict for the lock: PEY3 was the wrong compression-ratio variant. 34.0 mm removed; PEY2 25.70 mm retained as F."
+    },
+    {
+      "Parameter": "Intake phaser range",
+      "A": "EPA exact test article: 75 crank° advance from its base-IVC reference",
+      "Source A": "Ellies, Schenk & Dekraker, Benchmarking and Hardware-in-the-Loop Operation of a 2014 MAZDA SkyActiv 2.0L 13:1 Compression Ratio Engine, SAE 2016-01-1007 — p. 2, Table 1 / engine description and cam-phaser paragraph — https://www.epa.gov/sites/default/files/2016-10/documents/2016-01-1007-benchmark-hil-operat-2014-mazda-skyactiv-2.0l.pdf",
+      "B": "2013–2016 Mazda3 2.0 service timing endpoints span 74° (IVO 42 BTDC→32 ATDC; IVC 36→110 ABDC)",
+      "Source B": "Mazda3 09/2013–05/2016 Service Information — CAMSHAFT [SKYACTIV-G 1.5/2.0/2.5] — SKYACTIV-G 2.0 valve-timing table — https://charm.li/Mazda/Mazda3%2009%2F2013%20-%2005%2F2016%20%28d9g6-1a-21b_ver17%29/esicont/srvc/html/id0110h6001400.html",
+      "Treatment": "Do not average. EPA D governs exact test article; 1° discrepancy may be endpoint rounding/checking convention but is not assumed."
+    },
+    {
+      "Parameter": "Exhaust phaser range",
+      "A": "EPA exact test article: 45 crank° retard from base EVC 14° ATDC",
+      "Source A": "Ellies, Schenk & Dekraker, Benchmarking and Hardware-in-the-Loop Operation of a 2014 MAZDA SkyActiv 2.0L 13:1 Compression Ratio Engine, SAE 2016-01-1007 — p. 2, Table 1 / engine description and cam-phaser paragraph — https://www.epa.gov/sites/default/files/2016-10/documents/2016-01-1007-benchmark-hil-operat-2014-mazda-skyactiv-2.0l.pdf",
+      "B": "2013–2016 Mazda3 2.0 service endpoints span exactly 45° (EVO 54→9 BBDC; EVC 7→52 ATDC)",
+      "Source B": "Mazda3 09/2013–05/2016 Service Information — CAMSHAFT [SKYACTIV-G 1.5/2.0/2.5] — SKYACTIV-G 2.0 valve-timing table — https://charm.li/Mazda/Mazda3%2009%2F2013%20-%2005%2F2016%20%28d9g6-1a-21b_ver17%29/esicont/srvc/html/id0110h6001400.html",
+      "Treatment": "Consistent phaser travel, but EPA base-EVC reference (14° ATDC) is not identical to the service-table endpoint and checking height remains unspecified."
+    }
+  ],
+  "sources": {
+    "EPA1007": {
+      "title": "Ellies, Schenk & Dekraker, Benchmarking and Hardware-in-the-Loop Operation of a 2014 MAZDA SkyActiv 2.0L 13:1 Compression Ratio Engine, SAE 2016-01-1007",
+      "url": "https://www.epa.gov/sites/default/files/2016-10/documents/2016-01-1007-benchmark-hil-operat-2014-mazda-skyactiv-2.0l.pdf",
+      "locator": "p. 2, Table 1 / engine description and cam-phaser paragraph"
+    },
+    "EPA0565": {
+      "title": "Lee, Schenk & McDonald, Air Flow Optimization and Calibration in High-Compression-Ratio Naturally Aspirated SI Engines with Cooled-EGR, SAE 2016-01-0565",
+      "url": "https://www.epa.gov/sites/default/files/2016-10/documents/2016-01-0565-air-flow-optim-calib-nat-asp-eng_0.pdf",
+      "locator": "model-development / GT-Power geometry-measurement sections; intake/exhaust geometry and measured valve-lift profiles described"
+    },
+    "EPA_DOCKET": {
+      "title": "EPA-HQ-OAR-2015-0827-0533 — 2014 Mazda 2.0L SKYACTIV 13:1 Tier 2 Engine Mapping Core Test Package",
+      "url": "https://www.regulations.gov/docket/EPA-HQ-OAR-2015-0827",
+      "locator": "docket item -0533 / EPA benchmark package"
+    },
+    "MAZDA_CX5_GUIDE": {
+      "title": "Mazda CX-5 Technical Guide / Textbook — SKYACTIV-G 2.0",
+      "url": "https://manuals.plus/m/e4202dddc24e05f9b19b06d6ef8ce5bb036df5dda818027aaad3854359e7a115",
+      "locator": "01-10A-20 valve-timing diagram; HLA/roller-rocker description"
+    },
+    "MAZDA6_WSM": {
+      "title": "Mazda 6 2014 Engine Workshop Manual SKYACTIV-G 2.0",
+      "url": "https://revisiedata.nl/onewebmedia/Mazda%206%202014%20-Engine%20Workshop%20Manual%20SKYACTIV-G%202.0.pdf",
+      "locator": "01-10-28 CAMSHAFT INSPECTION; standard cam height"
+    },
+    "MAZDA3_WSM_ROD": {
+      "title": "Mazda SKYACTIV-G 2.0 Workshop Manual mirror — Connecting Rod Inspection",
+      "url": "https://www.scribd.com/document/524011807/2-0skyactiv",
+      "locator": "CONNECTING ROD INSPECTION id011000502800; centre-to-centre distance and big-end clearance"
+    },
+    "FRECCIA": {
+      "title": "Freccia Engine Valves Catalog 43",
+      "url": "https://www.enginepartsuk.net/sites/default/files/freccia-43.pdf",
+      "locator": "Mazda section p. 325: 2014 Mazda 3 2.0 16V, engines PEY6/PEY7, OE PE01-12-111 / PE01-12-121"
+    },
+    "FRECCIA_IN": {
+      "title": "Freccia R6823/SNT stock-replacement intake valve (OE PE01-12-111)",
+      "url": "https://www.kmotorshop.com/en/article-detail/view/132298/intake-valve-r6823-snt-freccia-pe01-12-111-pe0112111-r6823-snt",
+      "locator": "product criteria and Mazda3 BM/BN 2.0 fitment"
+    },
+    "FRECCIA_EX": {
+      "title": "Freccia R6824/RNT stock-replacement exhaust valve (OE PE01-12-121)",
+      "url": "https://www.motointegrator.fr/produits/1834994-soupape-dechappement-freccia-r6824rnt",
+      "locator": "product specifications / OE cross-reference"
+    },
+    "BBR_CAM": {
+      "title": "BBR GTi — bespoke SKYACTIV camshaft development",
+      "url": "https://bbrgti.com/blogs/news/bbr-is-proud-to-offer-it-s-bespoke-skyactiv-camshafts-as-a-standalone-product",
+      "locator": "stock-valvetrain measurements; OEM exhaust maximum lift and intake VVT travel"
+    },
+    "KS_PISTON": {
+      "title": "Kolbenschmidt 41986600 piston, OE Mazda PEY3-11-SA0A",
+      "url": "https://www.kmotorshop.com/en/article-detail/view/174119/piston-with-rings-and-pin-41986600-kolbenschmidt-pey3-11-sa0a-pey311sa0a",
+      "locator": "product dimensions; Mazda PE-VPS / PEY5/PEY6/PEY7 applications"
+    },
+    "ELRING": {
+      "title": "Elring passenger-car gasket catalog — Mazda PE-VPR/VPS, PEY2/4-7",
+      "url": "https://www.elring.com/CELUM/10008/10019/45684.pdf",
+      "locator": "Mazda table p. 372: Elring 935.800 / OE PE01-10-271, 0.50 mm, 85 mm bore"
+    },
+    "AUTODOC_GASKET": {
+      "title": "OE PE01-10-271 replacement-gasket comparison",
+      "url": "https://www.autodoc.parts/car-parts/oem/pe0110271",
+      "locator": "AJUSA 10215400 0.4 mm × 85 mm; Payen AH8360 0.5 mm × 85 mm; Reinz 61-10017-00 87.5 mm bore"
+    },
+    "FRECCIA_MAIN": {
+      "title": "Freccia MB19-105400 main-bearing set, OE PEY1-11-SG0",
+      "url": "https://www.ebay.de/itm/820018725941",
+      "locator": "product dimensions: width 18 mm, ID 47 mm, housing 52 mm, shell 2.5 mm"
+    },
+    "THROTTLE": {
+      "title": "Stock-replacement throttle body for Mazda OE PE01-13-640/640A/640B",
+      "url": "https://www.maxpeedingrods.com/product/throttle-body-for-mazda-3-20l-2012-2018-cx-3-2016-2018-cx-5-25l-pe0113640b.html",
+      "locator": "55 mm main bore / 52 mm throttle plate; OE cross-reference"
+    },
+    "PARTS_THROTTLE": {
+      "title": "Mazda 3 2014 genuine parts catalog — 2.0L throttle body / inlet manifold",
+      "url": "https://partsouq.com/en/catalog/genuine/parts?c=MAZDA2020&gid=51",
+      "locator": "2.0L throttle body and inlet manifold listings; PE/PEAR part-number family"
+    },
+    "MAZDA_2011": {
+      "title": "Mazda Technical Review 2011 No.29 — SKYACTIV Powertrain",
+      "url": "https://www.mazda.com/content/dam/mazda/corporate/mazda-com/en/pdf/innovation/monozukuri/technology/tech-review/2011/giho_all2011.pdf",
+      "locator": "SKYACTIV-G combustion / piston cavity / 4-2-1 exhaust discussion and Fig. 9"
+    },
+    "MAZDA_2012": {
+      "title": "Mazda Technical Review 2012 No.30 — Engine Technology for SKYACTIV-G on CX-5",
+      "url": "https://www.mazda.com/en/innovation/monozukuri/technology/tech-review/2012/",
+      "locator": "SKYACTIV-G 2.0 valvetrain and exhaust packaging sections"
+    },
+    "PRINS": {
+      "title": "Prins VSI-2.1 DI technical system info — Mazda 2.0 PE-VPS 121 kW 2012–2016",
+      "url": "https://www.prinsautogas.com/sites/default/files/media/members/technical-system-info/vsi-2-di/vsi-2-di%20semi-dedicated%20iv/Mazda%202.0%20PE-VPS%20121kW%202012-2016%201308300%20VSI-2.0%20di.pdf",
+      "locator": "engine identification / firing-order data"
+    },
+    "MAZDA3_CAM_2013_16": {
+      "title": "Mazda3 09/2013–05/2016 Service Information — CAMSHAFT [SKYACTIV-G 1.5/2.0/2.5]",
+      "url": "https://charm.li/Mazda/Mazda3%2009%2F2013%20-%2005%2F2016%20%28d9g6-1a-21b_ver17%29/esicont/srvc/html/id0110h6001400.html",
+      "locator": "SKYACTIV-G 2.0 valve-timing table"
+    },
+    "MAZDA3_ENGINE_2013_16": {
+      "title": "Mazda3 09/2013–05/2016 Service Information — ENGINE [SKYACTIV-G 1.5/2.0/2.5]",
+      "url": "https://charm.li/Mazda/Mazda3%2009%2F2013%20-%2005%2F2016%20%28d9g6-1a-21b_ver17%29/esicont/srvc/html/id0100000002di.html",
+      "locator": "SKYACTIV-G 2.0 mechanical specification table"
+    },
+    "MAZDA3_CRANK_2013_16": {
+      "title": "Mazda3 09/2013–05/2016 Service Information — CRANKSHAFT, MAIN BEARING",
+      "url": "https://charm.li/Mazda/Mazda3%2009%2F2013%20-%2005%2F2016%20%28d9g6-1a-21b_ver17%29/esicont/srvc/html/id0110h6000600.html",
+      "locator": "Construction: steel crankshaft has five bearings and eight counterweights; No.3 thrust bearing"
+    },
+    "PEY2_ARCO": {
+      "title": "ARCO Motor Industry — Mazda SKYACTIV-G 1998 cc piston catalog",
+      "url": "https://niponauto.md/assets/documents/catalogs/%D0%94%D0%B2%D0%B8%D0%B3%D0%B0%D1%82%D0%B5%D0%BB%D1%8C/ARCO%20-%20%D0%9F%D0%BE%D1%80%D1%88%D0%BD%D0%B8%2C%20%D0%BA%D0%BE%D0%BB%D1%8C%D1%86%D0%B0%20%D0%B8%20%D0%B3%D0%B8%D0%BB%D1%8C%D0%B7%D1%8B%20%D0%B4%D0%BB%D1%8F%20%D0%B1%D0%B5%D0%BD%D0%B7%D0%B8%D0%BD%D0%BE%D0%B2%D1%8B%D1%85%20%D0%B4%D0%B2%D0%B8%D0%B3%D0%B0%D1%82%D0%B5%D0%BB%D0%B5%D0%B9.pdf",
+      "locator": "Mazda PE/SKYACTIV-G 1998 cc row: PEY2-11-SA0A; CD 25.70 mm; TL 54.60 mm; pin 21×45 mm"
+    },
+    "PEY2_TEIKIN": {
+      "title": "TEIKIN Piston Catalog Vol.19 — 42220 / Mazda SKYACTIV-G 1998 cc",
+      "url": "https://www.scribd.com/document/465203337/Teikin-Vol-19",
+      "locator": "Mazda SKYACTIV-G 1998 cc row; reference PEY2-11-SA0A; CD 25.70 mm, TL 54.60 mm, pin 21×45 mm"
+    },
+    "PEY2_PARTS": {
+      "title": "Mazda genuine parts catalog — PEY2-11-SA0 / PEY2-11-SA0A piston set",
+      "url": "https://partsouq.com/en/catalog/genuine/diagram?c=Mazda&number=PEY211SA0&ssd=%24%2AKwHs2MnT7pGb6YqNorzp6rSggIeZ6Ofq6_nv5565pq637ZjssLgAAAAAUy16uw%24",
+      "locator": "PISTON, CRANKSHAFT & FLYWHEEL; 2000 cc applications"
+    },
+    "PE_CR_SERVICE": {
+      "title": "Mazda SKYACTIV-G 2.0 engine service specification",
+      "url": "https://mazda6.neocities.org/esicont/srvc/html/id0100000002de",
+      "locator": "Compression ratio table: 13.0:1 (PEY2-11-SA0); 14.0:1 (PEY3-11-SA0)"
+    },
+    "MAZDA_PATENT_EXH": {
+      "title": "Mazda Motor Corp., JP4816383B2 — Spark ignition direct injection gasoline engine",
+      "url": "https://patents.google.com/patent/JP4816383B2/en",
+      "locator": "Description of exhaust pipe 140 / independent pipes 141: example L1≈300 mm; total path L≥600 mm; catalyst downstream of manifold"
+    },
+    "MAZDA3_HEAD_PARTS_US": {
+      "title": "Mazda genuine parts catalog — Mazda3 America, cylinder head & cover 2000 cc",
+      "url": "https://partsouq.com/en/catalog/genuine/diagram?c=MAZDA2020&number=PE0110100B&ssd=%24%2AKwG7j56Jx9K52drp_dqzh-P319DOv7C9vK6Bsvr8z8HMxfHSoK20ydjKvri5v7zg7oD37v3O_Pb45OKe8LGwAAAAALYqO2Y%3D%24",
+      "locator": "PE01-10-100B/C head; PE01-12-111 intake valve; PE01-12-121 exhaust valve; PE01-12-130 rocker"
+    },
+    "MAZDA3_CAM_PARTS": {
+      "title": "Mazda genuine parts catalog — Mazda3 BM valve system 2000 cc",
+      "url": "https://partsouq.com/en/catalog/genuine/parts?c=MAZDA2020&gid=81&q=&ssd=%24%2AKwGxhZSM68Tz08-02sib7On93drEtbq3tqS3p-fnxc-y_OP1mrK29Ou3xLawtQAAAACUStu7%24&vid=1926648006",
+      "locator": "PE01-12-420 intake cam; PE01-12-440 exhaust cam; PE01-12-130 rocker; P301-12-100 HLA"
+    }
+  }
+}

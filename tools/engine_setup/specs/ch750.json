@@ -1,0 +1,56 @@
+{
+ "name": "Kohler CH750 (spec-sheet setup)",
+ "node": "gen_ch750",
+ "layout": "v2_90",
+ "bore_mm": 83.0,
+ "stroke_mm": 69.0,
+ "cr": 9.4,
+ "valves_per_cyl": 2,
+ "valvetrain": "ohv",
+ "fuel_system": "carburettor",
+ "fuel": "gasoline",
+ "rated_kw": 20.1,
+ "rated_rpm": 3600,
+ "peak_nm": 55.9,
+ "peak_rpm": 3200,
+ "idle_rpm": 1200,
+ "redline_rpm": 3750,
+ "rating_cf": 0.973,
+ "main_bearings": 2,
+ "curve": [
+  [
+   2200,
+   53.1
+  ],
+  [
+   2400,
+   53.9
+  ],
+  [
+   2600,
+   54.4
+  ],
+  [
+   2800,
+   54.7
+  ],
+  [
+   3000,
+   54.7
+  ],
+  [
+   3200,
+   54.5
+  ],
+  [
+   3400,
+   54.1
+  ],
+  [
+   3600,
+   53.4
+  ]
+ ],
+ "curve_note": "Kohler full-line brochure p.26 digitised (F, CV legend), SAE J1940 gross",
+ "engine_class": "small_industrial"
+}

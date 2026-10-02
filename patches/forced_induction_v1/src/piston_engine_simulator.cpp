@@ -1,0 +1,524 @@
+#include "../include/piston_engine_simulator.h"
+
+#include "../include/constants.h"
+#include "../include/units.h"
+
+#include <cmath>
+#include <assert.h>
+#include <chrono>
+#include <set>
+
+PistonEngineSimulator::PistonEngineSimulator() {
+    m_engine = nullptr;
+    m_transmission = nullptr;
+    m_vehicle = nullptr;
+    m_delayFilters = nullptr;
+
+    m_crankConstraints = nullptr;
+    m_cylinderWallConstraints = nullptr;
+    m_linkConstraints = nullptr;
+    m_crankshaftFrictionConstraints = nullptr;
+    m_crankshaftLinks = nullptr;
+
+    m_exhaustFlowStagingBuffer = nullptr;
+
+    m_derivativeFilter.m_dt = 1.0;
+    m_fluidSimulationSteps = 8;
+}
+
+PistonEngineSimulator::~PistonEngineSimulator() {
+    assert(m_crankConstraints == nullptr);
+    assert(m_cylinderWallConstraints == nullptr);
+    assert(m_linkConstraints == nullptr);
+    assert(m_crankshaftFrictionConstraints == nullptr);
+    assert(m_exhaustFlowStagingBuffer == nullptr);
+    assert(m_delayFilters == nullptr);
+    assert(m_antialiasingFilters == nullptr);
+}
+
+void PistonEngineSimulator::loadSimulation(Engine *engine, Vehicle *vehicle, Transmission *transmission) {
+    Simulator::loadSimulation(engine, vehicle, transmission);
+
+    m_engine = engine;
+    m_engine->configureForcedInductionGasPath();
+    m_vehicle = vehicle;
+    m_transmission = transmission;
+
+    const int crankCount = m_engine->getCrankshaftCount();
+    const int cylinderCount = m_engine->getCylinderCount();
+    const int linkCount = cylinderCount * 2;
+
+    if (crankCount <= 0) return;
+
+    m_crankConstraints = new atg_scs::FixedPositionConstraint[crankCount];
+    m_cylinderWallConstraints = new atg_scs::LineConstraint[cylinderCount];
+    m_linkConstraints = new atg_scs::LinkConstraint[linkCount];
+    m_crankshaftFrictionConstraints = new atg_scs::RotationFrictionConstraint[crankCount];
+    m_crankshaftLinks = new atg_scs::ClutchConstraint[crankCount - 1];
+    m_delayFilters = new DelayFilter[cylinderCount];
+
+    const double ks = 5000;
+    const double kd = 10;
+
+    for (int i = 0; i < crankCount; ++i) {
+        Crankshaft *outputShaft = m_engine->getCrankshaft(0);
+        Crankshaft *crankshaft = m_engine->getCrankshaft(i);
+
+        m_crankConstraints[i].setBody(&crankshaft->m_body);
+        m_crankConstraints[i].setWorldPosition(
+            crankshaft->getPosX(),
+            crankshaft->getPosY());
+        m_crankConstraints[i].setLocalPosition(0.0, 0.0);
+        m_crankConstraints[i].m_kd = kd;
+        m_crankConstraints[i].m_ks = ks;
+
+        crankshaft->m_body.p_x = crankshaft->getPosX();
+        crankshaft->m_body.p_y = crankshaft->getPosY();
+        crankshaft->m_body.theta = 0;
+        crankshaft->m_body.m =
+            crankshaft->getMass() + crankshaft->getFlywheelMass();
+        crankshaft->m_body.I = crankshaft->getMomentOfInertia();
+
+        m_crankshaftFrictionConstraints[i].m_minTorque = -crankshaft->getFrictionTorque();
+        m_crankshaftFrictionConstraints[i].m_maxTorque = crankshaft->getFrictionTorque();
+        m_crankshaftFrictionConstraints[i].setBody(&m_engine->getCrankshaft(i)->m_body);
+
+        m_system->addRigidBody(&m_engine->getCrankshaft(i)->m_body);
+        m_system->addConstraint(&m_crankConstraints[i]);
+        m_system->addConstraint(&m_crankshaftFrictionConstraints[i]);
+
+        if (crankshaft != outputShaft) {
+            atg_scs::ClutchConstraint *crankLink = &m_crankshaftLinks[i - 1];
+            crankLink->setBody1(&outputShaft->m_body);
+            crankLink->setBody2(&crankshaft->m_body);
+
+            m_system->addConstraint(crankLink);
+        }
+    }
+
+    m_transmission->addToSystem(m_system, &m_vehicleMass, m_vehicle, m_engine);
+    m_vehicle->addToSystem(m_system, &m_vehicleMass);
+
+    m_vehicleDrag.initialize(&m_vehicleMass, m_vehicle);
+    m_system->addConstraint(&m_vehicleDrag);
+
+    m_vehicleMass.reset();
+    m_vehicleMass.m = 1.0;
+    m_vehicleMass.I = 1.0;
+    m_system->addRigidBody(&m_vehicleMass);
+
+    for (int i = 0; i < cylinderCount; ++i) {
+        Piston *piston = m_engine->getPiston(i);
+        ConnectingRod *connectingRod = piston->getRod();
+
+        CylinderBank *bank = piston->getCylinderBank();
+        const double dx = std::cos(bank->getAngle() + constants::pi / 2);
+        const double dy = std::sin(bank->getAngle() + constants::pi / 2);
+
+        m_cylinderWallConstraints[i].setBody(&piston->m_body);
+        m_cylinderWallConstraints[i].m_dx = dx;
+        m_cylinderWallConstraints[i].m_dy = dy;
+        m_cylinderWallConstraints[i].m_local_x = 0.0;
+        m_cylinderWallConstraints[i].m_local_y = piston->getWristPinLocation();
+        m_cylinderWallConstraints[i].m_p0_x = bank->getX();
+        m_cylinderWallConstraints[i].m_p0_y = bank->getY();
+        m_cylinderWallConstraints[i].m_ks = ks;
+        m_cylinderWallConstraints[i].m_kd = kd;
+
+        piston->setCylinderConstraint(&m_cylinderWallConstraints[i]);
+
+        m_linkConstraints[i * 2 + 0].setBody1(&connectingRod->m_body);
+        m_linkConstraints[i * 2 + 0].setBody2(&piston->m_body);
+        m_linkConstraints[i * 2 + 0]
+            .setLocalPosition1(0.0, connectingRod->getLittleEndLocal());
+        m_linkConstraints[i * 2 + 0].setLocalPosition2(0.0, piston->getWristPinLocation());
+        m_linkConstraints[i * 2 + 0].m_ks = ks;
+        m_linkConstraints[i * 2 + 0].m_kd = kd;
+
+        double journal_x = 0.0, journal_y = 0.0;
+        if (connectingRod->getMasterRod() == nullptr) {
+            Crankshaft *crankshaft = connectingRod->getCrankshaft();
+            crankshaft->getRodJournalPositionLocal(
+                connectingRod->getJournal(),
+                &journal_x,
+                &journal_y);
+            m_linkConstraints[i * 2 + 1].setBody2(&crankshaft->m_body);
+        }
+        else {
+            connectingRod->getMasterRod()->getRodJournalPositionLocal(
+                connectingRod->getJournal(),
+                &journal_x,
+                &journal_y);
+            m_linkConstraints[i * 2 + 1].setBody2(&connectingRod->getMasterRod()->m_body);
+        }
+
+        m_linkConstraints[i * 2 + 1].setBody1(&connectingRod->m_body);
+        m_linkConstraints[i * 2 + 1]
+            .setLocalPosition1(0.0, connectingRod->getBigEndLocal());
+        m_linkConstraints[i * 2 + 1]
+            .setLocalPosition2(journal_x, journal_y);
+        m_linkConstraints[i * 2 + 1].m_ks = ks;
+        m_linkConstraints[i * 2 + 0].m_kd = kd;
+
+        piston->m_body.m = piston->getMass();
+        piston->m_body.I = 1.0;
+
+        connectingRod->m_body.m = connectingRod->getMass();
+        connectingRod->m_body.I = connectingRod->getMomentOfInertia();
+
+        m_system->addRigidBody(&piston->m_body);
+        m_system->addRigidBody(&connectingRod->m_body);
+        m_system->addConstraint(&m_linkConstraints[i * 2 + 0]);
+        m_system->addConstraint(&m_linkConstraints[i * 2 + 1]);
+        m_system->addConstraint(&m_cylinderWallConstraints[i]);
+        m_system->addForceGenerator(m_engine->getChamber(i));
+    }
+
+    m_dyno.connectCrankshaft(m_engine->getOutputCrankshaft());
+    m_system->addConstraint(&m_dyno);
+
+    m_starterMotor.connectCrankshaft(m_engine->getOutputCrankshaft());
+    m_starterMotor.m_maxTorque = m_engine->getStarterTorque();
+    m_starterMotor.m_rotationSpeed = -m_engine->getStarterSpeed();
+    m_system->addConstraint(&m_starterMotor);
+
+    placeAndInitialize();
+    initializeSynthesizer();
+}
+
+double PistonEngineSimulator::getAverageOutputSignal() const {
+    double sum = 0.0;
+    for (int i = 0; i < m_engine->getExhaustSystemCount(); ++i) {
+        sum += m_engine->getExhaustSystem(i)->getSystem()->pressure();
+    }
+
+    return sum / m_engine->getExhaustSystemCount();
+}
+
+void PistonEngineSimulator::placeAndInitialize() {
+    const int cylinderCount = m_engine->getCylinderCount();
+    for (int i = 0; i < cylinderCount; ++i) {
+        ConnectingRod *rod = m_engine->getConnectingRod(i);
+
+        if (rod->getRodJournalCount() != 0) {
+            placeCylinder(i);
+        }
+    }
+
+    for (int i = 0; i < cylinderCount; ++i) {
+        placeCylinder(i);
+    }
+
+    for (int i = 0; i < cylinderCount; ++i) {
+        m_engine->getChamber(i)->m_system.initialize(
+            units::pressure(1.0, units::atm),
+            m_engine->getChamber(i)->getVolume(),
+            units::celcius(25.0)
+        );
+
+        Piston *piston = m_engine->getChamber(i)->getPiston();
+        CylinderHead *head = m_engine->getChamber(i)->getCylinderHead();
+        ExhaustSystem *exhaust = head->getExhaustSystem(piston->getCylinderIndex());
+        const double exhaustLength =
+            head->getHeaderPrimaryLength(piston->getCylinderIndex())
+            + exhaust->getLength();
+        const double speedOfSound = 343.0 * units::m / units::sec;
+        const double delay = exhaustLength / speedOfSound;
+        m_delayFilters[i].initialize(delay, 10000.0);
+    }
+
+    m_engine->getIgnitionModule()->reset();
+
+    m_exhaustFlowStagingBuffer =
+        new double[m_engine->getExhaustSystemCount() + Synthesizer::AuxiliaryChannelCount];
+}
+
+void PistonEngineSimulator::placeCylinder(int i) {
+    ConnectingRod *rod = m_engine->getConnectingRod(i);
+    Piston *piston = m_engine->getPiston(i);
+    CylinderBank *bank = piston->getCylinderBank();
+
+    double p_x, p_y;
+    if (rod->getMasterRod() != nullptr) {
+        rod->getMasterRod()->getRodJournalPositionGlobal(rod->getJournal(), &p_x, &p_y);
+    }
+    else {
+        rod->getCrankshaft()->getRodJournalPositionGlobal(rod->getJournal(), &p_x, &p_y);
+    }
+
+    // (bank->m_x + bank->m_dx * s - p_x)^2 + (bank->m_y + bank->m_dy * s - p_y)^2 = (rod->m_length)^2
+    const double a = bank->getDx() * bank->getDx() + bank->getDy() * bank->getDy();
+    const double b = -2 * bank->getDx() * (p_x - bank->getX()) - 2 * bank->getDy() * (p_y - bank->getY());
+    const double c =
+        (p_x - bank->getX()) * (p_x - bank->getX())
+        + (p_y - bank->getY()) * (p_y - bank->getY())
+        - rod->getLength() * rod->getLength();
+
+    const double det = b * b - 4 * a * c;
+    if (det < 0) return;
+
+    const double sqrt_det = std::sqrt(det);
+    const double s0 = (-b + sqrt_det) / (2 * a);
+    const double s1 = (-b - sqrt_det) / (2 * a);
+
+    const double s = std::max(s0, s1);
+    if (s < 0) return;
+
+    const double e_x = s * bank->getDx() + bank->getX();
+    const double e_y = s * bank->getDy() + bank->getY();
+
+    const double theta = ((e_y - p_y) > 0)
+        ? std::acos((e_x - p_x) / rod->getLength())
+        : 2 * constants::pi - std::acos((e_x - p_x) / rod->getLength());
+    rod->m_body.theta = theta - constants::pi / 2;
+
+    double cl_x, cl_y;
+    rod->m_body.localToWorld(0, rod->getBigEndLocal(), &cl_x, &cl_y);
+    rod->m_body.p_x += p_x - cl_x;
+    rod->m_body.p_y += p_y - cl_y;
+
+    piston->m_body.p_x = e_x;
+    piston->m_body.p_y = e_y;
+    piston->m_body.theta = bank->getAngle() + constants::pi;
+}
+
+void PistonEngineSimulator::simulateStep_() {
+    const double timestep = getTimestep();
+    IgnitionModule *im = m_engine->getIgnitionModule();
+    im->update(timestep);
+
+    const int cylinderCount = m_engine->getCylinderCount();
+    for (int i = 0; i < cylinderCount; ++i) {
+        m_engine->getChamber(i)->resetCombustionPressureRiseRate();
+        if (im->getIgnitionEvent(i)) {
+            if (m_engine->isCompressionIgnition()) {
+                m_engine->getChamber(i)->beginCompressionIgnitionEvent(
+                    m_engine->getFuelMassPerCycleCommand());
+            }
+            else {
+                m_engine->getChamber(i)->ignite();
+            }
+        }
+
+        m_engine->getChamber(i)->update(timestep);
+    }
+
+    for (int i = 0; i < cylinderCount; ++i) {
+        m_engine->getChamber(i)->resetLastTimestepExhaustFlow();
+        m_engine->getChamber(i)->resetLastTimestepIntakeFlow();
+    }
+
+    const int exhaustSystemCount = m_engine->getExhaustSystemCount();
+    const int intakeCount = m_engine->getIntakeCount();
+    const double fluidTimestep = timestep / m_fluidSimulationSteps;
+    for (int i = 0; i < m_fluidSimulationSteps; ++i) {
+        for (int j = 0; j < exhaustSystemCount; ++j) {
+            m_engine->getExhaustSystem(j)->process(fluidTimestep);
+        }
+
+        for (int j = 0; j < intakeCount; ++j) {
+            m_engine->getIntake(j)->process(fluidTimestep);
+        }
+
+        for (int j = 0; j < cylinderCount; ++j) {
+            m_engine->getChamber(j)->flow(fluidTimestep);
+        }
+
+        // The TurboGroups now have the cylinder blowdown that entered their
+        // dedicated pre-turbine scrolls. Each group transfers that same gas
+        // through its turbine and transfers real compressor air into the
+        // charge path before the next fluid substep.
+        m_engine->processForcedInduction(fluidTimestep);
+
+        for (int j = 0; j < intakeCount; ++j) {
+            m_engine->getIntake(j)->m_flowRate += m_engine->getIntake(j)->m_flow;
+        }
+    }
+
+    im->resetIgnitionEvents();
+}
+
+double PistonEngineSimulator::getTotalExhaustFlow() const {
+    double totalFlow = 0.0;
+    for (int i = 0; i < m_engine->getCylinderCount(); ++i) {
+        totalFlow += m_engine->getChamber(i)->getLastTimestepExhaustFlow();
+    }
+
+    return totalFlow;
+}
+
+void PistonEngineSimulator::endFrame() {
+    Simulator::endFrame();
+
+    if (m_engine == nullptr) {
+        return;
+    }
+
+    // A slowed-down frame can run zero steps. startFrame() then keeps the
+    // previous per-second rate, so dividing again (by zero) would turn the
+    // intake flow, CFM and volumetric-efficiency readings into inf/NaN.
+    const double frameTimestep = simulationSteps() * getTimestep();
+    if (frameTimestep <= 0.0) return;
+    for (int i = 0; i < m_engine->getIntakeCount(); ++i) {
+        m_engine->getIntake(i)->m_flowRate /= frameTimestep;
+    }
+}
+
+void PistonEngineSimulator::destroy() {
+    if (m_system != nullptr) m_system->reset();
+
+    if (m_crankConstraints != nullptr) delete[] m_crankConstraints;
+    if (m_cylinderWallConstraints != nullptr) delete[] m_cylinderWallConstraints;
+    if (m_linkConstraints != nullptr) delete[] m_linkConstraints;
+    if (m_crankshaftFrictionConstraints != nullptr) delete[] m_crankshaftFrictionConstraints;
+    if (m_exhaustFlowStagingBuffer != nullptr) delete[] m_exhaustFlowStagingBuffer;
+    if (m_system != nullptr) delete m_system;
+    if (m_delayFilters != nullptr) delete[] m_delayFilters;
+
+    m_crankConstraints = nullptr;
+    m_cylinderWallConstraints = nullptr;
+    m_linkConstraints = nullptr;
+    m_crankshaftFrictionConstraints = nullptr;
+    m_exhaustFlowStagingBuffer = nullptr;
+    m_system = nullptr;
+
+    m_vehicle = nullptr;
+    m_transmission = nullptr;
+    m_engine = nullptr;
+    m_delayFilters = nullptr;
+}
+
+void PistonEngineSimulator::updateMechanicalFriction() {
+    if (m_crankshaftFrictionConstraints == nullptr || !m_engine->usesComponentFriction()) return;
+    Crankshaft *output = m_engine->getOutputCrankshaft();
+    const double model = m_engine->getComponentFrictionTorque();
+    for (int i = 0; i < m_engine->getCrankshaftCount(); ++i) {
+        Crankshaft *crankshaft = m_engine->getCrankshaft(i);
+        const double torque = crankshaft->getFrictionTorque() + (crankshaft == output ? model : 0.0);
+        m_crankshaftFrictionConstraints[i].m_minTorque = -torque;
+        m_crankshaftFrictionConstraints[i].m_maxTorque = torque;
+    }
+}
+
+void PistonEngineSimulator::writeToSynthesizer() {
+    const int exhaustSystemCount = m_engine->getExhaustSystemCount();
+    for (int i = 0; i < exhaustSystemCount; ++i) {
+        m_exhaustFlowStagingBuffer[i] = 0;
+    }
+
+    const double attenuation_n = m_engine->getProceduralDieselAudio()->lowSpeedAttenuation(units::rpm(filteredEngineSpeed()));
+
+    const int cylinderCount = m_engine->getCylinderCount();
+    double routedPrimaryLength = 0.0;
+    int routedCylinders = 0;
+    for (int i = 0; i < cylinderCount; ++i) {
+        Piston *piston = m_engine->getPiston(i);
+        CylinderBank *bank = piston->getCylinderBank();
+        CylinderHead *head = m_engine->getHead(bank->getIndex());
+        ExhaustSystem *exhaust = head->getExhaustSystem(piston->getCylinderIndex());
+        CombustionChamber *chamber = m_engine->getChamber(i);
+
+        // A cylinder routed through a turbine does not radiate its runner
+        // pulses directly: the sound leaves through the post-turbine exhaust
+        // system, whose own pressure is the source (below). The turbine and
+        // its scroll volume therefore attenuate the pulses as in a real
+        // turbocharged engine.
+        if (m_engine->getExhaustDestination(exhaust) != exhaust->getSystem()) {
+            routedPrimaryLength += head->getHeaderPrimaryLength(piston->getCylinderIndex());
+            ++routedCylinders;
+            continue;
+        }
+
+        const double exhaustLength =
+            head->getHeaderPrimaryLength(piston->getCylinderIndex())
+            + exhaust->getLength();
+
+        double exhaustFlow =
+            attenuation_n * 1600 * (
+                1.0 * (chamber->m_exhaustRunnerAndPrimary.pressure() - units::pressure(1.0, units::atm))
+                + 0.1 * chamber->m_exhaustRunnerAndPrimary.dynamicPressure(1.0, 0.0)
+                + 0.1 * chamber->m_exhaustRunnerAndPrimary.dynamicPressure(-1.0, 0.0));
+
+        const double delayedExhaustPulse =
+            m_delayFilters[i].fast_f(exhaustFlow);
+
+        ExhaustSystem *exhaustSystem = head->getExhaustSystem(piston->getCylinderIndex());
+        m_exhaustFlowStagingBuffer[exhaustSystem->getIndex()] +=
+            head->getSoundAttenuation(piston->getCylinderIndex())
+            * (exhaustSystem->getAudioVolume() * delayedExhaustPulse / cylinderCount)
+            * (1 / (exhaustLength * exhaustLength));
+    }
+
+    // Post-turbine exhaust systems: the gas leaving the turbine radiates
+    // through the original outlet path. Same convention as the runner path:
+    // there each runner carries one pulse per cycle and the sum is divided by
+    // the cylinder count; the post-turbine volume receives every routed
+    // pulse, so it is divided by the routed cylinder count.
+    if (routedCylinders > 0) {
+        ForcedInductionSystem *fi = m_engine->getForcedInductionSystem();
+        const double primaryLength = routedPrimaryLength / routedCylinders;
+        for (std::size_t g = 0; g < fi->groupCount(); ++g) {
+            const int index = fi->group(g)->parameters().postTurbineExhaustIndex;
+            if (index < 0 || index >= exhaustSystemCount) continue;
+            ExhaustSystem *post = m_engine->getExhaustSystem(index);
+            GasSystem *gas = post->getSystem();
+            const double exhaustLength = primaryLength + post->getLength();
+            const double pulse = attenuation_n * 1600 * (
+                1.0 * (gas->pressure() - units::pressure(1.0, units::atm))
+                + 0.1 * gas->dynamicPressure(1.0, 0.0)
+                + 0.1 * gas->dynamicPressure(-1.0, 0.0));
+            m_exhaustFlowStagingBuffer[index] +=
+                post->getAudioVolume() * pulse / routedCylinders
+                / (exhaustLength * exhaustLength);
+        }
+    }
+
+    // Structure-borne combustion noise ("diesel knock"): the force rate the
+    // combustion pressure rise puts on the engine structure, summed over all
+    // cylinders. The synthesizer shapes it with a fixed structural band, so
+    // large slow-burning and small fast-burning engines differ only through
+    // their physics (bore area and combustion dp/dt). It replaces the former
+    // direct injection of mean dp/dt into the exhaust channels, which
+    // bypassed the exhaust path and dominated the sound at any usable gain.
+    //
+    // Source: the combustion pressure-rise rate averaged over the cylinders,
+    // the same per-cylinder convention as the exhaust pressure source above.
+    // (A force rate, sum of piston area x dp/dt, made the knock-to-exhaust
+    // balance depend on engine size: with one global level it was ~25 dB
+    // too quiet on a 4-cylinder 106 mm engine relative to the 16-251B.)
+    double combustionPressureRate = 0.0;
+    for (int i = 0; i < cylinderCount; ++i) {
+        combustionPressureRate +=
+            std::max(0.0, m_engine->getChamber(i)->getCombustionPressureRiseRate());
+    }
+    combustionPressureRate /= std::max(1, cylinderCount);
+
+    // Turbocharger sound is generated in the synthesizer at the audio rate
+    // from the blade-pass frequency and sqrt(aerodynamic power of both
+    // wheels: turbine + compressor); the dominant group sets the frequency,
+    // all groups contribute power. Including the turbine keeps the spool-up
+    // audible while the compressor still does little work.
+    double bladePassFrequency = 0.0;
+    double turboPower = 0.0;
+    double dominantPower = -1.0;
+    ForcedInductionSystem *forcedInduction = m_engine->getForcedInductionSystem();
+    if (forcedInduction->enabled()) {
+        const int blades = m_engine->getProceduralDieselAudio()->parameters().compressorBladeCount;
+        for (std::size_t g = 0; g < forcedInduction->groupCount(); ++g) {
+            const TurboGroup::Telemetry &t = forcedInduction->group(g)->telemetry();
+            const double power = std::max(0.0, t.compressorPower) + std::max(0.0, t.turbinePower);
+            turboPower += power;
+            if (power > dominantPower) {
+                dominantPower = power;
+                bladePassFrequency = std::max(0.0, t.shaftSpeed) / (2.0 * constants::pi) * blades;
+            }
+        }
+    }
+
+    m_exhaustFlowStagingBuffer[exhaustSystemCount + Synthesizer::CombustionPressureRate] = combustionPressureRate;
+    m_exhaustFlowStagingBuffer[exhaustSystemCount + Synthesizer::TurboBladePassFrequency] = bladePassFrequency;
+    m_exhaustFlowStagingBuffer[exhaustSystemCount + Synthesizer::TurboAmplitude] = std::sqrt(turboPower);
+
+    synthesizer().writeInput(m_exhaustFlowStagingBuffer);
+}
+

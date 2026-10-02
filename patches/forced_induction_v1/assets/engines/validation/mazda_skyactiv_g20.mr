@@ -1,0 +1,373 @@
+import "engine_sim.mr"
+
+units units()
+constants constants()
+impulse_response_library ir_lib()
+
+/*
+    2014 Mazda SKYACTIV-G 2.0 L, 13.0:1, North America (P3 validation engine;
+    the EPA NVFEL benchmark engine).
+    Sources: docs/reference/batch02 (P3 packs, geometry follow-up, EPA 2018
+    test-data workbooks). Grades: D exact engine, F family / named stock-
+    replacement hardware, R derived, C estimate (plausible range stated).
+
+    Validation method (docs/FAILURE_ATTEMPT_LOG.md, P3): each EPA steady-state
+    point is run at its measured speed with its measured spark timing, intake
+    and exhaust cam phase and lambda (script inputs below), and the throttle
+    set so that the mean intake-manifold pressure equals the measured MAP.
+    Airflow (breathing) and brake torque / BTE (thermodynamics) are then
+    predictions. Breathing C values may be set only on the declared
+    calibration subset against measured airflow; everything else is held out.
+    Direct injection is represented as a premixed charge (no in-cylinder
+    evaporative cooling): a known limitation.
+*/
+
+private node mazda_g20_wires {
+    output wire1: ignition_wire();
+    output wire2: ignition_wire();
+    output wire3: ignition_wire();
+    output wire4: ignition_wire();
+}
+
+label mazda_cycle(2 * 360 * units.deg)
+
+/*
+    EPA Tier 2 certification fuel (NVFEL fuel analysis 23945, D): LHV 42.887
+    MJ/kg, density 0.743 kg/L, carbon fraction 0.86678, E0.
+    LEV III fuel (analysis 24350, D): LHV 41.763 MJ/kg, density 0.7502, E9.6;
+    its stoichiometric AFR is lower (oxygenated): molecular_afr scaled by the
+    stoichiometric mass AFR ratio 14.06 / 14.64 (R, ethanol 9.6 vol %).
+    Combustion efficiency 0.97 as the Kohler/GX390 (Heywood ch. 4).
+*/
+public node mazda_tier2_fuel {
+    alias output __out:
+        fuel(
+            name: "EPA Tier 2 gasoline [LHV 42.887 MJ/kg]",
+            energy_density: 42.887 * units.kJ / units.g,
+            density: 0.743 * units.kg / units.L,
+            max_burning_efficiency: 0.97,
+            burning_efficiency_randomness: 0.0
+        );
+}
+
+public node mazda_lev3_fuel {
+    alias output __out:
+        fuel(
+            name: "EPA LEV III E10 gasoline [LHV 41.763 MJ/kg]",
+            energy_density: 41.763 * units.kJ / units.g,
+            density: 0.7502 * units.kg / units.L,
+            molecular_afr: 12.5 * 14.06 / 14.64,
+            max_burning_efficiency: 0.97,
+            burning_efficiency_randomness: 0.0
+        );
+}
+
+// Valve flow from valve geometry (same rule as the Deere and GX390):
+// CFM at 28 inH2O = cd x 0.2272 x min(curtain pi d L, throat pi/4 (0.88 d)^2)
+// per valve (mm^2), two valves per port.
+private node mazda_g20_intake_flow {
+    // F: 33.2 mm intake valves (Freccia R6823/SNT = OE PE01-12-111)
+    input cd;
+    alias output __out: f;
+    function f(50 * units.thou)
+    f
+        .add_flow_sample(0, 0.0 * cd)
+        .add_flow_sample(50, 60.2 * cd)
+        .add_flow_sample(100, 120.4 * cd)
+        .add_flow_sample(150, 180.6 * cd)
+        .add_flow_sample(200, 240.8 * cd)
+        .add_flow_sample(250, 301.0 * cd)
+        .add_flow_sample(300, 304.6 * cd)
+        .add_flow_sample(350, 304.6 * cd)
+        .add_flow_sample(400, 304.6 * cd)
+        .add_flow_sample(450, 304.6 * cd)
+}
+
+private node mazda_g20_exhaust_flow {
+    // F: 28.0 mm exhaust valves (Freccia R6824/RNT = OE PE01-12-121)
+    input cd;
+    alias output __out: f;
+    function f(50 * units.thou)
+    f
+        .add_flow_sample(0, 0.0 * cd)
+        .add_flow_sample(50, 50.8 * cd)
+        .add_flow_sample(100, 101.5 * cd)
+        .add_flow_sample(150, 152.3 * cd)
+        .add_flow_sample(200, 203.1 * cd)
+        .add_flow_sample(250, 216.7 * cd)
+        .add_flow_sample(300, 216.7 * cd)
+        .add_flow_sample(350, 216.7 * cd)
+        .add_flow_sample(400, 216.7 * cd)
+        .add_flow_sample(450, 216.7 * cd)
+}
+
+// Separate intake and exhaust camshafts, each with its own phaser advance.
+private node mazda_g20_camshafts {
+    input intake_lobe_profile;
+    input exhaust_lobe_profile;
+    input intake_lobe_center;
+    input exhaust_lobe_center;
+    input intake_advance;
+    input exhaust_advance;
+    input base_radius: 17 * units.mm;
+
+    output intake_cam: _intake_cam;
+    output exhaust_cam: _exhaust_cam;
+
+    camshaft_parameters intake_params(advance: intake_advance, base_radius: base_radius)
+    camshaft_parameters exhaust_params(advance: exhaust_advance, base_radius: base_radius)
+    camshaft _intake_cam(intake_params, lobe_profile: intake_lobe_profile)
+    camshaft _exhaust_cam(exhaust_params, lobe_profile: exhaust_lobe_profile)
+
+    // Firing order 1-3-4-2 (F): one event every 180 crank deg.
+    label rot(2 * (360 / 4.0) * units.deg)
+    label rot360(360 * units.deg)
+
+    _exhaust_cam
+        .add_lobe((rot360 - exhaust_lobe_center) + 0 * rot)
+        .add_lobe((rot360 - exhaust_lobe_center) + 3 * rot)
+        .add_lobe((rot360 - exhaust_lobe_center) + 1 * rot)
+        .add_lobe((rot360 - exhaust_lobe_center) + 2 * rot)
+
+    _intake_cam
+        .add_lobe(rot360 + intake_lobe_center + 0 * rot)
+        .add_lobe(rot360 + intake_lobe_center + 3 * rot)
+        .add_lobe(rot360 + intake_lobe_center + 1 * rot)
+        .add_lobe(rot360 + intake_lobe_center + 2 * rot)
+}
+
+public node mazda_skyactiv_g20 {
+    // Per-point operating state (EPA measured): spark timing, cam phaser
+    // positions (EPA convention: intake phase <= 0 = advance from rest,
+    // exhaust phase >= 0 = retard from rest), and lambda.
+    input spark_advance: 20 * units.deg;
+    input intake_cam_phase: 0 * units.deg;
+    input exhaust_cam_phase: 0 * units.deg;
+    input lambda: 1.0;
+    // Sign of the sim's camshaft advance relative to "events earlier": -1.
+    // Check (WOT 2000 rpm, spark 15 deg, intake phase -40): sign -1 gives
+    // 123.9 N m, +1 gives no combustion (IVC moved later); rest 33.4 N m.
+    input cam_advance_sign: -1.0;
+    input fuel: mazda_tier2_fuel();
+
+    // Breathing C values (U; plausible ranges stated). Only these may be
+    // set on the calibration subset against measured airflow.
+    input port_cd: 0.6;                              // shared head discharge coefficient
+    input plenum_volume: 2.5 * units.L;              // C 1.5-3.5 L
+    input runner_flow: 221.0;                        // C k_carb CFM, 40 mm eq. runner (35-45 mm)
+    input runner_length: 400 * units.mm;             // C 300-500 mm
+    input primary_length: 300 * units.mm;            // F Mazda patent example L1 ~ 300 mm (4-2-1)
+    input exhaust_outlet_flow: 400.0;                // C k_carb CFM; check vs catalyst inlet pressure
+    input intake_velocity_decay: 1.0;                // C runner loss, as other engines
+    // Cam duration at 0.050 in (C): the service diagram gives 258 / 241 deg
+    // at an unstated checking height. Read as seat-to-seat, the 0.050 in
+    // durations are ~30 deg shorter (this sim's harmonic lobe: Deere 230 deg
+    // seat-to-seat class = 200 deg at 0.050 in). Range 228-258 / 211-241.
+    input intake_duration: 228 * units.deg;
+    input exhaust_duration: 211 * units.deg;
+    input engine_name: "Mazda SKYACTIV-G 2.0 (13:1)";
+    alias output __out: engine;
+
+    label bore(83.5 * units.mm)                      // D
+    label stroke(91.2 * units.mm)                    // D
+    label compression_ratio(13.0)                    // D
+    label rod_length(155.2 * units.mm)               // F workshop manual
+    label compression_height(25.7 * units.mm)        // F TEIKIN 42220 / OE PEY2-11-SA0A
+    label displacement(constants.pi / 4 * bore * bore * stroke)
+    label chamber(displacement / (compression_ratio - 1))   // R 41.6 cc
+
+    // Intake lift: R from the exhaust lift 8.05 mm (F, BBR) and the lobe
+    // heights 41.57 / 40.37 mm (F, workshop manual), assuming a common base
+    // circle and a 1.5-1.8 rocker ratio -> 9.8-10.2 mm; 9.9 used (C).
+    label intake_lift(9.9 * units.mm)
+    label exhaust_lift(8.05 * units.mm)
+
+    engine engine(
+        name: engine_name,
+        starter_torque: 100 * units.lb_ft,
+        starter_speed: 300 * units.rpm,
+        redline: 6500 * units.rpm,
+        fuel: fuel,
+        component_friction: true,                    // S PNH
+        main_bearing_count: 5,                       // F
+        main_bearing_diameter: 47.0 * units.mm,      // F
+        main_bearing_length: 18.0 * units.mm,        // F Freccia MB19-105400
+        rod_bearing_diameter: 47.0 * units.mm,       // F
+        rod_bearing_length: 18.0 * units.mm,         // C (U; 15-20 mm)
+        cam_bearing_count: 10,                       // C DOHC, 5 per camshaft
+        valve_count: 16,                             // F
+        max_valve_lift: intake_lift,
+        // F: roller finger follower + HLA. Sandoval table 4.2 "DOHC finger
+        // follower" roller constants (flat term 0 for a roller follower).
+        valvetrain_flat_follower: 0.0,
+        valvetrain_roller_follower: 0.0227,
+        valvetrain_oscillating_hydrodynamic: 0.2,
+        valvetrain_oscillating_mixed: 25.8,
+        oil_viscosity_ratio: 1.0,                    // C Mazda 0W-20 at test temperature ~ reference
+        simulation_frequency: 10000,
+        hf_gain: 0.01,
+        noise: 1.0,
+        jitter: 0.1
+    )
+
+    mazda_g20_wires wires()
+
+    crankshaft c0(
+        throw: stroke / 2,
+        flywheel_mass: 8 * units.kg,                 // C
+        mass: 12 * units.kg,                         // C
+        friction_torque: 0.0 * units.lb_ft,          // PNH supplies friction
+        moment_of_inertia: 0.15,                     // C (kg m^2)
+        position_x: 0.0,
+        position_y: 0.0,
+        tdc: constants.pi / 2
+    )
+
+    rod_journal rj1(angle:   0 * units.deg)
+    rod_journal rj2(angle: 540 * units.deg)
+    rod_journal rj3(angle: 180 * units.deg)
+    rod_journal rj4(angle: 360 * units.deg)
+    c0
+        .add_rod_journal(rj1)
+        .add_rod_journal(rj2)
+        .add_rod_journal(rj3)
+        .add_rod_journal(rj4)
+
+    piston_parameters piston_params(
+        mass: 300 * units.g,                         // C
+        compression_height: compression_height,
+        wrist_pin_position: 0.0,
+        displacement: 0.0
+    )
+
+    connecting_rod_parameters rod_params(
+        mass: 450 * units.g,                         // C
+        moment_of_inertia: 0.0015,
+        center_of_mass: 0.0,
+        length: rod_length
+    )
+
+    cylinder_bank_parameters bank_params(
+        bore: bore,
+        deck_height: rod_length + stroke / 2 + compression_height
+    )
+
+    // Throttle: k_carb from the 52 mm plate (F, OE PE01-13-640 replacement),
+    // cd 0.9 -> 373 CFM. The measured MAP is imposed by setting the plate.
+    intake intake(
+        plenum_volume: plenum_volume,
+        plenum_cross_section_area: circle_area(26 * units.mm),
+        intake_flow_rate: k_carb(373),
+        runner_flow_rate: k_carb(runner_flow),
+        runner_length: runner_length,
+        idle_flow_rate: k_carb(0.0),
+        idle_throttle_plate_position: 0.995,
+        throttle_gamma: 1.0,
+        molecular_afr: lambda / 0.064,
+        velocity_decay: intake_velocity_decay
+    )
+
+    exhaust_system_parameters es_params(
+        collector_cross_section_area: circle_area(25 * units.mm),
+        outlet_flow_rate: k_carb(exhaust_outlet_flow),
+        primary_tube_length: primary_length,
+        primary_flow_rate: k_carb(300.0),
+        velocity_decay: 1.0,
+        volume: 4.0 * units.L
+    )
+
+    exhaust_system exhaust0(
+        es_params,
+        audio_volume: 1.0,
+        impulse_response: ir_lib.mild_exhaust_0
+    )
+
+    cylinder_bank b0(bank_params, angle: 0)
+    b0
+        .add_cylinder(
+            piston: piston(piston_params, blowby: k_28inH2O(0.05)),
+            connecting_rod: connecting_rod(rod_params),
+            rod_journal: rj1, intake: intake, exhaust_system: exhaust0,
+            ignition_wire: wires.wire1, primary_length: primary_length)
+        .add_cylinder(
+            piston: piston(piston_params, blowby: k_28inH2O(0.05)),
+            connecting_rod: connecting_rod(rod_params),
+            rod_journal: rj2, intake: intake, exhaust_system: exhaust0,
+            ignition_wire: wires.wire2, primary_length: primary_length)
+        .add_cylinder(
+            piston: piston(piston_params, blowby: k_28inH2O(0.05)),
+            connecting_rod: connecting_rod(rod_params),
+            rod_journal: rj3, intake: intake, exhaust_system: exhaust0,
+            ignition_wire: wires.wire3, primary_length: primary_length)
+        .add_cylinder(
+            piston: piston(piston_params, blowby: k_28inH2O(0.05)),
+            connecting_rod: connecting_rod(rod_params),
+            rod_journal: rj4, intake: intake, exhaust_system: exhaust0,
+            ignition_wire: wires.wire4, primary_length: primary_length)
+
+    engine.add_cylinder_bank(b0)
+    engine.add_crankshaft(c0)
+
+    // Cam events at phaser rest (F, Mazda3 2013-16 service valve-timing
+    // table; checking height unstated, used as the 0.050 in duration, C):
+    // intake IVO 32 ATDC / IVC 110 ABDC -> 258 deg, centre 161 deg ATDC;
+    // exhaust EVO 54 BBDC / EVC 7 ATDC -> 241 deg, centre 113.5 deg BTDC.
+    harmonic_cam_lobe intake_lobe(
+        duration_at_50_thou: intake_duration,
+        gamma: 1.1,
+        lift: intake_lift,
+        steps: 100
+    )
+    harmonic_cam_lobe exhaust_lobe(
+        duration_at_50_thou: exhaust_duration,
+        gamma: 1.1,
+        lift: exhaust_lift,
+        steps: 100
+    )
+
+    mazda_g20_camshafts camshafts(
+        intake_lobe_profile: intake_lobe,
+        exhaust_lobe_profile: exhaust_lobe,
+        intake_lobe_center: 161 * units.deg,
+        exhaust_lobe_center: 113.5 * units.deg,
+        // EPA phase -> events earlier by -intake phase / -exhaust phase
+        intake_advance: -cam_advance_sign * intake_cam_phase,
+        exhaust_advance: -cam_advance_sign * exhaust_cam_phase
+    )
+
+    b0.set_cylinder_head(
+        generic_cylinder_head(
+            chamber_volume: chamber,
+            intake_runner_volume: 150 * units.cc,                // C
+            intake_runner_cross_section_area: circle_area(20 * units.mm),
+            exhaust_runner_volume: 80 * units.cc,                // C
+            exhaust_runner_cross_section_area: circle_area(16 * units.mm),
+            intake_port_flow: mazda_g20_intake_flow(cd: port_cd),
+            exhaust_port_flow: mazda_g20_exhaust_flow(cd: port_cd),
+            valvetrain: standard_valvetrain(
+                intake_camshaft: camshafts.intake_cam,
+                exhaust_camshaft: camshafts.exhaust_cam
+            )
+        )
+    )
+
+    // Spark timing: the point's measured value at every speed (samples every
+    // 1000 rpm = filter radius).
+    function timing_curve(1000 * units.rpm)
+    timing_curve
+        .add_sample(0 * units.rpm, spark_advance)
+        .add_sample(1000 * units.rpm, spark_advance)
+        .add_sample(2000 * units.rpm, spark_advance)
+        .add_sample(3000 * units.rpm, spark_advance)
+        .add_sample(4000 * units.rpm, spark_advance)
+        .add_sample(5000 * units.rpm, spark_advance)
+        .add_sample(6000 * units.rpm, spark_advance)
+        .add_sample(7000 * units.rpm, spark_advance)
+
+    engine.add_ignition_module(
+        ignition_module(timing_curve: timing_curve, rev_limit: 6800 * units.rpm)
+            .connect_wire(wires.wire1, (0.0 / 4.0) * mazda_cycle)
+            .connect_wire(wires.wire3, (1.0 / 4.0) * mazda_cycle)
+            .connect_wire(wires.wire4, (2.0 / 4.0) * mazda_cycle)
+            .connect_wire(wires.wire2, (3.0 / 4.0) * mazda_cycle))
+}

@@ -1,0 +1,117 @@
+{
+  "research_freeze": "2026-09-30",
+  "classification": {
+    "D": "documented exact configuration",
+    "F": "documented family/compatible hardware, not exact configuration",
+    "R": "derived from documented inputs",
+    "C": "calibration/estimated",
+    "U": "unresolved"
+  },
+  "cummins": {
+    "na": {
+      "model": "4B3.9-G1",
+      "curve": "FR92340",
+      "configuration": "D381004GX02",
+      "cpl": 3114,
+      "revision": "00 15APR2009",
+      "aspiration": "NA",
+      "bore_mm": 102,
+      "stroke_mm": 120,
+      "displacement_L": 3.9,
+      "compression_ratio": 17.3,
+      "rated_rpm": 1500,
+      "prime_power_kW": 24,
+      "standby_power_kW": 27,
+      "rotating_inertia_no_flywheel_kgm2": 0.143,
+      "prime_airflow_Lps": 33,
+      "prime_egt_C": 380,
+      "prime_exhaust_flow_Lps": 68,
+      "prime_bsfc_gkWh": 245,
+      "prime_fuel_Lph": 7.1,
+      "idle_rpm": [
+        950,
+        1050
+      ]
+    },
+    "turbo": {
+      "model": "4BT3.9-G1",
+      "curve": "FR92341",
+      "configuration": "D382012GX02",
+      "cpl": 3115,
+      "revision": "00 15APR2009",
+      "aspiration": "turbo",
+      "bore_mm": 102,
+      "stroke_mm": 120,
+      "displacement_L": 3.9,
+      "compression_ratio": 17.3,
+      "rated_rpm": 1500,
+      "prime_power_kW": 36,
+      "standby_power_kW": 40,
+      "rotating_inertia_no_flywheel_kgm2": 0.143,
+      "prime_airflow_Lps": 44,
+      "prime_egt_C": 463,
+      "prime_exhaust_flow_Lps": 101,
+      "prime_bsfc_gkWh": 229,
+      "prime_fuel_Lph": 10.0,
+      "idle_rpm": [
+        800,
+        1000
+      ],
+      "exact_turbo_hardware": null
+    }
+  },
+  "john_deere": {
+    "na": {
+      "model": "4045DF150",
+      "pump_option": "1601",
+      "pump_original": "RE61649",
+      "pump_replacement": "RE67557",
+      "bore_mm": 106,
+      "stroke_mm": 127,
+      "displacement_L": 4.5,
+      "compression_ratio": 17.6,
+      "rated_rpm": 2500,
+      "continuous_power_kW": 54,
+      "intermittent_power_kW": 60,
+      "timing_original_deg_BTDC": 8.0,
+      "timing_replacement_deg_BTDC": 8.5,
+      "airflow_m3min_cont": 4.7,
+      "airflow_m3min_int": 4.7
+    },
+    "turbo": {
+      "model": "4045TF250",
+      "pump_option": "1606",
+      "pump_original": "RE64133",
+      "pump_replacement": "RE505927",
+      "bore_mm": 106,
+      "stroke_mm": 127,
+      "displacement_L": 4.5,
+      "compression_ratio": 17.0,
+      "rated_rpm": 2400,
+      "continuous_power_kW": 84,
+      "intermittent_power_kW": 93,
+      "timing_deg_BTDC": 4.5,
+      "boost_gauge_kPa": [
+        109,
+        133
+      ],
+      "airflow_m3min_cont": 8.2,
+      "airflow_m3min_int": 8.5,
+      "compatible_turbo_proxy": {
+        "assembly": "BorgWarner/Schwitzer 318615 S2A/S2A090",
+        "class": "F",
+        "compressor_diameters_mm": [
+          38.1,
+          60.95
+        ],
+        "compressor_blades": "6+6",
+        "turbine_diameters_mm": [
+          52.8,
+          61.0
+        ],
+        "turbine_blades": 10,
+        "warning": "Compatibility with 4045/4045T is documented; exact option1606 fitment is not yet proven."
+      }
+    }
+  }
+}

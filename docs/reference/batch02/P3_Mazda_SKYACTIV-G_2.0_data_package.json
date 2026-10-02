@@ -1,0 +1,1615 @@
+{
+  "title": "P3 — 2014 Mazda SKYACTIV-G 2.0 L (13:1) — EPA NVFEL data package",
+  "research_freeze": "2026-10-01",
+  "configuration_verdict": "Exact EPA test article is a naturally aspirated direct-injection 2014 Mazda SKYACTIV 2.0L used in Mazda3, 13.0:1 CR. Exact engine-code string/VIN not published in accessible EPA paper.",
+  "evidence_grades": {
+    "D": "documented for exact tested engine / EPA test data or paper",
+    "F": "documented SKYACTIV-G 2.0 family data; exact variant named in source/notes",
+    "R": "derived from documented values; formula in notes",
+    "U": "not found; blank rather than guessed"
+  },
+  "sections": {
+    "Configuration lock": [
+      {
+        "Parameter": "Test article",
+        "Value": "Naturally aspirated direct-injection 2014 Mazda SKYACTIV-G 2.0L used in Mazda3",
+        "Unit": "",
+        "Grade": "D",
+        "Source/locator": "Ellies, Schenk & Dekraker, Benchmarking and Hardware-in-the-Loop Operation of a 2014 MAZDA SkyActiv 2.0L 13:1 Compression Ratio Engine, SAE 2016-01-1007 — pp. 2–4; Table 1, Table 2, Figs. 1–5 — https://www.epa.gov/sites/default/files/2016-10/documents/2016-01-1007-benchmark-hil-operat-2014-mazda-skyactiv-2.0l.pdf",
+        "Notes": "Matches requested model year/vehicle/CR lock. EPA paper does not publish an engine-code string."
+      },
+      {
+        "Parameter": "Exact engine code of EPA test article",
+        "Value": "",
+        "Unit": "",
+        "Grade": "U",
+        "Source/locator": "",
+        "Notes": "North-American SKYACTIV-G 2.0 family is commonly identified as PE/PE-VPS, but EPA does not state the engine code. Do not promote family code to D."
+      },
+      {
+        "Parameter": "Market / CR",
+        "Value": "North America / 13.0:1",
+        "Unit": "",
+        "Grade": "D",
+        "Source/locator": "Ellies, Schenk & Dekraker, Benchmarking and Hardware-in-the-Loop Operation of a 2014 MAZDA SkyActiv 2.0L 13:1 Compression Ratio Engine, SAE 2016-01-1007 — pp. 2–4; Table 1, Table 2, Figs. 1–5 — https://www.epa.gov/sites/default/files/2016-10/documents/2016-01-1007-benchmark-hil-operat-2014-mazda-skyactiv-2.0l.pdf",
+        "Notes": ""
+      },
+      {
+        "Parameter": "Aspiration",
+        "Value": "Naturally aspirated",
+        "Unit": "",
+        "Grade": "D",
+        "Source/locator": "Ellies, Schenk & Dekraker, Benchmarking and Hardware-in-the-Loop Operation of a 2014 MAZDA SkyActiv 2.0L 13:1 Compression Ratio Engine, SAE 2016-01-1007 — pp. 2–4; Table 1, Table 2, Figs. 1–5 — https://www.epa.gov/sites/default/files/2016-10/documents/2016-01-1007-benchmark-hil-operat-2014-mazda-skyactiv-2.0l.pdf",
+        "Notes": ""
+      },
+      {
+        "Parameter": "Fuel system",
+        "Value": "Gasoline direct injection",
+        "Unit": "",
+        "Grade": "D",
+        "Source/locator": "Ellies, Schenk & Dekraker, Benchmarking and Hardware-in-the-Loop Operation of a 2014 MAZDA SkyActiv 2.0L 13:1 Compression Ratio Engine, SAE 2016-01-1007 — pp. 2–4; Table 1, Table 2, Figs. 1–5 — https://www.epa.gov/sites/default/files/2016-10/documents/2016-01-1007-benchmark-hil-operat-2014-mazda-skyactiv-2.0l.pdf",
+        "Notes": ""
+      },
+      {
+        "Parameter": "Displacement",
+        "Value": "1998",
+        "Unit": "cm³",
+        "Grade": "D",
+        "Source/locator": "Ellies, Schenk & Dekraker, Benchmarking and Hardware-in-the-Loop Operation of a 2014 MAZDA SkyActiv 2.0L 13:1 Compression Ratio Engine, SAE 2016-01-1007 — pp. 2–4; Table 1, Table 2, Figs. 1–5 — https://www.epa.gov/sites/default/files/2016-10/documents/2016-01-1007-benchmark-hil-operat-2014-mazda-skyactiv-2.0l.pdf",
+        "Notes": ""
+      },
+      {
+        "Parameter": "Bore",
+        "Value": "83.5 (3.287)",
+        "Unit": "mm (in)",
+        "Grade": "D",
+        "Source/locator": "Ellies, Schenk & Dekraker, Benchmarking and Hardware-in-the-Loop Operation of a 2014 MAZDA SkyActiv 2.0L 13:1 Compression Ratio Engine, SAE 2016-01-1007 — pp. 2–4; Table 1, Table 2, Figs. 1–5 — https://www.epa.gov/sites/default/files/2016-10/documents/2016-01-1007-benchmark-hil-operat-2014-mazda-skyactiv-2.0l.pdf",
+        "Notes": "3.287 in is SI-derived conversion."
+      },
+      {
+        "Parameter": "Stroke",
+        "Value": "91.2 (3.591)",
+        "Unit": "mm (in)",
+        "Grade": "D",
+        "Source/locator": "Ellies, Schenk & Dekraker, Benchmarking and Hardware-in-the-Loop Operation of a 2014 MAZDA SkyActiv 2.0L 13:1 Compression Ratio Engine, SAE 2016-01-1007 — pp. 2–4; Table 1, Table 2, Figs. 1–5 — https://www.epa.gov/sites/default/files/2016-10/documents/2016-01-1007-benchmark-hil-operat-2014-mazda-skyactiv-2.0l.pdf",
+        "Notes": "3.591 in is SI-derived conversion."
+      },
+      {
+        "Parameter": "Compression ratio",
+        "Value": "13.0:1",
+        "Unit": "",
+        "Grade": "D",
+        "Source/locator": "Ellies, Schenk & Dekraker, Benchmarking and Hardware-in-the-Loop Operation of a 2014 MAZDA SkyActiv 2.0L 13:1 Compression Ratio Engine, SAE 2016-01-1007 — pp. 2–4; Table 1, Table 2, Figs. 1–5 — https://www.epa.gov/sites/default/files/2016-10/documents/2016-01-1007-benchmark-hil-operat-2014-mazda-skyactiv-2.0l.pdf",
+        "Notes": ""
+      },
+      {
+        "Parameter": "Rated power",
+        "Value": "115 @ 6000",
+        "Unit": "kW @ rpm",
+        "Grade": "D",
+        "Source/locator": "Ellies, Schenk & Dekraker, Benchmarking and Hardware-in-the-Loop Operation of a 2014 MAZDA SkyActiv 2.0L 13:1 Compression Ratio Engine, SAE 2016-01-1007 — pp. 2–4; Table 1, Table 2, Figs. 1–5 — https://www.epa.gov/sites/default/files/2016-10/documents/2016-01-1007-benchmark-hil-operat-2014-mazda-skyactiv-2.0l.pdf",
+        "Notes": "EPA/SAE Table 1."
+      },
+      {
+        "Parameter": "Rated torque",
+        "Value": "203 @ 4000",
+        "Unit": "N·m @ rpm",
+        "Grade": "D",
+        "Source/locator": "Ellies, Schenk & Dekraker, Benchmarking and Hardware-in-the-Loop Operation of a 2014 MAZDA SkyActiv 2.0L 13:1 Compression Ratio Engine, SAE 2016-01-1007 — pp. 2–4; Table 1, Table 2, Figs. 1–5 — https://www.epa.gov/sites/default/files/2016-10/documents/2016-01-1007-benchmark-hil-operat-2014-mazda-skyactiv-2.0l.pdf",
+        "Notes": "EPA/SAE Table 1."
+      },
+      {
+        "Parameter": "Peak fuel-rail pressure",
+        "Value": "200 (20)",
+        "Unit": "bar (MPa)",
+        "Grade": "D",
+        "Source/locator": "Ellies, Schenk & Dekraker, Benchmarking and Hardware-in-the-Loop Operation of a 2014 MAZDA SkyActiv 2.0L 13:1 Compression Ratio Engine, SAE 2016-01-1007 — pp. 2–4; Table 1, Table 2, Figs. 1–5 — https://www.epa.gov/sites/default/files/2016-10/documents/2016-01-1007-benchmark-hil-operat-2014-mazda-skyactiv-2.0l.pdf",
+        "Notes": "Maximum system capability stated by EPA."
+      },
+      {
+        "Parameter": "Formal rated-power standard",
+        "Value": "",
+        "Unit": "",
+        "Grade": "U",
+        "Source/locator": "",
+        "Notes": "Neither SAE 2016-01-1007 nor the accessible EPA package documentation explicitly binds the 115 kW rating to SAE J1349/J1995."
+      }
+    ],
+    "Part A1 — Primary EPA files": [
+      {
+        "Parameter": "EPA benchmark paper",
+        "Value": "https://www.epa.gov/sites/default/files/2016-10/documents/2016-01-1007-benchmark-hil-operat-2014-mazda-skyactiv-2.0l.pdf",
+        "Unit": "URL",
+        "Grade": "D",
+        "Source/locator": "Ellies, Schenk & Dekraker, Benchmarking and Hardware-in-the-Loop Operation of a 2014 MAZDA SkyActiv 2.0L 13:1 Compression Ratio Engine, SAE 2016-01-1007 — pp. 2–4; Table 1, Table 2, Figs. 1–5 — https://www.epa.gov/sites/default/files/2016-10/documents/2016-01-1007-benchmark-hil-operat-2014-mazda-skyactiv-2.0l.pdf",
+        "Notes": "Main exact-engine paper."
+      },
+      {
+        "Parameter": "EPA Tier 2 core test package (2016)",
+        "Value": "https://www.epa.gov/sites/production/files/2016-10/2014-mazda-2.0l-skyactiv-13-1-tier2-fuel-engine-mapping-core-test-package-06-28-16.zip",
+        "Unit": "URL",
+        "Grade": "D",
+        "Source/locator": "U.S. EPA, 2014 Mazda 2.0L Skyactiv 13-1 Tier 2 Fuel — Engine Mapping Core Test Package — Docket EPA-HQ-OAR-2015-0827-0533; ZIP package — https://www.epa.gov/sites/production/files/2016-10/2014-mazda-2.0l-skyactiv-13-1-tier2-fuel-engine-mapping-core-test-package-06-28-16.zip",
+        "Notes": "Core workbook plus WOT/motoring files; docket EPA-HQ-OAR-2015-0827-0533."
+      },
+      {
+        "Parameter": "EPA Tier 2 expanded test package (2018)",
+        "Value": "https://www.epa.gov/sites/default/files/2018-04/2014-mazda-2.0l-skyactiv-engine-tier-2-fuel-test-data-package-03-29-18.zip",
+        "Unit": "URL",
+        "Grade": "D",
+        "Source/locator": "U.S. EPA, 2014 Mazda 2.0L Skyactiv Engine Tier 2 Fuel Test Data Package (03-29-18) — EPA benchmarking portal; ZIP package — https://www.epa.gov/sites/default/files/2018-04/2014-mazda-2.0l-skyactiv-engine-tier-2-fuel-test-data-package-03-29-18.zip",
+        "Notes": ""
+      },
+      {
+        "Parameter": "EPA LEV III fuel test package (2018)",
+        "Value": "https://www.epa.gov/sites/default/files/2018-04/2014-mazda-2-0l-skyactiv-engine-lev-3-fuel-test-data-package-03-29-18.zip",
+        "Unit": "URL",
+        "Grade": "D",
+        "Source/locator": "U.S. EPA, 2014 Mazda 2.0L Skyactiv Engine LEV III Fuel Test Data Package (03-29-18) — EPA benchmarking portal; ZIP package — https://www.epa.gov/sites/default/files/2018-04/2014-mazda-2-0l-skyactiv-engine-lev-3-fuel-test-data-package-03-29-18.zip",
+        "Notes": ""
+      },
+      {
+        "Parameter": "EPA Tier 2 complete ALPHA map package",
+        "Value": "https://www.epa.gov/sites/default/files/2018-04/2014-mazda-2.0l-skyactiv-engine-tier-2-fuel-alpha-map-package-03-29-18.zip",
+        "Unit": "URL",
+        "Grade": "D",
+        "Source/locator": "U.S. EPA, 2014 Mazda 2.0L Skyactiv Engine Tier 2 Fuel — ALPHA Map Package (03-29-18) — EPA complete-engine-ALPHA-maps portal; ZIP package — https://www.epa.gov/sites/default/files/2018-04/2014-mazda-2.0l-skyactiv-engine-tier-2-fuel-alpha-map-package-03-29-18.zip",
+        "Notes": "Contains tabular map/spreadsheet, process documentation and ALPHA/Matlab-format engine definition."
+      },
+      {
+        "Parameter": "EPA LEV III complete ALPHA map package",
+        "Value": "https://www.epa.gov/sites/default/files/2018-04/2014-mazda-2-0l-skyactiv-engine-lev-3-fuel-alpha-map-package-03-29-18.zip",
+        "Unit": "URL",
+        "Grade": "D",
+        "Source/locator": "U.S. EPA, 2014 Mazda 2.0L Skyactiv Engine LEV III Fuel — ALPHA Map Package (03-29-18) — EPA complete-engine-ALPHA-maps portal; ZIP package — https://www.epa.gov/sites/default/files/2018-04/2014-mazda-2-0l-skyactiv-engine-lev-3-fuel-alpha-map-package-03-29-18.zip",
+        "Notes": ""
+      },
+      {
+        "Parameter": "EPA map-generation process document",
+        "Value": "https://www.epa.gov/sites/production/files/2016-11/documents/procs-gen-eng-fuel-cons-map-2014-mazda-2-0l-skyact.pdf",
+        "Unit": "URL",
+        "Grade": "D",
+        "Source/locator": "U.S. EPA, Process for Generating Engine Fuel Consumption Map (Mazda SKYACTIV 2.0L engine using Tier 2 fuel), v. 11-28-2016 — pp. 1–7; core-data/WOT/motoring import code; fuel-property block — https://www.epa.gov/sites/production/files/2016-11/documents/procs-gen-eng-fuel-cons-map-2014-mazda-2-0l-skyact.pdf",
+        "Notes": ""
+      }
+    ],
+    "Part A2 — Steady-state fuel map": [
+      {
+        "Parameter": "Steady-state map coverage",
+        "Value": ">200 points; idle 750 to 4500 rpm",
+        "Unit": "rpm / points",
+        "Grade": "D",
+        "Source/locator": "Ellies, Schenk & Dekraker, Benchmarking and Hardware-in-the-Loop Operation of a 2014 MAZDA SkyActiv 2.0L 13:1 Compression Ratio Engine, SAE 2016-01-1007 — pp. 2–4; Table 1, Table 2, Figs. 1–5 — https://www.epa.gov/sites/default/files/2016-10/documents/2016-01-1007-benchmark-hil-operat-2014-mazda-skyactiv-2.0l.pdf",
+        "Notes": "EPA measured steady-state engine-dynamometer points."
+      },
+      {
+        "Parameter": "Core workbook",
+        "Value": "2014 Mazda 2.0L Skyactiv 13-1 Tier 2 Fuel - Core Test Data.xlsx",
+        "Unit": "file",
+        "Grade": "D",
+        "Source/locator": "U.S. EPA, Process for Generating Engine Fuel Consumption Map (Mazda SKYACTIV 2.0L engine using Tier 2 fuel), v. 11-28-2016 — pp. 1–7; core-data/WOT/motoring import code; fuel-property block — https://www.epa.gov/sites/production/files/2016-11/documents/procs-gen-eng-fuel-cons-map-2014-mazda-2-0l-skyact.pdf",
+        "Notes": "Process document imports this workbook."
+      },
+      {
+        "Parameter": "Core speed column",
+        "Value": "Speed",
+        "Unit": "rpm",
+        "Grade": "D",
+        "Source/locator": "U.S. EPA, Process for Generating Engine Fuel Consumption Map (Mazda SKYACTIV 2.0L engine using Tier 2 fuel), v. 11-28-2016 — pp. 1–7; core-data/WOT/motoring import code; fuel-property block — https://www.epa.gov/sites/production/files/2016-11/documents/procs-gen-eng-fuel-cons-map-2014-mazda-2-0l-skyact.pdf",
+        "Notes": "Mapped by EPA code to fuel_data.speed_rpm."
+      },
+      {
+        "Parameter": "Core torque column",
+        "Value": "Torque",
+        "Unit": "N·m",
+        "Grade": "D",
+        "Source/locator": "U.S. EPA, Process for Generating Engine Fuel Consumption Map (Mazda SKYACTIV 2.0L engine using Tier 2 fuel), v. 11-28-2016 — pp. 1–7; core-data/WOT/motoring import code; fuel-property block — https://www.epa.gov/sites/production/files/2016-11/documents/procs-gen-eng-fuel-cons-map-2014-mazda-2-0l-skyact.pdf",
+        "Notes": "Mapped by EPA code to fuel_data.torque_Nm."
+      },
+      {
+        "Parameter": "Core fuel-flow column",
+        "Value": "Fuel_Flow",
+        "Unit": "g/s",
+        "Grade": "D",
+        "Source/locator": "U.S. EPA, Process for Generating Engine Fuel Consumption Map (Mazda SKYACTIV 2.0L engine using Tier 2 fuel), v. 11-28-2016 — pp. 1–7; core-data/WOT/motoring import code; fuel-property block — https://www.epa.gov/sites/production/files/2016-11/documents/procs-gen-eng-fuel-cons-map-2014-mazda-2-0l-skyact.pdf",
+        "Notes": "Mapped by EPA code to fuel_data.fuel_gps."
+      },
+      {
+        "Parameter": "Complete ALPHA map cells",
+        "Value": "Available in Tier 2/LEV III ALPHA ZIP spreadsheets",
+        "Unit": "speed × torque × g/s",
+        "Grade": "D",
+        "Source/locator": "U.S. EPA, 2014 Mazda 2.0L Skyactiv Engine Tier 2 Fuel — ALPHA Map Package (03-29-18) — EPA complete-engine-ALPHA-maps portal; ZIP package — https://www.epa.gov/sites/default/files/2018-04/2014-mazda-2.0l-skyactiv-engine-tier-2-fuel-alpha-map-package-03-29-18.zip",
+        "Notes": "Not retyped here per request. Generated/interpolated complete grid must not be confused with >200 raw measured points."
+      },
+      {
+        "Parameter": "Peak BTE",
+        "Value": ">37 small region; >36 broad region",
+        "Unit": "%",
+        "Grade": "D",
+        "Source/locator": "Ellies, Schenk & Dekraker, Benchmarking and Hardware-in-the-Loop Operation of a 2014 MAZDA SkyActiv 2.0L 13:1 Compression Ratio Engine, SAE 2016-01-1007 — pp. 2–4; Table 1, Table 2, Figs. 1–5 — https://www.epa.gov/sites/default/files/2016-10/documents/2016-01-1007-benchmark-hil-operat-2014-mazda-skyactiv-2.0l.pdf",
+        "Notes": "Figure 2, LEV III regular fuel."
+      },
+      {
+        "Parameter": "Independent BSFC map cross-check",
+        "Value": "Measured 13:1 BSFC map shown",
+        "Unit": "g/kWh contours",
+        "Grade": "D",
+        "Source/locator": "Lee, Schenk & McDonald, Air Flow Optimization and Calibration in High-Compression-Ratio Naturally Aspirated SI Engines with Cooled-EGR, SAE 2016-01-0565 — pp. 1–5; Figs. 1–14 — https://www.epa.gov/sites/default/files/2016-10/documents/2016-01-0565-air-flow-optim-calib-nat-asp-eng_0.pdf",
+        "Notes": "Figure 1/Figure 13 reuses EPA benchmark data; useful cross-publication check, not an independent test campaign."
+      }
+    ],
+    "Part A4 — Motoring / friction": [
+      {
+        "Parameter": "Motoring source file",
+        "Value": "0% Throttle Curve.csv",
+        "Unit": "file",
+        "Grade": "D",
+        "Source/locator": "U.S. EPA, Process for Generating Engine Fuel Consumption Map (Mazda SKYACTIV 2.0L engine using Tier 2 fuel), v. 11-28-2016 — pp. 1–7; core-data/WOT/motoring import code; fuel-property block — https://www.epa.gov/sites/production/files/2016-11/documents/procs-gen-eng-fuel-cons-map-2014-mazda-2-0l-skyact.pdf",
+        "Notes": "EPA process document imports CAN_dyno_spd and CAN_dyno_trq."
+      },
+      {
+        "Parameter": "Motoring method",
+        "Value": "Closed/0%-throttle minimum-torque curve; points <1350 rpm excluded because fuel was still used",
+        "Unit": "",
+        "Grade": "D",
+        "Source/locator": "U.S. EPA, Process for Generating Engine Fuel Consumption Map (Mazda SKYACTIV 2.0L engine using Tier 2 fuel), v. 11-28-2016 — pp. 1–7; core-data/WOT/motoring import code; fuel-property block — https://www.epa.gov/sites/production/files/2016-11/documents/procs-gen-eng-fuel-cons-map-2014-mazda-2-0l-skyact.pdf",
+        "Notes": ""
+      },
+      {
+        "Parameter": "Motoring oil temperature",
+        "Value": "",
+        "Unit": "°C",
+        "Grade": "U",
+        "Source/locator": "",
+        "Notes": "Not stated in accessible Mazda map-process document."
+      },
+      {
+        "Parameter": "Motoring coolant temperature",
+        "Value": "",
+        "Unit": "°C",
+        "Grade": "U",
+        "Source/locator": "",
+        "Notes": "Not stated in accessible Mazda map-process document."
+      }
+    ],
+    "Part A5 — Test fuels": [
+      {
+        "Parameter": "LEV III regular AKI",
+        "Value": "88.1",
+        "Unit": "(RON+MON)/2",
+        "Grade": "D",
+        "Source/locator": "Ellies, Schenk & Dekraker, Benchmarking and Hardware-in-the-Loop Operation of a 2014 MAZDA SkyActiv 2.0L 13:1 Compression Ratio Engine, SAE 2016-01-1007 — pp. 2–4; Table 1, Table 2, Figs. 1–5 — https://www.epa.gov/sites/default/files/2016-10/documents/2016-01-1007-benchmark-hil-operat-2014-mazda-skyactiv-2.0l.pdf",
+        "Notes": "Table 2."
+      },
+      {
+        "Parameter": "LEV III ethanol content",
+        "Value": "9.6",
+        "Unit": "vol %",
+        "Grade": "D",
+        "Source/locator": "Ellies, Schenk & Dekraker, Benchmarking and Hardware-in-the-Loop Operation of a 2014 MAZDA SkyActiv 2.0L 13:1 Compression Ratio Engine, SAE 2016-01-1007 — pp. 2–4; Table 1, Table 2, Figs. 1–5 — https://www.epa.gov/sites/default/files/2016-10/documents/2016-01-1007-benchmark-hil-operat-2014-mazda-skyactiv-2.0l.pdf",
+        "Notes": "ASTM D5599."
+      },
+      {
+        "Parameter": "LEV III vapor pressure",
+        "Value": "7.0 (48.3)",
+        "Unit": "psi (kPa)",
+        "Grade": "D",
+        "Source/locator": "Ellies, Schenk & Dekraker, Benchmarking and Hardware-in-the-Loop Operation of a 2014 MAZDA SkyActiv 2.0L 13:1 Compression Ratio Engine, SAE 2016-01-1007 — pp. 2–4; Table 1, Table 2, Figs. 1–5 — https://www.epa.gov/sites/default/files/2016-10/documents/2016-01-1007-benchmark-hil-operat-2014-mazda-skyactiv-2.0l.pdf",
+        "Notes": "ASTM D5191; kPa converted."
+      },
+      {
+        "Parameter": "LEV III net heating value",
+        "Value": "17,955 (41.763)",
+        "Unit": "BTU/lb (MJ/kg)",
+        "Grade": "D",
+        "Source/locator": "Ellies, Schenk & Dekraker, Benchmarking and Hardware-in-the-Loop Operation of a 2014 MAZDA SkyActiv 2.0L 13:1 Compression Ratio Engine, SAE 2016-01-1007 — pp. 2–4; Table 1, Table 2, Figs. 1–5 — https://www.epa.gov/sites/default/files/2016-10/documents/2016-01-1007-benchmark-hil-operat-2014-mazda-skyactiv-2.0l.pdf",
+        "Notes": "ASTM D240; SI value derived from original."
+      },
+      {
+        "Parameter": "LEV III density",
+        "Value": "0.7502 (750.2)",
+        "Unit": "g/cm³ (kg/m³)",
+        "Grade": "D",
+        "Source/locator": "Ellies, Schenk & Dekraker, Benchmarking and Hardware-in-the-Loop Operation of a 2014 MAZDA SkyActiv 2.0L 13:1 Compression Ratio Engine, SAE 2016-01-1007 — pp. 2–4; Table 1, Table 2, Figs. 1–5 — https://www.epa.gov/sites/default/files/2016-10/documents/2016-01-1007-benchmark-hil-operat-2014-mazda-skyactiv-2.0l.pdf",
+        "Notes": "ASTM D4052."
+      },
+      {
+        "Parameter": "LEV III RON",
+        "Value": "",
+        "Unit": "",
+        "Grade": "U",
+        "Source/locator": "",
+        "Notes": "Paper reports AKI but not separate RON/MON."
+      },
+      {
+        "Parameter": "LEV III MON",
+        "Value": "",
+        "Unit": "",
+        "Grade": "U",
+        "Source/locator": "",
+        "Notes": "Paper reports AKI but not separate RON/MON."
+      },
+      {
+        "Parameter": "LEV III carbon mass fraction",
+        "Value": "",
+        "Unit": "",
+        "Grade": "U",
+        "Source/locator": "",
+        "Notes": "Not found in accessible exact-fuel documentation."
+      },
+      {
+        "Parameter": "Tier 2 certification AKI",
+        "Value": "92.6",
+        "Unit": "(RON+MON)/2",
+        "Grade": "D",
+        "Source/locator": "Ellies, Schenk & Dekraker, Benchmarking and Hardware-in-the-Loop Operation of a 2014 MAZDA SkyActiv 2.0L 13:1 Compression Ratio Engine, SAE 2016-01-1007 — pp. 2–4; Table 1, Table 2, Figs. 1–5 — https://www.epa.gov/sites/default/files/2016-10/documents/2016-01-1007-benchmark-hil-operat-2014-mazda-skyactiv-2.0l.pdf",
+        "Notes": "Table 2."
+      },
+      {
+        "Parameter": "Tier 2 RON",
+        "Value": "97.1",
+        "Unit": "",
+        "Grade": "D",
+        "Source/locator": "U.S. EPA, Process for Generating Engine Fuel Consumption Map (Mazda SKYACTIV 2.0L engine using Tier 2 fuel), v. 11-28-2016 — pp. 1–7; core-data/WOT/motoring import code; fuel-property block — https://www.epa.gov/sites/production/files/2016-11/documents/procs-gen-eng-fuel-cons-map-2014-mazda-2-0l-skyact.pdf",
+        "Notes": "Fuel database FTAG 23945."
+      },
+      {
+        "Parameter": "Tier 2 MON",
+        "Value": "88.2",
+        "Unit": "",
+        "Grade": "D",
+        "Source/locator": "U.S. EPA, Process for Generating Engine Fuel Consumption Map (Mazda SKYACTIV 2.0L engine using Tier 2 fuel), v. 11-28-2016 — pp. 1–7; core-data/WOT/motoring import code; fuel-property block — https://www.epa.gov/sites/production/files/2016-11/documents/procs-gen-eng-fuel-cons-map-2014-mazda-2-0l-skyact.pdf",
+        "Notes": "Fuel database FTAG 23945."
+      },
+      {
+        "Parameter": "Tier 2 ethanol content",
+        "Value": "0.0",
+        "Unit": "vol %",
+        "Grade": "D",
+        "Source/locator": "Ellies, Schenk & Dekraker, Benchmarking and Hardware-in-the-Loop Operation of a 2014 MAZDA SkyActiv 2.0L 13:1 Compression Ratio Engine, SAE 2016-01-1007 — pp. 2–4; Table 1, Table 2, Figs. 1–5 — https://www.epa.gov/sites/default/files/2016-10/documents/2016-01-1007-benchmark-hil-operat-2014-mazda-skyactiv-2.0l.pdf",
+        "Notes": ""
+      },
+      {
+        "Parameter": "Tier 2 vapor pressure",
+        "Value": "9.2 (63.4)",
+        "Unit": "psi (kPa)",
+        "Grade": "D",
+        "Source/locator": "Ellies, Schenk & Dekraker, Benchmarking and Hardware-in-the-Loop Operation of a 2014 MAZDA SkyActiv 2.0L 13:1 Compression Ratio Engine, SAE 2016-01-1007 — pp. 2–4; Table 1, Table 2, Figs. 1–5 — https://www.epa.gov/sites/default/files/2016-10/documents/2016-01-1007-benchmark-hil-operat-2014-mazda-skyactiv-2.0l.pdf",
+        "Notes": ""
+      },
+      {
+        "Parameter": "Tier 2 net heating value",
+        "Value": "18,438 (42.887; EPA DB 42.887)",
+        "Unit": "BTU/lb (MJ/kg)",
+        "Grade": "D",
+        "Source/locator": "Ellies, Schenk & Dekraker, Benchmarking and Hardware-in-the-Loop Operation of a 2014 MAZDA SkyActiv 2.0L 13:1 Compression Ratio Engine, SAE 2016-01-1007 — pp. 2–4; Table 1, Table 2, Figs. 1–5 — https://www.epa.gov/sites/default/files/2016-10/documents/2016-01-1007-benchmark-hil-operat-2014-mazda-skyactiv-2.0l.pdf",
+        "Notes": "EPA process fuel database gives 42.887 MJ/kg directly."
+      },
+      {
+        "Parameter": "Tier 2 density",
+        "Value": "0.7430 (743.0)",
+        "Unit": "g/cm³ (kg/m³)",
+        "Grade": "D",
+        "Source/locator": "Ellies, Schenk & Dekraker, Benchmarking and Hardware-in-the-Loop Operation of a 2014 MAZDA SkyActiv 2.0L 13:1 Compression Ratio Engine, SAE 2016-01-1007 — pp. 2–4; Table 1, Table 2, Figs. 1–5 — https://www.epa.gov/sites/default/files/2016-10/documents/2016-01-1007-benchmark-hil-operat-2014-mazda-skyactiv-2.0l.pdf",
+        "Notes": ""
+      },
+      {
+        "Parameter": "Tier 2 carbon mass fraction",
+        "Value": "0.86678",
+        "Unit": "mass fraction",
+        "Grade": "D",
+        "Source/locator": "U.S. EPA, Process for Generating Engine Fuel Consumption Map (Mazda SKYACTIV 2.0L engine using Tier 2 fuel), v. 11-28-2016 — pp. 1–7; core-data/WOT/motoring import code; fuel-property block — https://www.epa.gov/sites/production/files/2016-11/documents/procs-gen-eng-fuel-cons-map-2014-mazda-2-0l-skyact.pdf",
+        "Notes": "FTAG 23945 fuel database."
+      },
+      {
+        "Parameter": "Tier 2 specific gravity",
+        "Value": "0.74371",
+        "Unit": "",
+        "Grade": "D",
+        "Source/locator": "U.S. EPA, Process for Generating Engine Fuel Consumption Map (Mazda SKYACTIV 2.0L engine using Tier 2 fuel), v. 11-28-2016 — pp. 1–7; core-data/WOT/motoring import code; fuel-property block — https://www.epa.gov/sites/production/files/2016-11/documents/procs-gen-eng-fuel-cons-map-2014-mazda-2-0l-skyact.pdf",
+        "Notes": ""
+      },
+      {
+        "Parameter": "Tier 2 dataset",
+        "Value": "Core Test Data / WOT / motoring / base ALPHA map",
+        "Unit": "",
+        "Grade": "D",
+        "Source/locator": "U.S. EPA, Process for Generating Engine Fuel Consumption Map (Mazda SKYACTIV 2.0L engine using Tier 2 fuel), v. 11-28-2016 — pp. 1–7; core-data/WOT/motoring import code; fuel-property block — https://www.epa.gov/sites/production/files/2016-11/documents/procs-gen-eng-fuel-cons-map-2014-mazda-2-0l-skyact.pdf",
+        "Notes": ""
+      },
+      {
+        "Parameter": "LEV III dataset",
+        "Value": "Separate EPA LEV III package; Figure 2 BTE map in SAE 2016-01-1007",
+        "Unit": "",
+        "Grade": "D",
+        "Source/locator": "Ellies, Schenk & Dekraker, Benchmarking and Hardware-in-the-Loop Operation of a 2014 MAZDA SkyActiv 2.0L 13:1 Compression Ratio Engine, SAE 2016-01-1007 — pp. 2–4; Table 1, Table 2, Figs. 1–5 — https://www.epa.gov/sites/default/files/2016-10/documents/2016-01-1007-benchmark-hil-operat-2014-mazda-skyactiv-2.0l.pdf",
+        "Notes": ""
+      }
+    ],
+    "Part A6 — Test conditions": [
+      {
+        "Parameter": "Test facility",
+        "Value": "EPA National Vehicle and Fuel Emissions Laboratory (NVFEL), engine dynamometer cell",
+        "Unit": "",
+        "Grade": "D",
+        "Source/locator": "Ellies, Schenk & Dekraker, Benchmarking and Hardware-in-the-Loop Operation of a 2014 MAZDA SkyActiv 2.0L 13:1 Compression Ratio Engine, SAE 2016-01-1007 — pp. 2–4; Table 1, Table 2, Figs. 1–5 — https://www.epa.gov/sites/default/files/2016-10/documents/2016-01-1007-benchmark-hil-operat-2014-mazda-skyactiv-2.0l.pdf",
+        "Notes": ""
+      },
+      {
+        "Parameter": "ECU/control setup",
+        "Value": "Production ECU tethered to complete donor vehicle outside test cell",
+        "Unit": "",
+        "Grade": "D",
+        "Source/locator": "Ellies, Schenk & Dekraker, Benchmarking and Hardware-in-the-Loop Operation of a 2014 MAZDA SkyActiv 2.0L 13:1 Compression Ratio Engine, SAE 2016-01-1007 — pp. 2–4; Table 1, Table 2, Figs. 1–5 — https://www.epa.gov/sites/default/files/2016-10/documents/2016-01-1007-benchmark-hil-operat-2014-mazda-skyactiv-2.0l.pdf",
+        "Notes": ""
+      },
+      {
+        "Parameter": "Intake-air temperature",
+        "Value": "",
+        "Unit": "°C",
+        "Grade": "U",
+        "Source/locator": "",
+        "Notes": "Not stated numerically in accessible exact-engine paper/process document."
+      },
+      {
+        "Parameter": "Intake-air humidity",
+        "Value": "",
+        "Unit": "%RH or g/kg",
+        "Grade": "U",
+        "Source/locator": "",
+        "Notes": "Not stated numerically."
+      },
+      {
+        "Parameter": "Barometric pressure",
+        "Value": "",
+        "Unit": "kPa",
+        "Grade": "U",
+        "Source/locator": "",
+        "Notes": "Not stated numerically."
+      },
+      {
+        "Parameter": "Coolant temperature during steady-state map",
+        "Value": "",
+        "Unit": "°C",
+        "Grade": "U",
+        "Source/locator": "",
+        "Notes": "Not stated numerically in accessible exact-engine sources."
+      },
+      {
+        "Parameter": "Oil temperature during steady-state map",
+        "Value": "",
+        "Unit": "°C",
+        "Grade": "U",
+        "Source/locator": "",
+        "Notes": "Not stated numerically in accessible exact-engine sources."
+      },
+      {
+        "Parameter": "Dyno intake system",
+        "Value": "EPA later model-validation work states Mazda air box/throttle/intake geometry were physically measured",
+        "Unit": "",
+        "Grade": "D",
+        "Source/locator": "Lee, Schenk & McDonald, Air Flow Optimization and Calibration in High-Compression-Ratio Naturally Aspirated SI Engines with Cooled-EGR, SAE 2016-01-0565 — pp. 1–5; Figs. 1–14 — https://www.epa.gov/sites/default/files/2016-10/documents/2016-01-0565-air-flow-optim-calib-nat-asp-eng_0.pdf",
+        "Notes": "Does not by itself prove every core-map point used an untouched production air box; exact configuration wording not explicit."
+      },
+      {
+        "Parameter": "Dyno exhaust system",
+        "Value": "",
+        "Unit": "",
+        "Grade": "U",
+        "Source/locator": "",
+        "Notes": "Exact core-map exhaust hardware configuration not stated in accessible paper/process document."
+      },
+      {
+        "Parameter": "Power-correction standard",
+        "Value": "",
+        "Unit": "",
+        "Grade": "U",
+        "Source/locator": "",
+        "Notes": "No exact SAE/DIN/ISO correction standard identified for the dyno map/rated figure."
+      }
+    ],
+    "Part A7 — Measurement uncertainty": [
+      {
+        "Parameter": "Mazda-specific torque uncertainty",
+        "Value": "",
+        "Unit": "N·m",
+        "Grade": "U",
+        "Source/locator": "",
+        "Notes": "SAE 2016-01-1007 does not state a Mazda-specific value."
+      },
+      {
+        "Parameter": "Mazda-specific fuel-flow uncertainty",
+        "Value": "",
+        "Unit": "g/s",
+        "Grade": "U",
+        "Source/locator": "",
+        "Notes": "Not stated in accessible Mazda paper."
+      },
+      {
+        "Parameter": "Mazda-specific speed uncertainty",
+        "Value": "",
+        "Unit": "rpm",
+        "Grade": "U",
+        "Source/locator": "",
+        "Notes": "Not stated in accessible Mazda paper."
+      },
+      {
+        "Parameter": "EPA benchmark family torque uncertainty",
+        "Value": "0.49",
+        "Unit": "N·m",
+        "Grade": "F",
+        "Source/locator": "Stuhldreher et al., Downsized Boosted Engine Benchmarking and Results, SAE 2015-01-1266 — EPA benchmark instrumentation/uncertainty methodology; uncertainty discussion — https://www.epa.gov/sites/default/files/2016-10/documents/2015-01-1266_0.pdf",
+        "Notes": "Prior EPA benchmarking program; Mazda paper says instrumentation details are consistent with other recent EPA benchmarking programs, but this is not exact-engine D evidence."
+      },
+      {
+        "Parameter": "EPA benchmark family speed uncertainty",
+        "Value": "0.55",
+        "Unit": "rpm",
+        "Grade": "F",
+        "Source/locator": "Stuhldreher et al., Downsized Boosted Engine Benchmarking and Results, SAE 2015-01-1266 — EPA benchmark instrumentation/uncertainty methodology; uncertainty discussion — https://www.epa.gov/sites/default/files/2016-10/documents/2015-01-1266_0.pdf",
+        "Notes": "Same caveat."
+      },
+      {
+        "Parameter": "EPA benchmark family low-load fuel-flow uncertainty",
+        "Value": "0.0049",
+        "Unit": "g/s",
+        "Grade": "F",
+        "Source/locator": "Stuhldreher et al., Downsized Boosted Engine Benchmarking and Results, SAE 2015-01-1266 — EPA benchmark instrumentation/uncertainty methodology; uncertainty discussion — https://www.epa.gov/sites/default/files/2016-10/documents/2015-01-1266_0.pdf",
+        "Notes": "Same caveat."
+      }
+    ],
+    "Part B — Logged operating state": [
+      {
+        "Parameter": "Spark advance per core map point",
+        "Value": "",
+        "Unit": "deg BTDC",
+        "Grade": "U",
+        "Source/locator": "",
+        "Notes": "EPA 2016-01-0565 confirms spark ignition was collected in additional NVFEL dyno data, but accessible package/process documentation does not enumerate a public core-workbook spark column."
+      },
+      {
+        "Parameter": "Intake cam phaser per core map point",
+        "Value": "",
+        "Unit": "deg crank",
+        "Grade": "U",
+        "Source/locator": "",
+        "Notes": "EPA 2016-01-0565 confirms intake cam phasing was measured; public column name not identified."
+      },
+      {
+        "Parameter": "Exhaust cam phaser per core map point",
+        "Value": "",
+        "Unit": "deg crank",
+        "Grade": "U",
+        "Source/locator": "",
+        "Notes": "EPA 2016-01-0565 confirms exhaust cam phasing was measured; public column name not identified."
+      },
+      {
+        "Parameter": "Exhaust lambda / normalized AFR per point",
+        "Value": "",
+        "Unit": "lambda",
+        "Grade": "U",
+        "Source/locator": "",
+        "Notes": "EPA 2016-01-0565 confirms exhaust lambda was measured in additional test data; exact public package column not identified."
+      },
+      {
+        "Parameter": "WOT enrichment",
+        "Value": "Present at high-load/knock-limited conditions on lower-octane fuel",
+        "Unit": "qualitative",
+        "Grade": "D",
+        "Source/locator": "Ellies, Schenk & Dekraker, Benchmarking and Hardware-in-the-Loop Operation of a 2014 MAZDA SkyActiv 2.0L 13:1 Compression Ratio Engine, SAE 2016-01-1007 — pp. 2–4; Table 1, Table 2, Figs. 1–5 — https://www.epa.gov/sites/default/files/2016-10/documents/2016-01-1007-benchmark-hil-operat-2014-mazda-skyactiv-2.0l.pdf",
+        "Notes": "Paper reports enrichment together with knock retard for low-speed high-load 88-AKI operation; no numeric lambda table in paper."
+      },
+      {
+        "Parameter": "Throttle position per point",
+        "Value": "",
+        "Unit": "% or deg",
+        "Grade": "U",
+        "Source/locator": "",
+        "Notes": "No public core-workbook column identified. EPA model-validation paper fixes simulated full-load throttle to 90°."
+      },
+      {
+        "Parameter": "MAP per point",
+        "Value": "",
+        "Unit": "kPa abs",
+        "Grade": "U",
+        "Source/locator": "",
+        "Notes": "EPA 2016-01-0565 shows measured MAP traces used for model validation, but accessible core package documentation does not identify a public per-point column."
+      },
+      {
+        "Parameter": "Intake air mass flow per point",
+        "Value": "",
+        "Unit": "g/s",
+        "Grade": "U",
+        "Source/locator": "",
+        "Notes": "No exact public core-workbook MAF column identified."
+      },
+      {
+        "Parameter": "Start of injection per point",
+        "Value": "",
+        "Unit": "deg CA",
+        "Grade": "U",
+        "Source/locator": "",
+        "Notes": "EPA 2016-01-0565 confirms SOI was collected in additional dynamometer data, but no exact public column was identified."
+      },
+      {
+        "Parameter": "Fuel rail pressure per point",
+        "Value": "",
+        "Unit": "bar / MPa",
+        "Grade": "U",
+        "Source/locator": "",
+        "Notes": "200 bar is system peak capability, not the per-point rail-pressure log."
+      },
+      {
+        "Parameter": "Exhaust temperature per point",
+        "Value": "",
+        "Unit": "°C",
+        "Grade": "U",
+        "Source/locator": "",
+        "Notes": "EPA 2016-01-0565 confirms intake/exhaust temperatures were collected for model validation, but no exact public core-map column identified."
+      },
+      {
+        "Parameter": "External EGR",
+        "Value": "None on base U.S. 13:1 engine",
+        "Unit": "",
+        "Grade": "D",
+        "Source/locator": "Lee, Schenk & McDonald, Air Flow Optimization and Calibration in High-Compression-Ratio Naturally Aspirated SI Engines with Cooled-EGR, SAE 2016-01-0565 — pp. 1–5; Figs. 1–14 — https://www.epa.gov/sites/default/files/2016-10/documents/2016-01-0565-air-flow-optim-calib-nat-asp-eng_0.pdf",
+        "Notes": "Paper discusses adding cooled EGR as future hardware; base production architecture uses no external cEGR."
+      },
+      {
+        "Parameter": "Internal EGR / overlap strategy",
+        "Value": "Variable; Mazda uses long 4-2-1 exhaust and valve timing to minimize residuals at high load; internal EGR can be used at light load",
+        "Unit": "qualitative",
+        "Grade": "D",
+        "Source/locator": "Stuhldreher et al., Benchmarking a 2018 Toyota Camry 2.5-liter Atkinson Cycle Engine with Cooled-EGR, SAE 2019-01-0249 — Figs. 21, 23, 25, 36; comparison to base OE 2014 Mazda 2.0L 13:1 — https://pmc.ncbi.nlm.nih.gov/articles/PMC7425626/",
+        "Notes": "EPA comparison figures provide base Mazda effective compression ratio and valve-overlap maps at 1 mm lift."
+      },
+      {
+        "Parameter": "HIL CAN: engine speed",
+        "Value": "Logged",
+        "Unit": "",
+        "Grade": "D",
+        "Source/locator": "Ellies, Schenk & Dekraker, Benchmarking and Hardware-in-the-Loop Operation of a 2014 MAZDA SkyActiv 2.0L 13:1 Compression Ratio Engine, SAE 2016-01-1007 — pp. 2–4; Table 1, Table 2, Figs. 1–5 — https://www.epa.gov/sites/default/files/2016-10/documents/2016-01-1007-benchmark-hil-operat-2014-mazda-skyactiv-2.0l.pdf",
+        "Notes": "Vehicle HIL-cycle data; not necessarily the steady-state core workbook."
+      },
+      {
+        "Parameter": "HIL CAN: percent engine load",
+        "Value": "Logged",
+        "Unit": "",
+        "Grade": "D",
+        "Source/locator": "Ellies, Schenk & Dekraker, Benchmarking and Hardware-in-the-Loop Operation of a 2014 MAZDA SkyActiv 2.0L 13:1 Compression Ratio Engine, SAE 2016-01-1007 — pp. 2–4; Table 1, Table 2, Figs. 1–5 — https://www.epa.gov/sites/default/files/2016-10/documents/2016-01-1007-benchmark-hil-operat-2014-mazda-skyactiv-2.0l.pdf",
+        "Notes": "Vehicle HIL-cycle data."
+      },
+      {
+        "Parameter": "HIL CAN: fuel charge per cylinder",
+        "Value": "Logged",
+        "Unit": "",
+        "Grade": "D",
+        "Source/locator": "Ellies, Schenk & Dekraker, Benchmarking and Hardware-in-the-Loop Operation of a 2014 MAZDA SkyActiv 2.0L 13:1 Compression Ratio Engine, SAE 2016-01-1007 — pp. 2–4; Table 1, Table 2, Figs. 1–5 — https://www.epa.gov/sites/default/files/2016-10/documents/2016-01-1007-benchmark-hil-operat-2014-mazda-skyactiv-2.0l.pdf",
+        "Notes": "Vehicle HIL-cycle data."
+      }
+    ],
+    "Part C1 — Cylinder head and valvetrain": [
+      {
+        "Parameter": "Valves per cylinder",
+        "Value": "4",
+        "Unit": "valves/cyl",
+        "Grade": "F",
+        "Source/locator": "Prins VSI-2.1 DI technical system info — Mazda 2.0 PE-VPS 121 kW 2012–2016 — p. 1, engine identification/firing order — https://www.prinsautogas.com/sites/default/files/media/members/technical-system-info/vsi-2-di/vsi-2-di%20semi-dedicated%20iv/Mazda%202.0%20PE-VPS%20121kW%202012-2016%201308300%20VSI-2.0%20di.pdf",
+        "Notes": "PE-VPS 2012–2016 family data; also consistent with Mazda SKYACTIV DOHC architecture."
+      },
+      {
+        "Parameter": "Intake valve head diameter",
+        "Value": "",
+        "Unit": "mm",
+        "Grade": "U",
+        "Source/locator": "",
+        "Notes": "No Mazda-primary/service-manual head diameter located. Aftermarket catalogs list 33.2 mm, but not promoted under this pack's evidence discipline."
+      },
+      {
+        "Parameter": "Exhaust valve head diameter",
+        "Value": "",
+        "Unit": "mm",
+        "Grade": "U",
+        "Source/locator": "",
+        "Notes": "No Mazda-primary/service-manual head diameter located. Aftermarket catalogs list 28 mm, but not promoted."
+      },
+      {
+        "Parameter": "Intake valve stem diameter",
+        "Value": "5.470–5.485 (0.2154–0.2159)",
+        "Unit": "mm (in)",
+        "Grade": "F",
+        "Source/locator": "Mazda3 05/2016 → Service Information — ENGINE TECHNICAL DATA [SKYACTIV-G 2.0] — Engine technical data table — https://charm.li/Mazda/Mazda3%2005%2F2016%20-%3E%20%28d9k6-1a-21b_ver12%29/esicont/engine/A27/html/id015000800100.html",
+        "Notes": "SKYACTIV-G 2.0 family service data."
+      },
+      {
+        "Parameter": "Exhaust valve stem diameter",
+        "Value": "5.465–5.480 (0.2152–0.2157)",
+        "Unit": "mm (in)",
+        "Grade": "F",
+        "Source/locator": "Mazda3 05/2016 → Service Information — ENGINE TECHNICAL DATA [SKYACTIV-G 2.0] — Engine technical data table — https://charm.li/Mazda/Mazda3%2005%2F2016%20-%3E%20%28d9k6-1a-21b_ver12%29/esicont/engine/A27/html/id015000800100.html",
+        "Notes": "SKYACTIV-G 2.0 family service data."
+      },
+      {
+        "Parameter": "Intake valve lift",
+        "Value": "",
+        "Unit": "mm",
+        "Grade": "U",
+        "Source/locator": "",
+        "Notes": "EPA says valve-lift profiles were physically measured, but numeric profile/lift was not found in public sources."
+      },
+      {
+        "Parameter": "Exhaust valve lift",
+        "Value": "",
+        "Unit": "mm",
+        "Grade": "U",
+        "Source/locator": "",
+        "Notes": "Same."
+      },
+      {
+        "Parameter": "Advertised cam duration",
+        "Value": "",
+        "Unit": "deg crank",
+        "Grade": "U",
+        "Source/locator": "",
+        "Notes": ""
+      },
+      {
+        "Parameter": "Cam duration @ 1 mm / 0.050 in",
+        "Value": "",
+        "Unit": "deg crank",
+        "Grade": "U",
+        "Source/locator": "",
+        "Notes": ""
+      },
+      {
+        "Parameter": "Base cam centerlines",
+        "Value": "",
+        "Unit": "deg crank",
+        "Grade": "U",
+        "Source/locator": "",
+        "Notes": ""
+      },
+      {
+        "Parameter": "Intake cam phaser authority",
+        "Value": "75 crank° advance from base IVC position of 58° BTDC",
+        "Unit": "deg crank",
+        "Grade": "D",
+        "Source/locator": "Ellies, Schenk & Dekraker, Benchmarking and Hardware-in-the-Loop Operation of a 2014 MAZDA SkyActiv 2.0L 13:1 Compression Ratio Engine, SAE 2016-01-1007 — pp. 2–4; Table 1, Table 2, Figs. 1–5 — https://www.epa.gov/sites/default/files/2016-10/documents/2016-01-1007-benchmark-hil-operat-2014-mazda-skyactiv-2.0l.pdf",
+        "Notes": "EPA wording reproduced exactly; reference convention is unusual, so no inferred absolute endpoint is calculated."
+      },
+      {
+        "Parameter": "Exhaust cam phaser authority",
+        "Value": "45 crank° retard from base EVC position of 14° ATDC",
+        "Unit": "deg crank",
+        "Grade": "D",
+        "Source/locator": "Ellies, Schenk & Dekraker, Benchmarking and Hardware-in-the-Loop Operation of a 2014 MAZDA SkyActiv 2.0L 13:1 Compression Ratio Engine, SAE 2016-01-1007 — pp. 2–4; Table 1, Table 2, Figs. 1–5 — https://www.epa.gov/sites/default/files/2016-10/documents/2016-01-1007-benchmark-hil-operat-2014-mazda-skyactiv-2.0l.pdf",
+        "Notes": "EPA wording reproduced exactly."
+      },
+      {
+        "Parameter": "Follower type",
+        "Value": "Roller rocker/follower with needle roller; hydraulic lash adjuster maintains zero lash",
+        "Unit": "",
+        "Grade": "F",
+        "Source/locator": "Mazda Technical Review 2012 No.30 — Engine Technology for SKYACTIV-G on CX-5 — Engine Technology for SKYACTIV-G on CX-5, pp. 3–8; Sec. 6.1–6.2 — https://www.mazda.com/en/innovation/monozukuri/technology/tech-review/2012/",
+        "Notes": "Mazda SKYACTIV-G family architecture; Mazda service information independently identifies HLA/rocker system."
+      },
+      {
+        "Parameter": "Cam drive",
+        "Value": "DOHC chain drive",
+        "Unit": "",
+        "Grade": "F",
+        "Source/locator": "Mazda3 05/2016 → Service Information — ENGINE TECHNICAL DATA [SKYACTIV-G 2.0] — Engine technical data table — https://charm.li/Mazda/Mazda3%2005%2F2016%20-%3E%20%28d9k6-1a-21b_ver12%29/esicont/engine/A27/html/id015000800100.html",
+        "Notes": "SKYACTIV-G 2.0 family service architecture."
+      }
+    ],
+    "Part C2 — Bottom end": [
+      {
+        "Parameter": "Connecting-rod centre-to-centre length",
+        "Value": "154.8 (6.094)",
+        "Unit": "mm (in)",
+        "Grade": "F",
+        "Source/locator": "Mazda SKYACTIV-G 2.0 Workshop Manual mirror — Mechanical 01-10, valve/rod/crankshaft technical data, pp. 25–37 in mirrored manual — https://www.scribd.com/document/945356613/Binder-2",
+        "Notes": "Workshop-manual mirror contains this value; some older PE-VPS manual mirrors report 155.2 mm—see Conflicts."
+      },
+      {
+        "Parameter": "Piston compression height",
+        "Value": "",
+        "Unit": "mm",
+        "Grade": "U",
+        "Source/locator": "",
+        "Notes": "Not found in accessible Mazda service/technical sources."
+      },
+      {
+        "Parameter": "Main journal diameter",
+        "Value": "46.980–47.000 (1.8497–1.8503)",
+        "Unit": "mm (in)",
+        "Grade": "F",
+        "Source/locator": "Mazda3 05/2016 → Service Information — CRANKSHAFT INSPECTION [SKYACTIV-G 2.0] — Crankshaft inspection specifications — https://charm.li/Mazda/Mazda3%2005%2F2016%20-%3E%20%28d9k6-1a-21b_ver12%29/esicont/engine/A27/html/id011000502500.html",
+        "Notes": "SKYACTIV-G 2.0 except later MX-5 special case."
+      },
+      {
+        "Parameter": "Crank pin / rod journal diameter",
+        "Value": "46.980–47.000 (1.8497–1.8503)",
+        "Unit": "mm (in)",
+        "Grade": "F",
+        "Source/locator": "Mazda3 05/2016 → Service Information — CRANKSHAFT INSPECTION [SKYACTIV-G 2.0] — Crankshaft inspection specifications — https://charm.li/Mazda/Mazda3%2005%2F2016%20-%3E%20%28d9k6-1a-21b_ver12%29/esicont/engine/A27/html/id011000502500.html",
+        "Notes": ""
+      },
+      {
+        "Parameter": "Main bearing shell thickness",
+        "Value": "2.489–2.510 (0.0980–0.0988)",
+        "Unit": "mm (in)",
+        "Grade": "F",
+        "Source/locator": "Mazda3 05/2016 → Service Information — CRANKSHAFT INSPECTION [SKYACTIV-G 2.0] — Crankshaft inspection specifications — https://charm.li/Mazda/Mazda3%2005%2F2016%20-%3E%20%28d9k6-1a-21b_ver12%29/esicont/engine/A27/html/id011000502500.html",
+        "Notes": "STD size."
+      },
+      {
+        "Parameter": "Rod bearing shell thickness",
+        "Value": "1.502–1.519 (0.05914–0.05980)",
+        "Unit": "mm (in)",
+        "Grade": "F",
+        "Source/locator": "Mazda SKYACTIV-G 2.0 Workshop Manual mirror — Mechanical 01-10, valve/rod/crankshaft technical data, pp. 25–37 in mirrored manual — https://www.scribd.com/document/945356613/Binder-2",
+        "Notes": "STD size in one workshop-manual version."
+      },
+      {
+        "Parameter": "Main bearing axial width",
+        "Value": "",
+        "Unit": "mm",
+        "Grade": "U",
+        "Source/locator": "",
+        "Notes": "Not found."
+      },
+      {
+        "Parameter": "Rod bearing axial width",
+        "Value": "",
+        "Unit": "mm",
+        "Grade": "U",
+        "Source/locator": "",
+        "Notes": "Not found."
+      },
+      {
+        "Parameter": "Number of main bearings",
+        "Value": "",
+        "Unit": "",
+        "Grade": "U",
+        "Source/locator": "",
+        "Notes": "Not promoted from generic inline-four inference; confirm from Mazda block/crank drawing."
+      },
+      {
+        "Parameter": "Piston crown geometry",
+        "Value": "Cavity/recess in piston crown to promote flame development and avoid early flame impingement",
+        "Unit": "qualitative",
+        "Grade": "F",
+        "Source/locator": "Mazda Technical Review 2011 No.29 — New-Generation Technology “SKYACTIV Powertrain” — SKYACTIV Powertrain article, pp. 29–35; Fig. 9 and surrounding 4-2-1 discussion — https://www.mazda.com/content/dam/mazda/corporate/mazda-com/en/pdf/innovation/monozukuri/technology/tech-review/2011/giho_all2011.pdf",
+        "Notes": "SKYACTIV-G family design."
+      },
+      {
+        "Parameter": "Combustion chamber",
+        "Value": "Compact pent-roof-type SKYACTIV-G family chamber; centrally located spark-plug concept",
+        "Unit": "qualitative",
+        "Grade": "F",
+        "Source/locator": "Mazda Technical Review 2011 No.29 — New-Generation Technology “SKYACTIV Powertrain” — SKYACTIV Powertrain article, pp. 29–35; Fig. 9 and surrounding 4-2-1 discussion — https://www.mazda.com/content/dam/mazda/corporate/mazda-com/en/pdf/innovation/monozukuri/technology/tech-review/2011/giho_all2011.pdf",
+        "Notes": "Exact chamber volume/angles for EPA test article not published in located sources."
+      },
+      {
+        "Parameter": "Exact chamber volume",
+        "Value": "",
+        "Unit": "cm³",
+        "Grade": "U",
+        "Source/locator": "",
+        "Notes": ""
+      },
+      {
+        "Parameter": "Spark-plug exact coordinates",
+        "Value": "",
+        "Unit": "mm",
+        "Grade": "U",
+        "Source/locator": "",
+        "Notes": ""
+      }
+    ],
+    "Part C3 — Intake system": [
+      {
+        "Parameter": "Throttle-body bore",
+        "Value": "",
+        "Unit": "mm",
+        "Grade": "U",
+        "Source/locator": "",
+        "Notes": "EPA physically measured throttle body but public numeric dimension not found."
+      },
+      {
+        "Parameter": "Intake plenum volume",
+        "Value": "",
+        "Unit": "L",
+        "Grade": "U",
+        "Source/locator": "",
+        "Notes": "EPA measured lower/upper air-box and plenum volume by water filling for GT-Power model, but numeric values were not published in located paper."
+      },
+      {
+        "Parameter": "Runner length",
+        "Value": "",
+        "Unit": "mm",
+        "Grade": "U",
+        "Source/locator": "",
+        "Notes": "EPA measured geometry but numeric value not found publicly."
+      },
+      {
+        "Parameter": "Runner diameter/area",
+        "Value": "",
+        "Unit": "mm / mm²",
+        "Grade": "U",
+        "Source/locator": "",
+        "Notes": ""
+      },
+      {
+        "Parameter": "Variable intake runner system",
+        "Value": "",
+        "Unit": "",
+        "Grade": "U",
+        "Source/locator": "",
+        "Notes": "No exact test-article switching-runner specification found."
+      },
+      {
+        "Parameter": "Air-box volume",
+        "Value": "",
+        "Unit": "L",
+        "Grade": "U",
+        "Source/locator": "",
+        "Notes": "EPA states volumes were measured; numeric values not published in located source."
+      },
+      {
+        "Parameter": "Air-filter restriction",
+        "Value": "",
+        "Unit": "kPa vs flow",
+        "Grade": "U",
+        "Source/locator": "",
+        "Notes": "EPA GT-Power model represented filter with tuned 1.9-mm × 1300-hole orifice model; this is a model calibration, not physical filter restriction data."
+      }
+    ],
+    "Part C4 — Exhaust system": [
+      {
+        "Parameter": "Exhaust architecture",
+        "Value": "Long-path 4-2-1 exhaust manifold",
+        "Unit": "",
+        "Grade": "F",
+        "Source/locator": "Mazda Technical Review 2011 No.29 — New-Generation Technology “SKYACTIV Powertrain” — SKYACTIV Powertrain article, pp. 29–35; Fig. 9 and surrounding 4-2-1 discussion — https://www.mazda.com/content/dam/mazda/corporate/mazda-com/en/pdf/innovation/monozukuri/technology/tech-review/2011/giho_all2011.pdf",
+        "Notes": "SKYACTIV-G family; Mazda USA also identifies 4-2-1 system."
+      },
+      {
+        "Parameter": "Required/tuned path length concept",
+        "Value": ">600",
+        "Unit": "mm",
+        "Grade": "F",
+        "Source/locator": "Mazda Technical Review 2011 No.29 — New-Generation Technology “SKYACTIV Powertrain” — SKYACTIV Powertrain article, pp. 29–35; Fig. 9 and surrounding 4-2-1 discussion — https://www.mazda.com/content/dam/mazda/corporate/mazda-com/en/pdf/innovation/monozukuri/technology/tech-review/2011/giho_all2011.pdf",
+        "Notes": "Mazda states >600 mm pipe length is needed for practical-range scavenging; this is not an exact primary/secondary tube dimension."
+      },
+      {
+        "Parameter": "Primary pipe length",
+        "Value": "",
+        "Unit": "mm",
+        "Grade": "U",
+        "Source/locator": "",
+        "Notes": ""
+      },
+      {
+        "Parameter": "Primary pipe ID",
+        "Value": "",
+        "Unit": "mm",
+        "Grade": "U",
+        "Source/locator": "",
+        "Notes": ""
+      },
+      {
+        "Parameter": "Secondary pipe length",
+        "Value": "",
+        "Unit": "mm",
+        "Grade": "U",
+        "Source/locator": "",
+        "Notes": ""
+      },
+      {
+        "Parameter": "Secondary pipe ID",
+        "Value": "",
+        "Unit": "mm",
+        "Grade": "U",
+        "Source/locator": "",
+        "Notes": ""
+      },
+      {
+        "Parameter": "Merge positions",
+        "Value": "",
+        "Unit": "mm from port",
+        "Grade": "U",
+        "Source/locator": "",
+        "Notes": ""
+      },
+      {
+        "Parameter": "Catalyst location",
+        "Value": "Downstream of long 4-2-1 collector; loop-type package used to retain catalyst in engine bay on CX-5 family application",
+        "Unit": "qualitative",
+        "Grade": "F",
+        "Source/locator": "Mazda Technical Review 2012 No.30 — Engine Technology for SKYACTIV-G on CX-5 — Engine Technology for SKYACTIV-G on CX-5, pp. 3–8; Sec. 6.1–6.2 — https://www.mazda.com/en/innovation/monozukuri/technology/tech-review/2012/",
+        "Notes": ""
+      },
+      {
+        "Parameter": "Exhaust backpressure",
+        "Value": "",
+        "Unit": "kPa vs rpm/load",
+        "Grade": "U",
+        "Source/locator": "",
+        "Notes": "EPA measured EBP for model validation but no numeric table was located."
+      }
+    ],
+    "Part C5/C6/C7 — Other hardware, fuel system, rated data": [
+      {
+        "Parameter": "Firing order",
+        "Value": "1-3-4-2",
+        "Unit": "",
+        "Grade": "F",
+        "Source/locator": "Prins VSI-2.1 DI technical system info — Mazda 2.0 PE-VPS 121 kW 2012–2016 — p. 1, engine identification/firing order — https://www.prinsautogas.com/sites/default/files/media/members/technical-system-info/vsi-2-di/vsi-2-di%20semi-dedicated%20iv/Mazda%202.0%20PE-VPS%20121kW%202012-2016%201308300%20VSI-2.0%20di.pdf",
+        "Notes": "PE-VPS 2012–2016 technical system data; Mazda-primary firing-order source not located."
+      },
+      {
+        "Parameter": "Crankshaft configuration",
+        "Value": "Inline-four crankshaft",
+        "Unit": "",
+        "Grade": "F",
+        "Source/locator": "Mazda3 05/2016 → Service Information — CRANKSHAFT INSPECTION [SKYACTIV-G 2.0] — Crankshaft inspection specifications — https://charm.li/Mazda/Mazda3%2005%2F2016%20-%3E%20%28d9k6-1a-21b_ver12%29/esicont/engine/A27/html/id011000502500.html",
+        "Notes": ""
+      },
+      {
+        "Parameter": "Balance shafts",
+        "Value": "",
+        "Unit": "",
+        "Grade": "U",
+        "Source/locator": "",
+        "Notes": "Exact EPA test-article balance-shaft configuration not established from located sources."
+      },
+      {
+        "Parameter": "Flywheel / dual-mass flywheel",
+        "Value": "",
+        "Unit": "",
+        "Grade": "U",
+        "Source/locator": "",
+        "Notes": "Depends on donor transmission configuration; EPA paper does not identify transmission/flywheel article."
+      },
+      {
+        "Parameter": "Injector type",
+        "Value": "Direct injector; SKYACTIV-G family uses multi-hole injector",
+        "Unit": "",
+        "Grade": "F",
+        "Source/locator": "Mazda Technical Review 2011 No.29 — New-Generation Technology “SKYACTIV Powertrain” — SKYACTIV Powertrain article, pp. 29–35; Fig. 9 and surrounding 4-2-1 discussion — https://www.mazda.com/content/dam/mazda/corporate/mazda-com/en/pdf/innovation/monozukuri/technology/tech-review/2011/giho_all2011.pdf",
+        "Notes": "Exact hole count/spray geometry intentionally outside validation claim and not specified here."
+      },
+      {
+        "Parameter": "Injection strategy",
+        "Value": "Flexible direct-injection strategy; cold-start stratified mixture around plug documented for family",
+        "Unit": "qualitative",
+        "Grade": "F",
+        "Source/locator": "Mazda Technical Review 2012 No.30 — Engine Technology for SKYACTIV-G on CX-5 — Engine Technology for SKYACTIV-G on CX-5, pp. 3–8; Sec. 6.1–6.2 — https://www.mazda.com/en/innovation/monozukuri/technology/tech-review/2012/",
+        "Notes": "Exact map-cell single/multiple pulse schedule not found."
+      },
+      {
+        "Parameter": "Per-point rail pressure",
+        "Value": "",
+        "Unit": "bar",
+        "Grade": "U",
+        "Source/locator": "",
+        "Notes": ""
+      }
+    ],
+    "Part D — Cross-checks": [
+      {
+        "Parameter": "Measured peak BTE cross-publication",
+        "Value": "36–37",
+        "Unit": "%",
+        "Grade": "D",
+        "Source/locator": "Lee, Schenk & McDonald, Air Flow Optimization and Calibration in High-Compression-Ratio Naturally Aspirated SI Engines with Cooled-EGR, SAE 2016-01-0565 — pp. 1–5; Figs. 1–14 — https://www.epa.gov/sites/default/files/2016-10/documents/2016-01-0565-air-flow-optim-calib-nat-asp-eng_0.pdf",
+        "Notes": "SAE 2016-01-0565 cites measured base 13:1 EPA benchmark."
+      },
+      {
+        "Parameter": "Measured BSFC map",
+        "Value": "Published as contour map",
+        "Unit": "g/kWh",
+        "Grade": "D",
+        "Source/locator": "Lee, Schenk & McDonald, Air Flow Optimization and Calibration in High-Compression-Ratio Naturally Aspirated SI Engines with Cooled-EGR, SAE 2016-01-0565 — pp. 1–5; Figs. 1–14 — https://www.epa.gov/sites/default/files/2016-10/documents/2016-01-0565-air-flow-optim-calib-nat-asp-eng_0.pdf",
+        "Notes": "Fig. 1 / Fig. 13."
+      },
+      {
+        "Parameter": "Measured full-load BMEP and BSFC",
+        "Value": "Model-vs-dyno comparisons published",
+        "Unit": "",
+        "Grade": "D",
+        "Source/locator": "Lee, Schenk & McDonald, Air Flow Optimization and Calibration in High-Compression-Ratio Naturally Aspirated SI Engines with Cooled-EGR, SAE 2016-01-0565 — pp. 1–5; Figs. 1–14 — https://www.epa.gov/sites/default/files/2016-10/documents/2016-01-0565-air-flow-optim-calib-nat-asp-eng_0.pdf",
+        "Notes": "Figs. 7–8; measured/model BSFC differences 1–5%, ~3% average after model tuning."
+      },
+      {
+        "Parameter": "Volumetric efficiency @ WOT 3250 rpm",
+        "Value": ">100",
+        "Unit": "%",
+        "Grade": "D",
+        "Source/locator": "Lee, Schenk & McDonald, Air Flow Optimization and Calibration in High-Compression-Ratio Naturally Aspirated SI Engines with Cooled-EGR, SAE 2016-01-0565 — pp. 1–5; Figs. 1–14 — https://www.epa.gov/sites/default/files/2016-10/documents/2016-01-0565-air-flow-optim-calib-nat-asp-eng_0.pdf",
+        "Notes": "Paper attributes this to intake/exhaust manifold tuning."
+      },
+      {
+        "Parameter": "Family mechanical-resistance reduction",
+        "Value": "30",
+        "Unit": "% vs predecessor/base development engine",
+        "Grade": "F",
+        "Source/locator": "Mazda Technical Review 2012 No.30 — Engine Technology for SKYACTIV-G on CX-5 — Engine Technology for SKYACTIV-G on CX-5, pp. 3–8; Sec. 6.1–6.2 — https://www.mazda.com/en/innovation/monozukuri/technology/tech-review/2012/",
+        "Notes": "Family development claim; not absolute FMEP and not exact EPA article."
+      },
+      {
+        "Parameter": "Family pumping-loss reduction",
+        "Value": "20",
+        "Unit": "%",
+        "Grade": "F",
+        "Source/locator": "Mazda Technical Review 2012 No.30 — Engine Technology for SKYACTIV-G on CX-5 — Engine Technology for SKYACTIV-G on CX-5, pp. 3–8; Sec. 6.1–6.2 — https://www.mazda.com/en/innovation/monozukuri/technology/tech-review/2012/",
+        "Notes": "Achieved with LIVC/wide overlap/internal EGR in Mazda development comparison."
+      },
+      {
+        "Parameter": "Family internal-EGR capability",
+        "Value": "16",
+        "Unit": "%",
+        "Grade": "F",
+        "Source/locator": "Mazda Technical Review 2012 No.30 — Engine Technology for SKYACTIV-G on CX-5 — Engine Technology for SKYACTIV-G on CX-5, pp. 3–8; Sec. 6.1–6.2 — https://www.mazda.com/en/innovation/monozukuri/technology/tech-review/2012/",
+        "Notes": "Mazda development figure, not a map-cell value for EPA article."
+      },
+      {
+        "Parameter": "4-2-1 knock-control mechanism",
+        "Value": "Delays exhaust-pressure-wave interference; improves scavenging and knock tolerance",
+        "Unit": "qualitative",
+        "Grade": "F",
+        "Source/locator": "Mazda Technical Review 2011 No.29 — New-Generation Technology “SKYACTIV Powertrain” — SKYACTIV Powertrain article, pp. 29–35; Fig. 9 and surrounding 4-2-1 discussion — https://www.mazda.com/content/dam/mazda/corporate/mazda-com/en/pdf/innovation/monozukuri/technology/tech-review/2011/giho_all2011.pdf",
+        "Notes": ""
+      }
+    ]
+  },
+  "wot_curve": {
+    "source": {
+      "title": "U.S. EPA, Process for Generating Engine Fuel Consumption Map (Mazda SKYACTIV 2.0L engine using Tier 2 fuel), v. 11-28-2016",
+      "url": "https://www.epa.gov/sites/production/files/2016-11/documents/procs-gen-eng-fuel-cons-map-2014-mazda-2-0l-skyact.pdf",
+      "locator": "pp. 1–7; core-data/WOT/motoring import code; fuel-property block"
+    },
+    "source_file": "WOT Curve.csv",
+    "known_columns": {
+      "CAN_dyno_spd": "rpm",
+      "CAN_dyno_trq": "N·m"
+    },
+    "points": [
+      {
+        "speed_rad_s": 0.0,
+        "speed_rpm": 0.0,
+        "brake_torque_Nm": 0.0,
+        "brake_power_kW": 0.0,
+        "fuel_flow_g_s": null,
+        "lambda_or_AFR": null,
+        "grade_speed_torque": "D",
+        "grade_power": "R",
+        "notes": "EPA process WOT array; power derived P=Tω. 6000-rpm/184-Nm point was added by EPA from published max-power rating rather than measured WOT; zero endpoints are map boundaries."
+      },
+      {
+        "speed_rad_s": 95.039723,
+        "speed_rpm": 907.6,
+        "brake_torque_Nm": 134.5625,
+        "brake_power_kW": 12.789,
+        "fuel_flow_g_s": null,
+        "lambda_or_AFR": null,
+        "grade_speed_torque": "D",
+        "grade_power": "R",
+        "notes": "EPA process WOT array; power derived P=Tω. 6000-rpm/184-Nm point was added by EPA from published max-power rating rather than measured WOT; zero endpoints are map boundaries."
+      },
+      {
+        "speed_rad_s": 157.1776,
+        "speed_rpm": 1500.9,
+        "brake_torque_Nm": 164.92581,
+        "brake_power_kW": 25.923,
+        "fuel_flow_g_s": null,
+        "lambda_or_AFR": null,
+        "grade_speed_torque": "D",
+        "grade_power": "R",
+        "notes": "EPA process WOT array; power derived P=Tω. 6000-rpm/184-Nm point was added by EPA from published max-power rating rather than measured WOT; zero endpoints are map boundaries."
+      },
+      {
+        "speed_rad_s": 177.96973,
+        "speed_rpm": 1699.5,
+        "brake_torque_Nm": 167.81143,
+        "brake_power_kW": 29.865,
+        "fuel_flow_g_s": null,
+        "lambda_or_AFR": null,
+        "grade_speed_torque": "D",
+        "grade_power": "R",
+        "notes": "EPA process WOT array; power derived P=Tω. 6000-rpm/184-Nm point was added by EPA from published max-power rating rather than measured WOT; zero endpoints are map boundaries."
+      },
+      {
+        "speed_rad_s": 209.47442,
+        "speed_rpm": 2000.3,
+        "brake_torque_Nm": 187.87381,
+        "brake_power_kW": 39.355,
+        "fuel_flow_g_s": null,
+        "lambda_or_AFR": null,
+        "grade_speed_torque": "D",
+        "grade_power": "R",
+        "notes": "EPA process WOT array; power derived P=Tω. 6000-rpm/184-Nm point was added by EPA from published max-power rating rather than measured WOT; zero endpoints are map boundaries."
+      },
+      {
+        "speed_rad_s": 235.68091,
+        "speed_rpm": 2250.6,
+        "brake_torque_Nm": 188.25,
+        "brake_power_kW": 44.367,
+        "fuel_flow_g_s": null,
+        "lambda_or_AFR": null,
+        "grade_speed_torque": "D",
+        "grade_power": "R",
+        "notes": "EPA process WOT array; power derived P=Tω. 6000-rpm/184-Nm point was added by EPA from published max-power rating rather than measured WOT; zero endpoints are map boundaries."
+      },
+      {
+        "speed_rad_s": 256.39794,
+        "speed_rpm": 2448.4,
+        "brake_torque_Nm": 182.26,
+        "brake_power_kW": 46.731,
+        "fuel_flow_g_s": null,
+        "lambda_or_AFR": null,
+        "grade_speed_torque": "D",
+        "grade_power": "R",
+        "notes": "EPA process WOT array; power derived P=Tω. 6000-rpm/184-Nm point was added by EPA from published max-power rating rather than measured WOT; zero endpoints are map boundaries."
+      },
+      {
+        "speed_rad_s": 282.73763,
+        "speed_rpm": 2699.9,
+        "brake_torque_Nm": 188.21273,
+        "brake_power_kW": 53.215,
+        "fuel_flow_g_s": null,
+        "lambda_or_AFR": null,
+        "grade_speed_torque": "D",
+        "grade_power": "R",
+        "notes": "EPA process WOT array; power derived P=Tω. 6000-rpm/184-Nm point was added by EPA from published max-power rating rather than measured WOT; zero endpoints are map boundaries."
+      },
+      {
+        "speed_rad_s": 314.14238,
+        "speed_rpm": 2999.8,
+        "brake_torque_Nm": 201.40161,
+        "brake_power_kW": 63.269,
+        "fuel_flow_g_s": null,
+        "lambda_or_AFR": null,
+        "grade_speed_torque": "D",
+        "grade_power": "R",
+        "notes": "EPA process WOT array; power derived P=Tω. 6000-rpm/184-Nm point was added by EPA from published max-power rating rather than measured WOT; zero endpoints are map boundaries."
+      },
+      {
+        "speed_rad_s": 356.10551,
+        "speed_rpm": 3400.6,
+        "brake_torque_Nm": 197.39857,
+        "brake_power_kW": 70.295,
+        "fuel_flow_g_s": null,
+        "lambda_or_AFR": null,
+        "grade_speed_torque": "D",
+        "grade_power": "R",
+        "notes": "EPA process WOT array; power derived P=Tω. 6000-rpm/184-Nm point was added by EPA from published max-power rating rather than measured WOT; zero endpoints are map boundaries."
+      },
+      {
+        "speed_rad_s": 429.36596,
+        "speed_rpm": 4100.1,
+        "brake_torque_Nm": 200.09762,
+        "brake_power_kW": 85.915,
+        "fuel_flow_g_s": null,
+        "lambda_or_AFR": null,
+        "grade_speed_torque": "D",
+        "grade_power": "R",
+        "notes": "EPA process WOT array; power derived P=Tω. 6000-rpm/184-Nm point was added by EPA from published max-power rating rather than measured WOT; zero endpoints are map boundaries."
+      },
+      {
+        "speed_rad_s": 628.31853,
+        "speed_rpm": 6000.0,
+        "brake_torque_Nm": 184.0,
+        "brake_power_kW": 115.611,
+        "fuel_flow_g_s": null,
+        "lambda_or_AFR": null,
+        "grade_speed_torque": "D",
+        "grade_power": "R",
+        "notes": "EPA process WOT array; power derived P=Tω. 6000-rpm/184-Nm point was added by EPA from published max-power rating rather than measured WOT; zero endpoints are map boundaries."
+      },
+      {
+        "speed_rad_s": 680.67841,
+        "speed_rpm": 6500.0,
+        "brake_torque_Nm": 0.0,
+        "brake_power_kW": 0.0,
+        "fuel_flow_g_s": null,
+        "lambda_or_AFR": null,
+        "grade_speed_torque": "D",
+        "grade_power": "R",
+        "notes": "EPA process WOT array; power derived P=Tω. 6000-rpm/184-Nm point was added by EPA from published max-power rating rather than measured WOT; zero endpoints are map boundaries."
+      }
+    ]
+  },
+  "motoring_curve": {
+    "source": {
+      "title": "U.S. EPA, Process for Generating Engine Fuel Consumption Map (Mazda SKYACTIV 2.0L engine using Tier 2 fuel), v. 11-28-2016",
+      "url": "https://www.epa.gov/sites/production/files/2016-11/documents/procs-gen-eng-fuel-cons-map-2014-mazda-2-0l-skyact.pdf",
+      "locator": "pp. 1–7; core-data/WOT/motoring import code; fuel-property block"
+    },
+    "source_file": "0% Throttle Curve.csv",
+    "known_columns": {
+      "CAN_dyno_spd": "rpm",
+      "CAN_dyno_trq": "N·m"
+    },
+    "method": "EPA minimum-torque curve; points below 1350 rpm excluded because fuel was still consumed",
+    "points": [
+      {
+        "speed_rad_s": 0.0,
+        "speed_rpm": 0.0,
+        "motoring_torque_Nm": -16.013253,
+        "fmep_bar": null,
+        "fmep_grade": "U",
+        "notes": "Torque source: EPA 0% Throttle Curve used by ALPHA process. EPA excludes points below 1350 rpm because they still consumed fuel. FMEP derived as 4π|T|/Vd for 4-stroke."
+      },
+      {
+        "speed_rad_s": 146.5553,
+        "speed_rpm": 1399.5,
+        "motoring_torque_Nm": -20.648276,
+        "fmep_bar": 1.299,
+        "fmep_grade": "R",
+        "notes": "Torque source: EPA 0% Throttle Curve used by ALPHA process. EPA excludes points below 1350 rpm because they still consumed fuel. FMEP derived as 4π|T|/Vd for 4-stroke."
+      },
+      {
+        "speed_rad_s": 403.1665,
+        "speed_rpm": 3850.0,
+        "motoring_torque_Nm": -28.763975,
+        "fmep_bar": 1.809,
+        "fmep_grade": "R",
+        "notes": "Torque source: EPA 0% Throttle Curve used by ALPHA process. EPA excludes points below 1350 rpm because they still consumed fuel. FMEP derived as 4π|T|/Vd for 4-stroke."
+      },
+      {
+        "speed_rad_s": 424.02144,
+        "speed_rpm": 4049.1,
+        "motoring_torque_Nm": -33.455621,
+        "fmep_bar": 2.104,
+        "fmep_grade": "R",
+        "notes": "Torque source: EPA 0% Throttle Curve used by ALPHA process. EPA excludes points below 1350 rpm because they still consumed fuel. FMEP derived as 4π|T|/Vd for 4-stroke."
+      },
+      {
+        "speed_rad_s": 465.83686,
+        "speed_rpm": 4448.4,
+        "motoring_torque_Nm": -34.963536,
+        "fmep_bar": 2.199,
+        "fmep_grade": "R",
+        "notes": "Torque source: EPA 0% Throttle Curve used by ALPHA process. EPA excludes points below 1350 rpm because they still consumed fuel. FMEP derived as 4π|T|/Vd for 4-stroke."
+      },
+      {
+        "speed_rad_s": 680.67841,
+        "speed_rpm": 6500.0,
+        "motoring_torque_Nm": -42.710982,
+        "fmep_bar": 2.686,
+        "fmep_grade": "R",
+        "notes": "Torque source: EPA 0% Throttle Curve used by ALPHA process. EPA excludes points below 1350 rpm because they still consumed fuel. FMEP derived as 4π|T|/Vd for 4-stroke."
+      }
+    ]
+  },
+  "download_packages": {
+    "tier2_core_2016": {
+      "title": "U.S. EPA, 2014 Mazda 2.0L Skyactiv 13-1 Tier 2 Fuel — Engine Mapping Core Test Package",
+      "url": "https://www.epa.gov/sites/production/files/2016-10/2014-mazda-2.0l-skyactiv-13-1-tier2-fuel-engine-mapping-core-test-package-06-28-16.zip",
+      "locator": "Docket EPA-HQ-OAR-2015-0827-0533; ZIP package"
+    },
+    "tier2_expanded_2018": {
+      "title": "U.S. EPA, 2014 Mazda 2.0L Skyactiv Engine Tier 2 Fuel Test Data Package (03-29-18)",
+      "url": "https://www.epa.gov/sites/default/files/2018-04/2014-mazda-2.0l-skyactiv-engine-tier-2-fuel-test-data-package-03-29-18.zip",
+      "locator": "EPA benchmarking portal; ZIP package"
+    },
+    "leviii_expanded_2018": {
+      "title": "U.S. EPA, 2014 Mazda 2.0L Skyactiv Engine LEV III Fuel Test Data Package (03-29-18)",
+      "url": "https://www.epa.gov/sites/default/files/2018-04/2014-mazda-2-0l-skyactiv-engine-lev-3-fuel-test-data-package-03-29-18.zip",
+      "locator": "EPA benchmarking portal; ZIP package"
+    },
+    "tier2_alpha": {
+      "title": "U.S. EPA, 2014 Mazda 2.0L Skyactiv Engine Tier 2 Fuel — ALPHA Map Package (03-29-18)",
+      "url": "https://www.epa.gov/sites/default/files/2018-04/2014-mazda-2.0l-skyactiv-engine-tier-2-fuel-alpha-map-package-03-29-18.zip",
+      "locator": "EPA complete-engine-ALPHA-maps portal; ZIP package"
+    },
+    "leviii_alpha": {
+      "title": "U.S. EPA, 2014 Mazda 2.0L Skyactiv Engine LEV III Fuel — ALPHA Map Package (03-29-18)",
+      "url": "https://www.epa.gov/sites/default/files/2018-04/2014-mazda-2-0l-skyactiv-engine-lev-3-fuel-alpha-map-package-03-29-18.zip",
+      "locator": "EPA complete-engine-ALPHA-maps portal; ZIP package"
+    }
+  },
+  "unresolved": [
+    {
+      "item": "Exact EPA test-article engine code / VIN / transmission",
+      "most_promising_next_source": "EPA docket EPA-HQ-OAR-2015-0827-0533 package metadata/test report; EPA NVFEL test-cell run sheets."
+    },
+    {
+      "item": "Raw WOT fuel flow and lambda/AFR at each WOT point",
+      "most_promising_next_source": "WOT Curve.csv inside EPA Tier-2/LEV-III test ZIPs; inspect all columns rather than only CAN_dyno_spd/CAN_dyno_trq used by map script."
+    },
+    {
+      "item": "Per-point spark advance",
+      "most_promising_next_source": "Expanded EPA test-data ZIP or FEV/EPA GT-Power validation dataset underlying SAE 2016-01-0565."
+    },
+    {
+      "item": "Per-point intake/exhaust cam phaser positions",
+      "most_promising_next_source": "Expanded EPA package / model-validation dyno dataset; later EPA Fig.21/Fig.25 provide derived effective-CR/overlap maps but not raw columns."
+    },
+    {
+      "item": "Per-point lambda/AFR",
+      "most_promising_next_source": "Expanded EPA model-validation dataset; SAE 2016-01-0565 explicitly says exhaust lambda was collected."
+    },
+    {
+      "item": "Per-point throttle angle / MAP / air mass flow",
+      "most_promising_next_source": "Expanded EPA package and GT-Power validation input deck; EPA paper publishes MAP comparisons but no numerical table."
+    },
+    {
+      "item": "Per-point start of injection and rail pressure",
+      "most_promising_next_source": "Expanded EPA/FEV model-validation dataset; SAE 2016-01-0565 states SOI was collected."
+    },
+    {
+      "item": "Per-point exhaust temperature",
+      "most_promising_next_source": "Expanded EPA/FEV model-validation dataset."
+    },
+    {
+      "item": "Exact intake-air temp, humidity, barometer, coolant and oil temperatures for map",
+      "most_promising_next_source": "EPA core-package test report/run sheets; if absent, NVFEL test-cell metadata."
+    },
+    {
+      "item": "Mazda-specific torque/fuel-flow/speed measurement uncertainty",
+      "most_promising_next_source": "EPA core-package instrumentation sheet/calibration certificates; SAE 2015-01-1266 only supplies family-method values."
+    },
+    {
+      "item": "Intake/exhaust valve head diameters",
+      "most_promising_next_source": "2014 Mazda3 BM SKYACTIV-G 2.0 OEM workshop manual / Mazda EPC engineering part drawing."
+    },
+    {
+      "item": "Numeric valve lift profiles, duration and base centerlines",
+      "most_promising_next_source": "FEV/EPA measured geometry input deck referenced by SAE 2016-01-0565; Mazda PE-VPS camshaft engineering drawing."
+    },
+    {
+      "item": "Piston compression height / exact crown-cavity dimensions",
+      "most_promising_next_source": "Mazda PE-VPS piston engineering drawing or dimensional teardown."
+    },
+    {
+      "item": "Main/rod bearing axial widths and number of mains",
+      "most_promising_next_source": "2014 Mazda3 BM workshop-manual overhaul drawings / Mazda lower-block engineering drawing."
+    },
+    {
+      "item": "Throttle bore, plenum volume, runner length/diameter and air-box volume",
+      "most_promising_next_source": "FEV/EPA GT-Power geometry dataset referenced in SAE 2016-01-0565; values were measured but not printed."
+    },
+    {
+      "item": "Air-filter restriction curve",
+      "most_promising_next_source": "Mazda production air-cleaner flow test or EPA/FEV intake model input measurements."
+    },
+    {
+      "item": "Exact 4-2-1 primary/secondary lengths, IDs and merge coordinates",
+      "most_promising_next_source": "Mazda PE-VPS exhaust manifold engineering drawing / EPA-FEV measured exhaust geometry."
+    },
+    {
+      "item": "Exhaust backpressure table",
+      "most_promising_next_source": "EPA model-validation dynamometer dataset underlying SAE 2016-01-0565."
+    },
+    {
+      "item": "Balance-shaft and flywheel/DMF configuration of tested article",
+      "most_promising_next_source": "EPA test article build sheet / 2014 Mazda3 BM VIN-specific parts catalog."
+    },
+    {
+      "item": "LEV III separate RON, MON and carbon mass fraction",
+      "most_promising_next_source": "LEV III fuel certificate/analysis inside EPA LEV III package."
+    },
+    {
+      "item": "Exact rated-power correction/rating standard",
+      "most_promising_next_source": "Mazda North America homologation/certification sheet identifying SAE J1349 or other procedure."
+    }
+  ],
+  "conflicts": [
+    {
+      "Parameter": "Model year description",
+      "Value A": "2014 Mazda SKYACTIV 2.0L used in Mazda3",
+      "Source A": "Ellies, Schenk & Dekraker, Benchmarking and Hardware-in-the-Loop Operation of a 2014 MAZDA SkyActiv 2.0L 13:1 Compression Ratio Engine, SAE 2016-01-1007 — pp. 2–4; Table 1, Table 2, Figs. 1–5 — https://www.epa.gov/sites/default/files/2016-10/documents/2016-01-1007-benchmark-hil-operat-2014-mazda-skyactiv-2.0l.pdf",
+      "Value B": "2015 Mazda SKYACTIV-G referenced in introductory wording",
+      "Source B": "Lee, Schenk & McDonald, Air Flow Optimization and Calibration in High-Compression-Ratio Naturally Aspirated SI Engines with Cooled-EGR, SAE 2016-01-0565 — pp. 1–5; Figs. 1–14 — https://www.epa.gov/sites/default/files/2016-10/documents/2016-01-0565-air-flow-optim-calib-nat-asp-eng_0.pdf",
+      "Assessment": "Treat SAE 2016-01-1007 as the configuration lock; 2016-01-0565 wording appears to refer to the benchmarking program generically. Do not merge into a 2015 test-article claim."
+    },
+    {
+      "Parameter": "Maximum/rated power",
+      "Value A": "115 kW @ 6000 rpm",
+      "Source A": "Ellies, Schenk & Dekraker, Benchmarking and Hardware-in-the-Loop Operation of a 2014 MAZDA SkyActiv 2.0L 13:1 Compression Ratio Engine, SAE 2016-01-1007 — pp. 2–4; Table 1, Table 2, Figs. 1–5 — https://www.epa.gov/sites/default/files/2016-10/documents/2016-01-1007-benchmark-hil-operat-2014-mazda-skyactiv-2.0l.pdf",
+      "Value B": "Map-generation process appends 6000 rpm / 184 N·m, equivalent to ~115.6 kW; some process text refers to 116 kW",
+      "Source B": "U.S. EPA, Process for Generating Engine Fuel Consumption Map (Mazda SKYACTIV 2.0L engine using Tier 2 fuel), v. 11-28-2016 — pp. 1–7; core-data/WOT/motoring import code; fuel-property block — https://www.epa.gov/sites/production/files/2016-11/documents/procs-gen-eng-fuel-cons-map-2014-mazda-2-0l-skyact.pdf",
+      "Assessment": "Retain both. Difference is consistent with rounding / use of 155 hp published anchor. Do not average."
+    },
+    {
+      "Parameter": "Connecting-rod centre-to-centre",
+      "Value A": "154.8 mm (6.094 in)",
+      "Source A": "Mazda SKYACTIV-G 2.0 Workshop Manual mirror — Mechanical 01-10, valve/rod/crankshaft technical data, pp. 25–37 in mirrored manual — https://www.scribd.com/document/945356613/Binder-2",
+      "Value B": "155.2 mm (6.110 in) in another older SKYACTIV-G 2.0 service-manual mirror",
+      "Source B": "https://diagnostdata.com/mazda/3/bl-2011-2013/remont/mechanical/engine-mechanical-overhaul-skyactiv-g-20/other/",
+      "Assessment": "Variant/revision conflict. Do not use either as exact D for EPA test article until 2014 BM Mazda3 PE-VPS VIN-specific workshop data is checked."
+    }
+  ],
+  "sources": {
+    "EPA1007": {
+      "title": "Ellies, Schenk & Dekraker, Benchmarking and Hardware-in-the-Loop Operation of a 2014 MAZDA SkyActiv 2.0L 13:1 Compression Ratio Engine, SAE 2016-01-1007",
+      "url": "https://www.epa.gov/sites/default/files/2016-10/documents/2016-01-1007-benchmark-hil-operat-2014-mazda-skyactiv-2.0l.pdf",
+      "locator": "pp. 2–4; Table 1, Table 2, Figs. 1–5"
+    },
+    "EPA_MAP_PROCESS": {
+      "title": "U.S. EPA, Process for Generating Engine Fuel Consumption Map (Mazda SKYACTIV 2.0L engine using Tier 2 fuel), v. 11-28-2016",
+      "url": "https://www.epa.gov/sites/production/files/2016-11/documents/procs-gen-eng-fuel-cons-map-2014-mazda-2-0l-skyact.pdf",
+      "locator": "pp. 1–7; core-data/WOT/motoring import code; fuel-property block"
+    },
+    "EPA_CORE_ZIP_2016": {
+      "title": "U.S. EPA, 2014 Mazda 2.0L Skyactiv 13-1 Tier 2 Fuel — Engine Mapping Core Test Package",
+      "url": "https://www.epa.gov/sites/production/files/2016-10/2014-mazda-2.0l-skyactiv-13-1-tier2-fuel-engine-mapping-core-test-package-06-28-16.zip",
+      "locator": "Docket EPA-HQ-OAR-2015-0827-0533; ZIP package"
+    },
+    "EPA_TIER2_ZIP_2018": {
+      "title": "U.S. EPA, 2014 Mazda 2.0L Skyactiv Engine Tier 2 Fuel Test Data Package (03-29-18)",
+      "url": "https://www.epa.gov/sites/default/files/2018-04/2014-mazda-2.0l-skyactiv-engine-tier-2-fuel-test-data-package-03-29-18.zip",
+      "locator": "EPA benchmarking portal; ZIP package"
+    },
+    "EPA_LEVIII_ZIP_2018": {
+      "title": "U.S. EPA, 2014 Mazda 2.0L Skyactiv Engine LEV III Fuel Test Data Package (03-29-18)",
+      "url": "https://www.epa.gov/sites/default/files/2018-04/2014-mazda-2-0l-skyactiv-engine-lev-3-fuel-test-data-package-03-29-18.zip",
+      "locator": "EPA benchmarking portal; ZIP package"
+    },
+    "EPA_TIER2_ALPHA_ZIP": {
+      "title": "U.S. EPA, 2014 Mazda 2.0L Skyactiv Engine Tier 2 Fuel — ALPHA Map Package (03-29-18)",
+      "url": "https://www.epa.gov/sites/default/files/2018-04/2014-mazda-2.0l-skyactiv-engine-tier-2-fuel-alpha-map-package-03-29-18.zip",
+      "locator": "EPA complete-engine-ALPHA-maps portal; ZIP package"
+    },
+    "EPA_LEVIII_ALPHA_ZIP": {
+      "title": "U.S. EPA, 2014 Mazda 2.0L Skyactiv Engine LEV III Fuel — ALPHA Map Package (03-29-18)",
+      "url": "https://www.epa.gov/sites/default/files/2018-04/2014-mazda-2-0l-skyactiv-engine-lev-3-fuel-alpha-map-package-03-29-18.zip",
+      "locator": "EPA complete-engine-ALPHA-maps portal; ZIP package"
+    },
+    "EPA0565": {
+      "title": "Lee, Schenk & McDonald, Air Flow Optimization and Calibration in High-Compression-Ratio Naturally Aspirated SI Engines with Cooled-EGR, SAE 2016-01-0565",
+      "url": "https://www.epa.gov/sites/default/files/2016-10/documents/2016-01-0565-air-flow-optim-calib-nat-asp-eng_0.pdf",
+      "locator": "pp. 1–5; Figs. 1–14"
+    },
+    "MAZDA_2011": {
+      "title": "Mazda Technical Review 2011 No.29 — New-Generation Technology “SKYACTIV Powertrain”",
+      "url": "https://www.mazda.com/content/dam/mazda/corporate/mazda-com/en/pdf/innovation/monozukuri/technology/tech-review/2011/giho_all2011.pdf",
+      "locator": "SKYACTIV Powertrain article, pp. 29–35; Fig. 9 and surrounding 4-2-1 discussion"
+    },
+    "MAZDA_2012": {
+      "title": "Mazda Technical Review 2012 No.30 — Engine Technology for SKYACTIV-G on CX-5",
+      "url": "https://www.mazda.com/en/innovation/monozukuri/technology/tech-review/2012/",
+      "locator": "Engine Technology for SKYACTIV-G on CX-5, pp. 3–8; Sec. 6.1–6.2"
+    },
+    "MAZDA_USA_SKY": {
+      "title": "Mazda USA — SKYACTIV Technology",
+      "url": "https://portaltest.mazdausa.com/m490/MusaWeb/skyactiv.action",
+      "locator": "SKYACTIV-G 2.0L/2.5L overview"
+    },
+    "CHARM_2016": {
+      "title": "Mazda3 05/2016 → Service Information — ENGINE TECHNICAL DATA [SKYACTIV-G 2.0]",
+      "url": "https://charm.li/Mazda/Mazda3%2005%2F2016%20-%3E%20%28d9k6-1a-21b_ver12%29/esicont/engine/A27/html/id015000800100.html",
+      "locator": "Engine technical data table"
+    },
+    "CHARM_CRANK": {
+      "title": "Mazda3 05/2016 → Service Information — CRANKSHAFT INSPECTION [SKYACTIV-G 2.0]",
+      "url": "https://charm.li/Mazda/Mazda3%2005%2F2016%20-%3E%20%28d9k6-1a-21b_ver12%29/esicont/engine/A27/html/id011000502500.html",
+      "locator": "Crankshaft inspection specifications"
+    },
+    "WORKSHOP_MIRROR": {
+      "title": "Mazda SKYACTIV-G 2.0 Workshop Manual mirror",
+      "url": "https://www.scribd.com/document/945356613/Binder-2",
+      "locator": "Mechanical 01-10, valve/rod/crankshaft technical data, pp. 25–37 in mirrored manual"
+    },
+    "PRINS_PEVPS": {
+      "title": "Prins VSI-2.1 DI technical system info — Mazda 2.0 PE-VPS 121 kW 2012–2016",
+      "url": "https://www.prinsautogas.com/sites/default/files/media/members/technical-system-info/vsi-2-di/vsi-2-di%20semi-dedicated%20iv/Mazda%202.0%20PE-VPS%20121kW%202012-2016%201308300%20VSI-2.0%20di.pdf",
+      "locator": "p. 1, engine identification/firing order"
+    },
+    "EPA_2019_TOYOTA": {
+      "title": "Stuhldreher et al., Benchmarking a 2018 Toyota Camry 2.5-liter Atkinson Cycle Engine with Cooled-EGR, SAE 2019-01-0249",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7425626/",
+      "locator": "Figs. 21, 23, 25, 36; comparison to base OE 2014 Mazda 2.0L 13:1"
+    },
+    "EPA_2015_METHOD": {
+      "title": "Stuhldreher et al., Downsized Boosted Engine Benchmarking and Results, SAE 2015-01-1266",
+      "url": "https://www.epa.gov/sites/default/files/2016-10/documents/2015-01-1266_0.pdf",
+      "locator": "EPA benchmark instrumentation/uncertainty methodology; uncertainty discussion"
+    }
+  }
+}

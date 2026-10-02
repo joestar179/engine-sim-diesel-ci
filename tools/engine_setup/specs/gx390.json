@@ -1,0 +1,63 @@
+{
+ "name": "Honda GX390 (spec-sheet setup)",
+ "node": "gen_gx390",
+ "layout": "single",
+ "bore_mm": 88.0,
+ "stroke_mm": 64.0,
+ "cr": 8.2,
+ "valves_per_cyl": 2,
+ "valvetrain": "ohv",
+ "fuel_system": "carburettor",
+ "fuel": "gasoline",
+ "rated_kw": 8.7,
+ "rated_rpm": 3600,
+ "peak_nm": 26.5,
+ "peak_rpm": 2500,
+ "idle_rpm": 1400,
+ "redline_rpm": 3850,
+ "rating_cf": 0.973,
+ "main_bearings": 2,
+ "curve": [
+  [
+   2000,
+   24.7
+  ],
+  [
+   2200,
+   25.7
+  ],
+  [
+   2400,
+   26.3
+  ],
+  [
+   2500,
+   26.5
+  ],
+  [
+   2600,
+   26.4
+  ],
+  [
+   2800,
+   26.3
+  ],
+  [
+   3000,
+   25.9
+  ],
+  [
+   3200,
+   25.2
+  ],
+  [
+   3400,
+   24.2
+  ],
+  [
+   3600,
+   23.08
+  ]
+ ],
+ "engine_class": "small_industrial"
+}

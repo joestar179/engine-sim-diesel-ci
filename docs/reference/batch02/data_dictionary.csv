@@ -1,0 +1,49 @@
+dataset,parameter,unit,description,calibration_status
+Tier2,Speed,rpm,Dynamometer (and thus Engine) Speed,Calibration to a Standard
+Tier2,Torque,Nm,Torque Measured with Inline Torque Sensor,Calibration to a Standard
+Tier2,BMEP,bar,Brake Mean Effective Pressure,Calculated
+Tier2,Cell Temp,degC,Air Temperature Measured in the Test Cell,Verification to a Standard
+Tier2,Cell Press,kPaA,Barometric Pressure Measured in the Test Cell,Calibration to a Standard
+Tier2,BSFC,g/kW-hr,Brake Specific Fuel Consumption,Calculated
+Tier2,BTE,%,Brake Thermal Efficiency,Calculated
+Tier2,Cylinder Deac,---,Cylinder Deactivation Enabled or Disabled ,Reference Only
+Tier2,Fuel Meter Flow,g/s,Fuel Flow Measured with Flow Meter,Calibration to a Standard
+Tier2,Spark Timing,CAD BTDC,Average Spark Timing Across all Cylinders,Reference Only
+Tier2,Coolant Temp,degC,Coolant Temperature Measured in the Engine Heater Core Loop,Verification to a Standard
+Tier2,Oil Pressure,kPaA,Oil Pressure,Calibration to a Standard
+Tier2,Oil Sump Temp,degC,Oil Temperature ,Verification to a Standard
+Tier2,Fuel Feed Press,kPaA,Test Cell Fuel Supply Pressure,Calibration to a Standard
+Tier2,Intake Manifold Press,kPaA,Pressure Measured in the Intake Manifold,Calibration to a Standard
+Tier2,Intake Manifold Temp,degC,Temperature Measured in the Intake Manifold,Verification to a Standard
+Tier2,Exhaust Bank 135 Press,kPaA,Exhaust Manifold Pressure on Bank 135 Side of the Engine,Calibration to a Standard
+Tier2,Exhaust Bank 135 Temp,degC,Exhaust Manifold Temperature on Bank 135 Side of the Engine,Verification to a Standard
+Tier2,Exhaust Bank 246 Press,kPaA,Exhaust Manifold Pressure on Bank 246 Side of the Engine,Calibration to a Standard
+Tier2,Exhaust Bank 246 Temp,degC,Exhaust Manifold Temperature on Bank 246 Side of the Engine,Verification to a Standard
+Tier2,Post Twin Cats Temp,degC,Exhaust Temperature After Close Coupled Catalyst ,Verification to a Standard
+Tier2,Exhaust Lambda 135,---,Measured via Wideband Exhaust Oxygen Sensor,Reference Only
+Tier2,Exhaust Lambda 246,---,Measured via Wideband Exhaust Oxygen Sensor,Reference Only
+Tier2,Cam Phase,CAD,Cam Phaser Retard,Calculated
+LEVIII,Speed,rpm,Dynamometer (and thus Engine) Speed,Calibration to a Standard
+LEVIII,Torque,Nm,Torque Measured with Inline Torque Sensor,Calibration to a Standard
+LEVIII,BMEP,bar,Brake Mean Effective Pressure,Calculated
+LEVIII,Cell Temp,degC,Air Temperature Measured in the Test Cell,Verification to a Standard
+LEVIII,Cell Press,kPaA,Barometric Pressure Measured in the Test Cell,Calibration to a Standard
+LEVIII,BSFC,g/kW-hr,Brake Specific Fuel Consumption,Calculated
+LEVIII,BTE,%,Brake Thermal Efficiency,Calculated
+LEVIII,Cylinder Deac,---,Cylinder Deactivation Enabled or Disabled ,Reference Only
+LEVIII,Fuel Meter Flow,g/s,Fuel Flow Measured with Flow Meter,Calibration to a Standard
+LEVIII,Spark Timing,CAD BTDC,Average Spark Timing Across all Cylinders,Reference Only
+LEVIII,Coolant Temp,degC,Coolant Temperature Measured in the Engine Heater Core Loop,Verification to a Standard
+LEVIII,Oil Pressure,kPaA,Oil Pressure,Calibration to a Standard
+LEVIII,Oil Sump Temp,degC,Oil Temperature ,Verification to a Standard
+LEVIII,Fuel Feed Press,kPaA,Test Cell Fuel Supply Pressure,Calibration to a Standard
+LEVIII,Intake Manifold Press,kPaA,Pressure Measured in the Intake Manifold,Calibration to a Standard
+LEVIII,Intake Manifold Temp,degC,Temperature Measured in the Intake Manifold,Verification to a Standard
+LEVIII,Exhaust Bank 135 Press,kPaA,Exhaust Manifold Pressure on Bank 135 Side of the Engine,Calibration to a Standard
+LEVIII,Exhaust Bank 135 Temp,degC,Exhaust Manifold Temperature on Bank 135 Side of the Engine,Verification to a Standard
+LEVIII,Exhaust Bank 246 Press,kPaA,Exhaust Manifold Pressure on Bank 246 Side of the Engine,Calibration to a Standard
+LEVIII,Exhaust Bank 246 Temp,degC,Exhaust Manifold Temperature on Bank 246 Side of the Engine,Verification to a Standard
+LEVIII,Post Twin Cats Temp,degC,Exhaust Temperature After Close Coupled Catalyst ,Verification to a Standard
+LEVIII,Exhaust Lambda 135,---,Measured via Wideband Exhaust Oxygen Sensor,Reference Only
+LEVIII,Exhaust Lambda 246,---,Measured via Wideband Exhaust Oxygen Sensor,Reference Only
+LEVIII,Cam Phase,CAD,Cam Phaser Retard,Calculated

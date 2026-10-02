@@ -18,6 +18,12 @@ jobs:
       - name: Checkout enhancement overlay
         uses: actions/checkout@v4
 
+      - name: Enforce failure-loop guard
+        shell: powershell
+        run: |
+          python .ci/guard_failure_loops.py .
+          if ($LASTEXITCODE -ne 0) { throw "failure-loop guard rejected repository state" }
+
       - name: Restore deterministic CI seed
         shell: powershell
         run: |
@@ -31,6 +37,8 @@ jobs:
           Copy-Item -Force "$env:RUNNER_TEMP\seed\engine-sim-diesel-ci-seed\.gitignore" "$env:GITHUB_WORKSPACE\.gitignore"
           python .ci/diagnostic_patch.py
           if ($LASTEXITCODE -ne 0) { throw "diagnostic patch failed" }
+          python tools/enable_gate2_compile.py tools/windows_ci.ps1
+          if ($LASTEXITCODE -ne 0) { throw "validation gate CI adapter failed" }
 
       - name: Snapshot reconstructed overlay
         shell: powershell
@@ -44,21 +52,23 @@ jobs:
           path: ${{ runner.temp }}\reconstructed-overlay.zip
           if-no-files-found: error
 
-      - name: Build, regression-compare, runtime-smoke, package
+      - name: Review build (GUI app, tools, source snapshot; not validated)
         id: ci
         shell: powershell
+        env:
+          REVIEW_BUILD_ONLY: '1'
         run: .\tools\windows_ci.ps1
 
-      - name: Upload test evidence
+      - name: Upload review build
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: engine-sim-test-evidence
+          name: engine-sim-diesel-review-build
           path: _ci/logs
           if-no-files-found: warn
 
       - name: Upload audited Windows runtime
-        if: success()
+        if: ${{ false }}
         uses: actions/upload-artifact@v4
         with:
           name: engine-sim-diesel-windows-x64

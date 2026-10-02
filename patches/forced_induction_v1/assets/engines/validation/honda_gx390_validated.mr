@@ -1,0 +1,267 @@
+import "engine_sim.mr"
+
+units units()
+constants constants()
+impulse_response_library ir_lib()
+
+/*
+    Honda GX390UT2 QAE2 (serial GCBCT-1000001-1114708), validation engine.
+    Source: docs/reference/batch01/P2_Honda_GX390UT2_QAE2_reference_pack.md
+    (Honda shop manual 62Z5F000, Honda Power Dealer parts pages).
+    Grades: D documented exact configuration, F family, R derived, C estimate
+    (plausible range stated), U unresolved.
+
+    Checks (held out, nothing below is set from them):
+      SAE J1349 net 8.7 kW @ 3600 rpm; 26.5 N m @ 2500 rpm; digitised torque
+      curve 2000-3600 rpm; 3.5 L/h at the 7.0 kW continuous rating, 3600 rpm.
+    Same coherent SI physics as the Kohler CH750 script (real-gas heat
+    capacity, enthalpy flow, Hohenberg heat transfer, flame expansion, PNH
+    friction) and the same generic valve-flow rule as the Deere engines.
+*/
+
+private node gx390_wires {
+    output wire1: ignition_wire();
+}
+
+private node gx390_gasoline {
+    alias output __out:
+        fuel(
+            name: "Gasoline [LHV 43.4 MJ/kg]",
+            energy_density: 43.4 * units.kJ / units.g,
+            max_burning_efficiency: 0.97,
+            burning_efficiency_randomness: 0.0
+        );
+}
+
+// Valve flow from valve geometry (same rule as the Deere validation engines):
+// CFM at 28 inH2O = cd x 0.2272 x min(curtain pi d L, throat pi/4 (0.88 d)^2),
+// areas in mm^2; cd 0.6 is the shared head discharge coefficient (C).
+private node gx390_intake_flow {
+    // F: 33 mm intake valve head (Honda UT2 overhaul manual sec. 12; older Honda
+    // GX340/390 assembly info gives 35 mm - conflict noted in the supplement)
+    input cd;
+    alias output __out: f;
+    function f(50 * units.thou)
+    f
+        .add_flow_sample(0, 0.0 * cd)
+        .add_flow_sample(50, 29.9 * cd)
+        .add_flow_sample(100, 59.8 * cd)
+        .add_flow_sample(150, 89.7 * cd)
+        .add_flow_sample(200, 119.7 * cd)
+        .add_flow_sample(250, 149.6 * cd)
+        .add_flow_sample(300, 150.5 * cd)
+        .add_flow_sample(350, 150.5 * cd)
+        .add_flow_sample(400, 150.5 * cd)
+        .add_flow_sample(450, 150.5 * cd)
+}
+
+private node gx390_exhaust_flow {
+    // F: 31 mm exhaust valve head (Honda UT2 overhaul manual sec. 12)
+    input cd;
+    alias output __out: f;
+    function f(50 * units.thou)
+    f
+        .add_flow_sample(0, 0.0 * cd)
+        .add_flow_sample(50, 28.1 * cd)
+        .add_flow_sample(100, 56.2 * cd)
+        .add_flow_sample(150, 84.3 * cd)
+        .add_flow_sample(200, 112.4 * cd)
+        .add_flow_sample(250, 132.8 * cd)
+        .add_flow_sample(300, 132.8 * cd)
+        .add_flow_sample(350, 132.8 * cd)
+        .add_flow_sample(400, 132.8 * cd)
+        .add_flow_sample(450, 132.8 * cd)
+}
+
+public node honda_gx390_validated {
+    input compression_ratio: 8.2;                 // D 8.2 +- 0.2
+    input fuel: gx390_gasoline();
+    input port_cd: 0.6;                           // C shared head discharge coefficient
+    // F: valve lift at the retainer, stock OEM Honda GX390 cam (VMCRA tech
+    // rules, measured at race lash): 0.322 in intake, 0.292 in exhaust.
+    input intake_valve_lift: 8.18 * units.mm;
+    input exhaust_valve_lift: 7.42 * units.mm;
+    input intake_velocity_decay: 1.0;             // C runner loss, as Kohler/Deere
+    input engine_name: "Honda GX390 (validated)";
+    alias output __out: engine;
+
+    label bore(88.0 * units.mm)                   // D
+    label stroke(64.0 * units.mm)                 // D
+    label rod_length(112.0 * units.mm)            // F 4.410 in, ARC 6272 stock-replacement rod
+    label compression_height(25.0 * units.mm)     // C (geometry only)
+    label displacement(constants.pi / 4 * bore * bore * stroke)
+    label chamber(displacement / (compression_ratio - 1))
+
+    engine engine(
+        name: engine_name,
+        starter_torque: 20 * units.lb_ft,
+        starter_speed: 500 * units.rpm,
+        redline: 3850 * units.rpm,                // D maximum no-load governed speed
+        fuel: fuel,
+        component_friction: true,                 // S PNH components
+        // D/F: ball-bearing crankshaft -> no plain main-bearing term
+        main_bearing_count: 0,
+        main_bearing_diameter: 30 * units.mm,
+        main_bearing_length: 15 * units.mm,
+        rod_bearing_diameter: 35.98 * units.mm,   // D crankpin
+        rod_bearing_length: 16 * units.mm,        // C (big-end width 14-20 mm)
+        cam_bearing_count: 2,
+        valve_count: 2,                           // R 1 intake + 1 exhaust
+        max_valve_lift: intake_valve_lift,
+        // D: slipper (flat) lifter, pushrod/rocker OHV: Sandoval table 4.2 OHV
+        valvetrain_flat_follower: 400.0,
+        valvetrain_roller_follower: 0.0,
+        valvetrain_oscillating_hydrodynamic: 0.5,
+        valvetrain_oscillating_mixed: 32.1,
+        oil_viscosity_ratio: 1.0                  // D SAE 10W-30 = PNH reference oil
+    )
+
+    gx390_wires wires()
+
+    crankshaft c0(
+        throw: stroke / 2,
+        flywheel_mass: 3.5 * units.kg,            // C
+        mass: 2.0 * units.kg,                     // C
+        friction_torque: 0.0 * units.lb_ft,       // PNH supplies friction
+        moment_of_inertia: 0.035,                 // C (kg m^2, flywheel-magneto)
+        position_x: 0.0,
+        position_y: 0.0,
+        tdc: constants.pi / 2
+    )
+
+    rod_journal rj0(angle: 0.0)
+    c0.add_rod_journal(rj0)
+
+    piston_parameters piston_params(
+        mass: 250 * units.g,                      // C
+        compression_height: compression_height,
+        wrist_pin_position: 0.0,
+        displacement: 0.0
+    )
+
+    connecting_rod_parameters cr_params(
+        mass: 180.0 * units.g,                    // C
+        moment_of_inertia: 0.0008,
+        center_of_mass: 0.0,
+        length: rod_length
+    )
+
+    cylinder_bank_parameters bank_params(
+        bore: bore,
+        deck_height: rod_length + stroke / 2 + compression_height
+    )
+
+    // Carburettor: k_carb rating (CFM at 1.5 inHg) from venturi geometry,
+    // cd x A x sqrt(2 dp / rho): C 22 mm venturi (U; 20-24 mm), cd 0.9.
+    intake intake(
+        plenum_volume: 0.3 * units.L,             // C carb + spacer + port
+        plenum_cross_section_area: 5.0 * units.cm2,
+        intake_flow_rate: k_carb(66.7),
+        idle_flow_rate: k_carb(0.0),
+        idle_throttle_plate_position: 0.99,       // C closed-throttle stop (as Kohler)
+        throttle_gamma: 1.0,
+        velocity_decay: intake_velocity_decay
+    )
+
+    // Production muffler 18310-Z5T-010 (J1349 rating hardware): C 1.5 L
+    // (1-2.5 L); outlet equivalent 24.5 mm (15-25 mm) at cd 0.6 -> 55.3 CFM,
+    // placing the WOT back-pressure at the middle of Honda's allowable
+    // 6.0-12.5 kPa at 3600 rpm (F, Honda GX tech manual p. 9). The 3000 rpm
+    // window (4.6-10.5 kPa) is a held-out check.
+    exhaust_system_parameters es_params(
+        outlet_flow_rate: k_carb(55.3),
+        primary_tube_length: 3.0 * units.inch,
+        primary_flow_rate: k_carb(200.0),
+        velocity_decay: 1.0,
+        volume: 1.5 * units.L
+    )
+
+    exhaust_system exhaust0(
+        es_params,
+        audio_volume: 1.0,
+        impulse_response: ir_lib.default_0
+    )
+
+    cylinder_bank b0(bank_params, angle: 0 * units.deg)
+    b0
+        .add_cylinder(
+            piston: piston(piston_params, blowby: k_28inH2O(0.1)),
+            connecting_rod: connecting_rod(cr_params),
+            rod_journal: rj0,
+            intake: intake,
+            exhaust_system: exhaust0,
+            ignition_wire: wires.wire1
+        )
+
+    engine.add_cylinder_bank(b0)
+    engine.add_crankshaft(c0)
+
+    // F: stock OEM Honda GX390 cam (VMCRA tech rules, at 0.050 in lifter
+    // lift, +-5 deg): IVO 5 ATDC, IVC 37 ABDC, EVO 30 BBDC, EVC 10 BTDC ->
+    // duration 212 / 200 deg, lobe centres 111 ATDC / 110 BTDC (R).
+    // C: harmonic lobe shape (gamma 1.1); the 0.050 in point is taken at the
+    // valve (lifter x ~1.2 rocker: a few degrees shorter than at the valve).
+    harmonic_cam_lobe intake_lobe(
+        duration_at_50_thou: 212 * units.deg,
+        gamma: 1.1,
+        lift: intake_valve_lift,
+        steps: 100
+    )
+
+    harmonic_cam_lobe exhaust_lobe(
+        duration_at_50_thou: 200 * units.deg,
+        gamma: 1.1,
+        lift: exhaust_valve_lift,
+        steps: 100
+    )
+
+    vtwin90_camshaft_builder camshaft(
+        lobe_profile: intake_lobe,
+        intake_lobe_profile: intake_lobe,
+        exhaust_lobe_profile: exhaust_lobe,
+        intake_lobe_center: 111 * units.deg,
+        exhaust_lobe_center: 110 * units.deg,
+        base_radius: 12 * units.mm
+    )
+
+    b0.set_cylinder_head(
+        generic_cylinder_head(
+            chamber_volume: chamber,
+            intake_runner_volume: 50.0 * units.cc,             // C
+            intake_runner_cross_section_area: 4.9 * units.cm2,  // C 25 mm port
+            exhaust_runner_volume: 40.0 * units.cc,             // C
+            exhaust_runner_cross_section_area: 4.9 * units.cm2,
+            intake_port_flow: gx390_intake_flow(cd: port_cd),
+            exhaust_port_flow: gx390_exhaust_flow(cd: port_cd),
+            valvetrain: standard_valvetrain(
+                intake_camshaft: camshaft.intake_cam_0,
+                exhaust_camshaft: camshaft.exhaust_cam_0
+            )
+        )
+    )
+
+    // D: 10 deg BTDC at 1400 rpm, advance range 10-22 deg. C: curve shape
+    // (linear 1400-2400 rpm, then held).
+    // Samples every <= 500 rpm: the function's filter radius must cover the
+    // sample spacing.
+    function timing_curve(500 * units.rpm)
+    timing_curve
+        .add_sample(0 * units.rpm, 10.0 * units.deg)
+        .add_sample(500 * units.rpm, 10.0 * units.deg)
+        .add_sample(1000 * units.rpm, 10.0 * units.deg)
+        .add_sample(1400 * units.rpm, 10.0 * units.deg)
+        .add_sample(1500 * units.rpm, 11.2 * units.deg)
+        .add_sample(2000 * units.rpm, 17.2 * units.deg)
+        .add_sample(2500 * units.rpm, 22.0 * units.deg)
+        .add_sample(3000 * units.rpm, 22.0 * units.deg)
+        .add_sample(3500 * units.rpm, 22.0 * units.deg)
+        .add_sample(4000 * units.rpm, 22.0 * units.deg)
+        .add_sample(4500 * units.rpm, 22.0 * units.deg)
+
+    engine.add_ignition_module(
+        single_cylinder_distributor(
+            wires: wires,
+            timing_curve: timing_curve,
+            rev_limit: 4200 * units.rpm
+        ))
+}

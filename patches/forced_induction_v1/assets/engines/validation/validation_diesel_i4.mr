@@ -1,0 +1,1004 @@
+import "engine_sim.mr"
+
+units units()
+constants constants()
+impulse_response_library ir_lib()
+
+/*
+    Small-diesel validation engines (inline four, 2 valves, direct injection)
+    -------------------------------------------------------------------------
+    Source: docs/reference/diesel_validation_engine_reference_pack.md
+    (research freeze 2026-09-30). Status codes as in the pack:
+      D documented exact configuration   F documented family hardware
+      R derived from documented inputs   C calibration / estimate
+      U unresolved
+    Ratings (power, torque, BSFC, airflow, AFR, EGT, boost) are CHECKS. The
+    only fuel input is the fuel stop, which is derived from documented fuel
+    consumption (R); everything else is geometry, documented settings or a
+    labelled C value. Same generic C++ core as every other engine: no
+    engine-specific code.
+
+    Generic C values shared by all four engines:
+      - valve flow from valve geometry: effective area = cd x min(curtain
+        pi d L, port throat pi/4 (0.88 d)^2) at the 28 inH2O test condition
+        (throat 0.88 d textbook); cd is the head's discharge coefficient
+      - cam: 2-valve DI-diesel timing class, IVO 10 BTDC / IVC 40 ABDC,
+        EVO 50 BBDC / EVC 10 ATDC
+      - injection duration, combustion duration, premixed fraction
+      - piston/rod masses, rod length where not documented
+*/
+
+private node i4_wires {
+    output wire1: ignition_wire();
+    output wire2: ignition_wire();
+    output wire3: ignition_wire();
+    output wire4: ignition_wire();
+}
+
+label i4_cycle(2 * 360 * units.deg)
+
+// Diesel combustion-event scheduler (start of injection); no spark implied.
+private node i4_injection_scheduler {
+    input wires;
+    input timing_curve;
+    input rev_limit;
+
+    alias output __out:
+        ignition_module(
+            timing_curve: timing_curve,
+            rev_limit: rev_limit,
+            limiter_duration: 0.1
+        )
+            // Firing order 1-3-4-2 (D for both families)
+            .connect_wire(wires.wire1, (0.0 / 4.0) * i4_cycle)
+            .connect_wire(wires.wire3, (1.0 / 4.0) * i4_cycle)
+            .connect_wire(wires.wire4, (2.0 / 4.0) * i4_cycle)
+            .connect_wire(wires.wire2, (3.0 / 4.0) * i4_cycle);
+}
+
+private node i4_camshaft_builder {
+    input intake_lobe_profile;
+    input exhaust_lobe_profile;
+    input intake_lobe_center;
+    input exhaust_lobe_center;
+    input base_radius: 18 * units.mm;
+
+    output intake_cam: _intake_cam;
+    output exhaust_cam: _exhaust_cam;
+
+    camshaft_parameters params(advance: 0 * units.deg, base_radius: base_radius)
+    camshaft _intake_cam(params, lobe_profile: intake_lobe_profile)
+    camshaft _exhaust_cam(params, lobe_profile: exhaust_lobe_profile)
+
+    // One event every 180 crank degrees; phases 1=0, 3=1, 4=2, 2=3.
+    label rot(2 * (360 / 4.0) * units.deg)
+    label rot360(360 * units.deg)
+
+    _exhaust_cam
+        .add_lobe((rot360 - exhaust_lobe_center) + 0 * rot)
+        .add_lobe((rot360 - exhaust_lobe_center) + 3 * rot)
+        .add_lobe((rot360 - exhaust_lobe_center) + 1 * rot)
+        .add_lobe((rot360 - exhaust_lobe_center) + 2 * rot)
+
+    _intake_cam
+        .add_lobe(rot360 + intake_lobe_center + 0 * rot)
+        .add_lobe(rot360 + intake_lobe_center + 3 * rot)
+        .add_lobe(rot360 + intake_lobe_center + 1 * rot)
+        .add_lobe(rot360 + intake_lobe_center + 2 * rot)
+}
+
+private node i4_head {
+    input intake_camshaft;
+    input exhaust_camshaft;
+    input chamber_volume;
+    input intake_flow;
+    input exhaust_flow;
+    input intake_runner_volume;
+    input intake_runner_cross_section_area;
+    input exhaust_runner_volume;
+    input exhaust_runner_cross_section_area;
+    alias output __out: head;
+
+    generic_cylinder_head head(
+        chamber_volume: chamber_volume,
+        intake_runner_volume: intake_runner_volume,
+        intake_runner_cross_section_area: intake_runner_cross_section_area,
+        exhaust_runner_volume: exhaust_runner_volume,
+        exhaust_runner_cross_section_area: exhaust_runner_cross_section_area,
+        intake_port_flow: intake_flow,
+        exhaust_port_flow: exhaust_flow,
+        valvetrain: standard_valvetrain(
+            intake_camshaft: intake_camshaft,
+            exhaust_camshaft: exhaust_camshaft
+        )
+    )
+}
+
+/*
+    Diesel No. 2 (shared by the validation engines).
+      energy_density 42.8 kJ/g: lower heating value of No. 2 diesel (D,
+        handbook value 42.6-43.0). The ALCO scripts still carry 45.5 kJ/g
+        (the higher heating value) x 0.88 = 40.0 kJ/g released; see the
+        parameter register.
+      max_burning_efficiency 0.98: diesel combustion efficiency is above
+        98 % (Heywood, ICE Fundamentals, ch. 4); unburned fuel from oxygen
+        shortage is modelled separately.
+      molecular_afr: stoichiometric O2/fuel molar ratio of C12H23 (17.75).
+*/
+private node validation_diesel_fuel {
+    alias output __out:
+        fuel(
+            name: "Diesel No. 2 [C12H23, LHV 42.8 MJ/kg]",
+            molecular_mass: 167.3 * units.g,
+            energy_density: 42.8 * units.kJ / units.g,
+            density: 0.84 * units.kg / units.L,
+            molecular_afr: 17.75,
+            max_burning_efficiency: 0.98,
+            burning_efficiency_randomness: 0.02,
+            low_efficiency_attenuation: 0.75,
+            max_turbulence_effect: 2.0,
+            max_dilution_effect: 5.0
+        );
+}
+
+private node validation_diesel_i4 {
+    input engine_name;
+    input bore;
+    input stroke;
+    input compression_ratio;
+    input rod_length;
+    input piston_mass;
+    input rod_mass;
+    input crank_moment;        // rotating assembly incl. flywheel / driven load
+    input crank_friction;      // N m, see each engine (motoring friction)
+    input starter_speed;
+    input starter_torque;
+    input redline;
+    input rev_limit;
+    input dyno_min_speed;
+    input dyno_max_speed;
+
+    input max_fuel;            // fuel stop, per cylinder event
+    input fuel_stop_curve;
+    input injection_duration: 22 * units.deg;     // C (prescribed path only)
+    /*
+        Injection hardware. nozzle_hole_count > 0 switches injection and
+        combustion to nozzle hydraulics + mixing-controlled burn (generic
+        CompressionIgnitionModel path); injection and combustion durations
+        are then outputs, not inputs.
+    */
+    input nozzle_hole_count: 0;
+    input nozzle_hole_diameter: 0.0;
+    input injection_pressure: 0.0;
+    input pump_plunger_count: 0;
+    input pump_plunger_diameter: 0.0;
+    input pump_cam_lift_rate: 0.0;
+    input combustion_duration: 60 * units.deg;    // C
+    input premixed_burn_fraction: 0.15;           // C
+    input timing_curve;
+
+    input governor;
+
+    input intake_flow;
+    input exhaust_flow;
+    input intake_lobe;
+    input exhaust_lobe;
+    input intake_lobe_center: 105 * units.deg;    // C: IVO 10 BTDC, IVC 40 ABDC
+    input exhaust_lobe_center: 110 * units.deg;   // C: EVO 50 BBDC, EVC 10 ATDC
+
+    input intake_pipe_diameter;
+    input intake_flow_rate;                       // air cleaner restriction
+    input exhaust_pipe_diameter;
+    input exhaust_outlet_flow_rate;               // silencer restriction
+
+    /*
+        Intake momentum drag (GasSystem::updateVelocity): momentum falls by
+        beta x dynamic pressure x face area per unit time, i.e. beta is the
+        runner's loss coefficient in velocity heads. C: entrance ~0.5 + port
+        bend 0.3-0.5 + wall friction ~0.15 -> 1.0. The ALCO value 0.30 gave a
+        20 kPa ram overpressure at BDC and volumetric efficiency 1.09 on the
+        4045DF150 (documented 0.84); results are insensitive above 1.
+    */
+    input intake_velocity_decay: 1.0;
+
+    /*
+        Mechanical friction: Patton-Nitschke-Heywood component model (SAE
+        890836; equations and constants as in Sandoval, MIT 2003, pp. 13-16,
+        A.2). Replaces the stock per-piston side-thrust friction. Pumping is
+        simulated, not modelled. Documented motoring friction power and the
+        torque curves are CHECKS, not fitted.
+          C  bearing geometry from typical proportions: main journal 0.75 B,
+             rod journal 0.68 B, bearing length 0.4 D (+-10 % changes the
+             4045DF150 full-load torque by < 1.5 %)
+          C  OHV pushrod valvetrain with flat tappets: Sandoval table 4.2 OHV
+             constants (flat 400, oscillating hydrodynamic 0.5, mixed 32.1)
+          A  oil SAE 15W-40 at 90 C: 13.6 cSt high-shear (Sandoval A.2 Vogel
+             constants) / PNH reference 10.6 cSt = 1.28 on the hydrodynamic
+             terms
+    */
+    input main_bearing_count: 5;
+    input main_bearing_diameter: 0.75 * bore;
+    input rod_bearing_diameter: 0.68 * bore;
+    input cam_bearing_count: 4;
+    input max_valve_lift: 11.8 * units.mm;
+    input turbo_enabled: false;
+    // System exhaust primary ahead of the collector/turbine. NA: 12 in (A).
+    // Turbo pulse manifold: 0 here, so cylinder-to-turbine is the per-cylinder
+    // 8-10 in log-manifold distance (0.20-0.25 m; C, range 0.15-0.40 m).
+    input exhaust_primary_tube_length: 12 * units.inch;
+    input turbo;
+    alias output __out: engine;
+
+    i4_wires wires()
+
+    label displacement_per_cylinder(constants.pi / 4 * bore * bore * stroke)
+
+    engine engine(
+        name: engine_name,
+        starter_speed: starter_speed,
+        starter_torque: starter_torque,
+        redline: redline,
+        dyno_min_speed: dyno_min_speed,
+        dyno_max_speed: dyno_max_speed,
+        dyno_hold_step: 100 * units.rpm,
+        fuel: validation_diesel_fuel(),
+
+        compression_ignition: true,
+        max_fuel_mass_per_cycle: max_fuel,
+        fuel_stop_curve: fuel_stop_curve,
+        component_friction: true,
+        main_bearing_count: main_bearing_count,
+        main_bearing_diameter: main_bearing_diameter,
+        main_bearing_length: 0.4 * main_bearing_diameter,
+        rod_bearing_diameter: rod_bearing_diameter,
+        rod_bearing_length: 0.4 * rod_bearing_diameter,
+        cam_bearing_count: cam_bearing_count,
+        valve_count: 8,
+        max_valve_lift: max_valve_lift,
+        valvetrain_flat_follower: 400.0,
+        valvetrain_roller_follower: 0.0,
+        valvetrain_oscillating_hydrodynamic: 0.5,
+        valvetrain_oscillating_mixed: 32.1,
+        oil_viscosity_ratio: 1.28,
+        injection_duration: injection_duration,
+        nozzle_hole_count: nozzle_hole_count,
+        nozzle_hole_diameter: nozzle_hole_diameter,
+        injection_pressure: injection_pressure,
+        pump_plunger_count: pump_plunger_count,
+        pump_plunger_diameter: pump_plunger_diameter,
+        pump_cam_lift_rate: pump_cam_lift_rate,
+        // Ignition delay from the simulated cylinder state (Assanis et al.
+        // 2003, Livengood-Wu integral); no crank-angle delay constant.
+        ignition_delay_correlation: true,
+        ignition_delay: 0 * units.deg,
+        combustion_duration: combustion_duration,
+        premixed_burn_fraction: premixed_burn_fraction,
+        autoignition_temperature: 550 * units.K,
+        autoignition_pressure: 1.0 * units.MPa,
+
+        turbo_enabled: turbo_enabled,
+        turbo_shaft_inertia: turbo.shaft_inertia,
+        turbo_friction_torque: turbo.friction_torque,
+        turbo_max_speed: turbo.max_speed,
+        turbo_max_pressure_ratio: turbo.max_pressure_ratio,
+        compressor_efficiency: turbo.compressor_efficiency,
+        turbine_efficiency: turbo.turbine_efficiency,
+        aftercooler_effectiveness: 0.0,
+        turbo_design_mass_flow: turbo.design_mass_flow,
+        turbine_design_pressure_ratio: turbo.turbine_design_pressure_ratio,
+        turbine_design_temperature: turbo.turbine_design_temperature,
+        turbo_turbine_flow_rate: turbo.turbine_flow_rate,
+        turbo_pre_turbine_volume: turbo.pre_turbine_volume,
+        turbo_pre_turbine_area: circle_area(turbo.pre_turbine_diameter / 2),
+        turbo_inlet_channel_count: 1,
+        turbo_compressor_inlet_volume: turbo.compressor_inlet_volume,
+        turbo_compressor_discharge_volume: turbo.compressor_discharge_volume,
+        turbo_cooler_volume: 0.2 * units.L,
+        turbo_charge_plenum_volume: turbo.charge_plenum_volume,
+        turbo_charge_area: circle_area(intake_pipe_diameter / 2),
+        turbo_inlet_flow_rate: 0.0,
+        turbo_passive_compressor_flow_rate: 0.0,
+        turbo_cooler_flow_rate: 0.0,
+        turbo_charge_flow_rate: 0.0,
+        // Both families are turbocharged without charge-air cooling (D).
+        aftercooler_enabled: false,
+        aftercooler_pressure_loss: 0.0,
+        turbo_throttle_enabled: false,
+        wastegate_enabled: false,
+        wastegate_flow_rate: 0.0,
+        wastegate_position: 0.0,
+        compressor_bypass_enabled: false,
+        compressor_bypass_flow_rate: 0.0,
+        compressor_bypass_position: 0.0,
+        compressor_bypass_recirculates: true,
+        vgt_enabled: false,
+        vgt_position: 1.0,
+        vgt_min_flow_factor: 0.25,
+        compressor_blade_count: turbo.compressor_blade_count,
+
+        audio_low_speed_full_strength: 80 * units.rpm,
+        audio_low_speed_exponent: 1.0,
+
+        throttle: governor,
+
+        // 10 kHz: 1.5 crank degrees per step at 2500 rpm (stock default).
+        simulation_frequency: 10000,
+        hf_gain: 0.01,
+        noise: 1.0,
+        jitter: 0.1
+    )
+
+    label throw(stroke / 2)
+    label compression_height(0.55 * bore)        // C (does not affect CR)
+
+    crankshaft c0(
+        throw: throw,
+        flywheel_mass: 30 * units.kg,
+        mass: 30 * units.kg,
+        friction_torque: crank_friction,
+        moment_of_inertia: crank_moment,
+        position_x: 0.0,
+        position_y: 0.0,
+        tdc: constants.pi / 2
+    )
+
+    // Inline four: pins 1/4 at 0 deg, 2/3 at 180 deg. Journal angle = firing
+    // phase for 1-3-4-2 (1=0, 3=180, 4=360, 2=540), as the bundled examples.
+    rod_journal rj1(angle:   0 * units.deg)
+    rod_journal rj2(angle: 540 * units.deg)
+    rod_journal rj3(angle: 180 * units.deg)
+    rod_journal rj4(angle: 360 * units.deg)
+
+    c0
+        .add_rod_journal(rj1)
+        .add_rod_journal(rj2)
+        .add_rod_journal(rj3)
+        .add_rod_journal(rj4)
+
+    piston_parameters piston_params(
+        mass: piston_mass,
+        blowby: 0,
+        compression_height: compression_height,
+        wrist_pin_position: 0 * units.mm,
+        displacement: 0.0
+    )
+
+    connecting_rod_parameters rod_params(
+        mass: rod_mass,
+        moment_of_inertia: rod_moment_of_inertia(mass: rod_mass, length: rod_length),
+        center_of_mass: 0.0,
+        length: rod_length
+    )
+
+    cylinder_bank_parameters bank_params(
+        bore: bore,
+        deck_height: throw + rod_length + compression_height,
+        display_depth: 0.4
+    )
+
+    // Air-only intake manifold (C volumes); the CI core holds the plate open.
+    intake intake(
+        plenum_volume: 2.0 * units.L,
+        plenum_cross_section_area: circle_area(intake_pipe_diameter / 2),
+        intake_flow_rate: intake_flow_rate,
+        runner_flow_rate: k_carb(400),
+        runner_length: 10 * units.inch,
+        idle_flow_rate: 0,
+        idle_throttle_plate_position: 0.0,
+        throttle_gamma: 1.0,
+        molecular_afr: 17.75,
+        velocity_decay: intake_velocity_decay
+    )
+
+    exhaust_system_parameters exhaust_params(
+        collector_cross_section_area: circle_area(exhaust_pipe_diameter / 2),
+        outlet_flow_rate: exhaust_outlet_flow_rate,
+        primary_tube_length: exhaust_primary_tube_length,
+        primary_flow_rate: k_carb(400),
+        velocity_decay: 0.40
+    )
+
+    exhaust_system exhaust(
+        exhaust_params,
+        length: 60 * units.inch,
+        audio_volume: 1.0,
+        impulse_response: ir_lib.mild_exhaust_0
+    )
+
+    cylinder_bank b0(bank_params, angle: 0)
+    b0
+        .add_cylinder(
+            piston: piston(piston_params, blowby: k_28inH2O(0.05)),
+            connecting_rod: connecting_rod(rod_params),
+            rod_journal: rj1, intake: intake, exhaust_system: exhaust,
+            ignition_wire: wires.wire1, primary_length: 10 * units.inch)
+        .add_cylinder(
+            piston: piston(piston_params, blowby: k_28inH2O(0.05)),
+            connecting_rod: connecting_rod(rod_params),
+            rod_journal: rj2, intake: intake, exhaust_system: exhaust,
+            ignition_wire: wires.wire2, primary_length: 8 * units.inch)
+        .add_cylinder(
+            piston: piston(piston_params, blowby: k_28inH2O(0.05)),
+            connecting_rod: connecting_rod(rod_params),
+            rod_journal: rj3, intake: intake, exhaust_system: exhaust,
+            ignition_wire: wires.wire3, primary_length: 8 * units.inch)
+        .add_cylinder(
+            piston: piston(piston_params, blowby: k_28inH2O(0.05)),
+            connecting_rod: connecting_rod(rod_params),
+            rod_journal: rj4, intake: intake, exhaust_system: exhaust,
+            ignition_wire: wires.wire4, primary_length: 10 * units.inch)
+
+    engine.add_cylinder_bank(b0)
+    engine.add_crankshaft(c0)
+
+    i4_camshaft_builder camshaft(
+        intake_lobe_profile: intake_lobe,
+        exhaust_lobe_profile: exhaust_lobe,
+        intake_lobe_center: intake_lobe_center,
+        exhaust_lobe_center: exhaust_lobe_center
+    )
+
+    b0.set_cylinder_head(
+        i4_head(
+            intake_camshaft: camshaft.intake_cam,
+            exhaust_camshaft: camshaft.exhaust_cam,
+            chamber_volume: displacement_per_cylinder / (compression_ratio - 1),
+            intake_flow: intake_flow,
+            exhaust_flow: exhaust_flow,
+            intake_runner_volume: 0.25 * units.L,
+            intake_runner_cross_section_area: 12 * units.cm2,
+            exhaust_runner_volume: 0.20 * units.L,
+            exhaust_runner_cross_section_area: 10 * units.cm2
+        )
+    )
+
+    engine.add_ignition_module(
+        i4_injection_scheduler(
+            wires: wires,
+            timing_curve: timing_curve,
+            rev_limit: rev_limit
+        )
+    )
+}
+
+// ---------------------------------------------------------------------------
+// Turbo parameter sets
+// ---------------------------------------------------------------------------
+
+// Placeholder for naturally aspirated engines (turbo_enabled false).
+private node no_turbo {
+    output shaft_inertia: 0.0001 * units.kg * units.m * units.m;
+    output friction_torque: 0.0;
+    output max_speed: 100000 * units.rpm;
+    output max_pressure_ratio: 1.0;
+    output compressor_efficiency: 0.7;
+    output turbine_efficiency: 0.7;
+    output design_mass_flow: 0.1 * units.kg / units.sec;
+    output turbine_design_pressure_ratio: 1.5;
+    output turbine_design_temperature: 800 * units.K;
+    output turbine_flow_rate: 0.0;
+    output pre_turbine_volume: 1.0 * units.L;
+    output pre_turbine_diameter: 40 * units.mm;
+    output compressor_inlet_volume: 1.0 * units.L;
+    output compressor_discharge_volume: 0.5 * units.L;
+    output charge_plenum_volume: 1.0 * units.L;
+    output compressor_blade_count: 12;
+}
+
+/*
+    Small fixed-geometry turbo, BorgWarner/Schwitzer S2A class.
+      F  compressor wheel 60.95 / 38.1 mm (exducer / inducer labels), 6+6
+         blades; turbine wheel 61.0 / 52.8 mm, 10 blades (318615, documented
+         4045/4045T hardware; exact option-1606 fitment unproven)
+      C  max speed 130,000 rpm (overspeed limit; S2A class)
+      R  head at the design line from Euler: slip 1 - 0.63 pi / 12 = 0.835
+         (Stanitz, 12 blades at exit), efficiency 0.72, tip speed 415 m/s at
+         130,000 rpm -> PR 2.83; zero-flow max PR 1 + 1.83 x 1.18 = 3.15
+         (the reduced map's 0.18 flow coefficient, as for the ALCO 720A)
+      R  design mass flow 0.20 kg/s at max speed: 0.8 x inducer choke flow
+         (38.1 mm inducer, 12 mm hub (C): 0.243 kg/s); 0.8 is C
+      R  turbine flow 0.170 kg/s = documented rated airflow + fuel (4045TF250)
+      C  turbine design expansion ratio and inlet temperature: the effective
+         nozzle area (A/R) is unresolved (U). This is the ONE turbo value
+         calibrated, and it must fit boost, post-turbine EGT, airflow and
+         power simultaneously (reference pack section 8).
+      C  rotor inertia 1.2e-4 kg m^2 (wheel masses estimated), bearing
+         friction 0.06 N m at max speed (~0.8 kW), efficiencies 0.72 / 0.70
+      C  manifold and duct volumes
+*/
+private node s2a_class_turbo {
+    input expansion_ratio: 2.0;
+    input turbine_flow: 0.170 * units.kg / units.sec;
+    output shaft_inertia: 0.00012 * units.kg * units.m * units.m;
+    output friction_torque: 0.06 * units.Nm;
+    output max_speed: 130000 * units.rpm;
+    output max_pressure_ratio: 3.15;
+    output compressor_efficiency: 0.72;
+    output turbine_efficiency: 0.70;
+    output design_mass_flow: 0.20 * units.kg / units.sec;
+    output turbine_design_pressure_ratio: expansion_ratio;
+    output turbine_design_temperature: 900 * units.K;
+    output turbine_flow_rate: turbine_flow;
+    output pre_turbine_volume: 1.5 * units.L;
+    output pre_turbine_diameter: 45 * units.mm;
+    output compressor_inlet_volume: 1.0 * units.L;
+    output compressor_discharge_volume: 0.5 * units.L;
+    output charge_plenum_volume: 2.0 * units.L;
+    output compressor_blade_count: 12;
+}
+
+// ---------------------------------------------------------------------------
+// Shared valvetrain (C): flow from valve geometry, see header.
+// ---------------------------------------------------------------------------
+
+private node deere_intake_flow {
+    // C: 46 mm intake valve
+    input cd;   // discharge coefficient on min(curtain, port throat)
+    alias output __out: f;
+    function f(50 * units.thou)
+    f
+        .add_flow_sample(0, 0.0 * cd)
+        .add_flow_sample(50, 41.7 * cd)
+        .add_flow_sample(100, 83.3 * cd)
+        .add_flow_sample(150, 125.0 * cd)
+        .add_flow_sample(200, 166.7 * cd)
+        .add_flow_sample(250, 210.0 * cd)
+        .add_flow_sample(300, 251.7 * cd)
+        .add_flow_sample(350, 293.3 * cd)
+        .add_flow_sample(400, 293.3 * cd)
+        .add_flow_sample(450, 293.3 * cd)
+        .add_flow_sample(500, 293.3 * cd)
+        .add_flow_sample(550, 293.3 * cd)
+}
+
+private node deere_exhaust_flow {
+    // F: 42.5 mm exhaust valve head (CTM104: 42.37-42.63 mm, two-valve head);
+    // flow = 0.2275 CFM/mm2 x min(curtain pi d L, throat pi/4 (0.88 d)^2), x cd
+    input cd;   // discharge coefficient on min(curtain, port throat)
+    alias output __out: f;
+    function f(50 * units.thou)
+    f
+        .add_flow_sample(0, 0.0 * cd)
+        .add_flow_sample(50, 38.6 * cd)
+        .add_flow_sample(100, 77.2 * cd)
+        .add_flow_sample(150, 115.7 * cd)
+        .add_flow_sample(200, 154.3 * cd)
+        .add_flow_sample(250, 192.9 * cd)
+        .add_flow_sample(300, 231.5 * cd)
+        .add_flow_sample(350, 249.9 * cd)
+        .add_flow_sample(400, 249.9 * cd)
+        .add_flow_sample(450, 249.9 * cd)
+        .add_flow_sample(500, 249.9 * cd)
+        .add_flow_sample(550, 249.9 * cd)
+}
+
+private node cummins_intake_flow {
+    // C: 45 mm intake valve
+    input cd;   // discharge coefficient on min(curtain, port throat)
+    alias output __out: f;
+    function f(50 * units.thou)
+    f
+        .add_flow_sample(0, 0.0 * cd)
+        .add_flow_sample(50, 41.7 * cd)
+        .add_flow_sample(100, 81.7 * cd)
+        .add_flow_sample(150, 123.3 * cd)
+        .add_flow_sample(200, 163.3 * cd)
+        .add_flow_sample(250, 205.0 * cd)
+        .add_flow_sample(300, 245.0 * cd)
+        .add_flow_sample(350, 281.7 * cd)
+        .add_flow_sample(400, 281.7 * cd)
+        .add_flow_sample(450, 281.7 * cd)
+        .add_flow_sample(500, 281.7 * cd)
+        .add_flow_sample(550, 281.7 * cd)
+}
+
+private node cummins_exhaust_flow {
+    // C: 41 mm exhaust valve
+    input cd;   // discharge coefficient on min(curtain, port throat)
+    alias output __out: f;
+    function f(50 * units.thou)
+    f
+        .add_flow_sample(0, 0.0 * cd)
+        .add_flow_sample(50, 36.7 * cd)
+        .add_flow_sample(100, 75.0 * cd)
+        .add_flow_sample(150, 111.7 * cd)
+        .add_flow_sample(200, 150.0 * cd)
+        .add_flow_sample(250, 186.7 * cd)
+        .add_flow_sample(300, 223.3 * cd)
+        .add_flow_sample(350, 233.3 * cd)
+        .add_flow_sample(400, 233.3 * cd)
+        .add_flow_sample(450, 233.3 * cd)
+        .add_flow_sample(500, 233.3 * cd)
+        .add_flow_sample(550, 233.3 * cd)
+}
+
+private node diesel_intake_lobe {
+    // C: 230 deg seat-to-seat class, 11.8 mm lift
+    alias output __out:
+        harmonic_cam_lobe(
+            duration_at_50_thou: 200 * units.deg,
+            gamma: 1.1,
+            lift: 11.8 * units.mm,
+            steps: 100
+        );
+}
+
+private node diesel_exhaust_lobe {
+    // C: 240 deg seat-to-seat class; 11.8 mm lift (F: CTM104 11.51-11.94 mm)
+    alias output __out:
+        harmonic_cam_lobe(
+            duration_at_50_thou: 210 * units.deg,
+            gamma: 1.1,
+            lift: 11.8 * units.mm,
+            steps: 100
+        );
+}
+
+private node constant_timing {
+    // Start of injection, degrees BTDC, independent of speed.
+    input advance;
+    alias output __out:
+        function(1000 * units.rpm)
+            .add_sample(0    * units.rpm, advance)
+            .add_sample(1000 * units.rpm, advance)
+            .add_sample(2000 * units.rpm, advance)
+            .add_sample(3000 * units.rpm, advance)
+            .add_sample(4000 * units.rpm, advance);
+}
+
+// ---------------------------------------------------------------------------
+// John Deere PowerTech 4045DF150 (option 1601) and 4045TF250 (option 1606)
+// ---------------------------------------------------------------------------
+
+/*
+    Full-load fuel delivery per cylinder event from the documented
+    intermittent power x BSFC curve (R): kW x g/kWh / (2 x rpm x 60).
+    Fractions of the fuel stop; the governor (droop) cuts in above rated.
+    Sampled every 200 rpm (linear between documented points, flat outside):
+    the triangle filter radius must cover the sample spacing.
+*/
+private node deere_df150_fuel_stop_curve {
+    // stop 56.78 mg at 1200 rpm
+    alias output __out:
+        function(200 * units.rpm)
+            .add_sample(0    * units.rpm, 0.991)
+            .add_sample(200  * units.rpm, 0.991)
+            .add_sample(400  * units.rpm, 0.991)
+            .add_sample(600  * units.rpm, 0.991)
+            .add_sample(800  * units.rpm, 0.991)
+            .add_sample(1000 * units.rpm, 0.991)
+            .add_sample(1200 * units.rpm, 1.000)
+            .add_sample(1400 * units.rpm, 0.964)
+            .add_sample(1600 * units.rpm, 0.940)
+            .add_sample(1800 * units.rpm, 0.911)
+            .add_sample(2000 * units.rpm, 0.880)
+            .add_sample(2200 * units.rpm, 0.863)
+            .add_sample(2400 * units.rpm, 0.841)
+            .add_sample(2600 * units.rpm, 0.835)
+            .add_sample(2800 * units.rpm, 0.835)
+            .add_sample(3000 * units.rpm, 0.835);
+}
+
+private node deere_tf250_fuel_stop_curve {
+    // stop 87.47 mg at 1200 rpm
+    alias output __out:
+        function(200 * units.rpm)
+            .add_sample(0    * units.rpm, 0.888)
+            .add_sample(200  * units.rpm, 0.888)
+            .add_sample(400  * units.rpm, 0.888)
+            .add_sample(600  * units.rpm, 0.888)
+            .add_sample(800  * units.rpm, 0.888)
+            .add_sample(1000 * units.rpm, 0.888)
+            .add_sample(1200 * units.rpm, 1.000)
+            .add_sample(1400 * units.rpm, 0.973)
+            .add_sample(1600 * units.rpm, 0.956)
+            .add_sample(1800 * units.rpm, 0.930)
+            .add_sample(2000 * units.rpm, 0.904)
+            .add_sample(2200 * units.rpm, 0.867)
+            .add_sample(2400 * units.rpm, 0.827)
+            .add_sample(2600 * units.rpm, 0.827)
+            .add_sample(2800 * units.rpm, 0.827)
+            .add_sample(3000 * units.rpm, 0.827);
+}
+
+/*
+    Mechanical governor (D family 7-10 %): droop from the documented
+    no-load fast idle and rated speed, (2700 - 2500) / 2500 = 0.080 and
+    (2600 - 2400) / 2400 = 0.083. Slow idle 850 rpm is no-load at minimum
+    command: min_speed = 850 / (1 + droop). Gains are C.
+*/
+private node deere_governor {
+    input rated;
+    input droop;
+    alias output __out:
+        diesel_governor(
+            min_speed: 850 * units.rpm / (1 + droop),
+            max_speed: rated,
+            min_v: -2.0,
+            max_v: 2.0,
+            k_s: 0.01,
+            k_d: 120.0,
+            gamma: 1.0,
+            starting_rack: 0.5,
+            k_p: 2.0,
+            crank_rack_limit: 1.0,
+            droop: droop
+        );
+}
+
+public node deere_4045df150 {
+    input engine_name: "John Deere 4045DF150";
+    input port_cd: 0.6;
+    // Calibration values (C), exposed for sensitivity studies.
+    input injection_duration: 22 * units.deg;
+    input combustion_duration: 60 * units.deg;
+    input premixed_burn_fraction: 0.15;                                   // C
+    alias output __out:
+        validation_diesel_i4(
+            engine_name: engine_name,
+            bore: 106 * units.mm,                         // D
+            stroke: 127 * units.mm,                       // D
+            compression_ratio: 17.6,                      // D
+            rod_length: 203 * units.mm,                   // C
+            piston_mass: 1.4 * units.kg,                  // C
+            rod_mass: 1.6 * units.kg,                     // C
+            crank_moment: 1.2 * units.kg * units.m * units.m,   // C (incl. flywheel)
+            crank_friction: 0 * units.Nm,                 // set from motoring, see log
+            starter_speed: 200 * units.rpm,               // C
+            starter_torque: 200 * units.lb_ft,            // C (2.5-4.2 kW class, D)
+            redline: 2700 * units.rpm,                    // D fast idle
+            rev_limit: 2800 * units.rpm,
+            dyno_min_speed: 1000 * units.rpm,
+            dyno_max_speed: 2500 * units.rpm,
+            // R: 14.3 kg/h at 2500 rpm intermittent -> 47.7 mg; curve maximum
+            max_fuel: 0.05678 * units.g,
+            fuel_stop_curve: deere_df150_fuel_stop_curve(),
+            /*
+                Start of injection at full load, constant with speed.
+                  D  8.0 deg BTDC dynamic timing at full load / rated speed
+                     (CTM207 p. 286, RE61649; set at full load / rated,
+                     pp. 192-195, 268)
+                  R  constant below rated: Stanadyne DB4 calibrations of
+                     comparable engines show 0 pump-degree advance at full
+                     load and rated speed (DB4429-5514, 4045TF157; DB4329-6095,
+                     VM D753TE3); the advance acts at light and no load. With
+                     the piston at its stop, full-load advance stays ~0 below
+                     rated. Light-load advance is not modelled (open).
+            */
+            timing_curve: constant_timing(advance: 8.0 * units.deg),
+            injection_duration: injection_duration,
+            combustion_duration: combustion_duration,
+            premixed_burn_fraction: premixed_burn_fraction,
+            governor: deere_governor(rated: 2500 * units.rpm, droop: 0.080),
+            intake_flow: deere_intake_flow(cd: port_cd),
+            exhaust_flow: deere_exhaust_flow(cd: port_cd),
+            intake_lobe: diesel_intake_lobe(),
+            exhaust_lobe: diesel_exhaust_lobe(),
+            intake_pipe_diameter: 76 * units.mm,          // C
+            intake_flow_rate: k_carb(400),                // C air cleaner
+            exhaust_pipe_diameter: 63.5 * units.mm,       // D recommended pipe
+            exhaust_outlet_flow_rate: k_carb(500),        // C silencer
+            // F: RE60062 nozzles (CTM207): 4 holes x 0.27 mm, opening
+            // 238-244 bar. A: injection pressure = opening pressure midpoint
+            // (lower bound; mean line pressure not documented)
+            /*
+                Mechanical rotary pump (Stanadyne, CTM207 p. 151) on the common
+                combustion framework. C (equipment, set on the rated torque):
+                plunger and cam data are U; 2 x 7 mm plungers, cam lift rate
+                0.0239 mm/deg = rated full delivery (47.4 mg) over ~31 crank
+                degrees (re-set 2026-10-02: inertial exhaust + documented
+                42.5 mm exhaust valve; was 0.019 = 39 deg, re-derived 2026-10-01 after the combustion-product
+                and SI-burn physics layers; was 0.01594 = 46 deg). Sweep at
+                2500 rpm: 46/39/33/28 deg -> -3.6/+0.4/+4.1/+6.8 %.
+                31 deg is near the top of the rotary-pump range (20-30).
+            */
+            nozzle_hole_count: 4,
+            pump_plunger_count: 2,
+            pump_plunger_diameter: 7 * units.mm,
+            pump_cam_lift_rate: 0.0239 * units.mm / units.deg,
+            nozzle_hole_diameter: 0.27 * units.mm,
+            injection_pressure: 24.1 * units.MPa,
+            turbo_enabled: false,
+            turbo: no_turbo()
+        );
+}
+
+public node deere_4045tf250 {
+    input engine_name: "John Deere 4045TF250";
+    input turbo_enabled: true;
+    // C, range 1.6-2.4 (small fixed-geometry turbo diesel: turbine expansion
+    // ratio near or below the compressor ratio, documented 2.10-2.34): set on the
+    // documented 109-133 kPa boost at rated (2026-10-02, inertial exhaust with
+    // momentum-consistent transfer; 2.1 -> 110, 2.2 -> 115, 2.3 -> 127 kPa).
+    // EGT and airflow are held-out checks.
+    input turbine_design_pressure_ratio: 2.2;
+    input port_cd: 0.6;                                   // C
+    alias output __out:
+        validation_diesel_i4(
+            exhaust_primary_tube_length: 0 * units.inch,   // C turbo pulse manifold
+            engine_name: engine_name,
+            bore: 106 * units.mm,                         // D
+            stroke: 127 * units.mm,                       // D
+            compression_ratio: 17.0,                      // D
+            rod_length: 203 * units.mm,                   // C
+            piston_mass: 1.4 * units.kg,                  // C
+            rod_mass: 1.6 * units.kg,                     // C
+            crank_moment: 1.2 * units.kg * units.m * units.m,   // C (incl. flywheel)
+            crank_friction: 0 * units.Nm,                 // set from motoring, see log
+            starter_speed: 200 * units.rpm,               // C
+            starter_torque: 200 * units.lb_ft,            // C
+            redline: 2600 * units.rpm,                    // D fast idle
+            rev_limit: 2700 * units.rpm,
+            dyno_min_speed: 1000 * units.rpm,
+            dyno_max_speed: 2400 * units.rpm,
+            // R: 20.9 kg/h at 2400 rpm intermittent -> 72.6 mg; curve maximum
+            max_fuel: 0.08747 * units.g,
+            fuel_stop_curve: deere_tf250_fuel_stop_curve(),
+            // D: 4.5 deg BTDC at full load / rated (CTM207 p. 289); constant
+            // below rated as for the DF150 (reference calibrations above).
+            timing_curve: constant_timing(advance: 4.5 * units.deg),
+            governor: deere_governor(rated: 2400 * units.rpm, droop: 0.083),
+            intake_flow: deere_intake_flow(cd: port_cd),
+            exhaust_flow: deere_exhaust_flow(cd: port_cd),
+            intake_lobe: diesel_intake_lobe(),
+            exhaust_lobe: diesel_exhaust_lobe(),
+            intake_pipe_diameter: 76 * units.mm,          // C
+            intake_flow_rate: k_carb(600),                // C air cleaner
+            exhaust_pipe_diameter: 102 * units.mm,        // D recommended pipe
+            exhaust_outlet_flow_rate: k_carb(800),        // C silencer
+            // F: RE48786 nozzles (CTM207): 4 holes x 0.29 mm, opening
+            // 255-260 bar. A: injection pressure = opening pressure midpoint
+            // Mechanical rotary pump (Delphi/Lucas, CTM207 p. 152); C as for
+            // the DF150, set on the rated torque: 0.0447 mm/deg = rated full
+            // delivery (72.3 mg) over ~25 crank degrees (re-set 2026-10-02 with
+            // the inertial exhaust and turbine ratio 2.2; was 0.035 = 32 deg, re-derived 2026-10-01;
+            // was 0.03022 = 37 deg). Sweep at 2400 rpm: 37/32/28/24 deg ->
+            // -4.3/-0.3/+3.3/+4.6 %.
+            nozzle_hole_count: 4,
+            pump_plunger_count: 2,
+            pump_plunger_diameter: 7 * units.mm,
+            pump_cam_lift_rate: 0.0447 * units.mm / units.deg,
+            nozzle_hole_diameter: 0.29 * units.mm,
+            injection_pressure: 25.75 * units.MPa,
+            turbo_enabled: turbo_enabled,
+            turbo: s2a_class_turbo(expansion_ratio: turbine_design_pressure_ratio)
+        );
+}
+
+// ---------------------------------------------------------------------------
+// Cummins 4B3.9-G1 (FR92340 / CPL 3114) and 4BT3.9-G1 (FR92341 / CPL 3115)
+// 1500 rpm generator engines, BYC A pump, RSV governor (D)
+// ---------------------------------------------------------------------------
+
+/*
+    Generator governor: rated 1500 rpm at the fuel stop. Regulation <= 8 %
+    (D); 5 % used (C, within the documented bound). Idle is not used in
+    generator service; min_speed from the documented idle range (C).
+*/
+private node cummins_generator_governor {
+    input idle;
+    alias output __out:
+        diesel_governor(
+            min_speed: idle / 1.05,
+            max_speed: 1500 * units.rpm,
+            min_v: -2.0,
+            max_v: 2.0,
+            k_s: 0.01,
+            k_d: 120.0,
+            gamma: 1.0,
+            starting_rack: 0.5,
+            k_p: 2.0,
+            crank_rack_limit: 1.0,
+            droop: 0.05
+        );
+}
+
+private node flat_curve {
+    alias output __out:
+        function(1000 * units.rpm)
+            .add_sample(0    * units.rpm, 1.0)
+            .add_sample(1000 * units.rpm, 1.0)
+            .add_sample(2000 * units.rpm, 1.0)
+            .add_sample(3000 * units.rpm, 1.0);
+}
+
+/*
+    Rotating inertia: 0.143 kg m^2 for the engine rotating components without
+    flywheel (D, both sheets) + 1.0 kg m^2 generator flywheel/rotor (C; the
+    selected flywheel is U).
+*/
+public node cummins_4b39_g1 {
+    input engine_name: "Cummins 4B3.9-G1";
+    input port_cd: 0.6;                                   // C
+    alias output __out:
+        validation_diesel_i4(
+            engine_name: engine_name,
+            bore: 102 * units.mm,                         // D
+            stroke: 120 * units.mm,                       // D
+            compression_ratio: 17.3,                      // D
+            rod_length: 192 * units.mm,                   // C (U)
+            piston_mass: 1.3 * units.kg,                  // C
+            rod_mass: 1.5 * units.kg,                     // C
+            crank_moment: (0.143 + 1.0) * units.kg * units.m * units.m,
+            crank_friction: 0 * units.Nm,                 // set from motoring, see log
+            starter_speed: 200 * units.rpm,               // C
+            starter_torque: 150 * units.lb_ft,            // C (U)
+            redline: 1650 * units.rpm,
+            rev_limit: 1800 * units.rpm,
+            dyno_min_speed: 1000 * units.rpm,
+            dyno_max_speed: 1500 * units.rpm,
+            // R: standby 27 kW x 244 g/kWh at 1500 rpm -> 36.60 mg
+            // (prime 24 kW x 245 g/kWh = 32.67 mg, rack 0.893, is a check)
+            max_fuel: 0.03660 * units.g,
+            fuel_stop_curve: flat_curve(),
+            timing_curve: constant_timing(advance: 12.0 * units.deg),   // C (U)
+            governor: cummins_generator_governor(idle: 1000 * units.rpm),
+            intake_flow: cummins_intake_flow(cd: port_cd),
+            exhaust_flow: cummins_exhaust_flow(cd: port_cd),
+            intake_lobe: diesel_intake_lobe(),
+            exhaust_lobe: diesel_exhaust_lobe(),
+            intake_pipe_diameter: 76 * units.mm,          // D intake pipe
+            intake_flow_rate: k_carb(400),                // C air cleaner
+            exhaust_pipe_diameter: 75 * units.mm,         // D exhaust pipe
+            exhaust_outlet_flow_rate: k_carb(500),        // C silencer
+            turbo_enabled: false,
+            turbo: no_turbo()
+        );
+}
+
+/*
+    4BT turbo hardware is U (pack section 2). The S2A-class set above is used
+    as a clearly labelled CALIBRATION turbo (pack stage A step 5), with the
+    turbine flow from the documented 4BT airflow (45 L/s standby x 1.164
+    kg/m^3 = 0.052 kg/s + fuel 0.0025 kg/s). No turbo geometry is claimed.
+*/
+public node cummins_4bt39_g1 {
+    input engine_name: "Cummins 4BT3.9-G1";
+    input turbo_enabled: true;
+    input turbine_design_pressure_ratio: 1.6;
+    input port_cd: 0.6;                                   // C
+    alias output __out:
+        validation_diesel_i4(
+            engine_name: engine_name,
+            bore: 102 * units.mm,
+            stroke: 120 * units.mm,
+            compression_ratio: 17.3,
+            rod_length: 192 * units.mm,
+            piston_mass: 1.3 * units.kg,
+            rod_mass: 1.5 * units.kg,
+            crank_moment: (0.143 + 1.0) * units.kg * units.m * units.m,
+            crank_friction: 0 * units.Nm,
+            starter_speed: 200 * units.rpm,
+            starter_torque: 150 * units.lb_ft,
+            redline: 1650 * units.rpm,
+            rev_limit: 1800 * units.rpm,
+            dyno_min_speed: 1000 * units.rpm,
+            dyno_max_speed: 1500 * units.rpm,
+            // R: standby 40 kW x 228 g/kWh at 1500 rpm -> 50.67 mg
+            // (prime 36 kW x 229 g/kWh = 45.80 mg, rack 0.904, is a check)
+            max_fuel: 0.05067 * units.g,
+            fuel_stop_curve: flat_curve(),
+            timing_curve: constant_timing(advance: 12.0 * units.deg),   // C (U)
+            governor: cummins_generator_governor(idle: 900 * units.rpm),
+            intake_flow: cummins_intake_flow(cd: port_cd),
+            exhaust_flow: cummins_exhaust_flow(cd: port_cd),
+            intake_lobe: diesel_intake_lobe(),
+            exhaust_lobe: diesel_exhaust_lobe(),
+            intake_pipe_diameter: 76 * units.mm,
+            intake_flow_rate: k_carb(500),
+            exhaust_pipe_diameter: 75 * units.mm,
+            exhaust_outlet_flow_rate: k_carb(600),
+            turbo_enabled: turbo_enabled,
+            turbo: s2a_class_turbo(
+                expansion_ratio: turbine_design_pressure_ratio,
+                turbine_flow: 0.0545 * units.kg / units.sec)
+        );
+}
+
+public node main_deere_4045df150 { set_engine(deere_4045df150()) }
+public node main_deere_4045tf250 { set_engine(deere_4045tf250()) }
+public node main_deere_4045tf250_no_turbo {
+    set_engine(deere_4045tf250(turbo_enabled: false, engine_name: "John Deere 4045TF250 NO TURBO"))
+}
+public node main_cummins_4b39_g1 { set_engine(cummins_4b39_g1()) }
+public node main_cummins_4bt39_g1 { set_engine(cummins_4bt39_g1()) }

@@ -1,0 +1,18 @@
+MBT  1000 rpm (run at 1200): 10 deg (59.8 N m)
+MBT  2000 rpm (run at 2000): 20 deg (62.8 N m)
+MBT  3000 rpm (run at 3000): 30 deg (62.0 N m)
+MBT  4000 rpm (run at 3750): 30 deg (59.8 N m)
+port_cd = 0.750  (range 0.45-0.75): engine not running at a range end (kW lo=None hi=None): finding
+torque rise doc 1.048; sim at centre 100: 1.013, at 120: 1.009
+intake_center = 100.0  ** target outside range: finding **
+port_cd (re-bisected) = 0.450: target below range (20.63 kW at cd 0.45): finding
+ rpm   sim_Nm  doc_Nm   err
+ 2200   61.69   53.10  +16.2%
+ 2400   61.41   53.90  +13.9%
+ 2600   60.80   54.40  +11.8%
+ 2800   60.06   54.70   +9.8%
+ 3000   58.85   54.70   +7.6%
+ 3200   57.54   54.50   +5.6%
+ 3400   56.40   54.10   +4.2%
+ 3600   54.71   53.40   +2.5%
+max |err| 16.2%; peak-torque speed sim 2200 vs doc 3200
