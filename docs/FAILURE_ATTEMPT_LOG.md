@@ -1134,6 +1134,42 @@ The shape is flat. Set: DF150 46°, TF250 37°.
 - 46°/37° rated injection is long for rotary pumps (typical 20–30°): either the jet mixing is somewhat fast (e.g. no wall impingement: x_st ≈ 85 mm > bore/2 = 53 mm) or a loss is missing.
 - TF250 at 1000 rpm is +7.5 %.
 
+## Unbiased SI burning efficiency (2026-10-02)
+
+**Change** (`CombustionChamber::ignite`, switch `combustion_physics::unbiasedBurnEfficiency`, default true; dyno `--unbiased-burn 0|1`; pins updated):
+- Burning efficiency = the fuel's maximum (validation fuels 0.97, Heywood stoichiometric/lean). The rich side stays oxygen-limited (GasSystem::react).
+- The upstream turbulence/dilution mixing factor keeps only its cycle-to-cycle variation (attenuation 1 − mixing × randomness × (1 − U)), not its mean reduction (low_efficiency_attenuation 0.6, dilution measure ~1.1 for fresh air).
+- Validation fuels have randomness 0, so no attenuation.
+- Stock fuels keep variation (sound) with a smaller mean reduction.
+
+**Results:**
+
+| Engine | Before | After | Reference |
+|---|---|---|---|
+| GX390 WOT 3600 | 9.41 kW | 9.94 kW | 8.7 kW (J1349: +11 %, was +5.2 %) |
+| GX390 2000 / 2500 / 3000 | 27.92 / 27.52 / 26.14 | 29.24 / 29.10 / 27.89 N m | 24.70 / 26.50 / 25.90 |
+| Kohler WOT 3600 (spark C 20 deg) | 16.87 kW | 17.90 kW | 20.1 kW |
+
+**Mazda Tier 2, airflow boundary** (run4; 106 points within 3 % airflow):
+
+| Subset | Calibrate | Holdout |
+|---|---|---|
+| Torque ≥ 80 N m | −5.3 % (sd 6.5) | −5.3 % (sd 6.0) |
+| Exhaust retard < 10 deg, ≥ 40 N m | −3.7 % | −6.2 % |
+| Torque < 80 N m | −45 % | −52 % |
+
+Run 3 for comparison: −10.8 / −11.4 % (≥ 80 N m). The low-load points remain dominated by the overlap/breathing limit.
+
+**Spread:** Mazda −5 % vs GX390 +11 % (J1349, no air cleaner) under the same physics — a 16-point gap between a modern 13:1 water-cooled engine and a small 8.2:1 air-cooled one.
+
+GX390 contributors still unquantified or undocumented:
+- air cleaner (0.5 kPa nominal gave −7.4 %);
+- carburettor venturi (C);
+- crevice/quench HC loss (certification HC+NOx 6.5-7 g/kWh suggests ~1-2 %);
+- mixture maldistribution.
+
+**Sound:** validation engines unaffected in variability (randomness 0). Stock engines get a higher mean burn efficiency (more output) with unchanged cycle-to-cycle variation. Not yet listened to.
+
 ## P3 Mazda — airflow boundary (option 1), MBT and motoring checks, efficiency breakdown (2026-10-01)
 
 **Method:** dyno `--fuel g/s` sets the throttle so that the metered fuel equals measured inlet air / (14.485 λ). Harness `--boundary air`. Measured spark, cam phase and λ per point; nothing calibrated.

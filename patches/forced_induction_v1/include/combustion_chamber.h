@@ -14,6 +14,7 @@ class Engine;
 namespace combustion_physics {
     extern bool unifiedHeatTransfer;
     extern bool flameExpansion;
+    extern bool unbiasedBurnEfficiency;
 }
 
 class CombustionChamber : public atg_scs::ForceGenerator {

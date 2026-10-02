@@ -177,6 +177,7 @@ int main(int argc, char **argv) {
         else if (a == "--enthalpy-flow") gas_vibration::enthalpyFlow = std::atoi(argv[i + 1]) != 0;
         else if (a == "--unified-heat") combustion_physics::unifiedHeatTransfer = std::atoi(argv[i + 1]) != 0;
         else if (a == "--flame-expansion") combustion_physics::flameExpansion = std::atoi(argv[i + 1]) != 0;
+        else if (a == "--unbiased-burn") combustion_physics::unbiasedBurnEfficiency = std::atoi(argv[i + 1]) != 0;
 #endif
     }
 

@@ -215,11 +215,24 @@ void CombustionChamber::ignite() {
             1.0 - (
                 clamp(turbulence / maxTurbulenceEffect)
                 * clamp(1 - dilution / maxDilutionEffect));
-        const double rand_s =
-            lowEfficiencyAttenuation
-            * ((1 - randomness) + randomness * ((double)rand() / RAND_MAX));
-        const double efficiencyAttenuation =
-            (mixingFactor * rand_s + (1 - mixingFactor));
+        const double u = (double)rand() / RAND_MAX;
+        double efficiencyAttenuation;
+        if (combustion_physics::unbiasedBurnEfficiency) {
+            // Combustion efficiency is the fuel's (sourced, lean/stoichiometric)
+            // maximum; the rich side is limited by oxygen in GasSystem::react.
+            // The upstream turbulence/dilution "mixing factor" keeps only its
+            // cycle-to-cycle variation (randomness, used for sound), not its
+            // mean reduction (low_efficiency_attenuation), which had no physical
+            // basis (its dilution measure reads ~1.1 for fresh air).
+            efficiencyAttenuation = 1.0 - mixingFactor * randomness * (1.0 - u);
+        }
+        else {
+            const double rand_s =
+                lowEfficiencyAttenuation
+                * ((1 - randomness) + randomness * u);
+            efficiencyAttenuation =
+                (mixingFactor * rand_s + (1 - mixingFactor));
+        }
         m_flameEvent.efficiency =
             efficiencyAttenuation * maxBurningEfficiency;
         // Two-zone density ratio: burned gas at the same pressure is hotter by
@@ -610,6 +623,9 @@ bool combustion_physics::unifiedHeatTransfer = true;
 // the burned-gas volume (density ratio T_b/T_u); false = upstream (burned
 // volume fraction taken as mass fraction).
 bool combustion_physics::flameExpansion = true;
+// Diagnostic switch (default true): burning efficiency without the upstream
+// mean attenuation (see CombustionChamber::ignite); false = upstream.
+bool combustion_physics::unbiasedBurnEfficiency = true;
 
 double CombustionChamber::calculateFrictionForce(double v_s) const {
     // The component friction model (Engine::getFrictionModel) includes the
