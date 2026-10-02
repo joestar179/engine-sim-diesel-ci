@@ -27,7 +27,9 @@ def run(spec, rpms, overrides):
     return {int(float(r[0])): (float(r[2]), float(r[3])) for r in rows}     # rpm -> (Nm, kW)
 
 def main():
-    spec = json.load(open(sys.argv[1]))
+    spec = json.load(open(os.path.abspath(sys.argv[1])))
+    spec_path = os.path.abspath(sys.argv[1])
+    os.chdir('C:/es/run')          # tools resolve es/ and assets/ from the run layout
     skip_mbt = '--skip-mbt' in sys.argv
     cf = spec.get('rating_cf', 1.0)
     knobs = {}
@@ -105,7 +107,7 @@ def main():
             print('%5d %7.2f %7.2f %+6.1f%%' % (rpm, sim, doc, errs[-1]))
         pk_sim = max(curve, key=lambda c: res[c[0]][0])[0]
         print('max |err| %.1f%%; peak-torque speed sim %d vs doc %d' % (max(abs(e) for e in errs), pk_sim, spec.get('peak_rpm', 0)))
-    json.dump(knobs, open(os.path.splitext(sys.argv[1])[0] + '.knobs.json', 'w'), indent=1)
+    json.dump(knobs, open(os.path.splitext(spec_path)[0] + '.knobs.json', 'w'), indent=1)
 
 if __name__ == '__main__':
     main()

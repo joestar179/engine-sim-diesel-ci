@@ -1,16 +1,18 @@
-Traceback (most recent call last):
-  File "C:\es\overlay\tools\engine_setup\calibrate.py", line 111, in <module>
-    main()
-  File "C:\es\overlay\tools\engine_setup\calibrate.py", line 42, in main
-    res = run(spec, [test], dict(knobs, **{'spark_%d' % r: '%d * units.deg' % adv}))
-          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\es\overlay\tools\engine_setup\calibrate.py", line 20, in run
-    fd, path = tempfile.mkstemp(suffix='_main.mr', dir='assets'); os.write(fd, body.encode()); os.close(fd)
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\rajpa\AppData\Local\Programs\Python\Python312\Lib\tempfile.py", line 357, in mkstemp
-    return _mkstemp_inner(dir, prefix, suffix, flags, output_type)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\rajpa\AppData\Local\Programs\Python\Python312\Lib\tempfile.py", line 256, in _mkstemp_inner
-    fd = _os.open(file, flags, 0o600)
-         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-FileNotFoundError: [Errno 2] No such file or directory: 'C:\\es\\overlay\\tools\\engine_setup\\assets\\tmpnaeehweb_main.mr'
+MBT  1000 rpm (run at 1200): 10 deg (59.8 N m)
+MBT  2000 rpm (run at 2000): 20 deg (62.8 N m)
+MBT  3000 rpm (run at 3000): 30 deg (62.0 N m)
+MBT  4000 rpm (run at 3750): 30 deg (59.8 N m)
+port_cd = 0.519  (range 0.45-0.75)
+torque rise doc 1.048; sim at centre 100: 1.039, at 120: 0.938
+intake_center = 100.0  ** target outside range: finding **
+port_cd (re-bisected) = 0.474
+ rpm   sim_Nm  doc_Nm   err
+ 2200   -8.97   53.10 -116.9%
+ 2400   -9.30   53.90 -117.3%
+ 2600   -9.62   54.40 -117.7%
+ 2800   -9.97   54.70 -118.2%
+ 3000  -10.29   54.70 -118.8%
+ 3200  -10.67   54.50 -119.6%
+ 3400  -11.06   54.10 -120.4%
+ 3600  -11.44   53.40 -121.4%
+max |err| 121.4%; peak-torque speed sim 2200 vs doc 3200

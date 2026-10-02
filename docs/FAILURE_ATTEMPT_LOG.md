@@ -1134,6 +1134,29 @@ The shape is flat. Set: DF150 46°, TF250 37°.
 - 46°/37° rated injection is long for rotary pumps (typical 20–30°): either the jet mixing is somewhat fast (e.g. no wall impingement: x_st ≈ 85 mm > bore/2 = 53 mm) or a loss is missing.
 - TF250 at 1000 rpm is +7.5 %.
 
+## Engine setup library v0 — spec-sheet engines vs documented curves (2026-10-02)
+
+Library `tools/engine_setup/` (CLAUDE.md 0e):
+- Layer-2 defaults (`defaults.py`), each with source and range.
+- Spec-sheet generator (`generate.py`; SI NA: single / 90° V-twin / I4).
+- Calibration (`calibrate.py`):
+  - MBT spark per 1000 rpm;
+  - breathing knob port_cd 0.45-0.75 on rated power × rating CF;
+  - tuning knob intake lobe centre 100-120° on the documented torque rise (peak / rated);
+  - the rest of the curve is held out.
+- Physics frozen (tag model-freeze-2026-10-02).
+
+| Engine (spec sheet only) | port_cd | Intake centre | Held-out curve |
+|---|---|---|---|
+| GX390 (curve: Honda shop manual) | 0.459 at center 110 (edge); 0.484 at 120 | 120 (edge; rise 1.177 vs 1.148) | +12.7 % @ 2000 … −2.0 %; peak 2000 vs 2500 (quick run with default spark) |
+| Mazda SKYACTIV-G (curve: EPA WOT ×1.017) | 0.75 (edge) | 100 (edge; rise ~0.97 vs 1.109, insensitive to centre) | +8 % @ 1000, −15 to −20 % @ 2000-4500; peak 4500 vs 4000; MBT 10-30 deg |
+| Kohler CH750 (curve: brochure) | 0.519 at centre 110; re-bisect converged on a firing cliff (no combustion below ~0.47 at centre 100) | 100 (edge; rise 1.039 vs 1.048) | invalid (engine not firing) — harness must detect non-running cases |
+
+**Pattern (the knob-trend signal 0e anticipates):**
+- Small carburetted engines want less breathing / torque than the defaults and physics give, especially at low speed.
+- The modern high-specific-output engine wants more than the range allows: its mid-range torque relies on VVT and 4-2-1 wave scavenging (both absent: fixed cam, lumped gas path), and its documented valves (0.40 B, L/D 0.29) exceed the defaults (0.37 B, 0.27).
+- Knob edges are findings, not fixes. Ranges were not extended.
+
 ## Unbiased SI burning efficiency (2026-10-02)
 
 **Change** (`CombustionChamber::ignite`, switch `combustion_physics::unbiasedBurnEfficiency`, default true; dyno `--unbiased-burn 0|1`; pins updated):
