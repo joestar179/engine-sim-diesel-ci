@@ -1134,6 +1134,18 @@ The shape is flat. Set: DF150 46°, TF250 37°.
 - 46°/37° rated injection is long for rotary pumps (typical 20–30°): either the jet mixing is somewhat fast (e.g. no wall impingement: x_st ≈ 85 mm > bore/2 = 53 mm) or a loss is missing.
 - TF250 at 1000 rpm is +7.5 %.
 
+## Mazda full calibration (2026-10-02)
+
+`calibrate.py` (full), current physics. VVT: EPA steady-state max-torque phases at 1000-4000 (D); optimiser above 4000 (icam/ecam 45/0 at 5000, 45/9 at 6000, 15/9 at 7000). MBT 10/20/20/25/25/30/15 deg. **port_cd 0.567 (in range).**
+
+| rpm | 1000 | 1250 | 1500 | 1750 | 2000 | 2250 | 2500 | 2750 | 3000 | 3250 | 3500 | 3750 | 4000 | 4250 | 4500 |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| err | −2.3 | −0.3 | −1.3 | +2.2 | **−10.4** | −7.2 | +2.6 | −1.8 | **−10.3** | −8.3 | −3.8 | −1.9 | +2.9 | +0.5 | +0.3 % |
+
+- Torque rise doc 11.2 / sim 13.4 points (+2.3): PASS.
+- Peak 4000 vs the doc curve's 3250: not meaningful (doc flat 200-203 from 3000 to 4500).
+- Two marginal fails (−10.4 % at 2000, −10.3 % at 3000), both at speeds that use the documented phases. EPA's steady-state max-torque point at 3000 rpm is 196 N m vs 202 in the WOT sweep, so those phases may be slightly short of WOT. The WOT sweep carries no cam data.
+
 ## Mazda MBT and motoring re-checks under inertial runners — motoring regression (2026-10-02)
 
 **MBT** (spark sweep at the measured MAP, cams and λ; hand script): consistent with the ECU.
@@ -1179,7 +1191,7 @@ The shape is flat. Set: DF150 46°, TF250 37°.
 |---|---|---|---|
 | DF150 | 28.1 | 31.3 | +3.2 ✅ |
 | TF250 | 19.9 | 23.6 | +3.7 ✅ |
-| Mazda (coarse; sim peak from the 6 evaluated speeds) | 14.4 | 12.8 | −1.6 ✅ |
+| Mazda (full calibration, `calibrate.py` report) | 11.2 | 13.4 | +2.3 ✅ (an earlier hand figure of 14.4 / 12.8 used a wrong rated torque) |
 | GX390 | 14.8 | 22.5 | +7.7 ❌ |
 | Kohler | 2.4 | 8.7 | +6.3 ❌ |
 
