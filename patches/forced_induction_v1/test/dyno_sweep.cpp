@@ -111,12 +111,15 @@ struct EnergyProbe {
                 const double n = engine->getExhaustSystem(e)->getFlow();
                 if (n != 0.0) { const double T = engine->getExhaustSystem(e)->getSystem()->temperature(); if (n < 0.0) { outN -= n; outNT -= n * T; } else { inN += n; } }
             }
+            for (int c = 0; c < engine->getCylinderCount(); ++c) {
+                valveInN += engine->getChamber(c)->getLastTimestepIntakeFlow();
+            }
             for (int i = 0; i < engine->getIntakeCount(); ++i) {
                 airN += engine->getIntake(i)->m_flow;
             }
         }
     }
-    double outN = 0.0, outNT = 0.0, inN = 0.0, airN = 0.0;   // exhaust getFlow < 0: out to atmosphere; intake m_flow > 0: in
+    double outN = 0.0, outNT = 0.0, inN = 0.0, airN = 0.0, valveInN = 0.0;   // valveInN: net moles through the intake valves   // exhaust getFlow < 0: out to atmosphere; intake m_flow > 0: in
 };
 #else
 struct EnergyProbe { void step(Engine *, double) {} };
@@ -442,6 +445,10 @@ int main(int argc, char **argv) {
                 (net - brake) / released, brake / released, 1.0 - (net + wall) / released,
                 net > 0.0 ? brake / net : 0.0, probe.a10 * k, probe.a50 * k, probe.a90 * k,
                 probe.peakP * k / 1.0e5, probe.aPeak * k, probe.firings);
+            std::printf("energy: intake-valve net flow %.4f g/s (air molar mass); IMEP %.2f kPa\n",
+                probe.valveInN * 28.97 / measure,
+                engine->getCylinderCount() > 0
+                    ? (net / measure) / (engine->getDisplacement() * rpm / 120.0) / 1000.0 : 0.0);
             std::printf("energy: absolute kW: gross(fired segments) %.3f pumping+unfired %.3f net indicated %.3f brake %.3f friction %.3f wall %.3f\n",
                 probe.gross / measure / 1000, probe.pumping / measure / 1000, net / measure / 1000,
                 power / 1000, (net / measure - power) / 1000, wall / measure / 1000);

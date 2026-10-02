@@ -21,6 +21,10 @@ namespace es_script {
         Intake *generate(EngineContext *context) {
             Intake *intake = context->getIntake(this);
             Intake::Parameters parameters = m_parameters;
+            // Ambient (supply) state of the intake; <= 0 keeps the built-in
+            // 1 atm / 25 C.
+            if (m_atmospherePressure > 0.0) parameters.AtmospherePressure = m_atmospherePressure;
+            if (m_atmosphereTemperature > 0.0) parameters.AtmosphereTemperature = m_atmosphereTemperature;
             intake->initialize(parameters);
 
             return intake;
@@ -40,6 +44,8 @@ namespace es_script {
             addInput("velocity_decay", &m_parameters.VelocityDecay);
             addInput("oxygen_fraction", &m_parameters.OxygenFraction);
             addInput("products_fraction", &m_parameters.ProductsFraction);
+            addInput("atmosphere_pressure", &m_atmospherePressure);
+            addInput("atmosphere_temperature", &m_atmosphereTemperature);
 
             ObjectReferenceNode<IntakeNode>::registerInputs();
         }
@@ -52,6 +58,8 @@ namespace es_script {
         }
 
         double m_throttleGammaUnused = 0.0; // Deprecated; to be removed in a future release
+        double m_atmospherePressure = -1.0;
+        double m_atmosphereTemperature = -1.0;
         Intake::Parameters m_parameters;
     };
 

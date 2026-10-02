@@ -115,7 +115,7 @@ PINNED_PRODUCTION_TEMPLATES = {
     "include/camshaft.h": "03b3be27040576846fafc0479a7bc1e8b72a4189e219227a53fe45bb263b7928",
     "assets/alco_16_251b_main.mr": "de603c279f374f62bd5b47ef0edebbabfbe083b01bdc2ab057620ff1af4c61f4",
     "assets/engines/alco/alco_16_251b_native.mr": "3788fab67ba888cbc4612b41dc387fa0bf1a91321f30a296f8152a4856e9c303",
-    "es/objects/objects.mr": "d726e1f0030b362425000dbd570de028730fdc572f72e81e27e765fc9b303721",
+    "es/objects/objects.mr": "c6387f397e7c0e61410029179b198a609d7355f772a6666a03af402fa7e66020",
     "include/combustion_chamber.h": "207f4ceb384bfa54c798e02e4d2302b35e28095cf3bc3789e617fdc8daacbca2",
     "include/engine.h": "163e4024e858e0690fb7abb2a7d4674178b95279cc1c0d77e00f98aff93c646b",
     "include/exhaust_system.h": "050d489bb2fc579b0bf350b14797e55bb26e902908f941069d0b2d275e42df90",
@@ -155,13 +155,14 @@ PINNED_PRODUCTION_TEMPLATES = {
     "include/piston_engine_simulator.h": "750dd40aab247153189abb07f053f550ad90ce769d875e92e8298472b06eb649",
     "include/engine_friction_model.h": "1625beb2dc54a1f93f1c1e1a56d0e57c5fd0ba32a711544a3a0aee136b57a6c6",
     "src/engine_friction_model.cpp": "331d0eb2a9f6ce9345d12d2165c9c7c3ba86cc98b7eb817891337505f6a269c6",
-    "scripting/include/intake_node.h": "b15dca6fd4ca9e2a44d9d2d8e02b9508cf42a590acd9b19338b7e2e49fab1b49",
+    "scripting/include/intake_node.h": "c35b769d1d3c8b67f2e31f6ebca91677bd4e20d745438b0079ca6ad598d180f1",
     "include/fuel.h": "d221f3088da80ace6c7b5a7d55135fbd6623aff31af2b35e405146a58ba0104e",
     "src/fuel.cpp": "9d93e5fa3af62bd3ea52d44a50bb31ea649ae395f4a81225da8772decfbae402",
     "scripting/include/fuel_node.h": "95cd777cda06013c716c9325f6a43555e9fcbc88170a712025e39958ab8ee075",
 }
 
 NEW_FILES = {
+    "assets/engines/validation/tcc3.mr",
     "assets/alco_16_251b_no_turbo_main.mr",
     "assets/engines/validation/kohler_ch750_validated.mr",
     "assets/kohler_ch750_validated_main.mr",
