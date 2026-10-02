@@ -85,6 +85,7 @@ Stage-1 slots 1-7 (`docs/reference/validation_sourcing_stage1.md`) plus two new 
 | 7 | Heavy-duty diesel | Volvo D13 (131 mm) | heat transfer and friction at a large bore | Stage 2 now |
 | **8 (new)** | Handheld two-stroke < 100 cc | to be searched (university chainsaw / trimmer studies with pressure, port timing, scavenging data) | two-stroke module validation; smallest bore | Stage 1 search |
 | **9 (new)** | Locomotive / marine medium-speed | to be searched (ALCO / EMD / MAN research or manuals with performance + SFC; ideally pressure) | largest bore; ALCO efficiency question (§0b 2b) | Stage 1 search |
+| **10 (new)** | Supercharged petrol (automotive) | to be searched (Roots / screw / centrifugal) | supercharger module | Stage 1 search (S10) |
 
 **Minimum set before calling the physics general:**
 - SI at two sizes beyond the Mazda: TCC-III and GX160;
@@ -123,7 +124,7 @@ The order is set by **impact and by rework risk**: what each gap changes underne
 | 3 | **Petrol direct injection** (charge cooling, stratification, evaporation) | In-cylinder mixing | Most modern automotive petrol engines. Designed together with the diesel spray model (shared spray / evaporation physics), after the ECN diesel reference | Mazda (DI), slot 3; ECN for the shared spray physics |
 | 4 | **Boost / VGT control** | Controller policies on the existing wastegate / VGT / bypass hardware | Needed for most modern turbo engines (classes 5, 8, 9) to run realistically | Slot 3 (turbo SI), slot 7 (D13 VGT) |
 | 5 | **Carburettor metering** (float and diaphragm) | Mixture vs airflow under pulsating flow | After 1-D pipes (venturi flow pulses) and two-stroke (diaphragm carburettors driven by crankcase pulses), so one design covers both | GX160 (slot 1b); slot 8 |
-| 6 | **Supercharger** (Roots / screw / centrifugal; scavenge blowers) | Mechanically driven compressor on the gas path | Common on petrol automotive engines. Placed last for implementation reasons: it depends on 1-D pipes (ducting) and on the two-stroke design (gear-driven scavenge blowers, EMD's gear-driven turbo with an overrunning clutch), so it is designed once for automotive superchargers and blowers alike | Reference to be sourced (supercharged petrol; slot 9 two-stroke) |
+| 6 | **Supercharger** (Roots / screw / centrifugal; scavenge blowers) | Mechanically driven compressor on the gas path | Common on petrol automotive engines. Placed last for implementation reasons: it depends on 1-D pipes (ducting) and on the two-stroke design (gear-driven scavenge blowers, EMD's gear-driven turbo with an overrunning clutch), so it is designed once for automotive superchargers and blowers alike | Slot 10 (supercharged petrol); slot 9 (two-stroke blowers) |
 
 **Design rule for inputs (applies to phase 4 and every module):** inputs describe **hardware**, never model internals.
 - Pipe lengths / diameters / tapers, port timings and areas, blower displacement and drive ratio are physical, so they survive the move from lumped to 1-D models.
