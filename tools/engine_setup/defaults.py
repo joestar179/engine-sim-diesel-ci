@@ -94,6 +94,15 @@ def plenum_volume_l(displacement_l, cylinders):
     k = 0.75 if cylinders == 1 else 1.25
     return d(k * displacement_l, 0.5 * displacement_l, 2.0 * displacement_l, 'C (GX390 0.77 x, Mazda 1.25 x)')
 
+def intake_runner_length_mm(tuning_rpm):
+    # Tuned intake length scales ~1/rpm (wave/Helmholtz tuning, Heywood ch. 7):
+    # ~400-450 mm for a ~4000 rpm peak-torque 2 L (Mazda class), longer for
+    # slower engines; small industrial engines carry short ports + carb (the
+    # inertial column is then mostly the port). Placeholder C value anchored
+    # at 425 mm @ 4000 rpm; range 0.5-1.5 x. To be refined from sources.
+    L = 425.0 * 4000.0 / max(tuning_rpm, 1000.0)
+    return d(L, 0.5 * L, 1.5 * L, 'C (1/rpm tuning scaling, anchored Mazda-class 425 mm @ 4000)')
+
 # --- mixture and fuel ------------------------------------------------------
 def full_load_lambda(fuel_system):
     if fuel_system == 'carburettor':

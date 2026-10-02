@@ -15,6 +15,7 @@ namespace combustion_physics {
     extern bool unifiedHeatTransfer;
     extern bool flameExpansion;
     extern bool unbiasedBurnEfficiency;
+    extern bool inertialRunners;
 }
 
 class CombustionChamber : public atg_scs::ForceGenerator {
@@ -135,6 +136,11 @@ class CombustionChamber : public atg_scs::ForceGenerator {
 
         double m_manifoldToRunnerFlowRate;
         double m_primaryToCollectorFlowRate;
+        // Inertial runner state (combustion_physics::inertialRunners).
+        double m_intakeRunnerMassFlow = 0.0;
+        double m_exhaustRunnerMassFlow = 0.0;
+        double m_intakeRunnerLength = 0.0;
+        double m_exhaustRunnerLength = 0.0;
         double m_cylinderCrossSectionSurfaceArea;
         double m_cylinderWidthApproximation;
 

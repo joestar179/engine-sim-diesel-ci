@@ -40,6 +40,13 @@ def resolve(spec):
     cam = D.cam_class(spec['rated_rpm'])
     for k in ('intake_duration', 'exhaust_duration', 'intake_center', 'exhaust_center'):
         put(k, spec.get(k), cam[k])
+    # VVT (spec: phaser authority, crank deg): rest = most retarded intake /
+    # most advanced exhaust, so the default centre is mid-authority.
+    ai, ae = spec.get('vvt_intake_authority', 0.0), spec.get('vvt_exhaust_authority', 0.0)
+    if spec.get('intake_center') is None and ai:
+        v['intake_center'] += ai / 2.0; prov['intake_center'] += ' + vvt rest (+%.1f)' % (ai / 2.0)
+    if spec.get('exhaust_center') is None and ae:
+        v['exhaust_center'] += ae / 2.0; prov['exhaust_center'] += ' + vvt rest (+%.1f)' % (ae / 2.0)
     put('rod_mm', spec.get('rod_mm'), D.rod_length(spec['stroke_mm']))
     b = D.bearings(spec['bore_mm'])
     for k in b: put(k + '_mm', spec.get(k + '_mm'), b[k])
@@ -52,6 +59,7 @@ def resolve(spec):
     put('backpressure_kpa', spec.get('backpressure_kpa'), bp)
     put('exhaust_cfm', spec.get('exhaust_cfm'), D.exhaust_outlet_cfm(air_gs, v['backpressure_kpa']))
     put('plenum_l', spec.get('plenum_l'), D.plenum_volume_l(disp_l, ncyl))
+    put('runner_mm', spec.get('runner_mm'), D.intake_runner_length_mm(spec.get('peak_rpm', 0.7 * spec['rated_rpm'])))
     put('lambda', spec.get('lambda'), D.full_load_lambda(spec['fuel_system']))
     put('port_cd', spec.get('port_cd'), D.PORT_CD)
     vt, src = D.valvetrain_friction(spec['valvetrain'])
@@ -117,7 +125,8 @@ def generate(spec, out_path):
         li = '\n'.join('        .add_lobe(rot360 + intake_lobe_center + %.1f * units.deg)' % c[2] for c in cyls)
         le = '\n'.join('        .add_lobe((rot360 - exhaust_lobe_center) + %.1f * units.deg)' % c[2] for c in cyls)
         cams.append(('    %s_camshafts cams%d(intake_lobe_center: intake_center, exhaust_lobe_center: exhaust_center,\n'
-                     '        intake_lobe_profile: intake_lobe, exhaust_lobe_profile: exhaust_lobe)') % (node + '_b%d' % bi, bi))
+                     '        intake_lobe_profile: intake_lobe, exhaust_lobe_profile: exhaust_lobe,\n'
+                     '        intake_schedule: intake_schedule, exhaust_schedule: exhaust_schedule)') % (node + '_b%d' % bi, bi))
     cam_nodes = []
     for bi in range(len(L['banks'])):
         cyls = [c for c in L['cyl'] if c[0] == bi]
@@ -126,11 +135,14 @@ def generate(spec, out_path):
     input exhaust_lobe_profile;
     input intake_lobe_center;
     input exhaust_lobe_center;
+    input intake_schedule;
+    input exhaust_schedule;
     output intake_cam: _intake_cam;
     output exhaust_cam: _exhaust_cam;
-    camshaft_parameters params(advance: 0 * units.deg, base_radius: 15 * units.mm)
-    camshaft _intake_cam(params, lobe_profile: intake_lobe_profile)
-    camshaft _exhaust_cam(params, lobe_profile: exhaust_lobe_profile)
+    camshaft_parameters iparams(advance: 0 * units.deg, base_radius: 15 * units.mm, advance_schedule: intake_schedule)
+    camshaft_parameters eparams(advance: 0 * units.deg, base_radius: 15 * units.mm, advance_schedule: exhaust_schedule)
+    camshaft _intake_cam(iparams, lobe_profile: intake_lobe_profile)
+    camshaft _exhaust_cam(eparams, lobe_profile: exhaust_lobe_profile)
     label rot360(360 * units.deg)
     _exhaust_cam
 %s
@@ -141,6 +153,15 @@ def generate(spec, out_path):
        '\n'.join('        .add_lobe(rot360 + intake_lobe_center + %.1f * units.deg)' % c[2] for c in cyls)))
     wires_ign = '\n'.join('            .connect_wire(wires.wire%d, %.1f * units.deg)' % (i + 1, c[2]) for i, c in enumerate(L['cyl']))
     prov_txt = '\n'.join('      %-18s %s' % (k, prov[k]) for k in sorted(prov))
+    # VVT schedule inputs (deg crank): icam = intake events earlier, ecam =
+    # exhaust events later (retard), both from rest. Sim camshaft advance:
+    # negative = earlier (Mazda check), so the intake schedule uses -icam.
+    rpms = list(range(1000, 8001, 1000))
+    vvt_inputs = '\n'.join('    input icam_%d: 0 * units.deg;\n    input ecam_%d: 0 * units.deg;' % (r, r) for r in rpms)
+    vvt_functions = ('    function intake_schedule(1000 * units.rpm)\n    intake_schedule\n        .add_sample(0 * units.rpm, -icam_1000)\n'
+                     + '\n'.join('        .add_sample(%d * units.rpm, -icam_%d)' % (r, r) for r in rpms) + '\n'
+                     + '    function exhaust_schedule(1000 * units.rpm)\n    exhaust_schedule\n        .add_sample(0 * units.rpm, ecam_1000)\n'
+                     + '\n'.join('        .add_sample(%d * units.rpm, ecam_%d)' % (r, r) for r in rpms) + '\n')
     mr = f'''import "engine_sim.mr"
 
 units units()
@@ -188,6 +209,8 @@ public node {node} {{
     input spark_6000: 32 * units.deg;
     input spark_7000: 34 * units.deg;
     input fuel_energy: {fuel[1]} * units.kJ / units.g;
+    input runner_length: {v['runner_mm']:.0f} * units.mm;   // tuning (inertial runner) — range in provenance
+{vvt_inputs}
     input engine_name: "{spec['name']}";
     alias output __out: engine;
 
@@ -260,6 +283,7 @@ public node {node} {{
         intake_flow_rate: k_carb({v['intake_cfm']:.1f}),
         idle_flow_rate: k_carb(0.0),
         idle_throttle_plate_position: 0.99,
+        runner_length: runner_length,
         throttle_gamma: 1.0,
         molecular_afr: lambda / 0.064,
         velocity_decay: 1.0
@@ -284,6 +308,7 @@ public node {node} {{
 {chr(10).join(cams)}
 {chr(10).join(heads)}
 
+{vvt_functions}
     function timing_curve(1000 * units.rpm)
     timing_curve
         .add_sample(0 * units.rpm, spark_1000)

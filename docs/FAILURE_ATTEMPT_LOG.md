@@ -1134,6 +1134,48 @@ The shape is flat. Set: DF150 46°, TF250 37°.
 - 46°/37° rated injection is long for rotary pumps (typical 20–30°): either the jet mixing is somewhat fast (e.g. no wall impingement: x_st ≈ 85 mm > bore/2 = 53 mm) or a loss is missing.
 - TF250 at 1000 rpm is +7.5 %.
 
+## Steps 1-3: harness robustness, variable cam timing, inertial runners (2026-10-02)
+
+**1. Harness** (`dyno_sweep --crank-control`, default 0; `calibrate.py`):
+- Non-running results (WOT torque ≤ 0) are reported, never used as "power too low".
+- Each point is tried with crank control 0.3 and 0.0.
+- A compile failure raises instead of being scored.
+
+**2. Variable cam timing** (production: `camshaft.h/.cpp`, `camshaft_node.h`, `objects.mr`; baseline + production pins):
+- `camshaft_parameters.advance_schedule`: extra advance vs engine speed (|ω|); empty = fixed.
+- Regression: GX390 9.937 kW unchanged.
+- Generator: rest = most retarded intake / most advanced exhaust; `icam_/ecam_` inputs per 1000 rpm.
+- Calibration: WOT phase per speed for maximum torque within the documented authority (ECU WOT criterion). The tuning knob is skipped for VVT engines.
+- Mazda (authority 75/45, D):
+  - icam 60/45/45/45/45/45 and ecam 0/9/45/36/36/36 deg (1000-6000 rpm);
+  - rated 111.8 kW at port_cd 0.75 (edge) vs 115;
+  - EPA WOT curve −12..−19 % mid-range (was −14..−21 %).
+- Kohler (harness fixed):
+  - port_cd target below range (20.6 kW at 0.45);
+  - curve +16 % @ 2200 → +2.5 % @ 3600.
+
+**3. Inertial runners** (production: `GasSystem::inertialFlow`; `combustion_chamber` intake runner and exhaust primary; switch `inertialRunners`, default on; dyno `--inertial-runners`; pins updated):
+- d(mdot)/dt = (A/L) Δp − ζ |mdot| mdot / (2 ρ A L).
+- ζ: intake 0.5 + 0.02 L/D; exhaust 1.0 + 0.02 L/D.
+- At most half the source per sub-step; enthalpy and composition transfer.
+
+| A/B (off → on) | Result |
+|---|---|
+| GX390 hand script | 2000: 29.24 → 28.92 N m; 3600: 9.937 → 9.451 kW |
+| Mazda generated, default 4 in runner (20 cm column, 15 cm²) | ~unchanged |
+
+Mazda runner length (spec-sheet knobs, WOT):
+
+| Runner | 3000 rpm | 6000 rpm |
+|---|---|---|
+| 300 mm | 179.2 N m | 204.4 N m |
+| 450 mm | 188 N m (EPA 201) | — |
+
+- Starting needs crank control ≥ 0.15 with long runners (start, not stability).
+- Layer-2 default added: intake runner length 425 mm × 4000 / tuning rpm (C, placeholder anchored to the Mazda class, range 0.5-1.5×; to be sourced).
+- Full recalibration of the three engines running.
+- Deere/ALCO are also affected (exhaust primaries) and must be re-scored.
+
 ## Engine setup library v0 — spec-sheet engines vs documented curves (2026-10-02)
 
 Library `tools/engine_setup/` (CLAUDE.md 0e):

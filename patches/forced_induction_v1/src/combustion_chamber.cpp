@@ -90,6 +90,7 @@ void CombustionChamber::initialize(const Parameters &params) {
     const double manifoldRunnerVolume = intakeRunnerCrossSection * manifoldRunnerLength;
     const double totalIntakeRunnerVolume = m_head->getIntakeRunnerVolume() + manifoldRunnerVolume;
     const double overallIntakeRunnerLength = totalIntakeRunnerVolume / intakeRunnerCrossSection;
+    m_intakeRunnerLength = overallIntakeRunnerLength;
     m_intakeRunnerAndManifold.initialize(
         units::pressure(1.0, units::atm),
         totalIntakeRunnerVolume,
@@ -107,6 +108,7 @@ void CombustionChamber::initialize(const Parameters &params) {
     const double exhaustTubeVolume = exhaustRunnerCrossSection * exhaustTubeLength;
     const double totalExhaustRunnerVolume = m_head->getExhaustRunnerVolume() + exhaustTubeVolume;
     const double overallExhaustRunnerLength = totalExhaustRunnerVolume / exhaustRunnerCrossSection;
+    m_exhaustRunnerLength = overallExhaustRunnerLength;
     m_exhaustRunnerAndPrimary.initialize(
         units::pressure(1.0, units::atm),
         totalExhaustRunnerVolume,
@@ -445,7 +447,17 @@ void CombustionChamber::flow(double dt) {
     flowParams.direction_y = 0.0;
     flowParams.system_0 = &intake->m_system;
     flowParams.system_1 = &m_intakeRunnerAndManifold;
-    GasSystem::flow(flowParams);
+    if (combustion_physics::inertialRunners && !intake->hasForcedInductionFeed()) {
+        // Runner gas column with inertia (Helmholtz / ram tuning). Losses:
+        // entry 0.5 + pipe friction 0.02 L/D (textbook values).
+        const double A = m_head->getIntakeRunnerCrossSectionArea();
+        const double D = std::sqrt(4.0 * A / constants::pi);
+        GasSystem::inertialFlow(&intake->m_system, &m_intakeRunnerAndManifold, m_intakeRunnerMassFlow,
+            A, m_intakeRunnerLength, 0.5 + 0.02 * m_intakeRunnerLength / D, dt);
+    }
+    else {
+        GasSystem::flow(flowParams);
+    }
 
     m_intakeRunnerAndManifold.dissipateExcessVelocity();
 
@@ -483,7 +495,17 @@ void CombustionChamber::flow(double dt) {
     // connection. A configured TurboGroup returns its distinct pre-turbine
     // scroll instead; ExhaustSystem::m_system therefore stays post-turbine.
     flowParams.system_1 = m_engine->getExhaustDestination(exhaust);
-    GasSystem::flow(flowParams);
+    if (combustion_physics::inertialRunners) {
+        // Exhaust primary with inertia (pulse / scavenging dynamics). Losses:
+        // exit 1.0 + pipe friction 0.02 L/D.
+        const double A = m_head->getExhaustRunnerCrossSectionArea();
+        const double D = std::sqrt(4.0 * A / constants::pi);
+        GasSystem::inertialFlow(&m_exhaustRunnerAndPrimary, flowParams.system_1, m_exhaustRunnerMassFlow,
+            A, m_exhaustRunnerLength, 1.0 + 0.02 * m_exhaustRunnerLength / D, dt);
+    }
+    else {
+        GasSystem::flow(flowParams);
+    }
 
     m_intakeRunnerAndManifold.updateVelocity(dt, intake->getVelocityDecay());
     m_system.updateVelocity(dt, 0.5);
@@ -626,6 +648,10 @@ bool combustion_physics::flameExpansion = true;
 // Diagnostic switch (default true): burning efficiency without the upstream
 // mean attenuation (see CombustionChamber::ignite); false = upstream.
 bool combustion_physics::unbiasedBurnEfficiency = true;
+// Diagnostic switch (default true): intake runners and exhaust primaries are
+// inertial pipes (gas column accelerated by the pressure difference, with
+// entry/exit and friction losses); false = upstream quasi-steady orifices.
+bool combustion_physics::inertialRunners = true;
 
 double CombustionChamber::calculateFrictionForce(double v_s) const {
     // The component friction model (Engine::getFrictionModel) includes the

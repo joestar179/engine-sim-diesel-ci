@@ -735,12 +735,15 @@ public node camshaft_parameters {
     input advance: 0.0;
     input base_radius: 0.0;
     input lobe_profile: function();
+    // Variable cam timing: extra advance vs engine speed (empty = fixed).
+    input advance_schedule: function();
 }
 
 private node _camshaft => __engine_sim__camshaft {
     input advance [float];
     input base_radius [float];
     input lobe_profile [function];
+    input advance_schedule [function];
     alias output __out [camshaft_channel];
 }
 
@@ -749,11 +752,13 @@ public node camshaft {
     input advance: parameters.advance;
     input base_radius: parameters.base_radius;
     input lobe_profile: parameters.lobe_profile;
+    input advance_schedule: parameters.advance_schedule;
     alias output __out [_camshaft]:
         _camshaft(
             advance: advance,
             base_radius: base_radius,
-            lobe_profile: lobe_profile
+            lobe_profile: lobe_profile,
+            advance_schedule: advance_schedule
         );
 }
 

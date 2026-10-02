@@ -1,11 +1,24 @@
 {
+ "icam_1000": "60.0 * units.deg",
+ "ecam_1000": "0.0 * units.deg",
+ "icam_2000": "45.0 * units.deg",
+ "ecam_2000": "9.0 * units.deg",
+ "icam_3000": "45.0 * units.deg",
+ "ecam_3000": "45.0 * units.deg",
+ "icam_4000": "45.0 * units.deg",
+ "ecam_4000": "36.0 * units.deg",
+ "icam_5000": "45.0 * units.deg",
+ "ecam_5000": "36.0 * units.deg",
+ "icam_6000": "45.0 * units.deg",
+ "ecam_6000": "36.0 * units.deg",
+ "icam_7000": "45.0 * units.deg",
+ "ecam_7000": "36.0 * units.deg",
  "spark_1000": "10 * units.deg",
  "spark_2000": "15 * units.deg",
- "spark_3000": "20 * units.deg",
+ "spark_3000": "25 * units.deg",
  "spark_4000": "25 * units.deg",
  "spark_5000": "25 * units.deg",
  "spark_6000": "30 * units.deg",
  "spark_7000": "15 * units.deg",
- "port_cd": "0.7497",
- "intake_center": "100.00 * units.deg"
+ "port_cd": "0.7500"
 }

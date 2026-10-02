@@ -118,6 +118,12 @@ class GasSystem {
         // Temperature of gas with molar internal energy e (inverts u(T)).
         inline static double temperatureFromEnergyPerMol(double e, int degreesOfFreedom, double guess = -1.0, double productFraction = 0.0);
         static double pressureOf(double n, double E, double V, int degreesOfFreedom, double productFraction = 0.0);
+        // Inertial pipe (filling-and-emptying with gas inertia, Heywood ch. 7):
+        // mass flow mdot (kg/s, + = a -> b) is a state accelerated by the
+        // pressure difference: d(mdot)/dt = (A/L)(p_a - p_b) - zeta |mdot| mdot / (2 rho A L).
+        // Transfers the gas (enthalpy, composition); returns moles moved a -> b.
+        static double inertialFlow(GasSystem *a, GasSystem *b, double &mdot,
+                                   double area, double length, double zeta, double dt);
         // Heat capacity cv(T) per mole of a gas with the given product fraction.
         inline static double heatCapacityPerMol(double T, int degreesOfFreedom, double productFraction = 0.0);
         static double vibrationalHeatCapacity(double T) { return gas_vibration::lookup(gas_vibration::heatCapacity, T); }

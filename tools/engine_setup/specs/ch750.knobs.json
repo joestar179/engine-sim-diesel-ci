@@ -3,6 +3,6 @@
  "spark_2000": "20 * units.deg",
  "spark_3000": "30 * units.deg",
  "spark_4000": "30 * units.deg",
- "port_cd": "0.4737",
+ "port_cd": "0.4500",
  "intake_center": "100.00 * units.deg"
 }

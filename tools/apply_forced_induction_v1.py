@@ -17,6 +17,9 @@ import sys
 PINNED_UPSTREAM = "56725cc012581282567900b15871018d55b7ab42"
 
 EXPECTED_BASELINE = {
+    "include/camshaft.h": "b9977bfdf0e7212c123b9ff44c58fb2fe55cb05db1a2f4372f1de29d262b2779",
+    "src/camshaft.cpp": "1748dba81f82e70d1a894705a686394711753de98e213c5e462d0709ce7d40bd",
+    "scripting/include/camshaft_node.h": "8773a38af61d7bfa1abbc68fb713c2794f47bb75da6c9169f2389e61b47df99e",
     "CMakeLists.txt": "7f45692c36bfe92878942b463e61d103da0feba9046c0d386165dbd47cac9fda",
     "include/turbocharger_model.h": "18f54c21ad794331a86d7d2f7d9872061c0640c35f8c8e1bfef0c78da29b26cf",
     "src/turbocharger_model.cpp": "c2f82dc0d87d89c32c9260f1aa972db63c5422a3b67b99a2da486d8e4bf4c9ee",
@@ -103,10 +106,13 @@ public node set_engine {
 # telemetry-log changes). Diagnostic gates
 # may add tests and build wiring but must not alter the code under test.
 PINNED_PRODUCTION_TEMPLATES = {
+    "scripting/include/camshaft_node.h": "b4ec6f0808ee3b5cea71a3a900ea912682b1c425c633d3dd540989caae2b59a8",
+    "src/camshaft.cpp": "21b56c1236ae4606da3e95063566d14184a0c05408f1428b168ab7ec12f58bd1",
+    "include/camshaft.h": "03b3be27040576846fafc0479a7bc1e8b72a4189e219227a53fe45bb263b7928",
     "assets/alco_16_251b_main.mr": "de603c279f374f62bd5b47ef0edebbabfbe083b01bdc2ab057620ff1af4c61f4",
     "assets/engines/alco/alco_16_251b_native.mr": "3788fab67ba888cbc4612b41dc387fa0bf1a91321f30a296f8152a4856e9c303",
-    "es/objects/objects.mr": "885f0fc4531af64edfb974f3fc54ffda933fa82bbbe0a18540a4ee4fe237b8f5",
-    "include/combustion_chamber.h": "096702391dc20751c15b879adba0a6a7672585ed3bae9812899a96b60e4d9385",
+    "es/objects/objects.mr": "59a82eae63ea54d723ccd2cb9d5a697a4a3a316fefd5aa9607249b71f4e8921b",
+    "include/combustion_chamber.h": "26c4c31b8cae3aa22e22c6f94374d77598aae4edf5d727a05eeb31c595250717",
     "include/engine.h": "163e4024e858e0690fb7abb2a7d4674178b95279cc1c0d77e00f98aff93c646b",
     "include/exhaust_system.h": "050d489bb2fc579b0bf350b14797e55bb26e902908f941069d0b2d275e42df90",
     "include/forced_induction_system.h": "57c6bc6a9084bdda1f99d60851a3c6ea53ec0059be36610a8a5e8a151b68ce22",
@@ -115,7 +121,7 @@ PINNED_PRODUCTION_TEMPLATES = {
     "scripting/include/engine_node.h": "db5876d9beebeffb5a6669f52c818dfa76ebff088962ca9af9b4e561193a9999",
     "scripting/include/exhaust_system_node.h": "d5f3436f866d9f3608efcd808aa61d079e0eb6f207a9134c046b0a0940755c3d",
     "scripting/src/compiler.cpp": "fb6566d847ab4486d68ee39e813753cc5c0b9d52c7c5b988bb4fbd43ec02eeb0",
-    "src/combustion_chamber.cpp": "21ec5c2f8ca81dc00f3d367b43fafc4b07c275378397217f56e3253d19df328f",
+    "src/combustion_chamber.cpp": "279baf5cb7d987270291fda29bd97c1ac303ac7974b6984098d44a62180803ad",
     "src/engine.cpp": "05a615b2ea76a1cc8aec82e8c6059c4f65503393365e697917277abafb76ebb8",
     "src/exhaust_system.cpp": "82371111c1405bfd72a581be18d2b2274bd63819d92103d73b0970a5f7895d20",
     "src/forced_induction_system.cpp": "c00aca6bf47080b95f00d70e0536634c5e8f1a46c4517aba2af0e0b2f3725609",
@@ -136,8 +142,8 @@ PINNED_PRODUCTION_TEMPLATES = {
     "src/simulator.cpp": "66eee8e78eae8638b10ba89fe0b900f879633e53c2accb4ad9dcd4224c465c43",
     "src/diesel_governor.cpp": "b0f1e8fa6b629bc14099b80b326351594d8bf5b21be8e3235ecc72b62083b6df",
     "include/diesel_governor.h": "77b27b5b3b25ec18d8ff5846c33909a200c5d4c30ec50807fecf63a0b3a29698",
-    "src/gas_system.cpp": "5ab9b35bff43e91c60dccc4afd17ee075c022c094ea642e9d82ebdad816eaeae",
-    "include/gas_system.h": "7c0e5b0e331e7b7a0ea4c270dfca903ce63cfa530a3dc7b2342c202be4cb6243",
+    "src/gas_system.cpp": "21382c737215d68b2daf71141a96eaad8a10ba251aba09ed4873656e449beb21",
+    "include/gas_system.h": "f6886ec607822ad0750541d43c6f06ae801626d38b1188062761564618ef6ab7",
     "src/compression_ignition_model.cpp": "f2643f25d417ba2370ffaea7e78ce0a729e2f751f18cc3f282c5ab3e6ce1517d",
     "include/compression_ignition_model.h": "00da6abfb8d5f5ec8d610e79a0055e404a9669f0a21f79bed2cd777004be085c",
     "src/ignition_module.cpp": "1e93ef5f918068813951617e08d10a8648ee5a154681fd7e9354b09aa3c1d052",

@@ -79,5 +79,8 @@
    200.05
   ]
  ],
- "curve_note": "EPA NVFEL Tier 2 max-torque sweep (D), x1.017 to J1349 (cell 97.6 kPa)"
+ "curve_note": "EPA NVFEL Tier 2 max-torque sweep (D), x1.017 to J1349 (cell 97.6 kPa)",
+ "vvt_intake_authority": 75.0,
+ "vvt_exhaust_authority": 45.0,
+ "vvt_note": "EPA SAE 2016-01-1007 (D): intake 75 crank deg advance, exhaust 45 retard"
 }

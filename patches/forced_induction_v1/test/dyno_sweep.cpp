@@ -157,7 +157,7 @@ int main(int argc, char **argv) {
         std::string item;
         while (std::getline(ss, item, ',')) speeds.push_back(std::atof(item.c_str()));
     }
-    double throttle = 1.0, settle = 6.0, measure = 3.0, targetTorque = -1.0, targetMap = -1.0, targetFuel = -1.0;
+    double throttle = 1.0, settle = 6.0, measure = 3.0, targetTorque = -1.0, targetMap = -1.0, targetFuel = -1.0, crankControl = 0.0;
     int frequency = 0;
     bool energy = false;
     for (int i = 3; i + 1 < argc; i += 2) {
@@ -169,6 +169,7 @@ int main(int argc, char **argv) {
         else if (a == "--torque") targetTorque = std::atof(argv[i + 1]);
         else if (a == "--map") targetMap = std::atof(argv[i + 1]);
         else if (a == "--fuel") targetFuel = std::atof(argv[i + 1]);
+        else if (a == "--crank-control") crankControl = std::atof(argv[i + 1]);
         else if (a == "--energy") energy = std::atoi(argv[i + 1]) != 0;
 #ifdef ENGINE_SIM_OVERLAY
         // Overlay-only diagnostic switches (value 0 = upstream behaviour).
@@ -178,6 +179,7 @@ int main(int argc, char **argv) {
         else if (a == "--unified-heat") combustion_physics::unifiedHeatTransfer = std::atoi(argv[i + 1]) != 0;
         else if (a == "--flame-expansion") combustion_physics::flameExpansion = std::atoi(argv[i + 1]) != 0;
         else if (a == "--unbiased-burn") combustion_physics::unbiasedBurnEfficiency = std::atoi(argv[i + 1]) != 0;
+        else if (a == "--inertial-runners") combustion_physics::inertialRunners = std::atoi(argv[i + 1]) != 0;
 #endif
     }
 
@@ -217,7 +219,7 @@ int main(int argc, char **argv) {
         const int f = frequency > 0 ? frequency : static_cast<int>(engine->getSimulationFrequency());
         sim->setSimulationFrequency(f);
         engine->getIgnitionModule()->m_enabled = true;
-        engine->setSpeedControl(0.0);
+        engine->setSpeedControl(crankControl);   // --crank-control (default 0)
 
         // Crank, then run at the requested speed control with the dyno holding.
         sim->m_starterMotor.m_enabled = true;

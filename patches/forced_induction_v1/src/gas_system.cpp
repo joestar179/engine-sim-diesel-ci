@@ -92,6 +92,32 @@ bool gas_vibration::products = true;
 double gas_vibration::productEnergy[gas_vibration::TableSize];
 double gas_vibration::productHeatCapacity[gas_vibration::TableSize];
 
+double GasSystem::inertialFlow(GasSystem *a, GasSystem *b, double &mdot,
+                               double area, double length, double zeta, double dt) {
+    if (area <= 0.0 || length <= 0.0 || a->n() <= 0.0 || b->n() <= 0.0) { mdot = 0.0; return 0.0; }
+    GasSystem *up = (mdot >= 0.0) ? a : b;
+    const double rho = up->mass() / up->volume();
+    const double dp = a->pressure() - b->pressure();
+    // Semi-implicit friction for stability.
+    mdot = (mdot + dt * area / length * dp)
+        / (1.0 + dt * zeta * std::abs(mdot) / (2.0 * std::max(rho, 1.0e-6) * area * length));
+    GasSystem *source = (mdot >= 0.0) ? a : b;
+    GasSystem *sink = (mdot >= 0.0) ? b : a;
+    const double molarMass = source->mass() / source->n();
+    double moles = std::abs(mdot) * dt / molarMass;
+    const double limit = 0.5 * source->n();
+    if (moles > limit) {
+        moles = limit;
+        mdot = (mdot >= 0.0 ? 1.0 : -1.0) * moles * molarMass / dt;
+    }
+    if (moles <= 0.0) return 0.0;
+    const double h = source->enthalpyPerMol();
+    const Mix mix = source->mix();
+    sink->gainN(moles, h, mix);
+    source->loseN(moles, h);
+    return (mdot >= 0.0) ? moles : -moles;
+}
+
 double GasSystem::pressureOf(double n, double E, double V, int degreesOfFreedom, double productFraction) {
     if (n <= 0.0 || V <= 0.0) return 0.0;
     return n * constants::R * temperatureFromEnergyPerMol(E / n, degreesOfFreedom, -1.0, productFraction) / V;
