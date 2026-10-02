@@ -126,7 +126,7 @@ void advance(Simulator *sim, double seconds, int frequency,
 #ifdef ENGINE_SIM_OVERLAY
             static const bool trace = std::getenv("ES_RUNNER_TRACE") != nullptr;
             static long long traceStep = 0;
-            if (trace && engine != nullptr && (++traceStep % (frequency / 20)) == 0) {
+            if (trace && engine != nullptr && (++traceStep % std::max(1, std::atoi(std::getenv("ES_RUNNER_TRACE")))) == 0) {
                 CombustionChamber *ch = engine->getChamber(0);
                 std::printf("trace mdot_in %.4f mdot_ex %.4f | p_cyl %.1f p_inrun %.1f p_plenum %.1f p_exrun %.1f p_exh %.1f kPa\n",
                     ch->m_intakeRunnerMassFlow, ch->m_exhaustRunnerMassFlow,
@@ -159,7 +159,53 @@ void advance(Simulator *sim, double seconds, int frequency,
 }
 }
 
+#ifdef ENGINE_SIM_OVERLAY
+// --pipe-test: two air volumes joined by one GasSystem::inertialFlow pipe.
+// Prints the oscillation period vs the analytic Helmholtz value and the
+// energy balance (internal energy + column kinetic energy).
+static int pipeTest(double zeta, double dp0) {
+    const double V1 = 2.0e-3, V2 = 0.3e-3, A = 10e-4, L = 0.4, T = 300.0, dt = 1.0e-5;
+    GasSystem a, b;
+    GasSystem::Mix air; air.p_inert = 0.75; air.p_o2 = 0.25; air.p_fuel = 0.0;
+    a.initialize(101325.0 + dp0, V1, T, air);
+    b.initialize(101325.0, V2, T, air);
+    double mdot = 0.0;
+    const double gamma = a.heatCapacityRatio();
+    const double c = std::sqrt(gamma * 8.314 * T / (a.mass() / a.n()));
+    const double omega = std::sqrt(A * c * c / L * (1.0 / V1 + 1.0 / V2));
+    const double U0 = a.kineticEnergy() + b.kineticEnergy();
+    double lastP = b.pressure(), tUp = -1.0, period = 0.0;
+    int ups = 0;
+    double maxKE = 0.0, minTot = 1e30, maxTot = -1e30, net = 0.0;
+    for (int i = 0; i < 20000; ++i) {
+        net += GasSystem::inertialFlow(&a, &b, mdot, A, L, zeta, dt);
+        const double rho = a.mass() / a.volume();
+        const double ke = 0.5 * rho * A * L * std::pow(mdot / (rho * A), 2);
+        const double tot = a.kineticEnergy() + b.kineticEnergy() + ke - U0;
+        maxKE = std::max(maxKE, ke); minTot = std::min(minTot, tot); maxTot = std::max(maxTot, tot);
+        const double p = b.pressure() - 101325.0 - dp0 * V1 / (V1 + V2);
+        if (lastP < 0.0 && p >= 0.0) {
+            const double t = i * dt;
+            if (tUp >= 0.0) { period += t - tUp; ++ups; }
+            tUp = t;
+        }
+        lastP = p;
+        if (i % 2000 == 0)
+            std::printf("t %.3f s  p_a %.2f p_b %.2f kPa  mdot %+.4f kg/s  KE %.3f J  dE(U+KE) %+.3f J\n",
+                i * dt, a.pressure() / 1000, b.pressure() / 1000, mdot, ke, tot);
+    }
+    std::printf("zeta %.2f: period sim %.3f ms vs analytic %.3f ms; KE max %.3f J; U+KE drift %+.3f..%+.3f J; net moles a->b %.5f\n",
+        zeta, ups ? 1000.0 * period / ups : 0.0, 1000.0 * 2 * 3.14159265 / omega, maxKE, minTot, maxTot, net);
+    return 0;
+}
+#endif
+
 int main(int argc, char **argv) {
+#ifdef ENGINE_SIM_OVERLAY
+    if (argc >= 4 && std::string(argv[1]) == "--pipe-test") {
+        return pipeTest(std::atof(argv[2]), std::atof(argv[3]));
+    }
+#endif
     if (argc < 3) {
         std::fprintf(stderr, "usage: engine-sim-dyno-sweep <script.mr> <rpm,rpm,...> [--throttle T] [--settle S] [--measure S] [--frequency N]\n");
         return 2;
@@ -173,6 +219,8 @@ int main(int argc, char **argv) {
     double throttle = 1.0, settle = 6.0, measure = 3.0, targetTorque = -1.0, targetMap = -1.0, targetFuel = -1.0, crankControl = 0.0;
     int frequency = 0;
     bool energy = false;
+    int inertialAfterStart = -1;   // --inertial-after-start 0|1: set after cranking
+    bool dynoStart = false;        // --start-mode dyno|self
     for (int i = 3; i + 1 < argc; i += 2) {
         const std::string a = argv[i];
         if (a == "--throttle") throttle = std::atof(argv[i + 1]);
@@ -183,6 +231,7 @@ int main(int argc, char **argv) {
         else if (a == "--map") targetMap = std::atof(argv[i + 1]);
         else if (a == "--fuel") targetFuel = std::atof(argv[i + 1]);
         else if (a == "--crank-control") crankControl = std::atof(argv[i + 1]);
+        else if (a == "--start-mode") dynoStart = std::string(argv[i + 1]) == "dyno";
         else if (a == "--energy") energy = std::atoi(argv[i + 1]) != 0;
 #ifdef ENGINE_SIM_OVERLAY
         // Overlay-only diagnostic switches (value 0 = upstream behaviour).
@@ -193,6 +242,7 @@ int main(int argc, char **argv) {
         else if (a == "--flame-expansion") combustion_physics::flameExpansion = std::atoi(argv[i + 1]) != 0;
         else if (a == "--unbiased-burn") combustion_physics::unbiasedBurnEfficiency = std::atoi(argv[i + 1]) != 0;
         else if (a == "--inertial-runners") combustion_physics::inertialRunners = std::atoi(argv[i + 1]) != 0;
+        else if (a == "--inertial-after-start") inertialAfterStart = std::atoi(argv[i + 1]);
 #endif
     }
 
@@ -236,8 +286,27 @@ int main(int argc, char **argv) {
 
         // Crank, then run at the requested speed control with the dyno holding.
         sim->m_starterMotor.m_enabled = true;
-        advance(sim, 2.0, f);
+        if (dynoStart) {
+            // --start-mode dyno: engage the dyno while the starter still turns
+            // the crank forward (the dyno holds |speed| in the current
+            // direction; a failed self-start could otherwise rock backwards
+            // and be held in reverse), then let the dyno motor the engine to
+            // the test speed at the requested speed control.
+            advance(sim, 0.5, f);
+            engine->setSpeedControl(throttle);
+            sim->m_dyno.m_rotationSpeed = units::rpm(rpm);
+            sim->m_dyno.m_maxTorque = units::torque(20000.0, units::ft_lb);
+            sim->m_dyno.m_hold = true;
+            sim->m_dyno.m_enabled = true;
+            advance(sim, 0.3, f);
+        }
+        else {
+            advance(sim, 2.0, f);
+        }
         sim->m_starterMotor.m_enabled = false;
+#ifdef ENGINE_SIM_OVERLAY
+        if (inertialAfterStart >= 0) combustion_physics::inertialRunners = inertialAfterStart != 0;
+#endif
         engine->setSpeedControl(throttle);
         sim->m_dyno.m_rotationSpeed = units::rpm(rpm);
         sim->m_dyno.m_maxTorque = units::torque(20000.0, units::ft_lb);

@@ -1134,6 +1134,47 @@ The shape is flat. Set: DF150 46°, TF250 37°.
 - 46°/37° rated injection is long for rotary pumps (typical 20–30°): either the jet mixing is somewhat fast (e.g. no wall impingement: x_st ≈ 85 mm > bore/2 = 53 mm) or a loss is missing.
 - TF250 at 1000 rpm is +7.5 %.
 
+## Inertial runners — isolation test, start procedure, coarse calibration (2026-10-02)
+
+**Isolated pipe test** (`dyno_sweep --pipe-test zeta dp0`; 2.0 L + 0.3 L, pipe 10 cm² × 0.4 m):
+- Period 5.861 ms vs analytic Helmholtz 5.849 ms.
+- Internal energy conserved; the column KE (≤ 0.085 J) is not drawn from the reservoirs, but there is no net drift or pumping.
+- With no initial Δp there is no flow. The element itself is correct; the KE bookkeeping is negligible.
+
+**Trace correction:** the earlier 20 Hz trace aliased the 26.7 Hz cycle. A per-step trace over one cycle (Kohler 3200) gives mean runner flows −0.010 / −0.010 kg/s (intake / exhaust), exhaust system 99.5 kPa (below atmosphere), plenum 102.2 kPa: a reverse pumping loop, no firing.
+
+**Neck/cavity fix** (`combustion_chamber.cpp`): with inertial runners the lumped runner volume is the port volume only. The runner pipe is the Helmholtz neck; the whole runner volume had been counted as both inertia and compliance.
+
+**Start procedure** (`dyno_sweep --start-mode dyno`, used by calibrate.py):
+- The dyno engages while the starter still turns forward (0.5 s), then motors the engine to the test speed.
+- The dyno holds |speed| in the current direction, so failed self-starts had rocked backwards and been held in reverse. This was the main cause of the "not running" results.
+- Repeats are now identical.
+
+Sanity pass (defaults; vs documented):
+
+| Engine | Inertial off | Inertial on |
+|---|---|---|
+| GX390 (2000/2500/3600) | +17/+4/+4 % | +25/+12/+2 % |
+| Kohler (2200/3200/3600) | +15/+10/+9 % | +22/+20/+22 % |
+| Mazda (cams at rest; 1000/4000/6000) | −40/−46/−44 % | −39/−39/−22 % |
+
+**Coarse calibration** (`calibrate.py --coarse`, ~5 min per engine; inertial on):
+
+| Engine | Knobs | Held-out curve |
+|---|---|---|
+| GX390 | port_cd 0.464 (in range), intake centre 120 (edge) | +19.6 % @ 2000 … +0.3 % @ 3600 |
+| Kohler | port_cd 0.45 (edge; 21.65 kW at the edge vs 20.1), centre 120 (edge) | +14.3 … +7.5 % |
+| Mazda | VVT icam 75/75/75/37.5/37.5/37.5/0, ecam 0/45/22.5/22.5/22.5/22.5/22.5; MBT 5-35 deg; port_cd 0.586 (in range: rated reached for the first time) | not evaluable (see below) |
+
+**Open defect — reverse-flow attractor:**
+- With the final Mazda knobs (large overlap at low speed: icam 75 + ecam 45 at 2000) the engine does not breathe at 2500 or 6000 with inertial runners on (fuel ~0, plenum above atmosphere).
+- With them off it gives 171.6 / 159.6 N m.
+- The inertial columns admit a self-sustaining reverse loop (exhaust → cylinder → intake) at large overlap; the dyno spin-up path through the low-speed phases can lock it in.
+
+**Also found:** the generator's VVT exhaust rest convention is wrong. Default centre 110 + 22.5 gives EVC 25 deg BTDC at rest; the Mazda service data give EVC 7 ATDC at rest. The exhaust default centre is already near rest.
+
+Inertial runners remain unusable for scoring until the attractor is understood.
+
 ## Inertial runners — defect found by a 1-minute sanity pass (2026-10-02)
 
 **Process correction (user):** long calibration runs were launched before basic sanity checks. They are now preceded by a sanity pass (all engines, 3 speeds, short settle; < 1 min).

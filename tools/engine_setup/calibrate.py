@@ -12,12 +12,14 @@ sys.path.insert(0, os.path.dirname(__file__))
 import defaults as D
 
 EXE = r'bin\engine-sim-dyno-sweep.exe'
+COARSE = '--coarse' in sys.argv          # quick pass: fewer steps, shorter windows
+SETTLE, MEASURE = ('2', '1') if COARSE else ('4', '2')
 
 def run(spec, rpms, overrides):
     # Starting can fail for a given crank throttle (V-twin at 0.3, restricted
     # engines at 0); a point counts as non-running only if both fail.
     res = None
-    for cc in ('0.3', '0.0'):
+    for cc in ('0.0', '0.3'):
         r = _run(spec, rpms, overrides, cc)
         res = r if res is None else {k: (res.get(k) or r.get(k)) for k in set(res) | set(r)}
         if all(res.get(x) for x in rpms): break
@@ -29,8 +31,8 @@ def _run(spec, rpms, overrides, crank_control):
             % (spec['node'], spec['node'], args))
     fd, path = tempfile.mkstemp(suffix='_main.mr', dir='assets'); os.write(fd, body.encode()); os.close(fd)
     try:
-        out = subprocess.run([EXE, path, ','.join('%d' % r for r in rpms), '--settle', '4', '--measure', '2',
-                              '--crank-control', crank_control],
+        out = subprocess.run([EXE, path, ','.join('%d' % r for r in rpms), '--settle', SETTLE, '--measure', MEASURE,
+                              '--crank-control', crank_control, '--start-mode', 'dyno'],
                              capture_output=True, text=True).stdout
     finally:
         os.remove(path)
@@ -52,7 +54,7 @@ def bisect_cd(spec, knobs, target, cf, rng):
         return (lo if k_hi is not None else hi), 'engine not running at a range end (kW lo=%s hi=%s): finding' % (k_lo, k_hi)
     if k_lo > target: return lo, 'target below range (%.2f kW at cd %.2f): finding' % (k_lo, lo)
     if k_hi < target: return hi, 'target above range (%.2f kW at cd %.2f): finding' % (k_hi, hi)
-    for it in range(9):
+    for it in range(5 if COARSE else 9):
         mid = 0.5 * (lo + hi)
         k = kw(mid)
         if k is None: return mid, 'engine not running inside range: finding'
@@ -77,8 +79,9 @@ def main():
             for key, auth in (('icam_%d' % r, ai), ('ecam_%d' % r, ae)):
                 if not auth: continue
                 best = None
-                for k in range(6):
-                    ph = auth * k / 5.0
+                steps = 3 if COARSE else 6
+                for k in range(steps):
+                    ph = auth * k / (steps - 1.0)
                     res = run(spec, [test], dict(knobs, **{key: '%.1f * units.deg' % ph}))
                     t = (res.get(test) or (float('-inf'), 0))[0]
                     if best is None or t > best[1]: best = (ph, t)
@@ -91,7 +94,7 @@ def main():
         for r in samples:
             test = min(max(r, lo_rpm), hi_rpm)
             best = None
-            for adv in range(5, 56, 5):
+            for adv in (range(5, 56, 10) if COARSE else range(5, 56, 5)):
                 res = run(spec, [test], dict(knobs, **{'spark_%d' % r: '%d * units.deg' % adv}))
                 t = (res.get(test) or (float('-inf'), 0))[0]
                 if best is None or t > best[1]: best = (adv, t)
@@ -124,7 +127,7 @@ def main():
             print('intake_center = %.1f  ** target outside range: finding **' % center)
         else:
             a_, b_ = lo_c, hi_c
-            for it in range(7):
+            for it in range(4 if COARSE else 7):
                 m_ = 0.5 * (a_ + b_)
                 if (rise(m_) - rise_doc) * (r_lo - rise_doc) > 0: a_ = m_
                 else: b_ = m_
@@ -136,6 +139,9 @@ def main():
         print('port_cd (re-bisected) = %.3f: %s' % (cd, note))
     # 3. Held-out curve
     curve = spec.get('curve', [])
+    if COARSE and len(curve) > 6:
+        idx = [round(i * (len(curve) - 1) / 5) for i in range(6)]
+        curve = [curve[i] for i in sorted(set(idx))]
     if curve:
         res = run(spec, [c[0] for c in curve], knobs)
         print(' rpm   sim_Nm  doc_Nm   err')

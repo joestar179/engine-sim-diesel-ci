@@ -91,9 +91,14 @@ void CombustionChamber::initialize(const Parameters &params) {
     const double totalIntakeRunnerVolume = m_head->getIntakeRunnerVolume() + manifoldRunnerVolume;
     const double overallIntakeRunnerLength = totalIntakeRunnerVolume / intakeRunnerCrossSection;
     m_intakeRunnerLength = overallIntakeRunnerLength;
+    // Inertial runners: the runner pipe (manifold runner + port) is the
+    // Helmholtz neck; only the port volume remains as the lumped volume at
+    // the valve (the cylinder is the cavity). Keeping the whole runner volume
+    // as well double-counted the gas as both inertia and compliance and
+    // created a spurious plenum-runner resonance.
     m_intakeRunnerAndManifold.initialize(
         units::pressure(1.0, units::atm),
-        totalIntakeRunnerVolume,
+        combustion_physics::inertialRunners ? m_head->getIntakeRunnerVolume() : totalIntakeRunnerVolume,
         units::celcius(25.0));
     m_intakeRunnerAndManifold.setGeometry(
         overallIntakeRunnerLength,
@@ -111,7 +116,7 @@ void CombustionChamber::initialize(const Parameters &params) {
     m_exhaustRunnerLength = overallExhaustRunnerLength;
     m_exhaustRunnerAndPrimary.initialize(
         units::pressure(1.0, units::atm),
-        totalExhaustRunnerVolume,
+        combustion_physics::inertialRunners ? m_head->getExhaustRunnerVolume() : totalExhaustRunnerVolume,
         units::celcius(25.0));
     m_exhaustRunnerAndPrimary.setGeometry(
         overallExhaustRunnerLength,

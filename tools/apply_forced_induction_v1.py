@@ -121,7 +121,7 @@ PINNED_PRODUCTION_TEMPLATES = {
     "scripting/include/engine_node.h": "db5876d9beebeffb5a6669f52c818dfa76ebff088962ca9af9b4e561193a9999",
     "scripting/include/exhaust_system_node.h": "d5f3436f866d9f3608efcd808aa61d079e0eb6f207a9134c046b0a0940755c3d",
     "scripting/src/compiler.cpp": "fb6566d847ab4486d68ee39e813753cc5c0b9d52c7c5b988bb4fbd43ec02eeb0",
-    "src/combustion_chamber.cpp": "279baf5cb7d987270291fda29bd97c1ac303ac7974b6984098d44a62180803ad",
+    "src/combustion_chamber.cpp": "a9f0c209abd3ed8dff6a3f9d4b40321af9855adcb5d7b51e6652a939ba3c7462",
     "src/engine.cpp": "05a615b2ea76a1cc8aec82e8c6059c4f65503393365e697917277abafb76ebb8",
     "src/exhaust_system.cpp": "82371111c1405bfd72a581be18d2b2274bd63819d92103d73b0970a5f7895d20",
     "src/forced_induction_system.cpp": "c00aca6bf47080b95f00d70e0536634c5e8f1a46c4517aba2af0e0b2f3725609",
