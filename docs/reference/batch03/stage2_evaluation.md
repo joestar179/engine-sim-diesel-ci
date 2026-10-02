@@ -169,3 +169,39 @@ Raw file: `Torres2024_GX160_EFI_ethanol_supplementary-data.xlsx` (Mendeley yvb7k
 - Air / fuel flow still U.
 
 **Verdict unchanged:** partial references (LSA blower flow and bypass logic; BLG twincharger control). Acquiring the SAE certified-power document is the single step that could make the LSA a quantitative reference.
+
+### S9 full (after G6)
+
+**EMD 16-710G3B:**
+- New: exact notch power / speed schedule (D, RDSO 2023: N1 270 rpm / 259 bhp ... N8 954 rpm / 4500 bhp).
+- New, F only: 12-710G3B MAP and air-box temperature vs notch (103 → 254 kPa abs), giving the shape of the boost rise.
+- EVC ~67° ABDC (F, IRIMEE GM two-stroke timing); 16.7:1 turbo gear tied to a 16-710G3B-T2 parts entry (F).
+- **Still U:** fuel consumption at any load, port geometry. The 12-710 fuel-rate table is model-derived in its source and correctly excluded.
+
+**Wärtsilä 8L26:**
+- New: VIC up to 30° CA (D); 1500 bar pump capability (D); family camset checking table; CR revisions 13.5 / 15.8 / 16 (F), so the exact CR is genuinely uncertain.
+- **Still U:** CR and rod for the 2018 build, boost and TIT at the four loads, p(θ).
+
+**ALCO 251 (new): relevant to §0b 2b**
+
+| Item | Value | Grade |
+|---|---|---|
+| Bore / stroke | 228.6 / 266.7 mm | D (RDSO EFI spec) |
+| CR | 12.5 (concave piston) / 11.5 (flat) for the Indian WDM-2 251B | F. Our MR uses 13:1 from the US MI-1016B 2400 BHP build: different build |
+| Valve timing, conventional | IVO 63.8° BTDC, IVC 29.7° ABDC, EVO 41.5° BBDC, EVC 60° ATDC, overlap 123.8° | F |
+| Valve timing, fuel-efficient | IVO 80.1 / IVC 35.4 / EVO 57.7 / EVC 57.8 | F |
+| Injection start (example) | ~18.25° BTDC | F |
+| Charge air during overlap | 1.5 kgf/cm2 gauge (~248 kPa abs) | F |
+| Load-box worked example, WDM-2 2600 hp | 2596 bhp, 409 kg/h, **SFC 157.6 g/hp h (211 g/kWh)** | F (training example) |
+| TIT limit / EGT | 620 °C max / ~490-510 °C | F |
+| Firing pressure (illustrative) | 86-107 bar | F |
+| Firing order (EFI build) | 1R-1L-4R-4L-7R-7L-6R-6L-8R-8L-5R-5L-2R-2L-3R-3L | D |
+| Nozzle alternatives | 8-9 holes x 0.325-0.40 mm, 145-160° | F |
+
+**Bearing on §0b 2b ("16-251B too efficient: SFC 145-155 vs 168"):**
+- The 168 g/bhp h basis comes from the US 720A / 2400 BHP build.
+- The Indian WDM-2 2600 hp worked example gives 157.6 g/hp h. That is within ~2 % of the sim's 155, though F-grade (training calculation) and for a different build / rating.
+- The charge-air 248 kPa abs is consistent with the 258 kPa reference already in the register.
+- **Do not change physics on this.** Rather, the "too efficient" finding now depends on which build and rating basis the ALCO model claims. Resolve this when the ALCO is set up (phase 4).
+
+**Verdict:** EMD still fails the minimum (no fuel); Wärtsilä unchanged (calibrated-grade thermal / system); ALCO calibrated-grade fragments, valuable as model inputs (valve timing, nozzles, firing order, boost, SFC basis).

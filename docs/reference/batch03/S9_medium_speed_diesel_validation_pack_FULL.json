@@ -1,0 +1,2786 @@
+[
+  {
+    "name": "EMD locked bore",
+    "value": 230.19,
+    "unit": "mm",
+    "grade": "D",
+    "importance": "E",
+    "source": "RDSO TS/ED/2012/65 Rev.2 (July 2014), Annexure 1, pp.12-13; https://www.scribd.com/document/618971925/technical-specification-rev-2-july14"
+  },
+  {
+    "name": "EMD locked stroke",
+    "value": 279.4,
+    "unit": "mm",
+    "grade": "D",
+    "importance": "E",
+    "source": "RDSO TS/ED/2012/65 Rev.2 (July 2014), Annexure 1, pp.12-13; https://www.scribd.com/document/618971925/technical-specification-rev-2-july14"
+  },
+  {
+    "name": "EMD locked connecting-rod c-c",
+    "value": 584.2,
+    "unit": "mm",
+    "grade": "D",
+    "importance": "E",
+    "source": "RDSO TS/ED/2012/65 Rev.2 (July 2014), Annexure 1, pp.12-13; https://www.scribd.com/document/618971925/technical-specification-rev-2-july14"
+  },
+  {
+    "name": "EMD locked compression ratio",
+    "value": 16,
+    "unit": ":1",
+    "grade": "D",
+    "importance": "E",
+    "source": "RDSO TS/ED/2012/65 Rev.2 (July 2014), Annexure 1, pp.12-13; https://www.scribd.com/document/618971925/technical-specification-rev-2-july14"
+  },
+  {
+    "name": "EMD locked cylinder count",
+    "value": 16,
+    "unit": "count",
+    "grade": "D",
+    "importance": "E",
+    "source": "RDSO TS/ED/2012/65 Rev.2 (July 2014), Annexure 1, pp.12-13; https://www.scribd.com/document/618971925/technical-specification-rev-2-july14"
+  },
+  {
+    "name": "EMD locked piston mass",
+    "value": 27,
+    "unit": "kg",
+    "grade": "D",
+    "importance": "I",
+    "source": "RDSO TS/ED/2012/65 Rev.2 (July 2014), Annexure 1, pp.12-13; https://www.scribd.com/document/618971925/technical-specification-rev-2-july14"
+  },
+  {
+    "name": "EMD locked scavenge-port opening",
+    "value": 45,
+    "unit": "deg BBDC",
+    "grade": "D",
+    "importance": "E",
+    "source": "RDSO TS/ED/2012/65 Rev.2 (July 2014), Annexure 1, pp.12-13; https://www.scribd.com/document/618971925/technical-specification-rev-2-july14"
+  },
+  {
+    "name": "EMD locked scavenge-port closing",
+    "value": 45,
+    "unit": "deg ABDC",
+    "grade": "D",
+    "importance": "E",
+    "source": "RDSO TS/ED/2012/65 Rev.2 (July 2014), Annexure 1, pp.12-13; https://www.scribd.com/document/618971925/technical-specification-rev-2-july14"
+  },
+  {
+    "name": "EMD locked exhaust-valve opening",
+    "value": 103,
+    "unit": "deg ATDC",
+    "grade": "D",
+    "importance": "E",
+    "source": "RDSO TS/ED/2012/65 Rev.2 (July 2014), Annexure 1, pp.12-13; https://www.scribd.com/document/618971925/technical-specification-rev-2-july14"
+  },
+  {
+    "name": "EMD locked exhaust valves per cylinder",
+    "value": 4,
+    "unit": "count",
+    "grade": "D",
+    "importance": "E",
+    "source": "RDSO TS/ED/2012/65 Rev.2 (July 2014), Annexure 1, pp.12-13; https://www.scribd.com/document/618971925/technical-specification-rev-2-july14"
+  },
+  {
+    "name": "EMD locked rated turbo speed",
+    "value": 18150,
+    "unit": "rpm",
+    "grade": "D",
+    "importance": "I",
+    "source": "RDSO TS/ED/2012/65 Rev.2 (July 2014), Annexure 1, pp.12-13; https://www.scribd.com/document/618971925/technical-specification-rev-2-july14"
+  },
+  {
+    "name": "EMD locked rated air flow",
+    "value": 6.0,
+    "unit": "kg/s",
+    "grade": "D",
+    "importance": "I",
+    "source": "RDSO TS/ED/2012/65 Rev.2 (July 2014), Annexure 1, pp.12-13; https://www.scribd.com/document/618971925/technical-specification-rev-2-july14"
+  },
+  {
+    "name": "EMD locked ambient pressure",
+    "value": 1.0,
+    "unit": "bar",
+    "grade": "D",
+    "importance": "I",
+    "source": "RDSO TS/ED/2012/65 Rev.2 (July 2014), Annexure 1, pp.12-13; https://www.scribd.com/document/618971925/technical-specification-rev-2-july14"
+  },
+  {
+    "name": "EMD locked PACO/inlet-manifold pressure",
+    "value": 1.25,
+    "unit": "bar source convention",
+    "grade": "D",
+    "importance": "I",
+    "source": "RDSO TS/ED/2012/65 Rev.2 (July 2014), Annexure 1, pp.12-13; https://www.scribd.com/document/618971925/technical-specification-rev-2-july14"
+  },
+  {
+    "name": "EMD locked turbine-inlet temperature",
+    "value": 535,
+    "unit": "degC",
+    "grade": "D",
+    "importance": "I",
+    "source": "RDSO TS/ED/2012/65 Rev.2 (July 2014), Annexure 1, pp.12-13; https://www.scribd.com/document/618971925/technical-specification-rev-2-july14"
+  },
+  {
+    "name": "EMD locked turbine-outlet temperature",
+    "value": 419,
+    "unit": "degC",
+    "grade": "D",
+    "importance": "I",
+    "source": "RDSO TS/ED/2012/65 Rev.2 (July 2014), Annexure 1, pp.12-13; https://www.scribd.com/document/618971925/technical-specification-rev-2-july14"
+  },
+  {
+    "name": "EMD locked MUI plunger diameter",
+    "value": 14.2,
+    "unit": "mm",
+    "grade": "D",
+    "importance": "I",
+    "source": "RDSO TS/ED/2012/65 Rev.2 (July 2014), Annexure 1, pp.12-13; https://www.scribd.com/document/618971925/technical-specification-rev-2-july14"
+  },
+  {
+    "name": "EMD locked nozzle-hole count",
+    "value": 6,
+    "unit": "count",
+    "grade": "D",
+    "importance": "I",
+    "source": "RDSO TS/ED/2012/65 Rev.2 (July 2014), Annexure 1, pp.12-13; https://www.scribd.com/document/618971925/technical-specification-rev-2-july14"
+  },
+  {
+    "name": "EMD locked fuel supply pressure",
+    "value": 6.6,
+    "unit": "bar",
+    "grade": "D",
+    "importance": "I",
+    "source": "RDSO TS/ED/2012/65 Rev.2 (July 2014), Annexure 1, pp.12-13; https://www.scribd.com/document/618971925/technical-specification-rev-2-july14"
+  },
+  {
+    "name": "EMD locked lube-oil inlet pressure",
+    "value": 7.21,
+    "unit": "bar",
+    "grade": "D",
+    "importance": "N",
+    "source": "RDSO TS/ED/2012/65 Rev.2 (July 2014), Annexure 1, pp.12-13; https://www.scribd.com/document/618971925/technical-specification-rev-2-july14"
+  },
+  {
+    "name": "EMD locked piston-cooling oil pressure",
+    "value": 5.32,
+    "unit": "bar",
+    "grade": "D",
+    "importance": "N",
+    "source": "RDSO TS/ED/2012/65 Rev.2 (July 2014), Annexure 1, pp.12-13; https://www.scribd.com/document/618971925/technical-specification-rev-2-july14"
+  },
+  {
+    "name": "EMD locked lube-oil cooler outlet temperature",
+    "value": 78.5,
+    "unit": "degC",
+    "grade": "D",
+    "importance": "N",
+    "source": "RDSO TS/ED/2012/65 Rev.2 (July 2014), Annexure 1, pp.12-13; https://www.scribd.com/document/618971925/technical-specification-rev-2-july14"
+  },
+  {
+    "name": "EMD locked lube-oil cooler inlet temperature",
+    "value": 90.1,
+    "unit": "degC",
+    "grade": "D",
+    "importance": "N",
+    "source": "RDSO TS/ED/2012/65 Rev.2 (July 2014), Annexure 1, pp.12-13; https://www.scribd.com/document/618971925/technical-specification-rev-2-july14"
+  },
+  {
+    "name": "EMD locked rated speed",
+    "value": 954,
+    "unit": "rpm",
+    "grade": "D",
+    "importance": "E",
+    "source": "RDSO TS/ED/2012/65 Rev.2 (July 2014), Annexure 1, pp.12-13; https://www.scribd.com/document/618971925/technical-specification-rev-2-july14"
+  },
+  {
+    "name": "EMD locked rated power",
+    "value": 4500,
+    "unit": "bhp",
+    "grade": "D",
+    "importance": "E",
+    "source": "RDSO TS/ED/2012/65 Rev.2 (July 2014), Annexure 1, pp.12-13; https://www.scribd.com/document/618971925/technical-specification-rev-2-july14"
+  },
+  {
+    "name": "EMD locked maximum cylinder pressure",
+    "value": 108,
+    "unit": "bar",
+    "grade": "D",
+    "importance": "I",
+    "source": "RDSO TS/ED/2012/65 Rev.2 (July 2014), Annexure 1, pp.12-13; https://www.scribd.com/document/618971925/technical-specification-rev-2-july14"
+  },
+  {
+    "name": "EMD locked firing order",
+    "value": "1-8-9-16-3-6-11-14-4-5-12-13-2-7-10-15",
+    "unit": "sequence",
+    "grade": "D",
+    "importance": "E",
+    "source": "RDSO TS/ED/2012/65 Rev.2 (July 2014), Annexure 1, pp.12-13; https://www.scribd.com/document/618971925/technical-specification-rev-2-july14"
+  },
+  {
+    "name": "EMD locked turbocharger identity",
+    "value": "GM-EMD 02-J1-1066",
+    "unit": "model",
+    "grade": "D",
+    "importance": "I",
+    "source": "RDSO TS/ED/2012/65 Rev.2 (July 2014), Annexure 1, pp.12-13; https://www.scribd.com/document/618971925/technical-specification-rev-2-july14"
+  },
+  {
+    "name": "EMD locked injection system",
+    "value": "Mechanical Unit Injector (MUI)",
+    "unit": "type",
+    "grade": "D",
+    "importance": "I",
+    "source": "RDSO TS/ED/2012/65 Rev.2 (July 2014), Annexure 1, pp.12-13; https://www.scribd.com/document/618971925/technical-specification-rev-2-july14"
+  },
+  {
+    "name": "EMD locked swept volume per cylinder",
+    "value": 11.628,
+    "unit": "L",
+    "grade": "R",
+    "importance": "E",
+    "source": "Derived: pi/4×0.23019^2×0.27940"
+  },
+  {
+    "name": "EMD locked total displacement",
+    "value": 186.05,
+    "unit": "L",
+    "grade": "R",
+    "importance": "E",
+    "source": "Derived: 16×11.628 L"
+  },
+  {
+    "name": "EMD locked clearance volume per cylinder",
+    "value": 0.775,
+    "unit": "L",
+    "grade": "R",
+    "importance": "E",
+    "source": "Derived: 11.628/(16-1)"
+  },
+  {
+    "name": "EMD locked rated BMEP",
+    "value": 11.34,
+    "unit": "bar",
+    "grade": "R",
+    "importance": "E",
+    "source": "Derived: 4500 bhp=3355.65kW, 954rpm, 186.05L, two-stroke"
+  },
+  {
+    "name": "EMD family inlet-port arrangement",
+    "value": "one circumferential row",
+    "unit": "arrangement",
+    "grade": "F",
+    "importance": "E",
+    "source": "EMD 710 Engine Maintenance Manual E00126ED; https://www.scribd.com/document/700145515/E00126ED-710-EMM Ch.4 Fig.4-1/p.4-3"
+  },
+  {
+    "name": "EMD family Duracam bridge timing check",
+    "value": 0.66,
+    "unit": "mm at ~110.5 deg ATDC",
+    "grade": "F",
+    "importance": "E",
+    "source": "EMD 710 Engine Maintenance Manual E00126ED; https://www.scribd.com/document/700145515/E00126ED-710-EMM exhaust-valve timing procedure"
+  },
+  {
+    "name": "EMD family Duracam timing window",
+    "value": "107.5-112",
+    "unit": "deg ATDC",
+    "grade": "F",
+    "importance": "E",
+    "source": "EMD 710 Engine Maintenance Manual E00126ED; https://www.scribd.com/document/700145515/E00126ED-710-EMM"
+  },
+  {
+    "name": "EMD locked exact EVC angle",
+    "value": null,
+    "unit": null,
+    "grade": "U",
+    "importance": "E",
+    "source": "Not found in bounded public-source search; see Markdown §§1 and 6.2"
+  },
+  {
+    "name": "EMD locked scavenge-port height",
+    "value": null,
+    "unit": null,
+    "grade": "U",
+    "importance": "E",
+    "source": "Not found in bounded public-source search; see Markdown §§1 and 6.2"
+  },
+  {
+    "name": "EMD locked scavenge-port width",
+    "value": null,
+    "unit": null,
+    "grade": "U",
+    "importance": "E",
+    "source": "Not found in bounded public-source search; see Markdown §§1 and 6.2"
+  },
+  {
+    "name": "EMD locked scavenge-port count",
+    "value": null,
+    "unit": null,
+    "grade": "U",
+    "importance": "E",
+    "source": "Not found in bounded public-source search; see Markdown §§1 and 6.2"
+  },
+  {
+    "name": "EMD locked scavenge-port tangential/vertical angles",
+    "value": null,
+    "unit": null,
+    "grade": "U",
+    "importance": "E",
+    "source": "Not found in bounded public-source search; see Markdown §§1 and 6.2"
+  },
+  {
+    "name": "EMD locked effective port area vs crank angle",
+    "value": null,
+    "unit": null,
+    "grade": "U",
+    "importance": "E",
+    "source": "Not found in bounded public-source search; see Markdown §§1 and 6.2"
+  },
+  {
+    "name": "EMD locked exhaust-valve head diameter",
+    "value": null,
+    "unit": null,
+    "grade": "U",
+    "importance": "E",
+    "source": "Not found in bounded public-source search; see Markdown §§1 and 6.2"
+  },
+  {
+    "name": "EMD locked exhaust-valve lift curve",
+    "value": null,
+    "unit": null,
+    "grade": "U",
+    "importance": "E",
+    "source": "Not found in bounded public-source search; see Markdown §§1 and 6.2"
+  },
+  {
+    "name": "EMD locked compressor map",
+    "value": null,
+    "unit": null,
+    "grade": "U",
+    "importance": "I",
+    "source": "Not found in bounded public-source search; see Markdown §§1 and 6.2"
+  },
+  {
+    "name": "EMD locked turbine map",
+    "value": null,
+    "unit": null,
+    "grade": "U",
+    "importance": "I",
+    "source": "Not found in bounded public-source search; see Markdown §§1 and 6.2"
+  },
+  {
+    "name": "EMD locked clutch takeover threshold",
+    "value": null,
+    "unit": null,
+    "grade": "U",
+    "importance": "I",
+    "source": "Not found in bounded public-source search; see Markdown §§1 and 6.2"
+  },
+  {
+    "name": "EMD locked MUI nozzle-hole diameter",
+    "value": null,
+    "unit": null,
+    "grade": "U",
+    "importance": "I",
+    "source": "Not found in bounded public-source search; see Markdown §§1 and 6.2"
+  },
+  {
+    "name": "EMD locked MUI spray angle",
+    "value": null,
+    "unit": null,
+    "grade": "U",
+    "importance": "I",
+    "source": "Not found in bounded public-source search; see Markdown §§1 and 6.2"
+  },
+  {
+    "name": "EMD locked MUI opening pressure",
+    "value": null,
+    "unit": null,
+    "grade": "U",
+    "importance": "I",
+    "source": "Not found in bounded public-source search; see Markdown §§1 and 6.2"
+  },
+  {
+    "name": "EMD locked MUI SOI vs notch",
+    "value": null,
+    "unit": null,
+    "grade": "U",
+    "importance": "I",
+    "source": "Not found in bounded public-source search; see Markdown §§1 and 6.2"
+  },
+  {
+    "name": "EMD locked rated fuel flow/BSFC",
+    "value": null,
+    "unit": null,
+    "grade": "U",
+    "importance": "E",
+    "source": "Not found in bounded public-source search; see Markdown §§1 and 6.2"
+  },
+  {
+    "name": "EMD locked notch 1-8 fuel flow/BSFC",
+    "value": null,
+    "unit": null,
+    "grade": "U",
+    "importance": "E",
+    "source": "Not found in bounded public-source search; see Markdown §§1 and 6.2"
+  },
+  {
+    "name": "EMD locked multi-load air flow",
+    "value": null,
+    "unit": null,
+    "grade": "U",
+    "importance": "I",
+    "source": "Not found in bounded public-source search; see Markdown §§1 and 6.2"
+  },
+  {
+    "name": "EMD locked multi-load pmax",
+    "value": null,
+    "unit": null,
+    "grade": "U",
+    "importance": "I",
+    "source": "Not found in bounded public-source search; see Markdown §§1 and 6.2"
+  },
+  {
+    "name": "EMD locked crank-angle cylinder-pressure trace",
+    "value": null,
+    "unit": null,
+    "grade": "U",
+    "importance": "N",
+    "source": "Not found in bounded public-source search; see Markdown §§1 and 6.2"
+  },
+  {
+    "name": "EMD locked motoring/FMEP curve",
+    "value": null,
+    "unit": null,
+    "grade": "U",
+    "importance": "N",
+    "source": "Not found in bounded public-source search; see Markdown §§1 and 6.2"
+  },
+  {
+    "name": "EMD locked Low idle speed",
+    "value": 200,
+    "unit": "rpm",
+    "grade": "D",
+    "importance": "E",
+    "source": "RDSO FRS MP.0.08.00.111 Rev.01 (May 2023), Annexure I, pp.9-10; https://www.scribd.com/document/1047043849/FRS-No-MP-0-08-00-111-1; tolerance ±4 rpm"
+  },
+  {
+    "name": "EMD locked Idle speed",
+    "value": 270,
+    "unit": "rpm",
+    "grade": "D",
+    "importance": "E",
+    "source": "RDSO FRS MP.0.08.00.111 Rev.01 (May 2023), Annexure I, pp.9-10; https://www.scribd.com/document/1047043849/FRS-No-MP-0-08-00-111-1; tolerance ±15 rpm"
+  },
+  {
+    "name": "EMD locked Notch 1 speed",
+    "value": 270,
+    "unit": "rpm",
+    "grade": "D",
+    "importance": "E",
+    "source": "RDSO FRS MP.0.08.00.111 Rev.01 (May 2023), Annexure I, pp.9-10; https://www.scribd.com/document/1047043849/FRS-No-MP-0-08-00-111-1; tolerance ±15 rpm"
+  },
+  {
+    "name": "EMD locked Notch 1 brake power",
+    "value": 259,
+    "unit": "bhp",
+    "grade": "D",
+    "importance": "E",
+    "source": "RDSO FRS MP.0.08.00.111 Rev.01 (May 2023), Annexure I, pp.9-10; https://www.scribd.com/document/1047043849/FRS-No-MP-0-08-00-111-1"
+  },
+  {
+    "name": "EMD locked Notch 2 speed",
+    "value": 354,
+    "unit": "rpm",
+    "grade": "D",
+    "importance": "E",
+    "source": "RDSO FRS MP.0.08.00.111 Rev.01 (May 2023), Annexure I, pp.9-10; https://www.scribd.com/document/1047043849/FRS-No-MP-0-08-00-111-1; tolerance ±15 rpm"
+  },
+  {
+    "name": "EMD locked Notch 2 brake power",
+    "value": 607,
+    "unit": "bhp",
+    "grade": "D",
+    "importance": "E",
+    "source": "RDSO FRS MP.0.08.00.111 Rev.01 (May 2023), Annexure I, pp.9-10; https://www.scribd.com/document/1047043849/FRS-No-MP-0-08-00-111-1"
+  },
+  {
+    "name": "EMD locked Notch 3 speed",
+    "value": 486,
+    "unit": "rpm",
+    "grade": "D",
+    "importance": "E",
+    "source": "RDSO FRS MP.0.08.00.111 Rev.01 (May 2023), Annexure I, pp.9-10; https://www.scribd.com/document/1047043849/FRS-No-MP-0-08-00-111-1; tolerance ±4 rpm"
+  },
+  {
+    "name": "EMD locked Notch 3 brake power",
+    "value": 1148,
+    "unit": "bhp",
+    "grade": "D",
+    "importance": "E",
+    "source": "RDSO FRS MP.0.08.00.111 Rev.01 (May 2023), Annexure I, pp.9-10; https://www.scribd.com/document/1047043849/FRS-No-MP-0-08-00-111-1"
+  },
+  {
+    "name": "EMD locked Notch 4 speed",
+    "value": 572,
+    "unit": "rpm",
+    "grade": "D",
+    "importance": "E",
+    "source": "RDSO FRS MP.0.08.00.111 Rev.01 (May 2023), Annexure I, pp.9-10; https://www.scribd.com/document/1047043849/FRS-No-MP-0-08-00-111-1; tolerance ±4 rpm"
+  },
+  {
+    "name": "EMD locked Notch 4 brake power",
+    "value": 1573,
+    "unit": "bhp",
+    "grade": "D",
+    "importance": "E",
+    "source": "RDSO FRS MP.0.08.00.111 Rev.01 (May 2023), Annexure I, pp.9-10; https://www.scribd.com/document/1047043849/FRS-No-MP-0-08-00-111-1"
+  },
+  {
+    "name": "EMD locked Notch 5 speed",
+    "value": 675,
+    "unit": "rpm",
+    "grade": "D",
+    "importance": "E",
+    "source": "RDSO FRS MP.0.08.00.111 Rev.01 (May 2023), Annexure I, pp.9-10; https://www.scribd.com/document/1047043849/FRS-No-MP-0-08-00-111-1; tolerance ±15 rpm"
+  },
+  {
+    "name": "EMD locked Notch 5 brake power",
+    "value": 1916,
+    "unit": "bhp",
+    "grade": "D",
+    "importance": "E",
+    "source": "RDSO FRS MP.0.08.00.111 Rev.01 (May 2023), Annexure I, pp.9-10; https://www.scribd.com/document/1047043849/FRS-No-MP-0-08-00-111-1"
+  },
+  {
+    "name": "EMD locked Notch 6 speed",
+    "value": 764,
+    "unit": "rpm",
+    "grade": "D",
+    "importance": "E",
+    "source": "RDSO FRS MP.0.08.00.111 Rev.01 (May 2023), Annexure I, pp.9-10; https://www.scribd.com/document/1047043849/FRS-No-MP-0-08-00-111-1; tolerance ±4 rpm"
+  },
+  {
+    "name": "EMD locked Notch 6 brake power",
+    "value": 2960,
+    "unit": "bhp",
+    "grade": "D",
+    "importance": "E",
+    "source": "RDSO FRS MP.0.08.00.111 Rev.01 (May 2023), Annexure I, pp.9-10; https://www.scribd.com/document/1047043849/FRS-No-MP-0-08-00-111-1"
+  },
+  {
+    "name": "EMD locked Notch 7 speed",
+    "value": 863,
+    "unit": "rpm",
+    "grade": "D",
+    "importance": "E",
+    "source": "RDSO FRS MP.0.08.00.111 Rev.01 (May 2023), Annexure I, pp.9-10; https://www.scribd.com/document/1047043849/FRS-No-MP-0-08-00-111-1; tolerance ±15 rpm"
+  },
+  {
+    "name": "EMD locked Notch 7 brake power",
+    "value": 3822,
+    "unit": "bhp",
+    "grade": "D",
+    "importance": "E",
+    "source": "RDSO FRS MP.0.08.00.111 Rev.01 (May 2023), Annexure I, pp.9-10; https://www.scribd.com/document/1047043849/FRS-No-MP-0-08-00-111-1"
+  },
+  {
+    "name": "EMD locked Notch 8 speed",
+    "value": 954,
+    "unit": "rpm",
+    "grade": "D",
+    "importance": "E",
+    "source": "RDSO FRS MP.0.08.00.111 Rev.01 (May 2023), Annexure I, pp.9-10; https://www.scribd.com/document/1047043849/FRS-No-MP-0-08-00-111-1; tolerance ±4 rpm"
+  },
+  {
+    "name": "EMD locked Notch 8 brake power",
+    "value": 4500,
+    "unit": "bhp",
+    "grade": "D",
+    "importance": "E",
+    "source": "RDSO FRS MP.0.08.00.111 Rev.01 (May 2023), Annexure I, pp.9-10; https://www.scribd.com/document/1047043849/FRS-No-MP-0-08-00-111-1"
+  },
+  {
+    "name": "EMD 12-710G3B NC1893 Low idle speed",
+    "value": 201,
+    "unit": "rpm",
+    "grade": "F",
+    "importance": "I",
+    "source": "Demonstration of Alternative Methodology of Measuring Emissions of Locomotive Engines, Appendix C, Tables C-29/C-30, pp.92-93; https://www.researchgate.net/publication/385749614_Demonstration_of_Alternative_Methodology_of_Measuring_Emissions_of_Locomotive_Engines"
+  },
+  {
+    "name": "EMD 12-710G3B NC1893 Low idle power",
+    "value": 9,
+    "unit": "hp",
+    "grade": "F",
+    "importance": "I",
+    "source": "Demonstration of Alternative Methodology of Measuring Emissions of Locomotive Engines, Appendix C, Tables C-29/C-30, pp.92-93; https://www.researchgate.net/publication/385749614_Demonstration_of_Alternative_Methodology_of_Measuring_Emissions_of_Locomotive_Engines"
+  },
+  {
+    "name": "EMD 12-710G3B NC1893 Low idle MAP",
+    "value": 103,
+    "unit": "kPa absolute",
+    "grade": "F",
+    "importance": "I",
+    "source": "Demonstration of Alternative Methodology of Measuring Emissions of Locomotive Engines, Appendix C, Tables C-29/C-30, pp.92-93; https://www.researchgate.net/publication/385749614_Demonstration_of_Alternative_Methodology_of_Measuring_Emissions_of_Locomotive_Engines"
+  },
+  {
+    "name": "EMD 12-710G3B NC1893 Low idle air-box IAT",
+    "value": 68,
+    "unit": "degC",
+    "grade": "F",
+    "importance": "I",
+    "source": "Demonstration of Alternative Methodology of Measuring Emissions of Locomotive Engines, Appendix C, Tables C-29/C-30, pp.92-93; https://www.researchgate.net/publication/385749614_Demonstration_of_Alternative_Methodology_of_Measuring_Emissions_of_Locomotive_Engines"
+  },
+  {
+    "name": "EMD 12-710G3B NC1893 High idle speed",
+    "value": 350,
+    "unit": "rpm",
+    "grade": "F",
+    "importance": "I",
+    "source": "Demonstration of Alternative Methodology of Measuring Emissions of Locomotive Engines, Appendix C, Tables C-29/C-30, pp.92-93; https://www.researchgate.net/publication/385749614_Demonstration_of_Alternative_Methodology_of_Measuring_Emissions_of_Locomotive_Engines"
+  },
+  {
+    "name": "EMD 12-710G3B NC1893 High idle power",
+    "value": 9,
+    "unit": "hp",
+    "grade": "F",
+    "importance": "I",
+    "source": "Demonstration of Alternative Methodology of Measuring Emissions of Locomotive Engines, Appendix C, Tables C-29/C-30, pp.92-93; https://www.researchgate.net/publication/385749614_Demonstration_of_Alternative_Methodology_of_Measuring_Emissions_of_Locomotive_Engines"
+  },
+  {
+    "name": "EMD 12-710G3B NC1893 High idle MAP",
+    "value": 111,
+    "unit": "kPa absolute",
+    "grade": "F",
+    "importance": "I",
+    "source": "Demonstration of Alternative Methodology of Measuring Emissions of Locomotive Engines, Appendix C, Tables C-29/C-30, pp.92-93; https://www.researchgate.net/publication/385749614_Demonstration_of_Alternative_Methodology_of_Measuring_Emissions_of_Locomotive_Engines"
+  },
+  {
+    "name": "EMD 12-710G3B NC1893 High idle air-box IAT",
+    "value": 74,
+    "unit": "degC",
+    "grade": "F",
+    "importance": "I",
+    "source": "Demonstration of Alternative Methodology of Measuring Emissions of Locomotive Engines, Appendix C, Tables C-29/C-30, pp.92-93; https://www.researchgate.net/publication/385749614_Demonstration_of_Alternative_Methodology_of_Measuring_Emissions_of_Locomotive_Engines"
+  },
+  {
+    "name": "EMD 12-710G3B NC1893 Notch 1 speed",
+    "value": 350,
+    "unit": "rpm",
+    "grade": "F",
+    "importance": "I",
+    "source": "Demonstration of Alternative Methodology of Measuring Emissions of Locomotive Engines, Appendix C, Tables C-29/C-30, pp.92-93; https://www.researchgate.net/publication/385749614_Demonstration_of_Alternative_Methodology_of_Measuring_Emissions_of_Locomotive_Engines"
+  },
+  {
+    "name": "EMD 12-710G3B NC1893 Notch 1 power",
+    "value": 190,
+    "unit": "hp",
+    "grade": "F",
+    "importance": "I",
+    "source": "Demonstration of Alternative Methodology of Measuring Emissions of Locomotive Engines, Appendix C, Tables C-29/C-30, pp.92-93; https://www.researchgate.net/publication/385749614_Demonstration_of_Alternative_Methodology_of_Measuring_Emissions_of_Locomotive_Engines"
+  },
+  {
+    "name": "EMD 12-710G3B NC1893 Notch 1 MAP",
+    "value": 111,
+    "unit": "kPa absolute",
+    "grade": "F",
+    "importance": "I",
+    "source": "Demonstration of Alternative Methodology of Measuring Emissions of Locomotive Engines, Appendix C, Tables C-29/C-30, pp.92-93; https://www.researchgate.net/publication/385749614_Demonstration_of_Alternative_Methodology_of_Measuring_Emissions_of_Locomotive_Engines"
+  },
+  {
+    "name": "EMD 12-710G3B NC1893 Notch 1 air-box IAT",
+    "value": 70,
+    "unit": "degC",
+    "grade": "F",
+    "importance": "I",
+    "source": "Demonstration of Alternative Methodology of Measuring Emissions of Locomotive Engines, Appendix C, Tables C-29/C-30, pp.92-93; https://www.researchgate.net/publication/385749614_Demonstration_of_Alternative_Methodology_of_Measuring_Emissions_of_Locomotive_Engines"
+  },
+  {
+    "name": "EMD 12-710G3B NC1893 Notch 2 speed",
+    "value": 350,
+    "unit": "rpm",
+    "grade": "F",
+    "importance": "I",
+    "source": "Demonstration of Alternative Methodology of Measuring Emissions of Locomotive Engines, Appendix C, Tables C-29/C-30, pp.92-93; https://www.researchgate.net/publication/385749614_Demonstration_of_Alternative_Methodology_of_Measuring_Emissions_of_Locomotive_Engines"
+  },
+  {
+    "name": "EMD 12-710G3B NC1893 Notch 2 power",
+    "value": 350,
+    "unit": "hp",
+    "grade": "F",
+    "importance": "I",
+    "source": "Demonstration of Alternative Methodology of Measuring Emissions of Locomotive Engines, Appendix C, Tables C-29/C-30, pp.92-93; https://www.researchgate.net/publication/385749614_Demonstration_of_Alternative_Methodology_of_Measuring_Emissions_of_Locomotive_Engines"
+  },
+  {
+    "name": "EMD 12-710G3B NC1893 Notch 2 MAP",
+    "value": 112,
+    "unit": "kPa absolute",
+    "grade": "F",
+    "importance": "I",
+    "source": "Demonstration of Alternative Methodology of Measuring Emissions of Locomotive Engines, Appendix C, Tables C-29/C-30, pp.92-93; https://www.researchgate.net/publication/385749614_Demonstration_of_Alternative_Methodology_of_Measuring_Emissions_of_Locomotive_Engines"
+  },
+  {
+    "name": "EMD 12-710G3B NC1893 Notch 2 air-box IAT",
+    "value": 73,
+    "unit": "degC",
+    "grade": "F",
+    "importance": "I",
+    "source": "Demonstration of Alternative Methodology of Measuring Emissions of Locomotive Engines, Appendix C, Tables C-29/C-30, pp.92-93; https://www.researchgate.net/publication/385749614_Demonstration_of_Alternative_Methodology_of_Measuring_Emissions_of_Locomotive_Engines"
+  },
+  {
+    "name": "EMD 12-710G3B NC1893 Notch 3 speed",
+    "value": 492,
+    "unit": "rpm",
+    "grade": "F",
+    "importance": "I",
+    "source": "Demonstration of Alternative Methodology of Measuring Emissions of Locomotive Engines, Appendix C, Tables C-29/C-30, pp.92-93; https://www.researchgate.net/publication/385749614_Demonstration_of_Alternative_Methodology_of_Measuring_Emissions_of_Locomotive_Engines"
+  },
+  {
+    "name": "EMD 12-710G3B NC1893 Notch 3 power",
+    "value": 675,
+    "unit": "hp",
+    "grade": "F",
+    "importance": "I",
+    "source": "Demonstration of Alternative Methodology of Measuring Emissions of Locomotive Engines, Appendix C, Tables C-29/C-30, pp.92-93; https://www.researchgate.net/publication/385749614_Demonstration_of_Alternative_Methodology_of_Measuring_Emissions_of_Locomotive_Engines"
+  },
+  {
+    "name": "EMD 12-710G3B NC1893 Notch 3 MAP",
+    "value": 125,
+    "unit": "kPa absolute",
+    "grade": "F",
+    "importance": "I",
+    "source": "Demonstration of Alternative Methodology of Measuring Emissions of Locomotive Engines, Appendix C, Tables C-29/C-30, pp.92-93; https://www.researchgate.net/publication/385749614_Demonstration_of_Alternative_Methodology_of_Measuring_Emissions_of_Locomotive_Engines"
+  },
+  {
+    "name": "EMD 12-710G3B NC1893 Notch 3 air-box IAT",
+    "value": 75,
+    "unit": "degC",
+    "grade": "F",
+    "importance": "I",
+    "source": "Demonstration of Alternative Methodology of Measuring Emissions of Locomotive Engines, Appendix C, Tables C-29/C-30, pp.92-93; https://www.researchgate.net/publication/385749614_Demonstration_of_Alternative_Methodology_of_Measuring_Emissions_of_Locomotive_Engines"
+  },
+  {
+    "name": "EMD 12-710G3B NC1893 Notch 4 speed",
+    "value": 570,
+    "unit": "rpm",
+    "grade": "F",
+    "importance": "I",
+    "source": "Demonstration of Alternative Methodology of Measuring Emissions of Locomotive Engines, Appendix C, Tables C-29/C-30, pp.92-93; https://www.researchgate.net/publication/385749614_Demonstration_of_Alternative_Methodology_of_Measuring_Emissions_of_Locomotive_Engines"
+  },
+  {
+    "name": "EMD 12-710G3B NC1893 Notch 4 power",
+    "value": 1000,
+    "unit": "hp",
+    "grade": "F",
+    "importance": "I",
+    "source": "Demonstration of Alternative Methodology of Measuring Emissions of Locomotive Engines, Appendix C, Tables C-29/C-30, pp.92-93; https://www.researchgate.net/publication/385749614_Demonstration_of_Alternative_Methodology_of_Measuring_Emissions_of_Locomotive_Engines"
+  },
+  {
+    "name": "EMD 12-710G3B NC1893 Notch 4 MAP",
+    "value": 136,
+    "unit": "kPa absolute",
+    "grade": "F",
+    "importance": "I",
+    "source": "Demonstration of Alternative Methodology of Measuring Emissions of Locomotive Engines, Appendix C, Tables C-29/C-30, pp.92-93; https://www.researchgate.net/publication/385749614_Demonstration_of_Alternative_Methodology_of_Measuring_Emissions_of_Locomotive_Engines"
+  },
+  {
+    "name": "EMD 12-710G3B NC1893 Notch 4 air-box IAT",
+    "value": 75,
+    "unit": "degC",
+    "grade": "F",
+    "importance": "I",
+    "source": "Demonstration of Alternative Methodology of Measuring Emissions of Locomotive Engines, Appendix C, Tables C-29/C-30, pp.92-93; https://www.researchgate.net/publication/385749614_Demonstration_of_Alternative_Methodology_of_Measuring_Emissions_of_Locomotive_Engines"
+  },
+  {
+    "name": "EMD 12-710G3B NC1893 Notch 5 speed",
+    "value": 653,
+    "unit": "rpm",
+    "grade": "F",
+    "importance": "I",
+    "source": "Demonstration of Alternative Methodology of Measuring Emissions of Locomotive Engines, Appendix C, Tables C-29/C-30, pp.92-93; https://www.researchgate.net/publication/385749614_Demonstration_of_Alternative_Methodology_of_Measuring_Emissions_of_Locomotive_Engines"
+  },
+  {
+    "name": "EMD 12-710G3B NC1893 Notch 5 power",
+    "value": 1325,
+    "unit": "hp",
+    "grade": "F",
+    "importance": "I",
+    "source": "Demonstration of Alternative Methodology of Measuring Emissions of Locomotive Engines, Appendix C, Tables C-29/C-30, pp.92-93; https://www.researchgate.net/publication/385749614_Demonstration_of_Alternative_Methodology_of_Measuring_Emissions_of_Locomotive_Engines"
+  },
+  {
+    "name": "EMD 12-710G3B NC1893 Notch 5 MAP",
+    "value": 148,
+    "unit": "kPa absolute",
+    "grade": "F",
+    "importance": "I",
+    "source": "Demonstration of Alternative Methodology of Measuring Emissions of Locomotive Engines, Appendix C, Tables C-29/C-30, pp.92-93; https://www.researchgate.net/publication/385749614_Demonstration_of_Alternative_Methodology_of_Measuring_Emissions_of_Locomotive_Engines"
+  },
+  {
+    "name": "EMD 12-710G3B NC1893 Notch 5 air-box IAT",
+    "value": 75,
+    "unit": "degC",
+    "grade": "F",
+    "importance": "I",
+    "source": "Demonstration of Alternative Methodology of Measuring Emissions of Locomotive Engines, Appendix C, Tables C-29/C-30, pp.92-93; https://www.researchgate.net/publication/385749614_Demonstration_of_Alternative_Methodology_of_Measuring_Emissions_of_Locomotive_Engines"
+  },
+  {
+    "name": "EMD 12-710G3B NC1893 Notch 6 speed",
+    "value": 732,
+    "unit": "rpm",
+    "grade": "F",
+    "importance": "I",
+    "source": "Demonstration of Alternative Methodology of Measuring Emissions of Locomotive Engines, Appendix C, Tables C-29/C-30, pp.92-93; https://www.researchgate.net/publication/385749614_Demonstration_of_Alternative_Methodology_of_Measuring_Emissions_of_Locomotive_Engines"
+  },
+  {
+    "name": "EMD 12-710G3B NC1893 Notch 6 power",
+    "value": 1600,
+    "unit": "hp",
+    "grade": "F",
+    "importance": "I",
+    "source": "Demonstration of Alternative Methodology of Measuring Emissions of Locomotive Engines, Appendix C, Tables C-29/C-30, pp.92-93; https://www.researchgate.net/publication/385749614_Demonstration_of_Alternative_Methodology_of_Measuring_Emissions_of_Locomotive_Engines"
+  },
+  {
+    "name": "EMD 12-710G3B NC1893 Notch 6 MAP",
+    "value": 166,
+    "unit": "kPa absolute",
+    "grade": "F",
+    "importance": "I",
+    "source": "Demonstration of Alternative Methodology of Measuring Emissions of Locomotive Engines, Appendix C, Tables C-29/C-30, pp.92-93; https://www.researchgate.net/publication/385749614_Demonstration_of_Alternative_Methodology_of_Measuring_Emissions_of_Locomotive_Engines"
+  },
+  {
+    "name": "EMD 12-710G3B NC1893 Notch 6 air-box IAT",
+    "value": 76,
+    "unit": "degC",
+    "grade": "F",
+    "importance": "I",
+    "source": "Demonstration of Alternative Methodology of Measuring Emissions of Locomotive Engines, Appendix C, Tables C-29/C-30, pp.92-93; https://www.researchgate.net/publication/385749614_Demonstration_of_Alternative_Methodology_of_Measuring_Emissions_of_Locomotive_Engines"
+  },
+  {
+    "name": "EMD 12-710G3B NC1893 Notch 7 speed",
+    "value": 827,
+    "unit": "rpm",
+    "grade": "F",
+    "importance": "I",
+    "source": "Demonstration of Alternative Methodology of Measuring Emissions of Locomotive Engines, Appendix C, Tables C-29/C-30, pp.92-93; https://www.researchgate.net/publication/385749614_Demonstration_of_Alternative_Methodology_of_Measuring_Emissions_of_Locomotive_Engines"
+  },
+  {
+    "name": "EMD 12-710G3B NC1893 Notch 7 power",
+    "value": 2400,
+    "unit": "hp",
+    "grade": "F",
+    "importance": "I",
+    "source": "Demonstration of Alternative Methodology of Measuring Emissions of Locomotive Engines, Appendix C, Tables C-29/C-30, pp.92-93; https://www.researchgate.net/publication/385749614_Demonstration_of_Alternative_Methodology_of_Measuring_Emissions_of_Locomotive_Engines"
+  },
+  {
+    "name": "EMD 12-710G3B NC1893 Notch 7 MAP",
+    "value": 221,
+    "unit": "kPa absolute",
+    "grade": "F",
+    "importance": "I",
+    "source": "Demonstration of Alternative Methodology of Measuring Emissions of Locomotive Engines, Appendix C, Tables C-29/C-30, pp.92-93; https://www.researchgate.net/publication/385749614_Demonstration_of_Alternative_Methodology_of_Measuring_Emissions_of_Locomotive_Engines"
+  },
+  {
+    "name": "EMD 12-710G3B NC1893 Notch 7 air-box IAT",
+    "value": 79,
+    "unit": "degC",
+    "grade": "F",
+    "importance": "I",
+    "source": "Demonstration of Alternative Methodology of Measuring Emissions of Locomotive Engines, Appendix C, Tables C-29/C-30, pp.92-93; https://www.researchgate.net/publication/385749614_Demonstration_of_Alternative_Methodology_of_Measuring_Emissions_of_Locomotive_Engines"
+  },
+  {
+    "name": "EMD 12-710G3B NC1893 Notch 8 speed",
+    "value": 909,
+    "unit": "rpm",
+    "grade": "F",
+    "importance": "I",
+    "source": "Demonstration of Alternative Methodology of Measuring Emissions of Locomotive Engines, Appendix C, Tables C-29/C-30, pp.92-93; https://www.researchgate.net/publication/385749614_Demonstration_of_Alternative_Methodology_of_Measuring_Emissions_of_Locomotive_Engines"
+  },
+  {
+    "name": "EMD 12-710G3B NC1893 Notch 8 power",
+    "value": 2700,
+    "unit": "hp",
+    "grade": "F",
+    "importance": "I",
+    "source": "Demonstration of Alternative Methodology of Measuring Emissions of Locomotive Engines, Appendix C, Tables C-29/C-30, pp.92-93; https://www.researchgate.net/publication/385749614_Demonstration_of_Alternative_Methodology_of_Measuring_Emissions_of_Locomotive_Engines"
+  },
+  {
+    "name": "EMD 12-710G3B NC1893 Notch 8 MAP",
+    "value": 254,
+    "unit": "kPa absolute",
+    "grade": "F",
+    "importance": "I",
+    "source": "Demonstration of Alternative Methodology of Measuring Emissions of Locomotive Engines, Appendix C, Tables C-29/C-30, pp.92-93; https://www.researchgate.net/publication/385749614_Demonstration_of_Alternative_Methodology_of_Measuring_Emissions_of_Locomotive_Engines"
+  },
+  {
+    "name": "EMD 12-710G3B NC1893 Notch 8 air-box IAT",
+    "value": 82,
+    "unit": "degC",
+    "grade": "F",
+    "importance": "I",
+    "source": "Demonstration of Alternative Methodology of Measuring Emissions of Locomotive Engines, Appendix C, Tables C-29/C-30, pp.92-93; https://www.researchgate.net/publication/385749614_Demonstration_of_Alternative_Methodology_of_Measuring_Emissions_of_Locomotive_Engines"
+  },
+  {
+    "name": "EMD 12-710G3B NC1893 Low idle source-derived fuel rate",
+    "value": 2.95,
+    "unit": "g/s",
+    "grade": "F",
+    "importance": "I",
+    "source": "Same report, Appendix C, Table C-31 p.93; MODEL-DERIVED in source: fuel rate calibrated so BSFC matched separate dynamometer measurement"
+  },
+  {
+    "name": "EMD 12-710G3B NC1893 High idle source-derived fuel rate",
+    "value": 6.58,
+    "unit": "g/s",
+    "grade": "F",
+    "importance": "I",
+    "source": "Same report, Appendix C, Table C-31 p.93; MODEL-DERIVED in source: fuel rate calibrated so BSFC matched separate dynamometer measurement"
+  },
+  {
+    "name": "EMD 12-710G3B NC1893 Notch 1 source-derived fuel rate",
+    "value": 10.2,
+    "unit": "g/s",
+    "grade": "F",
+    "importance": "I",
+    "source": "Same report, Appendix C, Table C-31 p.93; MODEL-DERIVED in source: fuel rate calibrated so BSFC matched separate dynamometer measurement"
+  },
+  {
+    "name": "EMD 12-710G3B NC1893 Notch 2 source-derived fuel rate",
+    "value": 16.7,
+    "unit": "g/s",
+    "grade": "F",
+    "importance": "I",
+    "source": "Same report, Appendix C, Table C-31 p.93; MODEL-DERIVED in source: fuel rate calibrated so BSFC matched separate dynamometer measurement"
+  },
+  {
+    "name": "EMD 12-710G3B NC1893 Notch 3 source-derived fuel rate",
+    "value": 30.6,
+    "unit": "g/s",
+    "grade": "F",
+    "importance": "I",
+    "source": "Same report, Appendix C, Table C-31 p.93; MODEL-DERIVED in source: fuel rate calibrated so BSFC matched separate dynamometer measurement"
+  },
+  {
+    "name": "EMD 12-710G3B NC1893 Notch 4 source-derived fuel rate",
+    "value": 44.5,
+    "unit": "g/s",
+    "grade": "F",
+    "importance": "I",
+    "source": "Same report, Appendix C, Table C-31 p.93; MODEL-DERIVED in source: fuel rate calibrated so BSFC matched separate dynamometer measurement"
+  },
+  {
+    "name": "EMD 12-710G3B NC1893 Notch 5 source-derived fuel rate",
+    "value": 58.7,
+    "unit": "g/s",
+    "grade": "F",
+    "importance": "I",
+    "source": "Same report, Appendix C, Table C-31 p.93; MODEL-DERIVED in source: fuel rate calibrated so BSFC matched separate dynamometer measurement"
+  },
+  {
+    "name": "EMD 12-710G3B NC1893 Notch 6 source-derived fuel rate",
+    "value": 72.1,
+    "unit": "g/s",
+    "grade": "F",
+    "importance": "I",
+    "source": "Same report, Appendix C, Table C-31 p.93; MODEL-DERIVED in source: fuel rate calibrated so BSFC matched separate dynamometer measurement"
+  },
+  {
+    "name": "EMD 12-710G3B NC1893 Notch 7 source-derived fuel rate",
+    "value": 106,
+    "unit": "g/s",
+    "grade": "F",
+    "importance": "I",
+    "source": "Same report, Appendix C, Table C-31 p.93; MODEL-DERIVED in source: fuel rate calibrated so BSFC matched separate dynamometer measurement"
+  },
+  {
+    "name": "EMD 12-710G3B NC1893 Notch 8 source-derived fuel rate",
+    "value": 121,
+    "unit": "g/s",
+    "grade": "F",
+    "importance": "I",
+    "source": "Same report, Appendix C, Table C-31 p.93; MODEL-DERIVED in source: fuel rate calibrated so BSFC matched separate dynamometer measurement"
+  },
+  {
+    "name": "EMD WDG4-family exhaust-valve opening",
+    "value": 109,
+    "unit": "deg ATDC",
+    "grade": "F",
+    "importance": "E",
+    "source": "Indian Railways/IRIMEE, Diesel Engine Fundamentals and Working Principles; https://studylib.net/doc/25691032/1477552111913-fundamentals-of-diesel-engines pp.7-8 Sketch 1.3"
+  },
+  {
+    "name": "EMD WDG4-family scavenge-port opening",
+    "value": 43.5,
+    "unit": "deg BBDC",
+    "grade": "F",
+    "importance": "E",
+    "source": "Indian Railways/IRIMEE, Diesel Engine Fundamentals and Working Principles; https://studylib.net/doc/25691032/1477552111913-fundamentals-of-diesel-engines pp.7-8 Sketch 1.3"
+  },
+  {
+    "name": "EMD WDG4-family scavenge-port closing",
+    "value": 43.5,
+    "unit": "deg ABDC",
+    "grade": "F",
+    "importance": "E",
+    "source": "Indian Railways/IRIMEE, Diesel Engine Fundamentals and Working Principles; https://studylib.net/doc/25691032/1477552111913-fundamentals-of-diesel-engines pp.7-8 Sketch 1.3"
+  },
+  {
+    "name": "EMD WDG4-family exhaust-valve closing",
+    "value": 67,
+    "unit": "deg ABDC",
+    "grade": "F",
+    "importance": "E",
+    "source": "Indian Railways/IRIMEE, Diesel Engine Fundamentals and Working Principles; https://studylib.net/doc/25691032/1477552111913-fundamentals-of-diesel-engines pp.7-8 Sketch 1.3"
+  },
+  {
+    "name": "EMD WDG4-family injection start",
+    "value": 15.8,
+    "unit": "deg BTDC",
+    "grade": "F",
+    "importance": "I",
+    "source": "Indian Railways/IRIMEE, Diesel Engine Fundamentals and Working Principles; https://studylib.net/doc/25691032/1477552111913-fundamentals-of-diesel-engines pp.7-8 Sketch 1.3"
+  },
+  {
+    "name": "EMD 16-710G3B-T2 turbo assembly part number",
+    "value": "40120139",
+    "unit": "part number",
+    "grade": "F",
+    "importance": "I",
+    "source": "EMD 16-710G3B-T2 MPI/Go-Transit Service Parts Catalog E108 LXO, Aug.2010, Turbocharger Application p.1-85; https://pdfcoffee.com/16-710g3b-t2-parts-catalog-pdf-free.html"
+  },
+  {
+    "name": "EMD 16-710G3B-T2 engine-to-turbo gear ratio",
+    "value": 16.7,
+    "unit": ":1",
+    "grade": "F",
+    "importance": "I",
+    "source": "EMD 16-710G3B-T2 MPI/Go-Transit Service Parts Catalog E108 LXO, Aug.2010, Turbocharger Application p.1-85; https://pdfcoffee.com/16-710g3b-t2-parts-catalog-pdf-free.html"
+  },
+  {
+    "name": "W26 locked bore",
+    "value": 260,
+    "unit": "mm",
+    "grade": "D",
+    "importance": "E",
+    "source": "Wärtsilä 26 Product Guide a13, 19 Sep 2018; https://www.amasenergy.com/sites/default/files/products/amas_import/dieselengine_11453_1594749449_1594749449.pdf p.3-19 selected 8L26 high-P6/T6 325kW/cyl 900rpm column"
+  },
+  {
+    "name": "W26 locked stroke",
+    "value": 320,
+    "unit": "mm",
+    "grade": "D",
+    "importance": "E",
+    "source": "Wärtsilä 26 Product Guide a13, 19 Sep 2018; https://www.amasenergy.com/sites/default/files/products/amas_import/dieselengine_11453_1594749449_1594749449.pdf p.3-19 selected 8L26 high-P6/T6 325kW/cyl 900rpm column"
+  },
+  {
+    "name": "W26 locked nominal displacement per cylinder",
+    "value": 17.0,
+    "unit": "L",
+    "grade": "D",
+    "importance": "E",
+    "source": "Wärtsilä 26 Product Guide a13, 19 Sep 2018; https://www.amasenergy.com/sites/default/files/products/amas_import/dieselengine_11453_1594749449_1594749449.pdf p.3-19 selected 8L26 high-P6/T6 325kW/cyl 900rpm column"
+  },
+  {
+    "name": "W26 locked cylinder count",
+    "value": 8,
+    "unit": "count",
+    "grade": "D",
+    "importance": "E",
+    "source": "Wärtsilä 26 Product Guide a13, 19 Sep 2018; https://www.amasenergy.com/sites/default/files/products/amas_import/dieselengine_11453_1594749449_1594749449.pdf p.3-19 selected 8L26 high-P6/T6 325kW/cyl 900rpm column"
+  },
+  {
+    "name": "W26 locked inlet valves per cylinder",
+    "value": 2,
+    "unit": "count",
+    "grade": "D",
+    "importance": "I",
+    "source": "Wärtsilä 26 Product Guide a13, 19 Sep 2018; https://www.amasenergy.com/sites/default/files/products/amas_import/dieselengine_11453_1594749449_1594749449.pdf p.3-19 selected 8L26 high-P6/T6 325kW/cyl 900rpm column"
+  },
+  {
+    "name": "W26 locked exhaust valves per cylinder",
+    "value": 2,
+    "unit": "count",
+    "grade": "D",
+    "importance": "I",
+    "source": "Wärtsilä 26 Product Guide a13, 19 Sep 2018; https://www.amasenergy.com/sites/default/files/products/amas_import/dieselengine_11453_1594749449_1594749449.pdf p.3-19 selected 8L26 high-P6/T6 325kW/cyl 900rpm column"
+  },
+  {
+    "name": "W26 locked rated power",
+    "value": 2600,
+    "unit": "kW",
+    "grade": "D",
+    "importance": "E",
+    "source": "Wärtsilä 26 Product Guide a13, 19 Sep 2018; https://www.amasenergy.com/sites/default/files/products/amas_import/dieselengine_11453_1594749449_1594749449.pdf p.3-19 selected 8L26 high-P6/T6 325kW/cyl 900rpm column"
+  },
+  {
+    "name": "W26 locked BMEP",
+    "value": 2.55,
+    "unit": "MPa",
+    "grade": "D",
+    "importance": "E",
+    "source": "Wärtsilä 26 Product Guide a13, 19 Sep 2018; https://www.amasenergy.com/sites/default/files/products/amas_import/dieselengine_11453_1594749449_1594749449.pdf p.3-19 selected 8L26 high-P6/T6 325kW/cyl 900rpm column"
+  },
+  {
+    "name": "W26 locked full-load combustion-air flow",
+    "value": 5.1,
+    "unit": "kg/s",
+    "grade": "D",
+    "importance": "E",
+    "source": "Wärtsilä 26 Product Guide a13, 19 Sep 2018; https://www.amasenergy.com/sites/default/files/products/amas_import/dieselengine_11453_1594749449_1594749449.pdf p.3-19 selected 8L26 high-P6/T6 325kW/cyl 900rpm column"
+  },
+  {
+    "name": "W26 locked charge-air temperature after cooler",
+    "value": 55,
+    "unit": "degC",
+    "grade": "D",
+    "importance": "I",
+    "source": "Wärtsilä 26 Product Guide a13, 19 Sep 2018; https://www.amasenergy.com/sites/default/files/products/amas_import/dieselengine_11453_1594749449_1594749449.pdf p.3-19 selected 8L26 high-P6/T6 325kW/cyl 900rpm column"
+  },
+  {
+    "name": "W26 locked max exhaust backpressure",
+    "value": 5,
+    "unit": "kPa",
+    "grade": "D",
+    "importance": "I",
+    "source": "Wärtsilä 26 Product Guide a13, 19 Sep 2018; https://www.amasenergy.com/sites/default/files/products/amas_import/dieselengine_11453_1594749449_1594749449.pdf p.3-19 selected 8L26 high-P6/T6 325kW/cyl 900rpm column"
+  },
+  {
+    "name": "W26 locked minimum exhaust-pipe diameter",
+    "value": 550,
+    "unit": "mm",
+    "grade": "D",
+    "importance": "I",
+    "source": "Wärtsilä 26 Product Guide a13, 19 Sep 2018; https://www.amasenergy.com/sites/default/files/products/amas_import/dieselengine_11453_1594749449_1594749449.pdf p.3-19 selected 8L26 high-P6/T6 325kW/cyl 900rpm column"
+  },
+  {
+    "name": "W26 locked jacket-water heat rejection",
+    "value": 488,
+    "unit": "kW",
+    "grade": "D",
+    "importance": "I",
+    "source": "Wärtsilä 26 Product Guide a13, 19 Sep 2018; https://www.amasenergy.com/sites/default/files/products/amas_import/dieselengine_11453_1594749449_1594749449.pdf p.3-19 selected 8L26 high-P6/T6 325kW/cyl 900rpm column"
+  },
+  {
+    "name": "W26 locked charge-air-cooler LT heat rejection",
+    "value": 840,
+    "unit": "kW",
+    "grade": "D",
+    "importance": "I",
+    "source": "Wärtsilä 26 Product Guide a13, 19 Sep 2018; https://www.amasenergy.com/sites/default/files/products/amas_import/dieselengine_11453_1594749449_1594749449.pdf p.3-19 selected 8L26 high-P6/T6 325kW/cyl 900rpm column"
+  },
+  {
+    "name": "W26 locked lube-oil LT heat rejection",
+    "value": 400,
+    "unit": "kW",
+    "grade": "D",
+    "importance": "I",
+    "source": "Wärtsilä 26 Product Guide a13, 19 Sep 2018; https://www.amasenergy.com/sites/default/files/products/amas_import/dieselengine_11453_1594749449_1594749449.pdf p.3-19 selected 8L26 high-P6/T6 325kW/cyl 900rpm column"
+  },
+  {
+    "name": "W26 locked radiation heat loss",
+    "value": 120,
+    "unit": "kW",
+    "grade": "D",
+    "importance": "I",
+    "source": "Wärtsilä 26 Product Guide a13, 19 Sep 2018; https://www.amasenergy.com/sites/default/files/products/amas_import/dieselengine_11453_1594749449_1594749449.pdf p.3-19 selected 8L26 high-P6/T6 325kW/cyl 900rpm column"
+  },
+  {
+    "name": "W26 locked pressure before injection pumps",
+    "value": 700,
+    "unit": "kPa nominal",
+    "grade": "D",
+    "importance": "I",
+    "source": "Wärtsilä 26 Product Guide a13, 19 Sep 2018; https://www.amasenergy.com/sites/default/files/products/amas_import/dieselengine_11453_1594749449_1594749449.pdf p.3-19 selected 8L26 high-P6/T6 325kW/cyl 900rpm column"
+  },
+  {
+    "name": "W26 locked injection-pump supply tolerance",
+    "value": 50,
+    "unit": "kPa ±",
+    "grade": "D",
+    "importance": "I",
+    "source": "Wärtsilä 26 Product Guide a13, 19 Sep 2018; https://www.amasenergy.com/sites/default/files/products/amas_import/dieselengine_11453_1594749449_1594749449.pdf p.3-19 selected 8L26 high-P6/T6 325kW/cyl 900rpm column"
+  },
+  {
+    "name": "W26 locked MDF pump capacity",
+    "value": 3.7,
+    "unit": "m3/h",
+    "grade": "D",
+    "importance": "I",
+    "source": "Wärtsilä 26 Product Guide a13, 19 Sep 2018; https://www.amasenergy.com/sites/default/files/products/amas_import/dieselengine_11453_1594749449_1594749449.pdf p.3-19 selected 8L26 high-P6/T6 325kW/cyl 900rpm column"
+  },
+  {
+    "name": "W26 locked fuel circulation flow",
+    "value": 2.2,
+    "unit": "m3/h",
+    "grade": "D",
+    "importance": "I",
+    "source": "Wärtsilä 26 Product Guide a13, 19 Sep 2018; https://www.amasenergy.com/sites/default/files/products/amas_import/dieselengine_11453_1594749449_1594749449.pdf p.3-19 selected 8L26 high-P6/T6 325kW/cyl 900rpm column"
+  },
+  {
+    "name": "W26 locked SFC reference LHV",
+    "value": 42.7,
+    "unit": "MJ/kg",
+    "grade": "D",
+    "importance": "E",
+    "source": "Wärtsilä 26 Product Guide a13, 19 Sep 2018; https://www.amasenergy.com/sites/default/files/products/amas_import/dieselengine_11453_1594749449_1594749449.pdf p.3-19 selected 8L26 high-P6/T6 325kW/cyl 900rpm column"
+  },
+  {
+    "name": "W26 locked 100% power",
+    "value": 2600,
+    "unit": "kW",
+    "grade": "D",
+    "importance": "E",
+    "source": "Wärtsilä 26 Product Guide a13, 19 Sep 2018; https://www.amasenergy.com/sites/default/files/products/amas_import/dieselengine_11453_1594749449_1594749449.pdf p.3-19 selected 8L26 high-P6/T6 325kW/cyl 900rpm column"
+  },
+  {
+    "name": "W26 locked 100% BSFC",
+    "value": 191.0,
+    "unit": "g/kWh",
+    "grade": "D",
+    "importance": "E",
+    "source": "Wärtsilä 26 Product Guide a13, 19 Sep 2018; https://www.amasenergy.com/sites/default/files/products/amas_import/dieselengine_11453_1594749449_1594749449.pdf p.3-19 selected 8L26 high-P6/T6 325kW/cyl 900rpm column indicative SFC point"
+  },
+  {
+    "name": "W26 locked 100% exhaust mass flow",
+    "value": 5.2,
+    "unit": "kg/s",
+    "grade": "D",
+    "importance": "E",
+    "source": "Wärtsilä 26 Product Guide a13, 19 Sep 2018; https://www.amasenergy.com/sites/default/files/products/amas_import/dieselengine_11453_1594749449_1594749449.pdf p.3-19 selected 8L26 high-P6/T6 325kW/cyl 900rpm column"
+  },
+  {
+    "name": "W26 locked 100% post-turbo exhaust temperature",
+    "value": 340,
+    "unit": "degC",
+    "grade": "D",
+    "importance": "E",
+    "source": "Wärtsilä 26 Product Guide a13, 19 Sep 2018; https://www.amasenergy.com/sites/default/files/products/amas_import/dieselengine_11453_1594749449_1594749449.pdf p.3-19 selected 8L26 high-P6/T6 325kW/cyl 900rpm column"
+  },
+  {
+    "name": "W26 locked 85% power",
+    "value": 2210,
+    "unit": "kW",
+    "grade": "D",
+    "importance": "E",
+    "source": "Wärtsilä 26 Product Guide a13, 19 Sep 2018; https://www.amasenergy.com/sites/default/files/products/amas_import/dieselengine_11453_1594749449_1594749449.pdf p.3-19 selected 8L26 high-P6/T6 325kW/cyl 900rpm column"
+  },
+  {
+    "name": "W26 locked 85% BSFC",
+    "value": 190.6,
+    "unit": "g/kWh",
+    "grade": "D",
+    "importance": "E",
+    "source": "Wärtsilä 26 Product Guide a13, 19 Sep 2018; https://www.amasenergy.com/sites/default/files/products/amas_import/dieselengine_11453_1594749449_1594749449.pdf p.3-19 selected 8L26 high-P6/T6 325kW/cyl 900rpm column guaranteed point"
+  },
+  {
+    "name": "W26 locked 85% exhaust mass flow",
+    "value": 4.6,
+    "unit": "kg/s",
+    "grade": "D",
+    "importance": "E",
+    "source": "Wärtsilä 26 Product Guide a13, 19 Sep 2018; https://www.amasenergy.com/sites/default/files/products/amas_import/dieselengine_11453_1594749449_1594749449.pdf p.3-19 selected 8L26 high-P6/T6 325kW/cyl 900rpm column"
+  },
+  {
+    "name": "W26 locked 85% post-turbo exhaust temperature",
+    "value": 340,
+    "unit": "degC",
+    "grade": "D",
+    "importance": "E",
+    "source": "Wärtsilä 26 Product Guide a13, 19 Sep 2018; https://www.amasenergy.com/sites/default/files/products/amas_import/dieselengine_11453_1594749449_1594749449.pdf p.3-19 selected 8L26 high-P6/T6 325kW/cyl 900rpm column"
+  },
+  {
+    "name": "W26 locked 75% power",
+    "value": 1950,
+    "unit": "kW",
+    "grade": "D",
+    "importance": "E",
+    "source": "Wärtsilä 26 Product Guide a13, 19 Sep 2018; https://www.amasenergy.com/sites/default/files/products/amas_import/dieselengine_11453_1594749449_1594749449.pdf p.3-19 selected 8L26 high-P6/T6 325kW/cyl 900rpm column"
+  },
+  {
+    "name": "W26 locked 75% BSFC",
+    "value": 193.9,
+    "unit": "g/kWh",
+    "grade": "D",
+    "importance": "E",
+    "source": "Wärtsilä 26 Product Guide a13, 19 Sep 2018; https://www.amasenergy.com/sites/default/files/products/amas_import/dieselengine_11453_1594749449_1594749449.pdf p.3-19 selected 8L26 high-P6/T6 325kW/cyl 900rpm column indicative SFC point"
+  },
+  {
+    "name": "W26 locked 75% exhaust mass flow",
+    "value": 4.2,
+    "unit": "kg/s",
+    "grade": "D",
+    "importance": "E",
+    "source": "Wärtsilä 26 Product Guide a13, 19 Sep 2018; https://www.amasenergy.com/sites/default/files/products/amas_import/dieselengine_11453_1594749449_1594749449.pdf p.3-19 selected 8L26 high-P6/T6 325kW/cyl 900rpm column"
+  },
+  {
+    "name": "W26 locked 75% post-turbo exhaust temperature",
+    "value": 340,
+    "unit": "degC",
+    "grade": "D",
+    "importance": "E",
+    "source": "Wärtsilä 26 Product Guide a13, 19 Sep 2018; https://www.amasenergy.com/sites/default/files/products/amas_import/dieselengine_11453_1594749449_1594749449.pdf p.3-19 selected 8L26 high-P6/T6 325kW/cyl 900rpm column"
+  },
+  {
+    "name": "W26 locked 50% power",
+    "value": 1300,
+    "unit": "kW",
+    "grade": "D",
+    "importance": "E",
+    "source": "Wärtsilä 26 Product Guide a13, 19 Sep 2018; https://www.amasenergy.com/sites/default/files/products/amas_import/dieselengine_11453_1594749449_1594749449.pdf p.3-19 selected 8L26 high-P6/T6 325kW/cyl 900rpm column"
+  },
+  {
+    "name": "W26 locked 50% BSFC",
+    "value": 203.2,
+    "unit": "g/kWh",
+    "grade": "D",
+    "importance": "E",
+    "source": "Wärtsilä 26 Product Guide a13, 19 Sep 2018; https://www.amasenergy.com/sites/default/files/products/amas_import/dieselengine_11453_1594749449_1594749449.pdf p.3-19 selected 8L26 high-P6/T6 325kW/cyl 900rpm column indicative SFC point"
+  },
+  {
+    "name": "W26 locked 50% exhaust mass flow",
+    "value": 3.0,
+    "unit": "kg/s",
+    "grade": "D",
+    "importance": "E",
+    "source": "Wärtsilä 26 Product Guide a13, 19 Sep 2018; https://www.amasenergy.com/sites/default/files/products/amas_import/dieselengine_11453_1594749449_1594749449.pdf p.3-19 selected 8L26 high-P6/T6 325kW/cyl 900rpm column"
+  },
+  {
+    "name": "W26 locked 50% post-turbo exhaust temperature",
+    "value": 353,
+    "unit": "degC",
+    "grade": "D",
+    "importance": "E",
+    "source": "Wärtsilä 26 Product Guide a13, 19 Sep 2018; https://www.amasenergy.com/sites/default/files/products/amas_import/dieselengine_11453_1594749449_1594749449.pdf p.3-19 selected 8L26 high-P6/T6 325kW/cyl 900rpm column"
+  },
+  {
+    "name": "W26 locked 100% derived fuel flow",
+    "value": 496.6,
+    "unit": "kg/h",
+    "grade": "R",
+    "importance": "E",
+    "source": "Derived from Product Guide BSFC×power at 100%"
+  },
+  {
+    "name": "W26 locked 100% derived brake thermal efficiency",
+    "value": 44.14,
+    "unit": "%",
+    "grade": "R",
+    "importance": "E",
+    "source": "Derived using LHV 42.7MJ/kg at 100%"
+  },
+  {
+    "name": "W26 locked 85% derived fuel flow",
+    "value": 421.23,
+    "unit": "kg/h",
+    "grade": "R",
+    "importance": "E",
+    "source": "Derived from Product Guide BSFC×power at 85%"
+  },
+  {
+    "name": "W26 locked 85% derived brake thermal efficiency",
+    "value": 44.23,
+    "unit": "%",
+    "grade": "R",
+    "importance": "E",
+    "source": "Derived using LHV 42.7MJ/kg at 85%"
+  },
+  {
+    "name": "W26 locked 75% derived fuel flow",
+    "value": 378.11,
+    "unit": "kg/h",
+    "grade": "R",
+    "importance": "E",
+    "source": "Derived from Product Guide BSFC×power at 75%"
+  },
+  {
+    "name": "W26 locked 75% derived brake thermal efficiency",
+    "value": 43.48,
+    "unit": "%",
+    "grade": "R",
+    "importance": "E",
+    "source": "Derived using LHV 42.7MJ/kg at 75%"
+  },
+  {
+    "name": "W26 locked 50% derived fuel flow",
+    "value": 264.16,
+    "unit": "kg/h",
+    "grade": "R",
+    "importance": "E",
+    "source": "Derived from Product Guide BSFC×power at 50%"
+  },
+  {
+    "name": "W26 locked 50% derived brake thermal efficiency",
+    "value": 41.49,
+    "unit": "%",
+    "grade": "R",
+    "importance": "E",
+    "source": "Derived using LHV 42.7MJ/kg at 50%"
+  },
+  {
+    "name": "W26 old-family general-data compression ratio",
+    "value": 16,
+    "unit": ":1",
+    "grade": "F",
+    "importance": "E",
+    "source": "W26 Workshop Manual, June 2000; https://studylib.net/doc/26087684/wartsila-w26-workshop-manual--1- Ch.1.0"
+  },
+  {
+    "name": "W26 old-family maximum cylinder pressure",
+    "value": 180,
+    "unit": "bar",
+    "grade": "F",
+    "importance": "I",
+    "source": "W26 Workshop Manual, June 2000; https://studylib.net/doc/26087684/wartsila-w26-workshop-manual--1- Ch.1.0"
+  },
+  {
+    "name": "W26 old piston-revision compression ratio",
+    "value": 13.5,
+    "unit": ":1",
+    "grade": "F",
+    "importance": "E",
+    "source": "W26 Workshop Manual, June 2000; https://studylib.net/doc/26087684/wartsila-w26-workshop-manual--1- Ch.2.8 technical notice"
+  },
+  {
+    "name": "W26 old piston-revision compression ratio",
+    "value": 15.8,
+    "unit": ":1",
+    "grade": "F",
+    "importance": "E",
+    "source": "W26 Workshop Manual, June 2000; https://studylib.net/doc/26087684/wartsila-w26-workshop-manual--1- Ch.2.8 technical notice"
+  },
+  {
+    "name": "W26 old-family rod inspection/reference minimum",
+    "value": 448.898,
+    "unit": "mm",
+    "grade": "F",
+    "importance": "E",
+    "source": "W26 Workshop Manual, June 2000; https://studylib.net/doc/26087684/wartsila-w26-workshop-manual--1- p.134; not explicitly c-c"
+  },
+  {
+    "name": "W26 old-family rod inspection/reference maximum",
+    "value": 449.025,
+    "unit": "mm",
+    "grade": "F",
+    "importance": "E",
+    "source": "W26 Workshop Manual, June 2000; https://studylib.net/doc/26087684/wartsila-w26-workshop-manual--1- p.134; not explicitly c-c"
+  },
+  {
+    "name": "W26 locked exact 2018 compression ratio",
+    "value": null,
+    "unit": null,
+    "grade": "U",
+    "importance": "E",
+    "source": "Not stated in locked Product Guide; old manual contains multiple CR revisions"
+  },
+  {
+    "name": "W26 locked exact rod c-c length",
+    "value": null,
+    "unit": null,
+    "grade": "U",
+    "importance": "E",
+    "source": "Not recovered"
+  },
+  {
+    "name": "W26 locked VIC maximum IVC advance",
+    "value": 30,
+    "unit": "deg crank angle",
+    "grade": "D",
+    "importance": "I",
+    "source": "Wärtsilä 26 Product Guide a13, 19 Sep 2018; https://www.amasenergy.com/sites/default/files/products/amas_import/dieselengine_11453_1594749449_1594749449.pdf p.4-3"
+  },
+  {
+    "name": "W26 locked VIC low-load advance",
+    "value": 0,
+    "unit": "deg crank angle",
+    "grade": "D",
+    "importance": "I",
+    "source": "Wärtsilä 26 Product Guide a13, 19 Sep 2018; https://www.amasenergy.com/sites/default/files/products/amas_import/dieselengine_11453_1594749449_1594749449.pdf p.4-3"
+  },
+  {
+    "name": "W26 locked injection-pressure design capability",
+    "value": 1500,
+    "unit": "bar maximum",
+    "grade": "D",
+    "importance": "I",
+    "source": "Wärtsilä 26 Product Guide a13, 19 Sep 2018; https://www.amasenergy.com/sites/default/files/products/amas_import/dieselengine_11453_1594749449_1594749449.pdf p.4-4"
+  },
+  {
+    "name": "W26 locked high-pressure pump arrangement",
+    "value": 1,
+    "unit": "pump/cylinder",
+    "grade": "D",
+    "importance": "I",
+    "source": "Wärtsilä 26 Product Guide a13, 19 Sep 2018; https://www.amasenergy.com/sites/default/files/products/amas_import/dieselengine_11453_1594749449_1594749449.pdf p.4-4; flow-through mono-element"
+  },
+  {
+    "name": "W26 locked 100% charge-air pressure",
+    "value": null,
+    "unit": null,
+    "grade": "U",
+    "importance": "E",
+    "source": "Wärtsilä 26 Product Guide a13, 19 Sep 2018; https://www.amasenergy.com/sites/default/files/products/amas_import/dieselengine_11453_1594749449_1594749449.pdf p.11-1 Fig.11-1 shows PI/PT601 but no numerical load value"
+  },
+  {
+    "name": "W26 locked 100% turbine-inlet temperature",
+    "value": null,
+    "unit": null,
+    "grade": "U",
+    "importance": "E",
+    "source": "Wärtsilä 26 Product Guide a13, 19 Sep 2018; https://www.amasenergy.com/sites/default/files/products/amas_import/dieselengine_11453_1594749449_1594749449.pdf p.11-1 Fig.11-1 shows TE511 but no numerical load value"
+  },
+  {
+    "name": "W26 locked 85% charge-air pressure",
+    "value": null,
+    "unit": null,
+    "grade": "U",
+    "importance": "E",
+    "source": "Wärtsilä 26 Product Guide a13, 19 Sep 2018; https://www.amasenergy.com/sites/default/files/products/amas_import/dieselengine_11453_1594749449_1594749449.pdf p.11-1 Fig.11-1 shows PI/PT601 but no numerical load value"
+  },
+  {
+    "name": "W26 locked 85% turbine-inlet temperature",
+    "value": null,
+    "unit": null,
+    "grade": "U",
+    "importance": "E",
+    "source": "Wärtsilä 26 Product Guide a13, 19 Sep 2018; https://www.amasenergy.com/sites/default/files/products/amas_import/dieselengine_11453_1594749449_1594749449.pdf p.11-1 Fig.11-1 shows TE511 but no numerical load value"
+  },
+  {
+    "name": "W26 locked 75% charge-air pressure",
+    "value": null,
+    "unit": null,
+    "grade": "U",
+    "importance": "E",
+    "source": "Wärtsilä 26 Product Guide a13, 19 Sep 2018; https://www.amasenergy.com/sites/default/files/products/amas_import/dieselengine_11453_1594749449_1594749449.pdf p.11-1 Fig.11-1 shows PI/PT601 but no numerical load value"
+  },
+  {
+    "name": "W26 locked 75% turbine-inlet temperature",
+    "value": null,
+    "unit": null,
+    "grade": "U",
+    "importance": "E",
+    "source": "Wärtsilä 26 Product Guide a13, 19 Sep 2018; https://www.amasenergy.com/sites/default/files/products/amas_import/dieselengine_11453_1594749449_1594749449.pdf p.11-1 Fig.11-1 shows TE511 but no numerical load value"
+  },
+  {
+    "name": "W26 locked 50% charge-air pressure",
+    "value": null,
+    "unit": null,
+    "grade": "U",
+    "importance": "E",
+    "source": "Wärtsilä 26 Product Guide a13, 19 Sep 2018; https://www.amasenergy.com/sites/default/files/products/amas_import/dieselengine_11453_1594749449_1594749449.pdf p.11-1 Fig.11-1 shows PI/PT601 but no numerical load value"
+  },
+  {
+    "name": "W26 locked 50% turbine-inlet temperature",
+    "value": null,
+    "unit": null,
+    "grade": "U",
+    "importance": "E",
+    "source": "Wärtsilä 26 Product Guide a13, 19 Sep 2018; https://www.amasenergy.com/sites/default/files/products/amas_import/dieselengine_11453_1594749449_1594749449.pdf p.11-1 Fig.11-1 shows TE511 but no numerical load value"
+  },
+  {
+    "name": "W26 locked VIC schedule vs load",
+    "value": null,
+    "unit": null,
+    "grade": "U",
+    "importance": "I",
+    "source": "Targeted public search; not found for locked 2018 build"
+  },
+  {
+    "name": "W26 locked exact modern valve timing",
+    "value": null,
+    "unit": null,
+    "grade": "U",
+    "importance": "I",
+    "source": "Targeted public search; not found for locked 2018 build"
+  },
+  {
+    "name": "W26 locked exact valve-lift curves",
+    "value": null,
+    "unit": null,
+    "grade": "U",
+    "importance": "I",
+    "source": "Targeted public search; not found for locked 2018 build"
+  },
+  {
+    "name": "W26 locked injection timing vs load",
+    "value": null,
+    "unit": null,
+    "grade": "U",
+    "importance": "I",
+    "source": "Targeted public search; not found for locked 2018 build"
+  },
+  {
+    "name": "W26 locked injection pressure vs load",
+    "value": null,
+    "unit": null,
+    "grade": "U",
+    "importance": "I",
+    "source": "Targeted public search; not found for locked 2018 build"
+  },
+  {
+    "name": "W26 locked injection-rate trace",
+    "value": null,
+    "unit": null,
+    "grade": "U",
+    "importance": "I",
+    "source": "Targeted public search; not found for locked 2018 build"
+  },
+  {
+    "name": "W26 locked measured cylinder-pressure trace",
+    "value": null,
+    "unit": null,
+    "grade": "U",
+    "importance": "I",
+    "source": "Targeted public search; not found for locked 2018 build"
+  },
+  {
+    "name": "W26 locked mechanical efficiency/FMEP",
+    "value": null,
+    "unit": null,
+    "grade": "U",
+    "importance": "N",
+    "source": "Targeted public search; not found for locked 2018 build"
+  },
+  {
+    "name": "W26 locked firing order",
+    "value": null,
+    "unit": null,
+    "grade": "U",
+    "importance": "N",
+    "source": "Targeted public search; not found for locked 2018 build"
+  },
+  {
+    "name": "W26 old cam 2103ZT141/142 at injection reference 13.5 deg BTDC exhaust opening at 5.6mm lift",
+    "value": 23.5,
+    "unit": "deg BBDC",
+    "grade": "F",
+    "importance": "I",
+    "source": "W26 Workshop Manual, June 2000; https://studylib.net/doc/26087684/wartsila-w26-workshop-manual--1- Ch.2 camshaft technical-notice table"
+  },
+  {
+    "name": "W26 old cam 2103ZT141/142 at injection reference 13.5 deg BTDC exhaust closing at 5.6mm lift",
+    "value": 19.9,
+    "unit": "deg ATDC",
+    "grade": "F",
+    "importance": "I",
+    "source": "W26 Workshop Manual, June 2000; https://studylib.net/doc/26087684/wartsila-w26-workshop-manual--1- Ch.2 camshaft technical-notice table"
+  },
+  {
+    "name": "W26 old cam 2103ZT141/142 at injection reference 13.5 deg BTDC inlet opening at 4.1mm lift",
+    "value": 31.5,
+    "unit": "deg BTDC",
+    "grade": "F",
+    "importance": "I",
+    "source": "W26 Workshop Manual, June 2000; https://studylib.net/doc/26087684/wartsila-w26-workshop-manual--1- Ch.2 camshaft technical-notice table"
+  },
+  {
+    "name": "W26 old cam 2103ZT141/142 at injection reference 13.5 deg BTDC inlet closing at 4.1mm lift",
+    "value": 6.3,
+    "unit": "deg BTDC manual convention",
+    "grade": "F",
+    "importance": "I",
+    "source": "W26 Workshop Manual, June 2000; https://studylib.net/doc/26087684/wartsila-w26-workshop-manual--1- Ch.2 camshaft technical-notice table"
+  },
+  {
+    "name": "W26 old cam 2103ZT141/142 at injection reference 13.0 deg BTDC exhaust opening at 5.6mm lift",
+    "value": 23.0,
+    "unit": "deg BBDC",
+    "grade": "F",
+    "importance": "I",
+    "source": "W26 Workshop Manual, June 2000; https://studylib.net/doc/26087684/wartsila-w26-workshop-manual--1- Ch.2 camshaft technical-notice table"
+  },
+  {
+    "name": "W26 old cam 2103ZT141/142 at injection reference 13.0 deg BTDC exhaust closing at 5.6mm lift",
+    "value": 20.4,
+    "unit": "deg ATDC",
+    "grade": "F",
+    "importance": "I",
+    "source": "W26 Workshop Manual, June 2000; https://studylib.net/doc/26087684/wartsila-w26-workshop-manual--1- Ch.2 camshaft technical-notice table"
+  },
+  {
+    "name": "W26 old cam 2103ZT141/142 at injection reference 13.0 deg BTDC inlet opening at 4.1mm lift",
+    "value": 31.0,
+    "unit": "deg BTDC",
+    "grade": "F",
+    "importance": "I",
+    "source": "W26 Workshop Manual, June 2000; https://studylib.net/doc/26087684/wartsila-w26-workshop-manual--1- Ch.2 camshaft technical-notice table"
+  },
+  {
+    "name": "W26 old cam 2103ZT141/142 at injection reference 13.0 deg BTDC inlet closing at 4.1mm lift",
+    "value": 6.8,
+    "unit": "deg BTDC manual convention",
+    "grade": "F",
+    "importance": "I",
+    "source": "W26 Workshop Manual, June 2000; https://studylib.net/doc/26087684/wartsila-w26-workshop-manual--1- Ch.2 camshaft technical-notice table"
+  },
+  {
+    "name": "W26 old cam 2103ZT141/142 at injection reference 12.5 deg BTDC exhaust opening at 5.6mm lift",
+    "value": 22.5,
+    "unit": "deg BBDC",
+    "grade": "F",
+    "importance": "I",
+    "source": "W26 Workshop Manual, June 2000; https://studylib.net/doc/26087684/wartsila-w26-workshop-manual--1- Ch.2 camshaft technical-notice table"
+  },
+  {
+    "name": "W26 old cam 2103ZT141/142 at injection reference 12.5 deg BTDC exhaust closing at 5.6mm lift",
+    "value": 20.9,
+    "unit": "deg ATDC",
+    "grade": "F",
+    "importance": "I",
+    "source": "W26 Workshop Manual, June 2000; https://studylib.net/doc/26087684/wartsila-w26-workshop-manual--1- Ch.2 camshaft technical-notice table"
+  },
+  {
+    "name": "W26 old cam 2103ZT141/142 at injection reference 12.5 deg BTDC inlet opening at 4.1mm lift",
+    "value": 30.5,
+    "unit": "deg BTDC",
+    "grade": "F",
+    "importance": "I",
+    "source": "W26 Workshop Manual, June 2000; https://studylib.net/doc/26087684/wartsila-w26-workshop-manual--1- Ch.2 camshaft technical-notice table"
+  },
+  {
+    "name": "W26 old cam 2103ZT141/142 at injection reference 12.5 deg BTDC inlet closing at 4.1mm lift",
+    "value": 7.3,
+    "unit": "deg BTDC manual convention",
+    "grade": "F",
+    "importance": "I",
+    "source": "W26 Workshop Manual, June 2000; https://studylib.net/doc/26087684/wartsila-w26-workshop-manual--1- Ch.2 camshaft technical-notice table"
+  },
+  {
+    "name": "W26 old cam 2103ZT141/142 at injection reference 12.0 deg BTDC exhaust opening at 5.6mm lift",
+    "value": 22.0,
+    "unit": "deg BBDC",
+    "grade": "F",
+    "importance": "I",
+    "source": "W26 Workshop Manual, June 2000; https://studylib.net/doc/26087684/wartsila-w26-workshop-manual--1- Ch.2 camshaft technical-notice table"
+  },
+  {
+    "name": "W26 old cam 2103ZT141/142 at injection reference 12.0 deg BTDC exhaust closing at 5.6mm lift",
+    "value": 21.4,
+    "unit": "deg ATDC",
+    "grade": "F",
+    "importance": "I",
+    "source": "W26 Workshop Manual, June 2000; https://studylib.net/doc/26087684/wartsila-w26-workshop-manual--1- Ch.2 camshaft technical-notice table"
+  },
+  {
+    "name": "W26 old cam 2103ZT141/142 at injection reference 12.0 deg BTDC inlet opening at 4.1mm lift",
+    "value": 30.0,
+    "unit": "deg BTDC",
+    "grade": "F",
+    "importance": "I",
+    "source": "W26 Workshop Manual, June 2000; https://studylib.net/doc/26087684/wartsila-w26-workshop-manual--1- Ch.2 camshaft technical-notice table"
+  },
+  {
+    "name": "W26 old cam 2103ZT141/142 at injection reference 12.0 deg BTDC inlet closing at 4.1mm lift",
+    "value": 7.8,
+    "unit": "deg BTDC manual convention",
+    "grade": "F",
+    "importance": "I",
+    "source": "W26 Workshop Manual, June 2000; https://studylib.net/doc/26087684/wartsila-w26-workshop-manual--1- Ch.2 camshaft technical-notice table"
+  },
+  {
+    "name": "W26 old cam 2103ZT141/142 at injection reference 11.5 deg BTDC exhaust opening at 5.6mm lift",
+    "value": 21.5,
+    "unit": "deg BBDC",
+    "grade": "F",
+    "importance": "I",
+    "source": "W26 Workshop Manual, June 2000; https://studylib.net/doc/26087684/wartsila-w26-workshop-manual--1- Ch.2 camshaft technical-notice table"
+  },
+  {
+    "name": "W26 old cam 2103ZT141/142 at injection reference 11.5 deg BTDC exhaust closing at 5.6mm lift",
+    "value": 21.9,
+    "unit": "deg ATDC",
+    "grade": "F",
+    "importance": "I",
+    "source": "W26 Workshop Manual, June 2000; https://studylib.net/doc/26087684/wartsila-w26-workshop-manual--1- Ch.2 camshaft technical-notice table"
+  },
+  {
+    "name": "W26 old cam 2103ZT141/142 at injection reference 11.5 deg BTDC inlet opening at 4.1mm lift",
+    "value": 29.5,
+    "unit": "deg BTDC",
+    "grade": "F",
+    "importance": "I",
+    "source": "W26 Workshop Manual, June 2000; https://studylib.net/doc/26087684/wartsila-w26-workshop-manual--1- Ch.2 camshaft technical-notice table"
+  },
+  {
+    "name": "W26 old cam 2103ZT141/142 at injection reference 11.5 deg BTDC inlet closing at 4.1mm lift",
+    "value": 8.3,
+    "unit": "deg BTDC manual convention",
+    "grade": "F",
+    "importance": "I",
+    "source": "W26 Workshop Manual, June 2000; https://studylib.net/doc/26087684/wartsila-w26-workshop-manual--1- Ch.2 camshaft technical-notice table"
+  },
+  {
+    "name": "W26 old cam 2103ZT141/142 at injection reference 11.0 deg BTDC exhaust opening at 5.6mm lift",
+    "value": 21.0,
+    "unit": "deg BBDC",
+    "grade": "F",
+    "importance": "I",
+    "source": "W26 Workshop Manual, June 2000; https://studylib.net/doc/26087684/wartsila-w26-workshop-manual--1- Ch.2 camshaft technical-notice table"
+  },
+  {
+    "name": "W26 old cam 2103ZT141/142 at injection reference 11.0 deg BTDC exhaust closing at 5.6mm lift",
+    "value": 22.4,
+    "unit": "deg ATDC",
+    "grade": "F",
+    "importance": "I",
+    "source": "W26 Workshop Manual, June 2000; https://studylib.net/doc/26087684/wartsila-w26-workshop-manual--1- Ch.2 camshaft technical-notice table"
+  },
+  {
+    "name": "W26 old cam 2103ZT141/142 at injection reference 11.0 deg BTDC inlet opening at 4.1mm lift",
+    "value": 29.0,
+    "unit": "deg BTDC",
+    "grade": "F",
+    "importance": "I",
+    "source": "W26 Workshop Manual, June 2000; https://studylib.net/doc/26087684/wartsila-w26-workshop-manual--1- Ch.2 camshaft technical-notice table"
+  },
+  {
+    "name": "W26 old cam 2103ZT141/142 at injection reference 11.0 deg BTDC inlet closing at 4.1mm lift",
+    "value": 8.8,
+    "unit": "deg BTDC manual convention",
+    "grade": "F",
+    "importance": "I",
+    "source": "W26 Workshop Manual, June 2000; https://studylib.net/doc/26087684/wartsila-w26-workshop-manual--1- Ch.2 camshaft technical-notice table"
+  },
+  {
+    "name": "W26 old cam 2103ZT141/142 at injection reference 10.5 deg BTDC exhaust opening at 5.6mm lift",
+    "value": 20.5,
+    "unit": "deg BBDC",
+    "grade": "F",
+    "importance": "I",
+    "source": "W26 Workshop Manual, June 2000; https://studylib.net/doc/26087684/wartsila-w26-workshop-manual--1- Ch.2 camshaft technical-notice table"
+  },
+  {
+    "name": "W26 old cam 2103ZT141/142 at injection reference 10.5 deg BTDC exhaust closing at 5.6mm lift",
+    "value": 22.9,
+    "unit": "deg ATDC",
+    "grade": "F",
+    "importance": "I",
+    "source": "W26 Workshop Manual, June 2000; https://studylib.net/doc/26087684/wartsila-w26-workshop-manual--1- Ch.2 camshaft technical-notice table"
+  },
+  {
+    "name": "W26 old cam 2103ZT141/142 at injection reference 10.5 deg BTDC inlet opening at 4.1mm lift",
+    "value": 28.5,
+    "unit": "deg BTDC",
+    "grade": "F",
+    "importance": "I",
+    "source": "W26 Workshop Manual, June 2000; https://studylib.net/doc/26087684/wartsila-w26-workshop-manual--1- Ch.2 camshaft technical-notice table"
+  },
+  {
+    "name": "W26 old cam 2103ZT141/142 at injection reference 10.5 deg BTDC inlet closing at 4.1mm lift",
+    "value": 9.3,
+    "unit": "deg BTDC manual convention",
+    "grade": "F",
+    "importance": "I",
+    "source": "W26 Workshop Manual, June 2000; https://studylib.net/doc/26087684/wartsila-w26-workshop-manual--1- Ch.2 camshaft technical-notice table"
+  },
+  {
+    "name": "W26 old cam 2103ZT141/142 at injection reference 10.0 deg BTDC exhaust opening at 5.6mm lift",
+    "value": 20.0,
+    "unit": "deg BBDC",
+    "grade": "F",
+    "importance": "I",
+    "source": "W26 Workshop Manual, June 2000; https://studylib.net/doc/26087684/wartsila-w26-workshop-manual--1- Ch.2 camshaft technical-notice table"
+  },
+  {
+    "name": "W26 old cam 2103ZT141/142 at injection reference 10.0 deg BTDC exhaust closing at 5.6mm lift",
+    "value": 23.4,
+    "unit": "deg ATDC",
+    "grade": "F",
+    "importance": "I",
+    "source": "W26 Workshop Manual, June 2000; https://studylib.net/doc/26087684/wartsila-w26-workshop-manual--1- Ch.2 camshaft technical-notice table"
+  },
+  {
+    "name": "W26 old cam 2103ZT141/142 at injection reference 10.0 deg BTDC inlet opening at 4.1mm lift",
+    "value": 28.0,
+    "unit": "deg BTDC",
+    "grade": "F",
+    "importance": "I",
+    "source": "W26 Workshop Manual, June 2000; https://studylib.net/doc/26087684/wartsila-w26-workshop-manual--1- Ch.2 camshaft technical-notice table"
+  },
+  {
+    "name": "W26 old cam 2103ZT141/142 at injection reference 10.0 deg BTDC inlet closing at 4.1mm lift",
+    "value": 9.8,
+    "unit": "deg BTDC manual convention",
+    "grade": "F",
+    "importance": "I",
+    "source": "W26 Workshop Manual, June 2000; https://studylib.net/doc/26087684/wartsila-w26-workshop-manual--1- Ch.2 camshaft technical-notice table"
+  },
+  {
+    "name": "ALCO WDM2/251B nominal bore",
+    "value": 228,
+    "unit": "mm",
+    "grade": "F",
+    "importance": "E",
+    "source": "Indian Railways/IRIMEE, Diesel Engine Fundamentals and Working Principles, pp.8-9 and 17-18; https://studylib.net/doc/25691032/1477552111913-fundamentals-of-diesel-engines pp.17-18"
+  },
+  {
+    "name": "ALCO WDM2/251B nominal stroke",
+    "value": 267,
+    "unit": "mm",
+    "grade": "F",
+    "importance": "E",
+    "source": "Indian Railways/IRIMEE, Diesel Engine Fundamentals and Working Principles, pp.8-9 and 17-18; https://studylib.net/doc/25691032/1477552111913-fundamentals-of-diesel-engines pp.17-18"
+  },
+  {
+    "name": "ALCO WDM2/251B cylinder count",
+    "value": 16,
+    "unit": "count",
+    "grade": "F",
+    "importance": "E",
+    "source": "Indian Railways/IRIMEE, Diesel Engine Fundamentals and Working Principles, pp.8-9 and 17-18; https://studylib.net/doc/25691032/1477552111913-fundamentals-of-diesel-engines pp.17-18"
+  },
+  {
+    "name": "ALCO WDM2/251B concave-piston compression ratio",
+    "value": 12.5,
+    "unit": ":1",
+    "grade": "F",
+    "importance": "E",
+    "source": "Indian Railways/IRIMEE, Diesel Engine Fundamentals and Working Principles, pp.8-9 and 17-18; https://studylib.net/doc/25691032/1477552111913-fundamentals-of-diesel-engines pp.17-18"
+  },
+  {
+    "name": "ALCO WDM2/251B flat-piston compression ratio",
+    "value": 11.5,
+    "unit": ":1",
+    "grade": "F",
+    "importance": "E",
+    "source": "Indian Railways/IRIMEE, Diesel Engine Fundamentals and Working Principles, pp.8-9 and 17-18; https://studylib.net/doc/25691032/1477552111913-fundamentals-of-diesel-engines pp.17-18"
+  },
+  {
+    "name": "ALCO WDM2/251B nominal swept volume per cylinder",
+    "value": 10.5,
+    "unit": "L",
+    "grade": "F",
+    "importance": "E",
+    "source": "Indian Railways/IRIMEE, Diesel Engine Fundamentals and Working Principles, pp.8-9 and 17-18; https://studylib.net/doc/25691032/1477552111913-fundamentals-of-diesel-engines pp.17-18"
+  },
+  {
+    "name": "ALCO WDM2/251B gross rating",
+    "value": 2600,
+    "unit": "bhp",
+    "grade": "F",
+    "importance": "E",
+    "source": "Indian Railways/IRIMEE, Diesel Engine Fundamentals and Working Principles, pp.8-9 and 17-18; https://studylib.net/doc/25691032/1477552111913-fundamentals-of-diesel-engines pp.17-18"
+  },
+  {
+    "name": "ALCO WDM2/251B rated speed",
+    "value": 1000,
+    "unit": "rpm",
+    "grade": "F",
+    "importance": "E",
+    "source": "Indian Railways/IRIMEE, Diesel Engine Fundamentals and Working Principles, pp.8-9 and 17-18; https://studylib.net/doc/25691032/1477552111913-fundamentals-of-diesel-engines pp.17-18"
+  },
+  {
+    "name": "ALCO WDM2/251B idle speed",
+    "value": 400,
+    "unit": "rpm",
+    "grade": "F",
+    "importance": "E",
+    "source": "Indian Railways/IRIMEE, Diesel Engine Fundamentals and Working Principles, pp.8-9 and 17-18; https://studylib.net/doc/25691032/1477552111913-fundamentals-of-diesel-engines pp.17-18"
+  },
+  {
+    "name": "ALCO WDM2/251B BMEP",
+    "value": 13.57,
+    "unit": "kgf/cm2",
+    "grade": "F",
+    "importance": "E",
+    "source": "Indian Railways/IRIMEE, Diesel Engine Fundamentals and Working Principles, pp.8-9 and 17-18; https://studylib.net/doc/25691032/1477552111913-fundamentals-of-diesel-engines pp.17-18"
+  },
+  {
+    "name": "ALCO WDM2/251B charging arrangement",
+    "value": "turbo-supercharged with charge-air cooling",
+    "unit": "type",
+    "grade": "F",
+    "importance": "E",
+    "source": "Indian Railways/IRIMEE, Diesel Engine Fundamentals and Working Principles, pp.8-9 and 17-18; https://studylib.net/doc/25691032/1477552111913-fundamentals-of-diesel-engines pp.17-18"
+  },
+  {
+    "name": "ALCO WDM2/251B connecting-rod c-c length",
+    "value": null,
+    "unit": null,
+    "grade": "U",
+    "importance": "E",
+    "source": "Not recovered"
+  },
+  {
+    "name": "ALCO WDM2 conventional inlet opening",
+    "value": 63.8,
+    "unit": "deg BTDC",
+    "grade": "F",
+    "importance": "E",
+    "source": "Indian Railways/IRIMEE, Diesel Engine Fundamentals and Working Principles, pp.8-9 and 17-18; https://studylib.net/doc/25691032/1477552111913-fundamentals-of-diesel-engines pp.8-9 Sketch1.4"
+  },
+  {
+    "name": "ALCO WDM2 conventional inlet closing",
+    "value": 29.6667,
+    "unit": "deg ABDC",
+    "grade": "F",
+    "importance": "E",
+    "source": "Indian Railways/IRIMEE, Diesel Engine Fundamentals and Working Principles, pp.8-9 and 17-18; https://studylib.net/doc/25691032/1477552111913-fundamentals-of-diesel-engines pp.8-9 Sketch1.4"
+  },
+  {
+    "name": "ALCO WDM2 conventional exhaust opening",
+    "value": 41.4667,
+    "unit": "deg BBDC",
+    "grade": "F",
+    "importance": "E",
+    "source": "Indian Railways/IRIMEE, Diesel Engine Fundamentals and Working Principles, pp.8-9 and 17-18; https://studylib.net/doc/25691032/1477552111913-fundamentals-of-diesel-engines pp.8-9 Sketch1.4"
+  },
+  {
+    "name": "ALCO WDM2 conventional exhaust closing",
+    "value": 60,
+    "unit": "deg ATDC",
+    "grade": "F",
+    "importance": "E",
+    "source": "Indian Railways/IRIMEE, Diesel Engine Fundamentals and Working Principles, pp.8-9 and 17-18; https://studylib.net/doc/25691032/1477552111913-fundamentals-of-diesel-engines pp.8-9 Sketch1.4"
+  },
+  {
+    "name": "ALCO WDM2 conventional valve overlap",
+    "value": 123.8,
+    "unit": "deg crank angle",
+    "grade": "F",
+    "importance": "E",
+    "source": "Indian Railways/IRIMEE, Diesel Engine Fundamentals and Working Principles, pp.8-9 and 17-18; https://studylib.net/doc/25691032/1477552111913-fundamentals-of-diesel-engines pp.8-9 Sketch1.4"
+  },
+  {
+    "name": "ALCO WDM2 fuel-efficient inlet opening",
+    "value": 80.1,
+    "unit": "deg BTDC",
+    "grade": "F",
+    "importance": "E",
+    "source": "Indian Railways/IRIMEE, Diesel Engine Fundamentals and Working Principles, pp.8-9 and 17-18; https://studylib.net/doc/25691032/1477552111913-fundamentals-of-diesel-engines pp.8-9 Sketch1.4"
+  },
+  {
+    "name": "ALCO WDM2 fuel-efficient inlet closing",
+    "value": 35.4,
+    "unit": "deg ABDC",
+    "grade": "F",
+    "importance": "E",
+    "source": "Indian Railways/IRIMEE, Diesel Engine Fundamentals and Working Principles, pp.8-9 and 17-18; https://studylib.net/doc/25691032/1477552111913-fundamentals-of-diesel-engines pp.8-9 Sketch1.4"
+  },
+  {
+    "name": "ALCO WDM2 fuel-efficient exhaust opening",
+    "value": 57.67,
+    "unit": "deg BBDC",
+    "grade": "F",
+    "importance": "E",
+    "source": "Indian Railways/IRIMEE, Diesel Engine Fundamentals and Working Principles, pp.8-9 and 17-18; https://studylib.net/doc/25691032/1477552111913-fundamentals-of-diesel-engines pp.8-9 Sketch1.4"
+  },
+  {
+    "name": "ALCO WDM2 fuel-efficient exhaust closing",
+    "value": 57.77,
+    "unit": "deg ATDC",
+    "grade": "F",
+    "importance": "E",
+    "source": "Indian Railways/IRIMEE, Diesel Engine Fundamentals and Working Principles, pp.8-9 and 17-18; https://studylib.net/doc/25691032/1477552111913-fundamentals-of-diesel-engines pp.8-9 Sketch1.4"
+  },
+  {
+    "name": "ALCO WDM2 fuel-efficient valve overlap",
+    "value": 137.87,
+    "unit": "deg crank angle",
+    "grade": "F",
+    "importance": "E",
+    "source": "Indian Railways/IRIMEE, Diesel Engine Fundamentals and Working Principles, pp.8-9 and 17-18; https://studylib.net/doc/25691032/1477552111913-fundamentals-of-diesel-engines pp.8-9 Sketch1.4"
+  },
+  {
+    "name": "ALCO WDM2 family approximate injection start",
+    "value": 18.25,
+    "unit": "deg BTDC",
+    "grade": "F",
+    "importance": "E",
+    "source": "Indian Railways/IRIMEE, Diesel Engine Fundamentals and Working Principles, pp.8-9 and 17-18; https://studylib.net/doc/25691032/1477552111913-fundamentals-of-diesel-engines pp.8-9"
+  },
+  {
+    "name": "ALCO WDM2 family supercharge pressure above atmosphere",
+    "value": 1.5,
+    "unit": "kgf/cm2 gauge",
+    "grade": "F",
+    "importance": "E",
+    "source": "Indian Railways/IRIMEE, Diesel Engine Fundamentals and Working Principles, pp.8-9 and 17-18; https://studylib.net/doc/25691032/1477552111913-fundamentals-of-diesel-engines pp.8-9"
+  },
+  {
+    "name": "ALCO WDM2 family supercharge pressure converted",
+    "value": 1.471,
+    "unit": "bar(g)",
+    "grade": "R",
+    "importance": "E",
+    "source": "1.5×0.980665"
+  },
+  {
+    "name": "ALCO WDM2 load-box generator voltage",
+    "value": 568,
+    "unit": "V",
+    "grade": "F",
+    "importance": "E",
+    "source": "IRIMEE, Load Box Testing, HP, SFC of Diesel Loco (Dec.2019), worked WDM2 2600HP example / Load Box Parameters; https://www.scribd.com/document/802772222/Alco-Load-Box-Testing-HP-SFC-1"
+  },
+  {
+    "name": "ALCO WDM2 load-box generator current",
+    "value": 2901,
+    "unit": "A",
+    "grade": "F",
+    "importance": "E",
+    "source": "IRIMEE, Load Box Testing, HP, SFC of Diesel Loco (Dec.2019), worked WDM2 2600HP example / Load Box Parameters; https://www.scribd.com/document/802772222/Alco-Load-Box-Testing-HP-SFC-1"
+  },
+  {
+    "name": "ALCO WDM2 load-box assumed generator efficiency",
+    "value": 0.935,
+    "unit": "ratio",
+    "grade": "F",
+    "importance": "E",
+    "source": "IRIMEE, Load Box Testing, HP, SFC of Diesel Loco (Dec.2019), worked WDM2 2600HP example / Load Box Parameters; https://www.scribd.com/document/802772222/Alco-Load-Box-Testing-HP-SFC-1"
+  },
+  {
+    "name": "ALCO WDM2 load-box traction-generator output",
+    "value": 2208.8,
+    "unit": "hp",
+    "grade": "F",
+    "importance": "E",
+    "source": "IRIMEE, Load Box Testing, HP, SFC of Diesel Loco (Dec.2019), worked WDM2 2600HP example / Load Box Parameters; https://www.scribd.com/document/802772222/Alco-Load-Box-Testing-HP-SFC-1"
+  },
+  {
+    "name": "ALCO WDM2 load-box traction-generator input",
+    "value": 2362.35,
+    "unit": "hp",
+    "grade": "F",
+    "importance": "E",
+    "source": "IRIMEE, Load Box Testing, HP, SFC of Diesel Loco (Dec.2019), worked WDM2 2600HP example / Load Box Parameters; https://www.scribd.com/document/802772222/Alco-Load-Box-Testing-HP-SFC-1"
+  },
+  {
+    "name": "ALCO WDM2 load-box correction factor",
+    "value": 0.98,
+    "unit": "ratio",
+    "grade": "F",
+    "importance": "E",
+    "source": "IRIMEE, Load Box Testing, HP, SFC of Diesel Loco (Dec.2019), worked WDM2 2600HP example / Load Box Parameters; https://www.scribd.com/document/802772222/Alco-Load-Box-Testing-HP-SFC-1"
+  },
+  {
+    "name": "ALCO WDM2 load-box auxiliary power",
+    "value": 186,
+    "unit": "hp",
+    "grade": "F",
+    "importance": "E",
+    "source": "IRIMEE, Load Box Testing, HP, SFC of Diesel Loco (Dec.2019), worked WDM2 2600HP example / Load Box Parameters; https://www.scribd.com/document/802772222/Alco-Load-Box-Testing-HP-SFC-1"
+  },
+  {
+    "name": "ALCO WDM2 load-box brake power",
+    "value": 2596,
+    "unit": "hp",
+    "grade": "F",
+    "importance": "E",
+    "source": "IRIMEE, Load Box Testing, HP, SFC of Diesel Loco (Dec.2019), worked WDM2 2600HP example / Load Box Parameters; https://www.scribd.com/document/802772222/Alco-Load-Box-Testing-HP-SFC-1"
+  },
+  {
+    "name": "ALCO WDM2 load-box fuel quantity",
+    "value": 10000,
+    "unit": "g",
+    "grade": "F",
+    "importance": "E",
+    "source": "IRIMEE, Load Box Testing, HP, SFC of Diesel Loco (Dec.2019), worked WDM2 2600HP example / Load Box Parameters; https://www.scribd.com/document/802772222/Alco-Load-Box-Testing-HP-SFC-1"
+  },
+  {
+    "name": "ALCO WDM2 load-box fuel time",
+    "value": 88,
+    "unit": "s",
+    "grade": "F",
+    "importance": "E",
+    "source": "IRIMEE, Load Box Testing, HP, SFC of Diesel Loco (Dec.2019), worked WDM2 2600HP example / Load Box Parameters; https://www.scribd.com/document/802772222/Alco-Load-Box-Testing-HP-SFC-1"
+  },
+  {
+    "name": "ALCO WDM2 load-box SFC",
+    "value": 157.58,
+    "unit": "g/hp-h",
+    "grade": "F",
+    "importance": "E",
+    "source": "IRIMEE, Load Box Testing, HP, SFC of Diesel Loco (Dec.2019), worked WDM2 2600HP example / Load Box Parameters; https://www.scribd.com/document/802772222/Alco-Load-Box-Testing-HP-SFC-1"
+  },
+  {
+    "name": "ALCO WDM2 load-box brake power converted",
+    "value": 1935.84,
+    "unit": "kW",
+    "grade": "R",
+    "importance": "E",
+    "source": "2596×0.7456999"
+  },
+  {
+    "name": "ALCO WDM2 load-box fuel flow converted",
+    "value": 409.09,
+    "unit": "kg/h",
+    "grade": "R",
+    "importance": "E",
+    "source": "10kg/88s×3600"
+  },
+  {
+    "name": "ALCO WDM2 load-box SFC converted",
+    "value": 211.32,
+    "unit": "g/kWh",
+    "grade": "R",
+    "importance": "E",
+    "source": "157.58/0.7456999"
+  },
+  {
+    "name": "ALCO WDM2 illustrative load-box notch 1 speed",
+    "value": 400,
+    "unit": "rpm",
+    "grade": "F",
+    "importance": "E",
+    "source": "IRIMEE, Load Box Testing, HP, SFC of Diesel Loco (Dec.2019), worked WDM2 2600HP example / Load Box Parameters; https://www.scribd.com/document/802772222/Alco-Load-Box-Testing-HP-SFC-1; table explicitly non-standard/explanatory"
+  },
+  {
+    "name": "ALCO WDM2 illustrative load-box notch 2 speed",
+    "value": 490,
+    "unit": "rpm",
+    "grade": "F",
+    "importance": "E",
+    "source": "IRIMEE, Load Box Testing, HP, SFC of Diesel Loco (Dec.2019), worked WDM2 2600HP example / Load Box Parameters; https://www.scribd.com/document/802772222/Alco-Load-Box-Testing-HP-SFC-1; table explicitly non-standard/explanatory"
+  },
+  {
+    "name": "ALCO WDM2 illustrative load-box notch 3 speed",
+    "value": 590,
+    "unit": "rpm",
+    "grade": "F",
+    "importance": "E",
+    "source": "IRIMEE, Load Box Testing, HP, SFC of Diesel Loco (Dec.2019), worked WDM2 2600HP example / Load Box Parameters; https://www.scribd.com/document/802772222/Alco-Load-Box-Testing-HP-SFC-1; table explicitly non-standard/explanatory"
+  },
+  {
+    "name": "ALCO WDM2 illustrative load-box notch 4 speed",
+    "value": 690,
+    "unit": "rpm",
+    "grade": "F",
+    "importance": "E",
+    "source": "IRIMEE, Load Box Testing, HP, SFC of Diesel Loco (Dec.2019), worked WDM2 2600HP example / Load Box Parameters; https://www.scribd.com/document/802772222/Alco-Load-Box-Testing-HP-SFC-1; table explicitly non-standard/explanatory"
+  },
+  {
+    "name": "ALCO WDM2 illustrative load-box notch 5 speed",
+    "value": 740,
+    "unit": "rpm",
+    "grade": "F",
+    "importance": "E",
+    "source": "IRIMEE, Load Box Testing, HP, SFC of Diesel Loco (Dec.2019), worked WDM2 2600HP example / Load Box Parameters; https://www.scribd.com/document/802772222/Alco-Load-Box-Testing-HP-SFC-1; table explicitly non-standard/explanatory"
+  },
+  {
+    "name": "ALCO WDM2 illustrative load-box notch 6 speed",
+    "value": 800,
+    "unit": "rpm",
+    "grade": "F",
+    "importance": "E",
+    "source": "IRIMEE, Load Box Testing, HP, SFC of Diesel Loco (Dec.2019), worked WDM2 2600HP example / Load Box Parameters; https://www.scribd.com/document/802772222/Alco-Load-Box-Testing-HP-SFC-1; table explicitly non-standard/explanatory"
+  },
+  {
+    "name": "ALCO WDM2 illustrative load-box notch 7 speed",
+    "value": 900,
+    "unit": "rpm",
+    "grade": "F",
+    "importance": "E",
+    "source": "IRIMEE, Load Box Testing, HP, SFC of Diesel Loco (Dec.2019), worked WDM2 2600HP example / Load Box Parameters; https://www.scribd.com/document/802772222/Alco-Load-Box-Testing-HP-SFC-1; table explicitly non-standard/explanatory"
+  },
+  {
+    "name": "ALCO WDM2 illustrative load-box notch 8 speed",
+    "value": 1000,
+    "unit": "rpm",
+    "grade": "F",
+    "importance": "E",
+    "source": "IRIMEE, Load Box Testing, HP, SFC of Diesel Loco (Dec.2019), worked WDM2 2600HP example / Load Box Parameters; https://www.scribd.com/document/802772222/Alco-Load-Box-Testing-HP-SFC-1; table explicitly non-standard/explanatory"
+  },
+  {
+    "name": "ALCO WDM2 ABB VTC-304-VG15 maximum turbo speed",
+    "value": 24600,
+    "unit": "rpm",
+    "grade": "F",
+    "importance": "E",
+    "source": "IRIMEE, Load Box Testing, HP, SFC of Diesel Loco (Dec.2019), worked WDM2 2600HP example / Load Box Parameters; https://www.scribd.com/document/802772222/Alco-Load-Box-Testing-HP-SFC-1"
+  },
+  {
+    "name": "ALCO WDM2 Napier NA-295IR maximum turbo speed",
+    "value": 27000,
+    "unit": "rpm",
+    "grade": "F",
+    "importance": "E",
+    "source": "IRIMEE, Load Box Testing, HP, SFC of Diesel Loco (Dec.2019), worked WDM2 2600HP example / Load Box Parameters; https://www.scribd.com/document/802772222/Alco-Load-Box-Testing-HP-SFC-1"
+  },
+  {
+    "name": "ALCO WDM2 GE 7S1716 maximum turbo speed",
+    "value": 20000,
+    "unit": "rpm",
+    "grade": "F",
+    "importance": "E",
+    "source": "IRIMEE, Load Box Testing, HP, SFC of Diesel Loco (Dec.2019), worked WDM2 2600HP example / Load Box Parameters; https://www.scribd.com/document/802772222/Alco-Load-Box-Testing-HP-SFC-1"
+  },
+  {
+    "name": "ALCO WDM2 illustrative turbine-inlet temperature maximum",
+    "value": 620,
+    "unit": "degC",
+    "grade": "F",
+    "importance": "E",
+    "source": "IRIMEE, Load Box Testing, HP, SFC of Diesel Loco (Dec.2019), worked WDM2 2600HP example / Load Box Parameters; https://www.scribd.com/document/802772222/Alco-Load-Box-Testing-HP-SFC-1"
+  },
+  {
+    "name": "ALCO WDM2 illustrative exhaust-gas temperature lower",
+    "value": 490,
+    "unit": "degC",
+    "grade": "F",
+    "importance": "E",
+    "source": "IRIMEE, Load Box Testing, HP, SFC of Diesel Loco (Dec.2019), worked WDM2 2600HP example / Load Box Parameters; https://www.scribd.com/document/802772222/Alco-Load-Box-Testing-HP-SFC-1"
+  },
+  {
+    "name": "ALCO WDM2 illustrative exhaust-gas temperature upper",
+    "value": 510,
+    "unit": "degC",
+    "grade": "F",
+    "importance": "E",
+    "source": "IRIMEE, Load Box Testing, HP, SFC of Diesel Loco (Dec.2019), worked WDM2 2600HP example / Load Box Parameters; https://www.scribd.com/document/802772222/Alco-Load-Box-Testing-HP-SFC-1"
+  },
+  {
+    "name": "ALCO WDM2 illustrative firing pressure minimum",
+    "value": 1250,
+    "unit": "psi",
+    "grade": "F",
+    "importance": "E",
+    "source": "IRIMEE, Load Box Testing, HP, SFC of Diesel Loco (Dec.2019), worked WDM2 2600HP example / Load Box Parameters; https://www.scribd.com/document/802772222/Alco-Load-Box-Testing-HP-SFC-1"
+  },
+  {
+    "name": "ALCO WDM2 illustrative firing pressure maximum",
+    "value": 1550,
+    "unit": "psi",
+    "grade": "F",
+    "importance": "E",
+    "source": "IRIMEE, Load Box Testing, HP, SFC of Diesel Loco (Dec.2019), worked WDM2 2600HP example / Load Box Parameters; https://www.scribd.com/document/802772222/Alco-Load-Box-Testing-HP-SFC-1"
+  },
+  {
+    "name": "ALCO WDM2 illustrative firing pressure minimum converted",
+    "value": 86.18,
+    "unit": "bar",
+    "grade": "R",
+    "importance": "E",
+    "source": "1250psi×0.0689476"
+  },
+  {
+    "name": "ALCO WDM2 illustrative firing pressure maximum converted",
+    "value": 106.87,
+    "unit": "bar",
+    "grade": "R",
+    "importance": "E",
+    "source": "1550psi×0.0689476"
+  },
+  {
+    "name": "ALCO conventional exact pump model/plunger",
+    "value": null,
+    "unit": null,
+    "grade": "U",
+    "importance": "E",
+    "source": "Not recovered for one coherent conventional WDM-2/251B build"
+  },
+  {
+    "name": "ALCO conventional exact nozzle holes x diameter",
+    "value": null,
+    "unit": null,
+    "grade": "U",
+    "importance": "E",
+    "source": "Not recovered for one coherent conventional WDM-2/251B build"
+  },
+  {
+    "name": "ALCO conventional exact turbo model",
+    "value": null,
+    "unit": null,
+    "grade": "U",
+    "importance": "E",
+    "source": "Not recovered for one coherent conventional WDM-2/251B build"
+  },
+  {
+    "name": "ALCO conventional measured air flow vs notch",
+    "value": null,
+    "unit": null,
+    "grade": "U",
+    "importance": "E",
+    "source": "Not recovered for one coherent conventional WDM-2/251B build"
+  },
+  {
+    "name": "ALCO conventional measured boost vs notch",
+    "value": null,
+    "unit": null,
+    "grade": "U",
+    "importance": "E",
+    "source": "Not recovered for one coherent conventional WDM-2/251B build"
+  },
+  {
+    "name": "ALCO conventional acceptance-grade SFC vs notch",
+    "value": null,
+    "unit": null,
+    "grade": "U",
+    "importance": "E",
+    "source": "Not recovered for one coherent conventional WDM-2/251B build"
+  },
+  {
+    "name": "ALCO conventional acceptance-grade exhaust temperature vs notch",
+    "value": null,
+    "unit": null,
+    "grade": "U",
+    "importance": "E",
+    "source": "Not recovered for one coherent conventional WDM-2/251B build"
+  },
+  {
+    "name": "ALCO conventional acceptance-grade pmax vs notch",
+    "value": null,
+    "unit": null,
+    "grade": "U",
+    "importance": "E",
+    "source": "Not recovered for one coherent conventional WDM-2/251B build"
+  },
+  {
+    "name": "ALCO conventional numerical cylinder-pressure trace",
+    "value": null,
+    "unit": null,
+    "grade": "U",
+    "importance": "N",
+    "source": "Not recovered for one coherent conventional WDM-2/251B build"
+  },
+  {
+    "name": "ALCO EFI build bore",
+    "value": 228.6,
+    "unit": "mm",
+    "grade": "D",
+    "importance": "E",
+    "source": "RDSO MP.0.08.00.91 Rev.00 (Dec.2009), Specification for Electronic Fuel Injection System for ALCo Locomotives, §2 and §4.2; https://www.scribd.com/document/791867829/MP-0-0800-91-Dec-09"
+  },
+  {
+    "name": "ALCO EFI build stroke",
+    "value": 266.7,
+    "unit": "mm",
+    "grade": "D",
+    "importance": "E",
+    "source": "RDSO MP.0.08.00.91 Rev.00 (Dec.2009), Specification for Electronic Fuel Injection System for ALCo Locomotives, §2 and §4.2; https://www.scribd.com/document/791867829/MP-0-0800-91-Dec-09"
+  },
+  {
+    "name": "ALCO EFI build cylinder count",
+    "value": 16,
+    "unit": "count",
+    "grade": "D",
+    "importance": "E",
+    "source": "RDSO MP.0.08.00.91 Rev.00 (Dec.2009), Specification for Electronic Fuel Injection System for ALCo Locomotives, §2 and §4.2; https://www.scribd.com/document/791867829/MP-0-0800-91-Dec-09"
+  },
+  {
+    "name": "ALCO EFI build pump count",
+    "value": 16,
+    "unit": "count",
+    "grade": "D",
+    "importance": "E",
+    "source": "RDSO MP.0.08.00.91 Rev.00 (Dec.2009), Specification for Electronic Fuel Injection System for ALCo Locomotives, §2 and §4.2; https://www.scribd.com/document/791867829/MP-0-0800-91-Dec-09"
+  },
+  {
+    "name": "ALCO EFI build fuel-cam part number",
+    "value": "DLW 10031364",
+    "unit": "part number",
+    "grade": "D",
+    "importance": "E",
+    "source": "RDSO MP.0.08.00.91 Rev.00 (Dec.2009), Specification for Electronic Fuel Injection System for ALCo Locomotives, §2 and §4.2; https://www.scribd.com/document/791867829/MP-0-0800-91-Dec-09"
+  },
+  {
+    "name": "ALCO EFI build full-load injection-window start",
+    "value": 22,
+    "unit": "deg BTDC",
+    "grade": "D",
+    "importance": "E",
+    "source": "RDSO MP.0.08.00.91 Rev.00 (Dec.2009), Specification for Electronic Fuel Injection System for ALCo Locomotives, §2 and §4.2; https://www.scribd.com/document/791867829/MP-0-0800-91-Dec-09"
+  },
+  {
+    "name": "ALCO EFI build full-load injection-window end",
+    "value": 12,
+    "unit": "deg ATDC",
+    "grade": "D",
+    "importance": "E",
+    "source": "RDSO MP.0.08.00.91 Rev.00 (Dec.2009), Specification for Electronic Fuel Injection System for ALCo Locomotives, §2 and §4.2; https://www.scribd.com/document/791867829/MP-0-0800-91-Dec-09"
+  },
+  {
+    "name": "ALCO EFI build pump model",
+    "value": "Bosch B416810385",
+    "unit": "model",
+    "grade": "D",
+    "importance": "E",
+    "source": "RDSO MP.0.08.00.91 Rev.00 (Dec.2009), Specification for Electronic Fuel Injection System for ALCo Locomotives, §2 and §4.2; https://www.scribd.com/document/791867829/MP-0-0800-91-Dec-09"
+  },
+  {
+    "name": "ALCO EFI build pump architecture",
+    "value": "cam-driven Bosch jerk pump with solenoid spill/control",
+    "unit": "type",
+    "grade": "D",
+    "importance": "E",
+    "source": "RDSO MP.0.08.00.91 Rev.00 (Dec.2009), Specification for Electronic Fuel Injection System for ALCo Locomotives, §2 and §4.2; https://www.scribd.com/document/791867829/MP-0-0800-91-Dec-09"
+  },
+  {
+    "name": "ALCO EFI build firing order",
+    "value": "1R-1L-4R-4L-7R-7L-6R-6L-8R-8L-5R-5L-2R-2L-3R-3L",
+    "unit": "sequence",
+    "grade": "D",
+    "importance": "E",
+    "source": "RDSO MP.0.08.00.91 Rev.00 (Dec.2009), Specification for Electronic Fuel Injection System for ALCo Locomotives, §2 and §4.2; https://www.scribd.com/document/791867829/MP-0-0800-91-Dec-09"
+  },
+  {
+    "name": "ALCO EFI build notch 1 speed",
+    "value": 350,
+    "unit": "rpm",
+    "grade": "D",
+    "importance": "E",
+    "source": "RDSO MP.0.08.00.91 Rev.00 (Dec.2009), Specification for Electronic Fuel Injection System for ALCo Locomotives, §2 and §4.2; https://www.scribd.com/document/791867829/MP-0-0800-91-Dec-09"
+  },
+  {
+    "name": "ALCO EFI build notch 2 speed",
+    "value": 450,
+    "unit": "rpm",
+    "grade": "D",
+    "importance": "E",
+    "source": "RDSO MP.0.08.00.91 Rev.00 (Dec.2009), Specification for Electronic Fuel Injection System for ALCo Locomotives, §2 and §4.2; https://www.scribd.com/document/791867829/MP-0-0800-91-Dec-09"
+  },
+  {
+    "name": "ALCO EFI build notch 3 speed",
+    "value": 550,
+    "unit": "rpm",
+    "grade": "D",
+    "importance": "E",
+    "source": "RDSO MP.0.08.00.91 Rev.00 (Dec.2009), Specification for Electronic Fuel Injection System for ALCo Locomotives, §2 and §4.2; https://www.scribd.com/document/791867829/MP-0-0800-91-Dec-09"
+  },
+  {
+    "name": "ALCO EFI build notch 4 speed",
+    "value": 650,
+    "unit": "rpm",
+    "grade": "D",
+    "importance": "E",
+    "source": "RDSO MP.0.08.00.91 Rev.00 (Dec.2009), Specification for Electronic Fuel Injection System for ALCo Locomotives, §2 and §4.2; https://www.scribd.com/document/791867829/MP-0-0800-91-Dec-09"
+  },
+  {
+    "name": "ALCO EFI build notch 5 speed",
+    "value": 750,
+    "unit": "rpm",
+    "grade": "D",
+    "importance": "E",
+    "source": "RDSO MP.0.08.00.91 Rev.00 (Dec.2009), Specification for Electronic Fuel Injection System for ALCo Locomotives, §2 and §4.2; https://www.scribd.com/document/791867829/MP-0-0800-91-Dec-09"
+  },
+  {
+    "name": "ALCO EFI build notch 6 speed",
+    "value": 850,
+    "unit": "rpm",
+    "grade": "D",
+    "importance": "E",
+    "source": "RDSO MP.0.08.00.91 Rev.00 (Dec.2009), Specification for Electronic Fuel Injection System for ALCo Locomotives, §2 and §4.2; https://www.scribd.com/document/791867829/MP-0-0800-91-Dec-09"
+  },
+  {
+    "name": "ALCO EFI build notch 7 speed",
+    "value": 950,
+    "unit": "rpm",
+    "grade": "D",
+    "importance": "E",
+    "source": "RDSO MP.0.08.00.91 Rev.00 (Dec.2009), Specification for Electronic Fuel Injection System for ALCo Locomotives, §2 and §4.2; https://www.scribd.com/document/791867829/MP-0-0800-91-Dec-09"
+  },
+  {
+    "name": "ALCO EFI build notch 8 speed",
+    "value": 1050,
+    "unit": "rpm",
+    "grade": "D",
+    "importance": "E",
+    "source": "RDSO MP.0.08.00.91 Rev.00 (Dec.2009), Specification for Electronic Fuel Injection System for ALCo Locomotives, §2 and §4.2; https://www.scribd.com/document/791867829/MP-0-0800-91-Dec-09"
+  },
+  {
+    "name": "ALCO EFI exact nozzle-hole diameter",
+    "value": null,
+    "unit": null,
+    "grade": "U",
+    "importance": "E",
+    "source": "RDSO MP.0.08.00.91 Rev.00 (Dec.2009), Specification for Electronic Fuel Injection System for ALCo Locomotives, §2 and §4.2; https://www.scribd.com/document/791867829/MP-0-0800-91-Dec-09; not stated in located specification"
+  },
+  {
+    "name": "ALCO EFI exact spray angle",
+    "value": null,
+    "unit": null,
+    "grade": "U",
+    "importance": "E",
+    "source": "RDSO MP.0.08.00.91 Rev.00 (Dec.2009), Specification for Electronic Fuel Injection System for ALCo Locomotives, §2 and §4.2; https://www.scribd.com/document/791867829/MP-0-0800-91-Dec-09; not stated in located specification"
+  },
+  {
+    "name": "ALCO EFI measured air-flow map",
+    "value": null,
+    "unit": null,
+    "grade": "U",
+    "importance": "E",
+    "source": "RDSO MP.0.08.00.91 Rev.00 (Dec.2009), Specification for Electronic Fuel Injection System for ALCo Locomotives, §2 and §4.2; https://www.scribd.com/document/791867829/MP-0-0800-91-Dec-09; not stated in located specification"
+  },
+  {
+    "name": "ALCO EFI measured boost map",
+    "value": null,
+    "unit": null,
+    "grade": "U",
+    "importance": "E",
+    "source": "RDSO MP.0.08.00.91 Rev.00 (Dec.2009), Specification for Electronic Fuel Injection System for ALCo Locomotives, §2 and §4.2; https://www.scribd.com/document/791867829/MP-0-0800-91-Dec-09; not stated in located specification"
+  },
+  {
+    "name": "ALCO EFI exhaust-temperature map",
+    "value": null,
+    "unit": null,
+    "grade": "U",
+    "importance": "E",
+    "source": "RDSO MP.0.08.00.91 Rev.00 (Dec.2009), Specification for Electronic Fuel Injection System for ALCo Locomotives, §2 and §4.2; https://www.scribd.com/document/791867829/MP-0-0800-91-Dec-09; not stated in located specification"
+  },
+  {
+    "name": "ALCO EFI pmax map",
+    "value": null,
+    "unit": null,
+    "grade": "U",
+    "importance": "E",
+    "source": "RDSO MP.0.08.00.91 Rev.00 (Dec.2009), Specification for Electronic Fuel Injection System for ALCo Locomotives, §2 and §4.2; https://www.scribd.com/document/791867829/MP-0-0800-91-Dec-09; not stated in located specification"
+  },
+  {
+    "name": "ALCO 251 family nozzle 304010566 hole count",
+    "value": 9,
+    "unit": "count",
+    "grade": "F",
+    "importance": "E",
+    "source": "ALCO POWER Nozzle Manual, 251 application table p.2; https://www.scribd.com/document/1029009286/Nozzle-Manual"
+  },
+  {
+    "name": "ALCO 251 family nozzle 304010566 hole diameter",
+    "value": 0.35,
+    "unit": "mm",
+    "grade": "F",
+    "importance": "E",
+    "source": "ALCO POWER Nozzle Manual, 251 application table p.2; https://www.scribd.com/document/1029009286/Nozzle-Manual"
+  },
+  {
+    "name": "ALCO 251 family nozzle 304010566 included spray angle",
+    "value": 145,
+    "unit": "deg",
+    "grade": "F",
+    "importance": "E",
+    "source": "ALCO POWER Nozzle Manual, 251 application table p.2; https://www.scribd.com/document/1029009286/Nozzle-Manual"
+  },
+  {
+    "name": "ALCO 251 family nozzle 304010570 hole count",
+    "value": 9,
+    "unit": "count",
+    "grade": "F",
+    "importance": "E",
+    "source": "ALCO POWER Nozzle Manual, 251 application table p.2; https://www.scribd.com/document/1029009286/Nozzle-Manual"
+  },
+  {
+    "name": "ALCO 251 family nozzle 304010570 hole diameter",
+    "value": 0.4,
+    "unit": "mm",
+    "grade": "F",
+    "importance": "E",
+    "source": "ALCO POWER Nozzle Manual, 251 application table p.2; https://www.scribd.com/document/1029009286/Nozzle-Manual"
+  },
+  {
+    "name": "ALCO 251 family nozzle 304010570 included spray angle",
+    "value": 145,
+    "unit": "deg",
+    "grade": "F",
+    "importance": "E",
+    "source": "ALCO POWER Nozzle Manual, 251 application table p.2; https://www.scribd.com/document/1029009286/Nozzle-Manual"
+  },
+  {
+    "name": "ALCO 251 family nozzle 304010580 hole count",
+    "value": 9,
+    "unit": "count",
+    "grade": "F",
+    "importance": "E",
+    "source": "ALCO POWER Nozzle Manual, 251 application table p.2; https://www.scribd.com/document/1029009286/Nozzle-Manual"
+  },
+  {
+    "name": "ALCO 251 family nozzle 304010580 hole diameter",
+    "value": 0.325,
+    "unit": "mm",
+    "grade": "F",
+    "importance": "E",
+    "source": "ALCO POWER Nozzle Manual, 251 application table p.2; https://www.scribd.com/document/1029009286/Nozzle-Manual"
+  },
+  {
+    "name": "ALCO 251 family nozzle 304010580 included spray angle",
+    "value": 145,
+    "unit": "deg",
+    "grade": "F",
+    "importance": "E",
+    "source": "ALCO POWER Nozzle Manual, 251 application table p.2; https://www.scribd.com/document/1029009286/Nozzle-Manual"
+  },
+  {
+    "name": "ALCO 251 family nozzle 304010585 hole count",
+    "value": 9,
+    "unit": "count",
+    "grade": "F",
+    "importance": "E",
+    "source": "ALCO POWER Nozzle Manual, 251 application table p.2; https://www.scribd.com/document/1029009286/Nozzle-Manual"
+  },
+  {
+    "name": "ALCO 251 family nozzle 304010585 hole diameter",
+    "value": 0.375,
+    "unit": "mm",
+    "grade": "F",
+    "importance": "E",
+    "source": "ALCO POWER Nozzle Manual, 251 application table p.2; https://www.scribd.com/document/1029009286/Nozzle-Manual"
+  },
+  {
+    "name": "ALCO 251 family nozzle 304010585 included spray angle",
+    "value": 160,
+    "unit": "deg",
+    "grade": "F",
+    "importance": "E",
+    "source": "ALCO POWER Nozzle Manual, 251 application table p.2; https://www.scribd.com/document/1029009286/Nozzle-Manual"
+  },
+  {
+    "name": "ALCO 251 family nozzle 304030341 hole count",
+    "value": 9,
+    "unit": "count",
+    "grade": "F",
+    "importance": "E",
+    "source": "ALCO POWER Nozzle Manual, 251 application table p.2; https://www.scribd.com/document/1029009286/Nozzle-Manual"
+  },
+  {
+    "name": "ALCO 251 family nozzle 304030341 hole diameter",
+    "value": 0.35,
+    "unit": "mm",
+    "grade": "F",
+    "importance": "E",
+    "source": "ALCO POWER Nozzle Manual, 251 application table p.2; https://www.scribd.com/document/1029009286/Nozzle-Manual"
+  },
+  {
+    "name": "ALCO 251 family nozzle 304030341 included spray angle",
+    "value": 145,
+    "unit": "deg",
+    "grade": "F",
+    "importance": "E",
+    "source": "ALCO POWER Nozzle Manual, 251 application table p.2; https://www.scribd.com/document/1029009286/Nozzle-Manual"
+  },
+  {
+    "name": "ALCO 251 family nozzle 304030343 hole count",
+    "value": 8,
+    "unit": "count",
+    "grade": "F",
+    "importance": "E",
+    "source": "ALCO POWER Nozzle Manual, 251 application table p.2; https://www.scribd.com/document/1029009286/Nozzle-Manual"
+  },
+  {
+    "name": "ALCO 251 family nozzle 304030343 hole diameter",
+    "value": 0.38,
+    "unit": "mm",
+    "grade": "F",
+    "importance": "E",
+    "source": "ALCO POWER Nozzle Manual, 251 application table p.2; https://www.scribd.com/document/1029009286/Nozzle-Manual"
+  },
+  {
+    "name": "ALCO 251 family nozzle 304030343 included spray angle",
+    "value": 145,
+    "unit": "deg",
+    "grade": "F",
+    "importance": "E",
+    "source": "ALCO POWER Nozzle Manual, 251 application table p.2; https://www.scribd.com/document/1029009286/Nozzle-Manual"
+  },
+  {
+    "name": "ALCO 251 family pump-element/plunger alternative",
+    "value": 16.0,
+    "unit": "mm",
+    "grade": "F",
+    "importance": "E",
+    "source": "ALCO POWER Nozzle Manual, 251 application table p.2; https://www.scribd.com/document/1029009286/Nozzle-Manual"
+  },
+  {
+    "name": "ALCO 251 family pump-element/plunger alternative",
+    "value": 15.0,
+    "unit": "mm",
+    "grade": "F",
+    "importance": "E",
+    "source": "ALCO POWER Nozzle Manual, 251 application table p.2; https://www.scribd.com/document/1029009286/Nozzle-Manual"
+  }
+]
