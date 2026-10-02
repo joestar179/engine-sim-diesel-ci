@@ -1156,7 +1156,7 @@ The shape is flat. Set: DF150 46°, TF250 37°.
 
 - Option A does not resolve it: the documented geometry gives the same restriction, and TF250 boost stays above 109-133 kPa.
 - The exit-loss pipe (ζ ≈ 1.25 on the documented port area) is physically consistent. The old `k_carb(400)` primary orifice was ~2.3× freer than the documented port allows. The TF250 turbine C (expansion ratio 2.0) and the Deere pump rates were set against that freer path.
-- Also found: the script's valve flow tables use C 40 mm exhaust (doc 42.5) and an intake also below doc 46.6. Not changed; a separate step (the pump rates were calibrated with them).
+- Also found: the script's exhaust valve flow table uses C 40 mm (doc 42.5); the intake C 46 mm matches doc 46.6. Not changed; a separate step (the pump rates were calibrated with it).
 
 ## TF250 boost rise with inertial exhaust — diagnosis (option 2, 2026-10-02)
 
