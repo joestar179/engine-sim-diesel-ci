@@ -552,23 +552,24 @@ private node deere_intake_flow {
 }
 
 private node deere_exhaust_flow {
-    // C: 40 mm exhaust valve
+    // F: 42.5 mm exhaust valve head (CTM104: 42.37-42.63 mm, two-valve head);
+    // flow = 0.2275 CFM/mm2 x min(curtain pi d L, throat pi/4 (0.88 d)^2), x cd
     input cd;   // discharge coefficient on min(curtain, port throat)
     alias output __out: f;
     function f(50 * units.thou)
     f
         .add_flow_sample(0, 0.0 * cd)
-        .add_flow_sample(50, 36.7 * cd)
-        .add_flow_sample(100, 73.3 * cd)
-        .add_flow_sample(150, 110.0 * cd)
-        .add_flow_sample(200, 145.0 * cd)
-        .add_flow_sample(250, 181.7 * cd)
-        .add_flow_sample(300, 218.3 * cd)
-        .add_flow_sample(350, 221.7 * cd)
-        .add_flow_sample(400, 221.7 * cd)
-        .add_flow_sample(450, 221.7 * cd)
-        .add_flow_sample(500, 221.7 * cd)
-        .add_flow_sample(550, 221.7 * cd)
+        .add_flow_sample(50, 38.6 * cd)
+        .add_flow_sample(100, 77.2 * cd)
+        .add_flow_sample(150, 115.7 * cd)
+        .add_flow_sample(200, 154.3 * cd)
+        .add_flow_sample(250, 192.9 * cd)
+        .add_flow_sample(300, 231.5 * cd)
+        .add_flow_sample(350, 249.9 * cd)
+        .add_flow_sample(400, 249.9 * cd)
+        .add_flow_sample(450, 249.9 * cd)
+        .add_flow_sample(500, 249.9 * cd)
+        .add_flow_sample(550, 249.9 * cd)
 }
 
 private node cummins_intake_flow {
@@ -623,7 +624,7 @@ private node diesel_intake_lobe {
 }
 
 private node diesel_exhaust_lobe {
-    // C: 240 deg seat-to-seat class, 11.8 mm lift
+    // C: 240 deg seat-to-seat class; 11.8 mm lift (F: CTM104 11.51-11.94 mm)
     alias output __out:
         harmonic_cam_lobe(
             duration_at_50_thou: 210 * units.deg,
@@ -784,16 +785,17 @@ public node deere_4045df150 {
                 Mechanical rotary pump (Stanadyne, CTM207 p. 151) on the common
                 combustion framework. C (equipment, set on the rated torque):
                 plunger and cam data are U; 2 x 7 mm plungers, cam lift rate
-                0.019 mm/deg = rated full delivery (47.4 mg) over ~39 crank
-                degrees (re-derived 2026-10-01 after the combustion-product
+                0.0239 mm/deg = rated full delivery (47.4 mg) over ~31 crank
+                degrees (re-set 2026-10-02: inertial exhaust + documented
+                42.5 mm exhaust valve; was 0.019 = 39 deg, re-derived 2026-10-01 after the combustion-product
                 and SI-burn physics layers; was 0.01594 = 46 deg). Sweep at
                 2500 rpm: 46/39/33/28 deg -> -3.6/+0.4/+4.1/+6.8 %.
-                39 deg is still long for a rotary pump (typical 20-30): see log.
+                31 deg is near the top of the rotary-pump range (20-30).
             */
             nozzle_hole_count: 4,
             pump_plunger_count: 2,
             pump_plunger_diameter: 7 * units.mm,
-            pump_cam_lift_rate: 0.019 * units.mm / units.deg,
+            pump_cam_lift_rate: 0.0239 * units.mm / units.deg,
             nozzle_hole_diameter: 0.27 * units.mm,
             injection_pressure: 24.1 * units.MPa,
             turbo_enabled: false,
@@ -804,7 +806,11 @@ public node deere_4045df150 {
 public node deere_4045tf250 {
     input engine_name: "John Deere 4045TF250";
     input turbo_enabled: true;
-    input turbine_design_pressure_ratio: 2.0;
+    // C, range 1.6-2.4 (small fixed-geometry turbo diesel: turbine expansion
+    // ratio near or below the compressor ratio, documented 2.10-2.34): set on the
+    // documented 109-133 kPa boost at rated (2026-10-02, inertial exhaust;
+    // 1.8 -> 110 kPa, 1.9 -> 122 kPa). EGT and airflow are held-out checks.
+    input turbine_design_pressure_ratio: 1.9;
     input port_cd: 0.6;                                   // C
     alias output __out:
         validation_diesel_i4(
@@ -842,14 +848,15 @@ public node deere_4045tf250 {
             // F: RE48786 nozzles (CTM207): 4 holes x 0.29 mm, opening
             // 255-260 bar. A: injection pressure = opening pressure midpoint
             // Mechanical rotary pump (Delphi/Lucas, CTM207 p. 152); C as for
-            // the DF150, set on the rated torque: 0.035 mm/deg = rated full
-            // delivery (72.3 mg) over ~32 crank degrees (re-derived 2026-10-01;
+            // the DF150, set on the rated torque: 0.0408 mm/deg = rated full
+            // delivery (72.3 mg) over ~27 crank degrees (re-set 2026-10-02 with
+            // the inertial exhaust and turbine ratio 1.9; was 0.035 = 32 deg, re-derived 2026-10-01;
             // was 0.03022 = 37 deg). Sweep at 2400 rpm: 37/32/28/24 deg ->
             // -4.3/-0.3/+3.3/+4.6 %.
             nozzle_hole_count: 4,
             pump_plunger_count: 2,
             pump_plunger_diameter: 7 * units.mm,
-            pump_cam_lift_rate: 0.035 * units.mm / units.deg,
+            pump_cam_lift_rate: 0.0408 * units.mm / units.deg,
             nozzle_hole_diameter: 0.29 * units.mm,
             injection_pressure: 25.75 * units.MPa,
             turbo_enabled: turbo_enabled,

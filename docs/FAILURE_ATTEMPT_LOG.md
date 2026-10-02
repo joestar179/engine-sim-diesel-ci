@@ -1134,6 +1134,50 @@ The shape is flat. Set: DF150 46°, TF250 37°.
 - 46°/37° rated injection is long for rotary pumps (typical 20–30°): either the jet mixing is somewhat fast (e.g. no wall impingement: x_st ≈ 85 mm > bore/2 = 53 mm) or a loss is missing.
 - TF250 at 1000 rpm is +7.5 %.
 
+## Deere re-calibration under the inertial exhaust — EGT bound fails; STOPPED (2026-10-02)
+
+**1. Exhaust valve flow** (F): `deere_exhaust_flow` set to the CTM104 42.5 mm valve head (was C 40 mm).
+- Same convention: 0.2275 CFM/mm² × min(curtain, throat 0.88 d) × cd; cap 249.9 (was 221.7).
+- Cam lift 11.8 mm confirmed F (CTM104 11.51-11.94). Intake 46 mm already matches doc 46.6.
+
+**2. Pump rates** (C, bisected on rated torque from the documented table):
+- DF150 0.019 → 0.0239 mm/deg (rated delivery ~39° → ~31°).
+- TF250 0.035 → 0.0408 mm/deg (~32° → ~27°).
+- Both move toward the typical rotary-pump 20-30°.
+
+**3. TF250 turbine expansion ratio** (C, stated range 1.6-2.4): 2.0 → 1.9, set on the documented 109-133 kPa boost (1.6 → 81.5, 1.8 → 110.3, 1.9 → 121.5 kPa).
+- Process note: a first pair of bisections ran in parallel and both wrote the same run-copy MR (contaminated TF250 points). Discarded and rerun sequentially.
+
+**Held-out results** (dyno_sweep; EGT = exhaust-system / post-turbine gas temperature, time mean):
+
+| DF150 rpm | torque | BSFC | EGT |
+|---|---|---|---|
+| 1000 | +2.3 % | −1.4 % | 624 C |
+| 1200 (peak) | +2.4 % | −1.5 % | 677 C |
+| 1600 | +1.4 % | +0.7 % | 684 C |
+| 2000 | −1.1 % | +0.3 % | 651 C |
+| 2400 | +1.7 % | −1.7 % | 644 C |
+| 2500 (rated, cal.) | −0.5 % | +1.2 % | **649 C (doc 582, +67 K)** |
+
+| TF250 rpm | torque | BSFC | boost kPa | air g/s |
+|---|---|---|---|---|
+| 1000 | +3.2 % | −10.6 % | 20.9 | 46 |
+| 1200 | −2.6 % | −9.2 % | 32.2 | 60 |
+| 1400 (peak) | +3.6 % | −2.1 % | 48.6 | 77 |
+| 1800 | +3.1 % | −2.6 % | 77.0 | 113 |
+| 2200 | +1.2 % | −0.5 % | 109.4 | 154 |
+| 2400 (rated, cal.) | −0.4 % | −1.1 % | 120.2 (cal.) | 174 (doc ~167, +4 %) |
+
+- TF250 EGT at rated: **563 C post-turbine (doc 495, +68 K)**.
+- Torque: DF150 −1.1..+2.4 %, TF250 −2.6..+3.9 %; peak speeds correct.
+- BSFC within ±3 % except TF250 1000/1200 (known smoke-limiter point, previously also −11 %).
+
+**EGT bound (±50 K) FAILS on both.** Under §0c this calibration is rejected.
+- Same metric, inertial off (same MR): DF150 505 C, TF250 530 C. So the inertial exhaust adds +144 K (DF150) and +33 K (TF250).
+- The DF150's lost brake work (~4 kW at rated) explains only ~35 K.
+- Not the velocity dissipation: `dissipateVelocity` returns the kinetic energy to E_k.
+- Unexplained; stopped per the procedure. MR values committed as the current state, marked as failing the EGT bound.
+
 ## Deere exhaust port area from CTM104 (option A, 2026-10-02)
 
 **Source:** John Deere CTM104 (PowerTech 4.5/6.8 L base engine, 30 JUN 05; dealer mirror, see the reference pack). Two-valve head (mechanical 4045):

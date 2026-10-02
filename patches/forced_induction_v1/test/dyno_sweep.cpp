@@ -128,20 +128,20 @@ void advance(Simulator *sim, double seconds, int frequency,
             static long long traceStep = 0;
             if (trace && engine != nullptr && (++traceStep % std::max(1, std::atoi(std::getenv("ES_RUNNER_TRACE")))) == 0) {
                 CombustionChamber *ch = engine->getChamber(0);
-                std::printf("trace mdot_in %.4f mdot_ex %.4f | p_cyl %.1f p_inrun %.1f p_plenum %.1f p_exrun %.1f p_exh %.1f kPa\n",
+                std::printf("trace mdot_in %.4f mdot_ex %.4f | p_cyl %.1f p_inrun %.1f p_plenum %.1f p_exrun %.1f p_exh %.1f kPa T_exh %.1f\n",
                     ch->m_intakeRunnerMassFlow, ch->m_exhaustRunnerMassFlow,
                     ch->m_system.pressure() / 1000, ch->m_intakeRunnerAndManifold.pressure() / 1000,
                     engine->getIntake(0)->getSystem()->pressure() / 1000,
                     ch->m_exhaustRunnerAndPrimary.pressure() / 1000,
-                    engine->getExhaustSystem(0)->getSystem()->pressure() / 1000);
+                    engine->getExhaustSystem(0)->getSystem()->pressure() / 1000, engine->getExhaustSystem(0)->getSystem()->temperature());
                 const ForcedInductionSystem *fi = engine->getForcedInductionSystem();
                 if (fi->groupCount() > 0 && fi->group(0)->enabled()) {
                     const TurboGroup::Telemetry &t = fi->group(0)->telemetry();
-                    std::printf("turbo p_scroll %.2f T_scroll %.1f mdot_t %.5f P_t %.1f PR_t %.4f p_post %.2f shaft %.1f PR_c %.4f\n",
+                    std::printf("turbo p_scroll %.2f T_scroll %.1f mdot_t %.5f P_t %.1f PR_t %.4f p_post %.2f shaft %.1f PR_c %.4f T_post %.1f mdot_c %.5f\n",
                         t.preTurbinePressure.empty() ? 0.0 : t.preTurbinePressure[0] / 1000,
                         t.preTurbineTemperature.empty() ? 0.0 : t.preTurbineTemperature[0],
                         t.turbineMassFlow, t.turbinePower, t.turbinePressureRatio,
-                        t.postTurbinePressure / 1000, t.shaftSpeed, t.compressorPressureRatio);
+                        t.postTurbinePressure / 1000, t.shaftSpeed, t.compressorPressureRatio, t.postTurbineTemperature, t.compressorMassFlow);
                 }
             }
 #endif
