@@ -222,6 +222,10 @@ private node validation_diesel_i4 {
     input cam_bearing_count: 4;
     input max_valve_lift: 11.8 * units.mm;
     input turbo_enabled: false;
+    // System exhaust primary ahead of the collector/turbine. NA: 12 in (A).
+    // Turbo pulse manifold: 0 here, so cylinder-to-turbine is the per-cylinder
+    // 8-10 in log-manifold distance (0.20-0.25 m; C, range 0.15-0.40 m).
+    input exhaust_primary_tube_length: 12 * units.inch;
     input turbo;
     alias output __out: engine;
 
@@ -389,7 +393,7 @@ private node validation_diesel_i4 {
     exhaust_system_parameters exhaust_params(
         collector_cross_section_area: circle_area(exhaust_pipe_diameter / 2),
         outlet_flow_rate: exhaust_outlet_flow_rate,
-        primary_tube_length: 12 * units.inch,
+        primary_tube_length: exhaust_primary_tube_length,
         primary_flow_rate: k_carb(400),
         velocity_decay: 0.40
     )
@@ -804,6 +808,7 @@ public node deere_4045tf250 {
     input port_cd: 0.6;                                   // C
     alias output __out:
         validation_diesel_i4(
+            exhaust_primary_tube_length: 0 * units.inch,   // C turbo pulse manifold
             engine_name: engine_name,
             bore: 106 * units.mm,                         // D
             stroke: 127 * units.mm,                       // D

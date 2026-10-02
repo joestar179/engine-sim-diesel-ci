@@ -1134,6 +1134,24 @@ The shape is flat. Set: DF150 46°, TF250 37°.
 - 46°/37° rated injection is long for rotary pumps (typical 20–30°): either the jet mixing is somewhat fast (e.g. no wall impingement: x_st ≈ 85 mm > bore/2 = 53 mm) or a loss is missing.
 - TF250 at 1000 rpm is +7.5 %.
 
+## TF250 short pulse manifold (option 1) — insufficient (2026-10-02)
+
+**Change** (MR only): `validation_diesel_i4.exhaust_primary_tube_length` is an input (default 12 in, unchanged for DF150/Cummins). The TF250 sets 0, so cylinder-to-turbine is the per-cylinder 8-10 in log-manifold distance (0.20-0.25 m; C, range 0.15-0.40 m).
+
+**Result** (inertial runners on; torque N m / intake gauge kPa):
+
+| rpm | 0.56 m path | 0.20-0.25 m path | inertial off (frozen) |
+|---|---|---|---|
+| 1000 | 393.5 / 26.0 | 388.3 / 24.3 | 375.9 / 17.5 |
+| 1400 | 454.8 / 61.8 | 454.1 / 58.6 | 427.1 / 36.6 |
+| 1800 | 427.0 / 96.2 | 427.3 / 91.0 | 431.4 / 65.9 |
+| 2200 | 379.1 / 140.8 | 380.2 / 133.3 | 390.8 / 94.6 |
+| 2400 | 350.2 / 153.8 | 353.0 / **144.6** | 367.0 / 102.1 |
+
+- DF150 bit-identical (unchanged path).
+- Boost still exceeds the documented 109-133 kPa, so manifold length is a weak lever.
+- Most of the +40-50 kPa comes from the inertial element itself. Next, if authorised: option 2 (turbine-inlet pulse pressure and turbine power vs a quasi-steady estimate) to decide whether the extra pulse energy is physical.
+
 ## Coarse calibration with inertial runners + fixes; Deere re-score (2026-10-02)
 
 `calibrate.py` accepts documented VVT phases (`vvt_phases`, D) in place of the optimiser. Mazda: EPA tier-2 max-torque phases at 1000-4000 rpm; optimiser above 4000 (no data).
