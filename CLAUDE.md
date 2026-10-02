@@ -93,7 +93,9 @@ Physics is frozen while complete-input validation engines are sourced. Do not ch
 Current scores:
 - Deere DF150 −1.2..+2.3 % (EGT −54 K);
 - Deere TF250 −2.1..+4.9 % (turbine ER 2.2, boost 114 kPa);
-- Mazda ±3 % except −10.4 / −10.3 %; BTE ≥ 80 N m −5.6 %; MBT consistent; **motoring regressed to +27..+38 %**;
+- Mazda ±3 % except −10.4 / −10.3 %; BTE ≥ 80 N m −5.6 %; MBT consistent; **motoring +27..+38 % — known limitation (user decision B, 2026-10-02):**
+  - Cause: the rigid-slug exhaust column under the ~10:1 pressure ratio at closed-throttle EVO.
+  - Full-load calibrations stay valid. Closed-throttle / overrun results and overrun sound are unreliable until the exhaust pipe is modelled as a compressible 1-D pipe (option C, first capability item in phase 5, subject to the coverage matrix).
 - GX390 / Kohler: curve shape fails (§0b 5a).
 
 Frozen layers (all default on, each with a diagnostic switch):
