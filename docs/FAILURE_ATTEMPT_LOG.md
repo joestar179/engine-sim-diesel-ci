@@ -1134,6 +1134,34 @@ The shape is flat. Set: DF150 46°, TF250 37°.
 - 46°/37° rated injection is long for rotary pumps (typical 20–30°): either the jet mixing is somewhat fast (e.g. no wall impingement: x_st ≈ 85 mm > bore/2 = 53 mm) or a loss is missing.
 - TF250 at 1000 rpm is +7.5 %.
 
+## Mazda physics-reference re-score under inertial runners (run5) and shape checks (2026-10-02)
+
+**Run:** `mazda_epa_compare.py tier2 … --boundary air`, now with `--start-mode dyno`. All 124 points ran; no start-up lock-in with fixed cam phases. Same scoring as run4 (points with sim airflow within 3 %): run4 106 points, run5 99.
+
+| BTE error | run4 (frozen) | run5 (inertial) |
+|---|---|---|
+| ≥ 80 N m, calibrate | −5.3 % (sd 6.6) | −5.8 % (sd 5.7) |
+| ≥ 80 N m, holdout | −5.3 % (sd 6.1) | −5.6 % (sd 4.1) |
+| < 80 N m, calibrate | −45.3 % | −52.5 % |
+| < 80 N m, holdout | −52.1 % | −54.2 % |
+| exhaust retard < 10°, ≥ 40 N m | −5.5 % | −8.4 % |
+| exhaust retard ≥ 25°, < 80 N m | −51.6 % | −54.4 % |
+
+- High load unchanged within ~0.5 points; holdout scatter tighter (sd 6.1 → 4.1).
+- The part-load / large-overlap deficit is not improved. A lumped inertial column does not represent pressure-wave scavenging at overlap (structural limit, §0d "no 1-D wave dynamics").
+- Low-overlap points ≥ 40 N m are 2.9 points worse.
+- MBT and motoring checks not re-run.
+
+**Torque rise (rated → peak, §0c ±5 points)**, current calibrations:
+
+| Engine | doc | sim | diff |
+|---|---|---|---|
+| DF150 | 28.1 | 31.3 | +3.2 ✅ |
+| TF250 | 19.9 | 23.6 | +3.7 ✅ |
+| Mazda (coarse; sim peak from the 6 evaluated speeds) | 14.4 | 12.8 | −1.6 ✅ |
+| GX390 | 14.8 | 22.5 | +7.7 ❌ |
+| Kohler | 2.4 | 8.7 | +6.3 ❌ |
+
 ## Small engines closed out — final full calibrations (2026-10-02)
 
 Full `calibrate.py` (not coarse), current physics: inertial runners with momentum-consistent transfer, class gas-path defaults.
