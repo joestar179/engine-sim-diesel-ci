@@ -85,6 +85,17 @@ before it is considered done:
 
 Physics is frozen while complete-input validation engines are sourced. Do not change physics until those engines are scored against this baseline.
 
+**Changes since the freeze (2026-10-02, logged):**
+- inertial intake runners and exhaust primaries (`GasSystem::inertialFlow`, switch `inertialRunners`), with momentum-consistent transfer after an energy-creation fix;
+- VVT advance schedule (camshaft `advance_schedule`; phasers held at rest while cranking);
+- class gas-path defaults in the setup library.
+
+Current scores:
+- Deere DF150 −1.2..+2.3 % (EGT −54 K);
+- Deere TF250 −2.1..+4.9 % (turbine ER 2.2, boost 114 kPa);
+- Mazda ±3 % except −10.4 / −10.3 %; BTE ≥ 80 N m −5.6 %; MBT consistent; **motoring regressed to +27..+38 %**;
+- GX390 / Kohler: curve shape fails (§0b 5a).
+
 Frozen layers (all default on, each with a diagnostic switch):
 - real-gas N2/O2 vibration and enthalpy flow;
 - combustion products CO2/H2O as their own species;
@@ -152,6 +163,27 @@ Data reality: per-engine breathing and injection detail is proprietary for almos
 - Calibrated: Deere DF150 / TF250, GX390.
 - Calibrated (incomplete): Kohler CH750.
 - Not yet set up: ALCO (after the matrix).
+
+## 0f. Agreed plan (user-agreed 2026-10-02)
+
+Group-B deviations are accepted as recorded findings, not work items:
+- DF150 EGT −54 K;
+- Mazda −10.4 / −10.3 % at 2000 / 3000 rpm;
+- GX390 / Kohler curve shape (Layer-1 question registered, §0b 5a);
+- TF250 low-speed BSFC.
+
+| Phase | Content | Exit criterion |
+|---|---|---|
+| 1+2 (interleaved) | Diagnose the Mazda motoring regression (inertial runners add 3-12 N m at closed throttle). In parallel: `docs/COVERAGE_MATRIX.md` (architecture class × technology × size vs status and evidence; extends the 7-slot sourcing plan with <100 cc / two-stroke and locomotive / marine slots) and the tiered input schema (spec sheet = minimum; geometry, component data and test data replace defaults and knobs, never the reverse) | Motoring back near baseline or cause understood; matrix and schema agreed |
+| 3 | Stage 2 references now: TCC-III (SI pressure traces), ECN small-bore diesel, plus engines for the new slots (user sources data from extraction prompts) | At least one physics reference at a different size from the Mazda |
+| 4 | Generator for diesel / turbo with tiered inputs; ALCO set up through it; Cummins | ALCO from the library |
+| 5 | Capability gaps, all in scope, order set by the matrix: two-stroke (scavenging, port timing, expansion chambers), 1-D wave dynamics, superchargers, carburettor metering and petrol direct injection | Per item, each validated on a reference |
+| 6 | Sound: GUI rebuild, before/after source comparison, listening checks | Sound gate per engine |
+
+Design rules for the range (leaf blower to large turbo diesel):
+- one physics set, no per-class physics switches; size effects come from geometry-scaled physics checked across references;
+- technologies are modules with their own inputs, defaults and evidence, inert when absent;
+- architecture classes drive the Layer-2 defaults.
 
 ## 0b. Open issues and parameter register (keep current)
 
