@@ -1,0 +1,4377 @@
+[
+  {
+    "name": "input.A.[E].bore",
+    "value": 92.0,
+    "unit": "mm",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2MS3QP — TCCIII_Motored_Full_View_README_20170622.pdf p.11; also https://doi.org/10.7302/Z2H41PCD README p.11"
+  },
+  {
+    "name": "input.A.[E].stroke",
+    "value": 86.0,
+    "unit": "mm",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2MS3QP — TCCIII_Motored_Full_View_README_20170622.pdf p.11; also https://doi.org/10.7302/Z2H41PCD README p.11"
+  },
+  {
+    "name": "input.A.[E].connecting_rod_length",
+    "value": 231.0,
+    "unit": "mm",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2MS3QP — TCCIII_Motored_Full_View_README_20170622.pdf p.11; also https://doi.org/10.7302/Z2H41PCD README p.11"
+  },
+  {
+    "name": "input.A.[E].geometric_compression_ratio",
+    "value": 10.0,
+    "unit": "ratio",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2MS3QP — TCCIII_Motored_Full_View_README_20170622.pdf p.11; also https://doi.org/10.7302/Z2H41PCD README p.11"
+  },
+  {
+    "name": "input.A.[E].effective_IVC_compression_ratio",
+    "value": 8.0,
+    "unit": "ratio",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2MS3QP — TCCIII_Motored_Full_View_README_20170622.pdf p.11; also https://doi.org/10.7302/Z2H41PCD README p.11"
+  },
+  {
+    "name": "input.A.[E].TDC_volume",
+    "value": 63.54,
+    "unit": "cm^3",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2MS3QP — TCCIII_Motored_Full_View_README_20170622.pdf p.11; also https://doi.org/10.7302/Z2H41PCD README p.11"
+  },
+  {
+    "name": "input.A.[I].combustion_chamber_volume",
+    "value": 63.15,
+    "unit": "cm^3",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2MS3QP — TCCIII_Motored_Full_View_README_20170622.pdf p.11; also https://doi.org/10.7302/Z2H41PCD README p.11"
+  },
+  {
+    "name": "input.A.[I].top_land_crevice_volume",
+    "value": 0.37,
+    "unit": "cm^3",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2MS3QP — TCCIII_Motored_Full_View_README_20170622.pdf p.11; also https://doi.org/10.7302/Z2H41PCD README p.11"
+  },
+  {
+    "name": "input.A.[I].spark_plug_crevice_volume",
+    "value": 0.02,
+    "unit": "cm^3",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2MS3QP — TCCIII_Motored_Full_View_README_20170622.pdf p.11; also https://doi.org/10.7302/Z2H41PCD README p.11"
+  },
+  {
+    "name": "input.A.[N].piston_pin_offset",
+    "value": 0.0,
+    "unit": "mm",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2MS3QP — TCCIII_Motored_Full_View_README_20170622.pdf p.11; also https://doi.org/10.7302/Z2H41PCD README p.11"
+  },
+  {
+    "name": "input.A.[E].TDC_clearance",
+    "value": 9.5,
+    "unit": "mm",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2MS3QP — Motored README p.14, Combustion Chamber"
+  },
+  {
+    "name": "input.A.[I].piston_outer_diameter",
+    "value": 91.35,
+    "unit": "mm",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2MS3QP — Motored README p.14"
+  },
+  {
+    "name": "input.A.[I].piston_top_land_height",
+    "value": 4.0,
+    "unit": "mm",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2MS3QP — Motored README p.14"
+  },
+  {
+    "name": "input.A.[I].quartz_piston_window_diameter",
+    "value": 69.8,
+    "unit": "mm",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2MS3QP — Motored README p.14"
+  },
+  {
+    "name": "input.A.[I].head_piston_form",
+    "value": "pancake chamber; flat head/flat piston optical TCC-III arrangement (not pent-roof)",
+    "unit": "description",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2MS3QP — Motored README pp.12–16; https://doi.org/10.2516/ogst/2015028 — Sec.1.1/Fig.1"
+  },
+  {
+    "name": "input.A.[I].head_piston_surface_areas",
+    "value": null,
+    "unit": "not found",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2MS3QP — geometry drawings pp.12–24; numerical surface areas not tabulated"
+  },
+  {
+    "name": "input.B.[E].valve_count",
+    "value": 2,
+    "unit": "count",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2MS3QP — Motored README pp.11–12"
+  },
+  {
+    "name": "input.B.[E].intake_valve_head_diameter",
+    "value": null,
+    "unit": "not found",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2MS3QP — Motored README pp.20–23; TCC-III valve head OD not explicitly tabulated"
+  },
+  {
+    "name": "input.B.[E].exhaust_valve_head_diameter",
+    "value": null,
+    "unit": "not found",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2MS3QP — Motored README pp.20–23; TCC-III valve head OD not explicitly tabulated"
+  },
+  {
+    "name": "input.B.[E].valve_event_EVC",
+    "value": 12.8,
+    "unit": "CAD ATDCE",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2MS3QP — TCCIII_Motored_Full_View_README_20170622.pdf p.11; also https://doi.org/10.7302/Z2H41PCD README p.11"
+  },
+  {
+    "name": "input.B.[E].valve_event_intake_peak_lift",
+    "value": 114.8,
+    "unit": "CAD ATDCE",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2MS3QP — TCCIII_Motored_Full_View_README_20170622.pdf p.11; also https://doi.org/10.7302/Z2H41PCD README p.11"
+  },
+  {
+    "name": "input.B.[E].valve_event_IVC",
+    "value": 240.8,
+    "unit": "CAD ATDCE",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2MS3QP — TCCIII_Motored_Full_View_README_20170622.pdf p.11; also https://doi.org/10.7302/Z2H41PCD README p.11"
+  },
+  {
+    "name": "input.B.[E].valve_event_EVO",
+    "value": 484.8,
+    "unit": "CAD ATDCE",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2MS3QP — TCCIII_Motored_Full_View_README_20170622.pdf p.11; also https://doi.org/10.7302/Z2H41PCD README p.11"
+  },
+  {
+    "name": "input.B.[E].valve_event_exhaust_peak_lift",
+    "value": 606.8,
+    "unit": "CAD ATDCE",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2MS3QP — TCCIII_Motored_Full_View_README_20170622.pdf p.11; also https://doi.org/10.7302/Z2H41PCD README p.11"
+  },
+  {
+    "name": "input.B.[E].valve_event_IVO",
+    "value": 712.8,
+    "unit": "CAD ATDCE",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2MS3QP — TCCIII_Motored_Full_View_README_20170622.pdf p.11; also https://doi.org/10.7302/Z2H41PCD README p.11"
+  },
+  {
+    "name": "input.B.[E].crank_angle_reference",
+    "value": "ATDCE = degrees after TDC exhaust; exhaust TDC = 0/720 CAD, compression TDC = 360 CAD",
+    "unit": "definition",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2MS3QP — Motored README p.2; https://doi.org/10.7302/Z2H41PCD — Fired README p.2"
+  },
+  {
+    "name": "input.B.[I].port_ID_at_seat_drawing",
+    "value": 25.4,
+    "unit": "mm",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2MS3QP — Motored README p.21, 'TCC Valve Seat Anthology', TCC-III green 4-angle profile"
+  },
+  {
+    "name": "input.B.[I].TCCIII_valve_seat_75deg_width",
+    "value": 2.1,
+    "unit": "mm",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2MS3QP — Motored README p.21, 'TCC Valve Seat Anthology', TCC-III green 4-angle profile"
+  },
+  {
+    "name": "input.B.[I].TCCIII_valve_seat_60deg_width",
+    "value": 1.6,
+    "unit": "mm",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2MS3QP — Motored README p.21, 'TCC Valve Seat Anthology', TCC-III green 4-angle profile"
+  },
+  {
+    "name": "input.B.[I].TCCIII_valve_seat_45deg_width",
+    "value": 1.3,
+    "unit": "mm",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2MS3QP — Motored README p.21, 'TCC Valve Seat Anthology', TCC-III green 4-angle profile"
+  },
+  {
+    "name": "input.B.[I].TCCIII_valve_seat_30deg_width",
+    "value": 2.0,
+    "unit": "mm",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2MS3QP — Motored README p.21, 'TCC Valve Seat Anthology', TCC-III green 4-angle profile"
+  },
+  {
+    "name": "input.B.[I].TCCIII_75deg_OD",
+    "value": 26.44,
+    "unit": "mm",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2MS3QP — Motored README p.21, 'TCC Valve Seat Anthology', TCC-III green 4-angle profile"
+  },
+  {
+    "name": "input.B.[I].TCCIII_60deg_OD",
+    "value": 28.04,
+    "unit": "mm",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2MS3QP — Motored README p.21, 'TCC Valve Seat Anthology', TCC-III green 4-angle profile"
+  },
+  {
+    "name": "input.B.[I].TCCIII_45deg_OD",
+    "value": 29.9,
+    "unit": "mm",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2MS3QP — Motored README p.21, 'TCC Valve Seat Anthology', TCC-III green 4-angle profile"
+  },
+  {
+    "name": "input.B.[I].TCCIII_seat_insert_OD",
+    "value": 33.4,
+    "unit": "mm",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2MS3QP — Motored README p.21, 'TCC Valve Seat Anthology', TCC-III green 4-angle profile"
+  },
+  {
+    "name": "input.B.[I].valve_stem_diameter",
+    "value": null,
+    "unit": "not found",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2MS3QP — Motored README p.21, 'TCC Valve Seat Anthology', TCC-III green 4-angle profile"
+  },
+  {
+    "name": "input.B.[I].valve_clearance_lash",
+    "value": null,
+    "unit": "not found",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2MS3QP — Motored README pp.11,22–23"
+  },
+  {
+    "name": "input.B.[E].primary_intake_lift_array",
+    "value": null,
+    "unit": "CAD,mm",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2MS3QP — Motored README p.6 shows TCCIII_Valve_Lifts directory; exact array pending Motored Full View archive ingestion"
+  },
+  {
+    "name": "input.B.[E].primary_exhaust_lift_array",
+    "value": null,
+    "unit": "CAD,mm",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2MS3QP — Motored README p.6 shows TCCIII_Valve_Lifts directory; exact array pending Motored Full View archive ingestion"
+  },
+  {
+    "name": "model_derived.secondary_openfoam_intake_lift_array",
+    "value": "https://raw.githubusercontent.com/OpenFOAM/ICengines/master/tutorials/tcc3/constant/engineData/intakeLift.txt",
+    "unit": "numeric file: CAD,m",
+    "grade": "F",
+    "source": "https://github.com/OpenFOAM/ICengines/tree/master/tutorials/tcc3; secondary OpenFOAM implementation, not the UM primary archive"
+  },
+  {
+    "name": "model_derived.secondary_openfoam_exhaust_lift_array",
+    "value": "https://raw.githubusercontent.com/OpenFOAM/ICengines/master/tutorials/tcc3/constant/engineData/exhaustLift.txt",
+    "unit": "numeric file: CAD,mm",
+    "grade": "F",
+    "source": "https://github.com/OpenFOAM/ICengines/tree/master/tutorials/tcc3; engineDict scales exhaust file by 0.001; secondary implementation"
+  },
+  {
+    "name": "input.C.[E].intake_plenum_main_height",
+    "value": 609.6,
+    "unit": "mm",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2MS3QP — Motored README p.13, Plenum Interior Dimensions & Measurement Locations"
+  },
+  {
+    "name": "input.C.[E].intake_plenum_main_width",
+    "value": 177.8,
+    "unit": "mm",
+    "grade": "R",
+    "source": "https://doi.org/10.7302/Z2MS3QP — Motored README p.13, Plenum Interior Dimensions & Measurement Locations; arithmetic 88.9 + 88.9 = 177.8 mm"
+  },
+  {
+    "name": "input.C.[E].intake_plenum_main_depth",
+    "value": 101.6,
+    "unit": "mm",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2MS3QP — Motored README p.13, Plenum Interior Dimensions & Measurement Locations"
+  },
+  {
+    "name": "input.C.[E].exhaust_plenum_main_height",
+    "value": 609.6,
+    "unit": "mm",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2MS3QP — Motored README p.13, Plenum Interior Dimensions & Measurement Locations"
+  },
+  {
+    "name": "input.C.[E].exhaust_plenum_main_width",
+    "value": 177.9,
+    "unit": "mm",
+    "grade": "R",
+    "source": "https://doi.org/10.7302/Z2MS3QP — Motored README p.13, Plenum Interior Dimensions & Measurement Locations; arithmetic 44.5 + 133.4 = 177.9 mm"
+  },
+  {
+    "name": "input.C.[E].exhaust_plenum_main_depth",
+    "value": 101.6,
+    "unit": "mm",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2MS3QP — Motored README p.13, Plenum Interior Dimensions & Measurement Locations"
+  },
+  {
+    "name": "input.C.[E].intake_plenum_total_volume",
+    "value": null,
+    "unit": "not found",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2MS3QP — Motored README p.13, Plenum Interior Dimensions & Measurement Locations; rectangular dimensions are given but lower transition/runner volume prevents an exact total-volume derivation"
+  },
+  {
+    "name": "input.C.[E].exhaust_plenum_total_volume",
+    "value": null,
+    "unit": "not found",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2MS3QP — Motored README p.13, Plenum Interior Dimensions & Measurement Locations; rectangular dimensions are given but lower transition/runner volume prevents an exact total-volume derivation"
+  },
+  {
+    "name": "input.C.[E].flame_arrestor_ID",
+    "value": 23.0,
+    "unit": "mm",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2MS3QP — Motored README p.13, Plenum Interior Dimensions & Measurement Locations"
+  },
+  {
+    "name": "input.C.[E].flame_arrestor_length",
+    "value": 150.0,
+    "unit": "mm",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2MS3QP — Motored README p.13, Plenum Interior Dimensions & Measurement Locations"
+  },
+  {
+    "name": "input.C.[E].runner_port_ID_at_probe_insert",
+    "value": 25.4,
+    "unit": "mm",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2MS3QP — Motored README p.19, Intake and Exhaust Probe Inserts"
+  },
+  {
+    "name": "input.C.[E].plenum_outlet_pipe_ID",
+    "value": 19.1,
+    "unit": "mm",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2MS3QP — Motored README p.19, Intake and Exhaust Probe Inserts"
+  },
+  {
+    "name": "input.C.[E].runner_probe_insert_thickness",
+    "value": 25.4,
+    "unit": "mm",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2MS3QP — Motored README p.19, Intake and Exhaust Probe Inserts"
+  },
+  {
+    "name": "input.C.[E].runner_probe_insert_thickness_drawing_discrepancy",
+    "value": 25.0,
+    "unit": "mm",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2MS3QP — Motored README pp.17–18 show 25.0 mm insert + 2×1.6 mm gaskets; p.19 states 25.4 mm insert. Conflict retained, not reconciled."
+  },
+  {
+    "name": "input.C.[E].intake_runner_bellmouth_radius",
+    "value": 38.1,
+    "unit": "mm radius",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2MS3QP — Motored README p.17, Intake Runner and Port drawing"
+  },
+  {
+    "name": "input.C.[E].intake_runner_upper_bend_radius",
+    "value": 76.2,
+    "unit": "mm radius",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2MS3QP — Motored README p.17, Intake Runner and Port drawing"
+  },
+  {
+    "name": "input.C.[E].intake_runner_lower_bend_radius",
+    "value": 60.0,
+    "unit": "mm radius",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2MS3QP — Motored README p.17, Intake Runner and Port drawing"
+  },
+  {
+    "name": "input.C.[E].intake_runner_drawing_radius_136_20",
+    "value": 136.2,
+    "unit": "mm radius",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2MS3QP — Motored README p.17, Intake Runner and Port drawing"
+  },
+  {
+    "name": "input.C.[E].intake_runner_sensor_offset_13_3",
+    "value": 13.3,
+    "unit": "mm",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2MS3QP — Motored README p.17, Intake Runner and Port drawing"
+  },
+  {
+    "name": "input.C.[E].intake_runner_head_surface_offset_28_9",
+    "value": 28.9,
+    "unit": "mm",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2MS3QP — Motored README p.17, Intake Runner and Port drawing"
+  },
+  {
+    "name": "input.C.[E].intake_runner_drawing_dimension_106_5",
+    "value": 106.5,
+    "unit": "mm",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2MS3QP — Motored README p.17, Intake Runner and Port drawing"
+  },
+  {
+    "name": "input.C.[E].intake_runner_probe_width_dimension_28_2",
+    "value": 28.2,
+    "unit": "mm",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2MS3QP — Motored README p.17, Intake Runner and Port drawing"
+  },
+  {
+    "name": "input.C.[E].intake_runner_bellmouth_dimension_17_46",
+    "value": 17.46,
+    "unit": "mm",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2MS3QP — Motored README p.17, Intake Runner and Port drawing"
+  },
+  {
+    "name": "input.C.[E].intake_runner_bellmouth_dimension_4_76",
+    "value": 4.76,
+    "unit": "mm",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2MS3QP — Motored README p.17, Intake Runner and Port drawing"
+  },
+  {
+    "name": "input.C.[E].intake_runner_lower_straight_dimension_60_0",
+    "value": 60.0,
+    "unit": "mm",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2MS3QP — Motored README p.17, Intake Runner and Port drawing"
+  },
+  {
+    "name": "input.C.[E].intake_runner_lower_dimension_25_4",
+    "value": 25.4,
+    "unit": "mm",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2MS3QP — Motored README p.17, Intake Runner and Port drawing"
+  },
+  {
+    "name": "input.C.[E].intake_runner_lower_dimension_6_38",
+    "value": 6.38,
+    "unit": "mm",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2MS3QP — Motored README p.17, Intake Runner and Port drawing"
+  },
+  {
+    "name": "input.C.[E].intake_runner_lower_dimension_3_25",
+    "value": 3.25,
+    "unit": "mm",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2MS3QP — Motored README p.17, Intake Runner and Port drawing"
+  },
+  {
+    "name": "input.C.[E].intake_runner_port_axis_angle",
+    "value": 45.0,
+    "unit": "deg",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2MS3QP — Motored README p.17, Intake Runner and Port drawing"
+  },
+  {
+    "name": "input.C.[E].exhaust_runner_upper_bend_radius",
+    "value": 76.2,
+    "unit": "mm radius",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2MS3QP — Motored README p.18, Exhaust Runner and Port drawing"
+  },
+  {
+    "name": "input.C.[E].exhaust_runner_lower_bend_radius",
+    "value": 60.0,
+    "unit": "mm radius",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2MS3QP — Motored README p.18, Exhaust Runner and Port drawing"
+  },
+  {
+    "name": "input.C.[E].exhaust_runner_drawing_radius_136_20",
+    "value": 136.2,
+    "unit": "mm radius",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2MS3QP — Motored README p.18, Exhaust Runner and Port drawing"
+  },
+  {
+    "name": "input.C.[E].exhaust_runner_sensor_offset_13_3",
+    "value": 13.3,
+    "unit": "mm",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2MS3QP — Motored README p.18, Exhaust Runner and Port drawing"
+  },
+  {
+    "name": "input.C.[E].exhaust_runner_head_surface_offset_28_9",
+    "value": 28.9,
+    "unit": "mm",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2MS3QP — Motored README p.18, Exhaust Runner and Port drawing"
+  },
+  {
+    "name": "input.C.[E].exhaust_runner_drawing_dimension_68_2",
+    "value": 68.2,
+    "unit": "mm",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2MS3QP — Motored README p.18, Exhaust Runner and Port drawing"
+  },
+  {
+    "name": "input.C.[E].exhaust_runner_probe_width_dimension_28_2",
+    "value": 28.2,
+    "unit": "mm",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2MS3QP — Motored README p.18, Exhaust Runner and Port drawing"
+  },
+  {
+    "name": "input.C.[E].exhaust_runner_plenum_surface_offset_27_0",
+    "value": 27.0,
+    "unit": "mm",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2MS3QP — Motored README p.18, Exhaust Runner and Port drawing"
+  },
+  {
+    "name": "input.C.[E].exhaust_runner_plenum_neck_width_dimension_28_58",
+    "value": 28.58,
+    "unit": "mm",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2MS3QP — Motored README p.18, Exhaust Runner and Port drawing"
+  },
+  {
+    "name": "input.C.[E].exhaust_runner_plenum_neck_ID",
+    "value": 19.1,
+    "unit": "mm",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2MS3QP — Motored README p.18, Exhaust Runner and Port drawing"
+  },
+  {
+    "name": "input.C.[E].exhaust_runner_lower_straight_dimension_60_0",
+    "value": 60.0,
+    "unit": "mm",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2MS3QP — Motored README p.18, Exhaust Runner and Port drawing"
+  },
+  {
+    "name": "input.C.[E].exhaust_runner_lower_dimension_25_4",
+    "value": 25.4,
+    "unit": "mm",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2MS3QP — Motored README p.18, Exhaust Runner and Port drawing"
+  },
+  {
+    "name": "input.C.[E].exhaust_runner_lower_dimension_6_38",
+    "value": 6.38,
+    "unit": "mm",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2MS3QP — Motored README p.18, Exhaust Runner and Port drawing"
+  },
+  {
+    "name": "input.C.[E].full_1D_intake_segment_table",
+    "value": null,
+    "unit": "not fully resolved",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2MS3QP — Motored README pp.13,17,19,25,31; many dimensions are exact, but the .gtm/.gdx/CAD archive is still pending to resolve complete centerline lengths, transitions and junctions without inference"
+  },
+  {
+    "name": "input.C.[E].full_1D_exhaust_segment_table",
+    "value": null,
+    "unit": "not fully resolved",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2MS3QP — Motored README pp.13,18,19,25,32; exact GT-Power/CAD archive pending"
+  },
+  {
+    "name": "input.C.[E].upstream_air_meter_to_heater_ID",
+    "value": 1.91,
+    "unit": "cm",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2MS3QP — Motored README p.31, TCC-III Engine Intake System"
+  },
+  {
+    "name": "input.C.[E].upstream_air_meter_to_heater_length",
+    "value": 288,
+    "unit": "cm",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2MS3QP — Motored README p.31, TCC-III Engine Intake System"
+  },
+  {
+    "name": "input.C.[E].upstream_air_heater_ID",
+    "value": 5.1,
+    "unit": "cm",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2MS3QP — Motored README p.31, TCC-III Engine Intake System"
+  },
+  {
+    "name": "input.C.[E].upstream_air_heater_length",
+    "value": 34,
+    "unit": "cm",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2MS3QP — Motored README p.31, TCC-III Engine Intake System"
+  },
+  {
+    "name": "input.C.[E].upstream_heater_to_flame_arrestor_ID",
+    "value": 5.1,
+    "unit": "cm",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2MS3QP — Motored README p.31, TCC-III Engine Intake System"
+  },
+  {
+    "name": "input.C.[E].upstream_heater_to_flame_arrestor_length",
+    "value": 150,
+    "unit": "cm",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2MS3QP — Motored README p.31, TCC-III Engine Intake System"
+  },
+  {
+    "name": "input.C.[E].upstream_flame_arrestor_ID",
+    "value": 2.3,
+    "unit": "cm",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2MS3QP — Motored README p.31, TCC-III Engine Intake System"
+  },
+  {
+    "name": "input.C.[E].upstream_flame_arrestor_length",
+    "value": 15,
+    "unit": "cm",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2MS3QP — Motored README p.31, TCC-III Engine Intake System"
+  },
+  {
+    "name": "input.C.[E].upstream_PIV_atomizer_box_x",
+    "value": 14,
+    "unit": "cm",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2MS3QP — Motored README p.31, TCC-III Engine Intake System"
+  },
+  {
+    "name": "input.C.[E].upstream_PIV_atomizer_box_y",
+    "value": 14,
+    "unit": "cm",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2MS3QP — Motored README p.31, TCC-III Engine Intake System"
+  },
+  {
+    "name": "input.C.[E].upstream_PIV_atomizer_box_z",
+    "value": 7.5,
+    "unit": "cm",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2MS3QP — Motored README p.31, TCC-III Engine Intake System"
+  },
+  {
+    "name": "input.C.[E].upstream_PIV_atomizer_branch_ID",
+    "value": 1.91,
+    "unit": "cm",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2MS3QP — Motored README p.31, TCC-III Engine Intake System"
+  },
+  {
+    "name": "input.C.[E].upstream_PIV_atomizer_branch_length",
+    "value": 265,
+    "unit": "cm",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2MS3QP — Motored README p.31, TCC-III Engine Intake System"
+  },
+  {
+    "name": "input.C.[E].upstream_additional_air_branch_ID",
+    "value": 1.91,
+    "unit": "cm",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2MS3QP — Motored README p.31, TCC-III Engine Intake System"
+  },
+  {
+    "name": "input.C.[E].upstream_additional_air_branch_length",
+    "value": 300,
+    "unit": "cm",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2MS3QP — Motored README p.31, TCC-III Engine Intake System"
+  },
+  {
+    "name": "input.C.[E].upstream_fuel_branch_to_mixer_ID",
+    "value": 0.95,
+    "unit": "cm",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2MS3QP — Motored README p.31, TCC-III Engine Intake System"
+  },
+  {
+    "name": "input.C.[E].upstream_fuel_branch_to_mixer_length",
+    "value": 305,
+    "unit": "cm",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2MS3QP — Motored README p.31, TCC-III Engine Intake System"
+  },
+  {
+    "name": "input.C.[E].downstream_common_header_ID",
+    "value": 5.1,
+    "unit": "cm",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2MS3QP — Motored README p.32, TCC-III Engine Exhaust System"
+  },
+  {
+    "name": "input.C.[E].downstream_common_header_total_length",
+    "value": 355,
+    "unit": "cm",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2MS3QP — Motored README p.32, TCC-III Engine Exhaust System"
+  },
+  {
+    "name": "input.C.[E].downstream_header_section_1",
+    "value": 163,
+    "unit": "cm",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2MS3QP — Motored README p.32, TCC-III Engine Exhaust System"
+  },
+  {
+    "name": "input.C.[E].downstream_header_section_2",
+    "value": 40,
+    "unit": "cm",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2MS3QP — Motored README p.32, TCC-III Engine Exhaust System"
+  },
+  {
+    "name": "input.C.[E].downstream_header_section_3",
+    "value": 135,
+    "unit": "cm",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2MS3QP — Motored README p.32, TCC-III Engine Exhaust System"
+  },
+  {
+    "name": "input.C.[E].downstream_exhaust_plenum_to_valve_small_line_ID",
+    "value": 1.9,
+    "unit": "cm",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2MS3QP — Motored README p.32, TCC-III Engine Exhaust System"
+  },
+  {
+    "name": "input.C.[E].downstream_exhaust_plenum_to_valve_small_line_length",
+    "value": 15,
+    "unit": "cm",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2MS3QP — Motored README p.32, TCC-III Engine Exhaust System"
+  },
+  {
+    "name": "input.C.[E].downstream_throttle_branch_ID",
+    "value": 1.9,
+    "unit": "cm",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2MS3QP — Motored README p.32, TCC-III Engine Exhaust System"
+  },
+  {
+    "name": "input.C.[E].downstream_throttle_branch_length",
+    "value": 60,
+    "unit": "cm",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2MS3QP — Motored README p.32, TCC-III Engine Exhaust System"
+  },
+  {
+    "name": "input.C.[E].downstream_return_to_header_ID",
+    "value": 5.1,
+    "unit": "cm",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2MS3QP — Motored README p.32, TCC-III Engine Exhaust System"
+  },
+  {
+    "name": "input.C.[E].downstream_return_to_header_length",
+    "value": 120,
+    "unit": "cm",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2MS3QP — Motored README p.32, TCC-III Engine Exhaust System"
+  },
+  {
+    "name": "input.C.[E].downstream_laboratory_exhaust_ID",
+    "value": 102,
+    "unit": "cm",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2MS3QP — Motored README p.32, TCC-III Engine Exhaust System"
+  },
+  {
+    "name": "input.C.[E].laboratory_exhaust_length",
+    "value": null,
+    "unit": "unknown",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2MS3QP — Motored README p.32, TCC-III Engine Exhaust System"
+  },
+  {
+    "name": "input.C.[E].laboratory_exhaust_boundary_pressure",
+    "value": "P_ambient - 1.5 kPa",
+    "unit": "pressure relation",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2MS3QP — Motored README p.32, TCC-III Engine Exhaust System"
+  },
+  {
+    "name": "input.C.[E].motored_exhaust_plenum_pressure_setpoint",
+    "value": 101.5,
+    "unit": "kPa abs",
+    "grade": "D",
+    "source": "https://doi.org/10.2516/ogst/2015028 — Appendix A Table A2; https://doi.org/10.7302/Z2MS3QP README p.13"
+  },
+  {
+    "name": "input.C.[E].fired_exhaust_plenum_pressure_setpoint",
+    "value": 101.5,
+    "unit": "kPa abs",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired README p.13 / p.33"
+  },
+  {
+    "name": "input.C.[I].exhaust_throttle_position",
+    "value": null,
+    "unit": "not found",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2MS3QP README p.32 states valve adjusted to achieve 101.5 kPa; geometric position not given"
+  },
+  {
+    "name": "input.C.[I].exhaust_throttle_geometry",
+    "value": null,
+    "unit": "not found",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2MS3QP README p.32"
+  },
+  {
+    "name": "input.C.[I].measured_valve_flow_or_Cd_vs_lift",
+    "value": null,
+    "unit": "not found",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2MS3QP — not in README; check pending GT-Power/geometry archive"
+  },
+  {
+    "name": "input.D.[E].canonical_fired_fuel",
+    "value": "propane/air, premixed, stoichiometric",
+    "unit": "description",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Deep Blue catalog metadata for Fired Full View; operating condition README p.2 gives phi=1"
+  },
+  {
+    "name": "input.D.[E].fuel_LHV",
+    "value": null,
+    "unit": "not found",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2H41PCD — not tabulated in supplied README"
+  },
+  {
+    "name": "input.D.[E].stoichiometric_AFR_source_specific",
+    "value": null,
+    "unit": "not found",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2H41PCD — not tabulated in supplied README"
+  },
+  {
+    "name": "input.D.[E].stoichiometric_AFR_propane_dry_air_ideal",
+    "value": 15.57143,
+    "unit": "kg air/kg fuel",
+    "grade": "R",
+    "source": "Derived only: C3H8 + 5(O2+3.76N2), atomic masses C=12.011,H=1.008,O=15.999,N=14.007; not a substitute for source-specific fuel/air definition"
+  },
+  {
+    "name": "input.D.[E].canonical_fired_start_of_ignition",
+    "value": 342,
+    "unit": "CAD ATDCE",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired Full View README p.2; stated MBT timing"
+  },
+  {
+    "name": "input.D.[E].canonical_fired_phi",
+    "value": 1.0,
+    "unit": "equivalence ratio",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired Full View README p.2"
+  },
+  {
+    "name": "input.D.[E].canonical_fired_lambda",
+    "value": 1.0,
+    "unit": "lambda",
+    "grade": "R",
+    "source": "Arithmetic: lambda = 1/phi = 1/1 = 1"
+  },
+  {
+    "name": "input.D.[I].steady_flow_swirl_ratio",
+    "value": 0.4,
+    "unit": "ratio",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2MS3QP — TCCIII_Motored_Full_View_README_20170622.pdf p.11; also https://doi.org/10.7302/Z2H41PCD README p.11"
+  },
+  {
+    "name": "input.D.[I].tumble_ratio",
+    "value": null,
+    "unit": "not found",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2MS3QP — TCCIII_Motored_Full_View_README_20170622.pdf p.11; also https://doi.org/10.7302/Z2H41PCD README p.11"
+  },
+  {
+    "name": "input.E.[N].motored_engine_oil_inlet_temperature",
+    "value": 45,
+    "unit": "degC",
+    "grade": "D",
+    "source": "https://doi.org/10.2516/ogst/2015028 — Appendix A Table A2"
+  },
+  {
+    "name": "input.E.[N].motored_engine_coolant_outlet_temperature",
+    "value": 45,
+    "unit": "degC",
+    "grade": "D",
+    "source": "https://doi.org/10.2516/ogst/2015028 — Appendix A Table A2"
+  },
+  {
+    "name": "input.E.[I].head_wall_temperature",
+    "value": null,
+    "unit": "not found",
+    "grade": "U",
+    "source": "https://doi.org/10.2516/ogst/2015028; https://doi.org/10.7302/Z2MS3QP"
+  },
+  {
+    "name": "input.E.[I].liner_wall_temperature",
+    "value": null,
+    "unit": "not found",
+    "grade": "U",
+    "source": "https://doi.org/10.2516/ogst/2015028; https://doi.org/10.7302/Z2MS3QP"
+  },
+  {
+    "name": "input.E.[I].piston_wall_temperature",
+    "value": null,
+    "unit": "not found",
+    "grade": "U",
+    "source": "https://doi.org/10.2516/ogst/2015028; https://doi.org/10.7302/Z2MS3QP"
+  },
+  {
+    "name": "output.motored.800rpm_95kPa.[E].speed",
+    "value": 800,
+    "unit": "rpm",
+    "grade": "D",
+    "source": "https://doi.org/10.2516/ogst/2015028 — Appendix A Table A2"
+  },
+  {
+    "name": "output.motored.800rpm_95kPa.[E].intake_MAP_setpoint",
+    "value": 95,
+    "unit": "kPa abs",
+    "grade": "D",
+    "source": "https://doi.org/10.2516/ogst/2015028 — Appendix A Table A2"
+  },
+  {
+    "name": "output.motored.800rpm_95kPa.[E].exhaust_plenum_pressure_setpoint",
+    "value": 101.5,
+    "unit": "kPa abs",
+    "grade": "D",
+    "source": "https://doi.org/10.2516/ogst/2015028 — Appendix A Table A2"
+  },
+  {
+    "name": "output.motored.800rpm_95kPa.[E].intake_temperature",
+    "value": 45,
+    "unit": "degC",
+    "grade": "D",
+    "source": "https://doi.org/10.2516/ogst/2015028 — Appendix A Table A2"
+  },
+  {
+    "name": "output.motored.800rpm_95kPa.[E].mean_intake_port_pressure",
+    "value": 94.6,
+    "unit": "kPa abs",
+    "grade": "D",
+    "source": "https://doi.org/10.2516/ogst/2015028 — Appendix A Table A2"
+  },
+  {
+    "name": "output.motored.800rpm_95kPa.[E].mean_exhaust_port_pressure",
+    "value": 101.7,
+    "unit": "kPa abs",
+    "grade": "D",
+    "source": "https://doi.org/10.2516/ogst/2015028 — Appendix A Table A2"
+  },
+  {
+    "name": "output.motored.800rpm_95kPa.[E].delivered_air_mass_flow",
+    "value": 3.5,
+    "unit": "g/s",
+    "grade": "D",
+    "source": "https://doi.org/10.2516/ogst/2015028 — Appendix A Table A2"
+  },
+  {
+    "name": "output.motored.800rpm_95kPa.[I].IMEP",
+    "value": -41.9,
+    "unit": "kPa",
+    "grade": "D",
+    "source": "https://doi.org/10.2516/ogst/2015028 — Appendix A Table A2"
+  },
+  {
+    "name": "output.motored.800rpm_95kPa.[N].outside_quartz_cylinder_wall_temperature",
+    "value": 36.9,
+    "unit": "degC",
+    "grade": "D",
+    "source": "https://doi.org/10.2516/ogst/2015028 — Appendix A Table A2"
+  },
+  {
+    "name": "output.motored.800rpm_95kPa.[N].peak_cylinder_pressure",
+    "value": 1810,
+    "unit": "kPa abs",
+    "grade": "D",
+    "source": "https://doi.org/10.2516/ogst/2015028 — Appendix A Table A2"
+  },
+  {
+    "name": "output.motored.800rpm_95kPa.[N].peak_cylinder_pressure_location",
+    "value": 358.6,
+    "unit": "CAD ATDCE",
+    "grade": "D",
+    "source": "https://doi.org/10.2516/ogst/2015028 — Appendix A Table A2"
+  },
+  {
+    "name": "output.motored.800rpm_95kPa.archive_reference_test_ID",
+    "value": "S_2014_05_20_02",
+    "unit": "ID",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2MS3QP — Motored README p.2; selected y=0 test so the three conditions use the same PIV-plane convention"
+  },
+  {
+    "name": "output.motored.800rpm_95kPa.[E].cylinder_pressure_mean_cycle",
+    "value": null,
+    "unit": "0.5 CAD numeric array",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2MS3QP — Motored README pp.3,5–6 confirms exact per-test Excel arrays at 0.5 CAD; pending Motored Full View archive ingestion"
+  },
+  {
+    "name": "output.motored.800rpm_95kPa.[E].intake_port_pressure_trace",
+    "value": null,
+    "unit": "0.5 CAD numeric array",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2MS3QP — Motored README pp.3,5–6 confirms exact per-test Excel arrays at 0.5 CAD; pending Motored Full View archive ingestion"
+  },
+  {
+    "name": "output.motored.800rpm_95kPa.[E].exhaust_port_pressure_trace",
+    "value": null,
+    "unit": "0.5 CAD numeric array",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2MS3QP — Motored README pp.3,5–6 confirms exact per-test Excel arrays at 0.5 CAD; pending Motored Full View archive ingestion"
+  },
+  {
+    "name": "output.motored.800rpm_95kPa.[I].COV_IMEP",
+    "value": null,
+    "unit": "not found in current extracted tables",
+    "grade": "U",
+    "source": "https://doi.org/10.2516/ogst/2015028 Table A2 reports IMEP standard deviation/repeatability, not COV"
+  },
+  {
+    "name": "output.motored.800rpm_95kPa.[I].CA10",
+    "value": null,
+    "unit": "n/a motored",
+    "grade": "U",
+    "source": "Motored condition; burn angle not applicable"
+  },
+  {
+    "name": "output.motored.800rpm_95kPa.[I].CA50",
+    "value": null,
+    "unit": "n/a motored",
+    "grade": "U",
+    "source": "Motored condition; burn angle not applicable"
+  },
+  {
+    "name": "output.motored.800rpm_95kPa.[I].CA90",
+    "value": null,
+    "unit": "n/a motored",
+    "grade": "U",
+    "source": "Motored condition; burn angle not applicable"
+  },
+  {
+    "name": "output.motored.800rpm_95kPa.[N].brake_data",
+    "value": null,
+    "unit": "not found",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2MS3QP; https://doi.org/10.2516/ogst/2015028"
+  },
+  {
+    "name": "output.motored.1300rpm_95kPa.[E].speed",
+    "value": 1300,
+    "unit": "rpm",
+    "grade": "D",
+    "source": "https://doi.org/10.2516/ogst/2015028 — Appendix A Table A2"
+  },
+  {
+    "name": "output.motored.1300rpm_95kPa.[E].intake_MAP_setpoint",
+    "value": 95,
+    "unit": "kPa abs",
+    "grade": "D",
+    "source": "https://doi.org/10.2516/ogst/2015028 — Appendix A Table A2"
+  },
+  {
+    "name": "output.motored.1300rpm_95kPa.[E].exhaust_plenum_pressure_setpoint",
+    "value": 101.5,
+    "unit": "kPa abs",
+    "grade": "D",
+    "source": "https://doi.org/10.2516/ogst/2015028 — Appendix A Table A2"
+  },
+  {
+    "name": "output.motored.1300rpm_95kPa.[E].intake_temperature",
+    "value": 45,
+    "unit": "degC",
+    "grade": "D",
+    "source": "https://doi.org/10.2516/ogst/2015028 — Appendix A Table A2"
+  },
+  {
+    "name": "output.motored.1300rpm_95kPa.[E].mean_intake_port_pressure",
+    "value": 94.4,
+    "unit": "kPa abs",
+    "grade": "D",
+    "source": "https://doi.org/10.2516/ogst/2015028 — Appendix A Table A2"
+  },
+  {
+    "name": "output.motored.1300rpm_95kPa.[E].mean_exhaust_port_pressure",
+    "value": 101.8,
+    "unit": "kPa abs",
+    "grade": "D",
+    "source": "https://doi.org/10.2516/ogst/2015028 — Appendix A Table A2"
+  },
+  {
+    "name": "output.motored.1300rpm_95kPa.[E].delivered_air_mass_flow",
+    "value": 5.88,
+    "unit": "g/s",
+    "grade": "D",
+    "source": "https://doi.org/10.2516/ogst/2015028 — Appendix A Table A2"
+  },
+  {
+    "name": "output.motored.1300rpm_95kPa.[I].IMEP",
+    "value": -37.8,
+    "unit": "kPa",
+    "grade": "D",
+    "source": "https://doi.org/10.2516/ogst/2015028 — Appendix A Table A2"
+  },
+  {
+    "name": "output.motored.1300rpm_95kPa.[N].outside_quartz_cylinder_wall_temperature",
+    "value": 40.8,
+    "unit": "degC",
+    "grade": "D",
+    "source": "https://doi.org/10.2516/ogst/2015028 — Appendix A Table A2"
+  },
+  {
+    "name": "output.motored.1300rpm_95kPa.[N].peak_cylinder_pressure",
+    "value": 1958,
+    "unit": "kPa abs",
+    "grade": "D",
+    "source": "https://doi.org/10.2516/ogst/2015028 — Appendix A Table A2"
+  },
+  {
+    "name": "output.motored.1300rpm_95kPa.[N].peak_cylinder_pressure_location",
+    "value": 358.8,
+    "unit": "CAD ATDCE",
+    "grade": "D",
+    "source": "https://doi.org/10.2516/ogst/2015028 — Appendix A Table A2"
+  },
+  {
+    "name": "output.motored.1300rpm_95kPa.archive_reference_test_ID",
+    "value": "S_2014_05_20_01",
+    "unit": "ID",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2MS3QP — Motored README p.2; selected y=0 test so the three conditions use the same PIV-plane convention"
+  },
+  {
+    "name": "output.motored.1300rpm_95kPa.[E].cylinder_pressure_mean_cycle",
+    "value": null,
+    "unit": "0.5 CAD numeric array",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2MS3QP — Motored README pp.3,5–6 confirms exact per-test Excel arrays at 0.5 CAD; pending Motored Full View archive ingestion"
+  },
+  {
+    "name": "output.motored.1300rpm_95kPa.[E].intake_port_pressure_trace",
+    "value": null,
+    "unit": "0.5 CAD numeric array",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2MS3QP — Motored README pp.3,5–6 confirms exact per-test Excel arrays at 0.5 CAD; pending Motored Full View archive ingestion"
+  },
+  {
+    "name": "output.motored.1300rpm_95kPa.[E].exhaust_port_pressure_trace",
+    "value": null,
+    "unit": "0.5 CAD numeric array",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2MS3QP — Motored README pp.3,5–6 confirms exact per-test Excel arrays at 0.5 CAD; pending Motored Full View archive ingestion"
+  },
+  {
+    "name": "output.motored.1300rpm_95kPa.[I].COV_IMEP",
+    "value": null,
+    "unit": "not found in current extracted tables",
+    "grade": "U",
+    "source": "https://doi.org/10.2516/ogst/2015028 Table A2 reports IMEP standard deviation/repeatability, not COV"
+  },
+  {
+    "name": "output.motored.1300rpm_95kPa.[I].CA10",
+    "value": null,
+    "unit": "n/a motored",
+    "grade": "U",
+    "source": "Motored condition; burn angle not applicable"
+  },
+  {
+    "name": "output.motored.1300rpm_95kPa.[I].CA50",
+    "value": null,
+    "unit": "n/a motored",
+    "grade": "U",
+    "source": "Motored condition; burn angle not applicable"
+  },
+  {
+    "name": "output.motored.1300rpm_95kPa.[I].CA90",
+    "value": null,
+    "unit": "n/a motored",
+    "grade": "U",
+    "source": "Motored condition; burn angle not applicable"
+  },
+  {
+    "name": "output.motored.1300rpm_95kPa.[N].brake_data",
+    "value": null,
+    "unit": "not found",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2MS3QP; https://doi.org/10.2516/ogst/2015028"
+  },
+  {
+    "name": "output.motored.1300rpm_40kPa.[E].speed",
+    "value": 1300,
+    "unit": "rpm",
+    "grade": "D",
+    "source": "https://doi.org/10.2516/ogst/2015028 — Appendix A Table A2"
+  },
+  {
+    "name": "output.motored.1300rpm_40kPa.[E].intake_MAP_setpoint",
+    "value": 40,
+    "unit": "kPa abs",
+    "grade": "D",
+    "source": "https://doi.org/10.2516/ogst/2015028 — Appendix A Table A2"
+  },
+  {
+    "name": "output.motored.1300rpm_40kPa.[E].exhaust_plenum_pressure_setpoint",
+    "value": 101.5,
+    "unit": "kPa abs",
+    "grade": "D",
+    "source": "https://doi.org/10.2516/ogst/2015028 — Appendix A Table A2"
+  },
+  {
+    "name": "output.motored.1300rpm_40kPa.[E].intake_temperature",
+    "value": 45,
+    "unit": "degC",
+    "grade": "D",
+    "source": "https://doi.org/10.2516/ogst/2015028 — Appendix A Table A2"
+  },
+  {
+    "name": "output.motored.1300rpm_40kPa.[E].mean_intake_port_pressure",
+    "value": 39.5,
+    "unit": "kPa abs",
+    "grade": "D",
+    "source": "https://doi.org/10.2516/ogst/2015028 — Appendix A Table A2"
+  },
+  {
+    "name": "output.motored.1300rpm_40kPa.[E].mean_exhaust_port_pressure",
+    "value": 101.1,
+    "unit": "kPa abs",
+    "grade": "D",
+    "source": "https://doi.org/10.2516/ogst/2015028 — Appendix A Table A2"
+  },
+  {
+    "name": "output.motored.1300rpm_40kPa.[E].delivered_air_mass_flow",
+    "value": 2.07,
+    "unit": "g/s",
+    "grade": "D",
+    "source": "https://doi.org/10.2516/ogst/2015028 — Appendix A Table A2"
+  },
+  {
+    "name": "output.motored.1300rpm_40kPa.[I].IMEP",
+    "value": -19.6,
+    "unit": "kPa",
+    "grade": "D",
+    "source": "https://doi.org/10.2516/ogst/2015028 — Appendix A Table A2"
+  },
+  {
+    "name": "output.motored.1300rpm_40kPa.[N].outside_quartz_cylinder_wall_temperature",
+    "value": 41.0,
+    "unit": "degC",
+    "grade": "D",
+    "source": "https://doi.org/10.2516/ogst/2015028 — Appendix A Table A2"
+  },
+  {
+    "name": "output.motored.1300rpm_40kPa.[N].peak_cylinder_pressure",
+    "value": 798,
+    "unit": "kPa abs",
+    "grade": "D",
+    "source": "https://doi.org/10.2516/ogst/2015028 — Appendix A Table A2"
+  },
+  {
+    "name": "output.motored.1300rpm_40kPa.[N].peak_cylinder_pressure_location",
+    "value": 358.5,
+    "unit": "CAD ATDCE",
+    "grade": "D",
+    "source": "https://doi.org/10.2516/ogst/2015028 — Appendix A Table A2"
+  },
+  {
+    "name": "output.motored.1300rpm_40kPa.archive_reference_test_ID",
+    "value": "S_2013_10_24_01",
+    "unit": "ID",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2MS3QP — Motored README p.2; selected y=0 test so the three conditions use the same PIV-plane convention"
+  },
+  {
+    "name": "output.motored.1300rpm_40kPa.[E].cylinder_pressure_mean_cycle",
+    "value": null,
+    "unit": "0.5 CAD numeric array",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2MS3QP — Motored README pp.3,5–6 confirms exact per-test Excel arrays at 0.5 CAD; pending Motored Full View archive ingestion"
+  },
+  {
+    "name": "output.motored.1300rpm_40kPa.[E].intake_port_pressure_trace",
+    "value": null,
+    "unit": "0.5 CAD numeric array",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2MS3QP — Motored README pp.3,5–6 confirms exact per-test Excel arrays at 0.5 CAD; pending Motored Full View archive ingestion"
+  },
+  {
+    "name": "output.motored.1300rpm_40kPa.[E].exhaust_port_pressure_trace",
+    "value": null,
+    "unit": "0.5 CAD numeric array",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2MS3QP — Motored README pp.3,5–6 confirms exact per-test Excel arrays at 0.5 CAD; pending Motored Full View archive ingestion"
+  },
+  {
+    "name": "output.motored.1300rpm_40kPa.[I].COV_IMEP",
+    "value": null,
+    "unit": "not found in current extracted tables",
+    "grade": "U",
+    "source": "https://doi.org/10.2516/ogst/2015028 Table A2 reports IMEP standard deviation/repeatability, not COV"
+  },
+  {
+    "name": "output.motored.1300rpm_40kPa.[I].CA10",
+    "value": null,
+    "unit": "n/a motored",
+    "grade": "U",
+    "source": "Motored condition; burn angle not applicable"
+  },
+  {
+    "name": "output.motored.1300rpm_40kPa.[I].CA50",
+    "value": null,
+    "unit": "n/a motored",
+    "grade": "U",
+    "source": "Motored condition; burn angle not applicable"
+  },
+  {
+    "name": "output.motored.1300rpm_40kPa.[I].CA90",
+    "value": null,
+    "unit": "n/a motored",
+    "grade": "U",
+    "source": "Motored condition; burn angle not applicable"
+  },
+  {
+    "name": "output.motored.1300rpm_40kPa.[N].brake_data",
+    "value": null,
+    "unit": "not found",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2MS3QP; https://doi.org/10.2516/ogst/2015028"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_02_05_01.[E].speed",
+    "value": 1300,
+    "unit": "rpm",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired README p.2"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_02_05_01.[E].intake_MAP",
+    "value": 40,
+    "unit": "kPa abs",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired README p.2"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_02_05_01.[E].exhaust_pressure_setpoint",
+    "value": 101.5,
+    "unit": "kPa abs",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired README p.13/p.33"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_02_05_01.[E].intake_temperature",
+    "value": null,
+    "unit": "not found",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2H41PCD — supplied README"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_02_05_01.[E].delivered_air_mass_flow",
+    "value": null,
+    "unit": "not found",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2H41PCD — supplied README"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_02_05_01.[I].IMEP",
+    "value": 333,
+    "unit": "kPa",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired README p.2"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_02_05_01.[I].COV_IMEP",
+    "value": 0.6,
+    "unit": "%",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired README p.2"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_02_05_01.image_plane",
+    "value": "x=0",
+    "unit": "label",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired README p.2"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_02_05_01.dissertation_recommended",
+    "value": false,
+    "unit": "boolean",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired README p.2; blue-bold IDs"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_02_05_01.[E].cylinder_pressure_mean_cycle",
+    "value": null,
+    "unit": "0.5 CAD numeric array",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired README pp.3,5–6 confirms exact per-test workbooks; raw archive not ingested"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_02_05_01.[E].intake_port_pressure_trace",
+    "value": null,
+    "unit": "0.5 CAD numeric array",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired README pp.3,5–6 confirms exact per-test workbooks; raw archive not ingested"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_02_05_01.[E].exhaust_port_pressure_trace",
+    "value": null,
+    "unit": "0.5 CAD numeric array",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired README pp.3,5–6 confirms exact per-test workbooks; raw archive not ingested"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_02_05_01.[I].CA10",
+    "value": null,
+    "unit": "not extracted",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2H41PCD — per-cycle/heat-release workbook exists; numeric burn-angle field not shown in supplied README"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_02_05_01.[I].CA50",
+    "value": null,
+    "unit": "not extracted",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2H41PCD — per-cycle/heat-release workbook exists; numeric burn-angle field not shown in supplied README"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_02_05_01.[I].CA90",
+    "value": null,
+    "unit": "not extracted",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2H41PCD — per-cycle/heat-release workbook exists; numeric burn-angle field not shown in supplied README"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_02_05_01.[N].brake_data",
+    "value": null,
+    "unit": "not found",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2H41PCD"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_02_12_01.[E].speed",
+    "value": 1300,
+    "unit": "rpm",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired README p.2"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_02_12_01.[E].intake_MAP",
+    "value": 40,
+    "unit": "kPa abs",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired README p.2"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_02_12_01.[E].exhaust_pressure_setpoint",
+    "value": 101.5,
+    "unit": "kPa abs",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired README p.13/p.33"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_02_12_01.[E].intake_temperature",
+    "value": null,
+    "unit": "not found",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2H41PCD — supplied README"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_02_12_01.[E].delivered_air_mass_flow",
+    "value": null,
+    "unit": "not found",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2H41PCD — supplied README"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_02_12_01.[I].IMEP",
+    "value": 333,
+    "unit": "kPa",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired README p.2"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_02_12_01.[I].COV_IMEP",
+    "value": 0.7,
+    "unit": "%",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired README p.2"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_02_12_01.image_plane",
+    "value": "x=0",
+    "unit": "label",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired README p.2"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_02_12_01.dissertation_recommended",
+    "value": false,
+    "unit": "boolean",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired README p.2; blue-bold IDs"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_02_12_01.[E].cylinder_pressure_mean_cycle",
+    "value": null,
+    "unit": "0.5 CAD numeric array",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired README pp.3,5–6 confirms exact per-test workbooks; raw archive not ingested"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_02_12_01.[E].intake_port_pressure_trace",
+    "value": null,
+    "unit": "0.5 CAD numeric array",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired README pp.3,5–6 confirms exact per-test workbooks; raw archive not ingested"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_02_12_01.[E].exhaust_port_pressure_trace",
+    "value": null,
+    "unit": "0.5 CAD numeric array",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired README pp.3,5–6 confirms exact per-test workbooks; raw archive not ingested"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_02_12_01.[I].CA10",
+    "value": null,
+    "unit": "not extracted",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2H41PCD — per-cycle/heat-release workbook exists; numeric burn-angle field not shown in supplied README"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_02_12_01.[I].CA50",
+    "value": null,
+    "unit": "not extracted",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2H41PCD — per-cycle/heat-release workbook exists; numeric burn-angle field not shown in supplied README"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_02_12_01.[I].CA90",
+    "value": null,
+    "unit": "not extracted",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2H41PCD — per-cycle/heat-release workbook exists; numeric burn-angle field not shown in supplied README"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_02_12_01.[N].brake_data",
+    "value": null,
+    "unit": "not found",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2H41PCD"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_02_13_02.[E].speed",
+    "value": 1300,
+    "unit": "rpm",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired README p.2"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_02_13_02.[E].intake_MAP",
+    "value": 40,
+    "unit": "kPa abs",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired README p.2"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_02_13_02.[E].exhaust_pressure_setpoint",
+    "value": 101.5,
+    "unit": "kPa abs",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired README p.13/p.33"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_02_13_02.[E].intake_temperature",
+    "value": null,
+    "unit": "not found",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2H41PCD — supplied README"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_02_13_02.[E].delivered_air_mass_flow",
+    "value": null,
+    "unit": "not found",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2H41PCD — supplied README"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_02_13_02.[I].IMEP",
+    "value": 323,
+    "unit": "kPa",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired README p.2"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_02_13_02.[I].COV_IMEP",
+    "value": 0.5,
+    "unit": "%",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired README p.2"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_02_13_02.image_plane",
+    "value": "x=0",
+    "unit": "label",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired README p.2"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_02_13_02.dissertation_recommended",
+    "value": true,
+    "unit": "boolean",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired README p.2; blue-bold IDs"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_02_13_02.[E].cylinder_pressure_mean_cycle",
+    "value": null,
+    "unit": "0.5 CAD numeric array",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired README pp.3,5–6 confirms exact per-test workbooks; raw archive not ingested"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_02_13_02.[E].intake_port_pressure_trace",
+    "value": null,
+    "unit": "0.5 CAD numeric array",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired README pp.3,5–6 confirms exact per-test workbooks; raw archive not ingested"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_02_13_02.[E].exhaust_port_pressure_trace",
+    "value": null,
+    "unit": "0.5 CAD numeric array",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired README pp.3,5–6 confirms exact per-test workbooks; raw archive not ingested"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_02_13_02.[I].CA10",
+    "value": null,
+    "unit": "not extracted",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2H41PCD — per-cycle/heat-release workbook exists; numeric burn-angle field not shown in supplied README"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_02_13_02.[I].CA50",
+    "value": null,
+    "unit": "not extracted",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2H41PCD — per-cycle/heat-release workbook exists; numeric burn-angle field not shown in supplied README"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_02_13_02.[I].CA90",
+    "value": null,
+    "unit": "not extracted",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2H41PCD — per-cycle/heat-release workbook exists; numeric burn-angle field not shown in supplied README"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_02_13_02.[N].brake_data",
+    "value": null,
+    "unit": "not found",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2H41PCD"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2013_10_29_01.[E].speed",
+    "value": 1300,
+    "unit": "rpm",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired README p.2"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2013_10_29_01.[E].intake_MAP",
+    "value": 40,
+    "unit": "kPa abs",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired README p.2"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2013_10_29_01.[E].exhaust_pressure_setpoint",
+    "value": 101.5,
+    "unit": "kPa abs",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired README p.13/p.33"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2013_10_29_01.[E].intake_temperature",
+    "value": null,
+    "unit": "not found",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2H41PCD — supplied README"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2013_10_29_01.[E].delivered_air_mass_flow",
+    "value": null,
+    "unit": "not found",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2H41PCD — supplied README"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2013_10_29_01.[I].IMEP",
+    "value": 343,
+    "unit": "kPa",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired README p.2"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2013_10_29_01.[I].COV_IMEP",
+    "value": 1.9,
+    "unit": "%",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired README p.2"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2013_10_29_01.image_plane",
+    "value": "y=0",
+    "unit": "label",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired README p.2"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2013_10_29_01.dissertation_recommended",
+    "value": true,
+    "unit": "boolean",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired README p.2; blue-bold IDs"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2013_10_29_01.[E].cylinder_pressure_mean_cycle",
+    "value": null,
+    "unit": "0.5 CAD numeric array",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired README pp.3,5–6 confirms exact per-test workbooks; raw archive not ingested"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2013_10_29_01.[E].intake_port_pressure_trace",
+    "value": null,
+    "unit": "0.5 CAD numeric array",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired README pp.3,5–6 confirms exact per-test workbooks; raw archive not ingested"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2013_10_29_01.[E].exhaust_port_pressure_trace",
+    "value": null,
+    "unit": "0.5 CAD numeric array",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired README pp.3,5–6 confirms exact per-test workbooks; raw archive not ingested"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2013_10_29_01.[I].CA10",
+    "value": null,
+    "unit": "not extracted",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2H41PCD — per-cycle/heat-release workbook exists; numeric burn-angle field not shown in supplied README"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2013_10_29_01.[I].CA50",
+    "value": null,
+    "unit": "not extracted",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2H41PCD — per-cycle/heat-release workbook exists; numeric burn-angle field not shown in supplied README"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2013_10_29_01.[I].CA90",
+    "value": null,
+    "unit": "not extracted",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2H41PCD — per-cycle/heat-release workbook exists; numeric burn-angle field not shown in supplied README"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2013_10_29_01.[N].brake_data",
+    "value": null,
+    "unit": "not found",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2H41PCD"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2013_10_31_02.[E].speed",
+    "value": 1300,
+    "unit": "rpm",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired README p.2"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2013_10_31_02.[E].intake_MAP",
+    "value": 40,
+    "unit": "kPa abs",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired README p.2"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2013_10_31_02.[E].exhaust_pressure_setpoint",
+    "value": 101.5,
+    "unit": "kPa abs",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired README p.13/p.33"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2013_10_31_02.[E].intake_temperature",
+    "value": null,
+    "unit": "not found",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2H41PCD — supplied README"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2013_10_31_02.[E].delivered_air_mass_flow",
+    "value": null,
+    "unit": "not found",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2H41PCD — supplied README"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2013_10_31_02.[I].IMEP",
+    "value": 333,
+    "unit": "kPa",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired README p.2"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2013_10_31_02.[I].COV_IMEP",
+    "value": 0.8,
+    "unit": "%",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired README p.2"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2013_10_31_02.image_plane",
+    "value": "y=0",
+    "unit": "label",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired README p.2"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2013_10_31_02.dissertation_recommended",
+    "value": false,
+    "unit": "boolean",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired README p.2; blue-bold IDs"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2013_10_31_02.[E].cylinder_pressure_mean_cycle",
+    "value": null,
+    "unit": "0.5 CAD numeric array",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired README pp.3,5–6 confirms exact per-test workbooks; raw archive not ingested"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2013_10_31_02.[E].intake_port_pressure_trace",
+    "value": null,
+    "unit": "0.5 CAD numeric array",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired README pp.3,5–6 confirms exact per-test workbooks; raw archive not ingested"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2013_10_31_02.[E].exhaust_port_pressure_trace",
+    "value": null,
+    "unit": "0.5 CAD numeric array",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired README pp.3,5–6 confirms exact per-test workbooks; raw archive not ingested"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2013_10_31_02.[I].CA10",
+    "value": null,
+    "unit": "not extracted",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2H41PCD — per-cycle/heat-release workbook exists; numeric burn-angle field not shown in supplied README"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2013_10_31_02.[I].CA50",
+    "value": null,
+    "unit": "not extracted",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2H41PCD — per-cycle/heat-release workbook exists; numeric burn-angle field not shown in supplied README"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2013_10_31_02.[I].CA90",
+    "value": null,
+    "unit": "not extracted",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2H41PCD — per-cycle/heat-release workbook exists; numeric burn-angle field not shown in supplied README"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2013_10_31_02.[N].brake_data",
+    "value": null,
+    "unit": "not found",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2H41PCD"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2013_11_07_03.[E].speed",
+    "value": 1300,
+    "unit": "rpm",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired README p.2"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2013_11_07_03.[E].intake_MAP",
+    "value": 40,
+    "unit": "kPa abs",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired README p.2"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2013_11_07_03.[E].exhaust_pressure_setpoint",
+    "value": 101.5,
+    "unit": "kPa abs",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired README p.13/p.33"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2013_11_07_03.[E].intake_temperature",
+    "value": null,
+    "unit": "not found",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2H41PCD — supplied README"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2013_11_07_03.[E].delivered_air_mass_flow",
+    "value": null,
+    "unit": "not found",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2H41PCD — supplied README"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2013_11_07_03.[I].IMEP",
+    "value": 333,
+    "unit": "kPa",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired README p.2"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2013_11_07_03.[I].COV_IMEP",
+    "value": 0.7,
+    "unit": "%",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired README p.2"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2013_11_07_03.image_plane",
+    "value": "y=0",
+    "unit": "label",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired README p.2"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2013_11_07_03.dissertation_recommended",
+    "value": false,
+    "unit": "boolean",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired README p.2; blue-bold IDs"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2013_11_07_03.[E].cylinder_pressure_mean_cycle",
+    "value": null,
+    "unit": "0.5 CAD numeric array",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired README pp.3,5–6 confirms exact per-test workbooks; raw archive not ingested"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2013_11_07_03.[E].intake_port_pressure_trace",
+    "value": null,
+    "unit": "0.5 CAD numeric array",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired README pp.3,5–6 confirms exact per-test workbooks; raw archive not ingested"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2013_11_07_03.[E].exhaust_port_pressure_trace",
+    "value": null,
+    "unit": "0.5 CAD numeric array",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired README pp.3,5–6 confirms exact per-test workbooks; raw archive not ingested"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2013_11_07_03.[I].CA10",
+    "value": null,
+    "unit": "not extracted",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2H41PCD — per-cycle/heat-release workbook exists; numeric burn-angle field not shown in supplied README"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2013_11_07_03.[I].CA50",
+    "value": null,
+    "unit": "not extracted",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2H41PCD — per-cycle/heat-release workbook exists; numeric burn-angle field not shown in supplied README"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2013_11_07_03.[I].CA90",
+    "value": null,
+    "unit": "not extracted",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2H41PCD — per-cycle/heat-release workbook exists; numeric burn-angle field not shown in supplied README"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2013_11_07_03.[N].brake_data",
+    "value": null,
+    "unit": "not found",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2H41PCD"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_05_06_01.[E].speed",
+    "value": 1300,
+    "unit": "rpm",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired README p.2"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_05_06_01.[E].intake_MAP",
+    "value": 40,
+    "unit": "kPa abs",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired README p.2"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_05_06_01.[E].exhaust_pressure_setpoint",
+    "value": 101.5,
+    "unit": "kPa abs",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired README p.13/p.33"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_05_06_01.[E].intake_temperature",
+    "value": null,
+    "unit": "not found",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2H41PCD — supplied README"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_05_06_01.[E].delivered_air_mass_flow",
+    "value": null,
+    "unit": "not found",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2H41PCD — supplied README"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_05_06_01.[I].IMEP",
+    "value": 343,
+    "unit": "kPa",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired README p.2"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_05_06_01.[I].COV_IMEP",
+    "value": 1.9,
+    "unit": "%",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired README p.2"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_05_06_01.image_plane",
+    "value": "z=-5",
+    "unit": "label",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired README p.2"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_05_06_01.dissertation_recommended",
+    "value": false,
+    "unit": "boolean",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired README p.2; blue-bold IDs"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_05_06_01.[E].cylinder_pressure_mean_cycle",
+    "value": null,
+    "unit": "0.5 CAD numeric array",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired README pp.3,5–6 confirms exact per-test workbooks; raw archive not ingested"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_05_06_01.[E].intake_port_pressure_trace",
+    "value": null,
+    "unit": "0.5 CAD numeric array",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired README pp.3,5–6 confirms exact per-test workbooks; raw archive not ingested"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_05_06_01.[E].exhaust_port_pressure_trace",
+    "value": null,
+    "unit": "0.5 CAD numeric array",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired README pp.3,5–6 confirms exact per-test workbooks; raw archive not ingested"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_05_06_01.[I].CA10",
+    "value": null,
+    "unit": "not extracted",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2H41PCD — per-cycle/heat-release workbook exists; numeric burn-angle field not shown in supplied README"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_05_06_01.[I].CA50",
+    "value": null,
+    "unit": "not extracted",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2H41PCD — per-cycle/heat-release workbook exists; numeric burn-angle field not shown in supplied README"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_05_06_01.[I].CA90",
+    "value": null,
+    "unit": "not extracted",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2H41PCD — per-cycle/heat-release workbook exists; numeric burn-angle field not shown in supplied README"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_05_06_01.[N].brake_data",
+    "value": null,
+    "unit": "not found",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2H41PCD"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_05_08_01.[E].speed",
+    "value": 1300,
+    "unit": "rpm",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired README p.2"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_05_08_01.[E].intake_MAP",
+    "value": 40,
+    "unit": "kPa abs",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired README p.2"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_05_08_01.[E].exhaust_pressure_setpoint",
+    "value": 101.5,
+    "unit": "kPa abs",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired README p.13/p.33"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_05_08_01.[E].intake_temperature",
+    "value": null,
+    "unit": "not found",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2H41PCD — supplied README"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_05_08_01.[E].delivered_air_mass_flow",
+    "value": null,
+    "unit": "not found",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2H41PCD — supplied README"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_05_08_01.[I].IMEP",
+    "value": 329,
+    "unit": "kPa",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired README p.2"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_05_08_01.[I].COV_IMEP",
+    "value": 0.9,
+    "unit": "%",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired README p.2"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_05_08_01.image_plane",
+    "value": "z=-5",
+    "unit": "label",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired README p.2"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_05_08_01.dissertation_recommended",
+    "value": true,
+    "unit": "boolean",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired README p.2; blue-bold IDs"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_05_08_01.[E].cylinder_pressure_mean_cycle",
+    "value": null,
+    "unit": "0.5 CAD numeric array",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired README pp.3,5–6 confirms exact per-test workbooks; raw archive not ingested"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_05_08_01.[E].intake_port_pressure_trace",
+    "value": null,
+    "unit": "0.5 CAD numeric array",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired README pp.3,5–6 confirms exact per-test workbooks; raw archive not ingested"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_05_08_01.[E].exhaust_port_pressure_trace",
+    "value": null,
+    "unit": "0.5 CAD numeric array",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired README pp.3,5–6 confirms exact per-test workbooks; raw archive not ingested"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_05_08_01.[I].CA10",
+    "value": null,
+    "unit": "not extracted",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2H41PCD — per-cycle/heat-release workbook exists; numeric burn-angle field not shown in supplied README"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_05_08_01.[I].CA50",
+    "value": null,
+    "unit": "not extracted",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2H41PCD — per-cycle/heat-release workbook exists; numeric burn-angle field not shown in supplied README"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_05_08_01.[I].CA90",
+    "value": null,
+    "unit": "not extracted",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2H41PCD — per-cycle/heat-release workbook exists; numeric burn-angle field not shown in supplied README"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_05_08_01.[N].brake_data",
+    "value": null,
+    "unit": "not found",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2H41PCD"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_05_13_01.[E].speed",
+    "value": 1300,
+    "unit": "rpm",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired README p.2"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_05_13_01.[E].intake_MAP",
+    "value": 40,
+    "unit": "kPa abs",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired README p.2"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_05_13_01.[E].exhaust_pressure_setpoint",
+    "value": 101.5,
+    "unit": "kPa abs",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired README p.13/p.33"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_05_13_01.[E].intake_temperature",
+    "value": null,
+    "unit": "not found",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2H41PCD — supplied README"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_05_13_01.[E].delivered_air_mass_flow",
+    "value": null,
+    "unit": "not found",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2H41PCD — supplied README"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_05_13_01.[I].IMEP",
+    "value": 326,
+    "unit": "kPa",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired README p.2"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_05_13_01.[I].COV_IMEP",
+    "value": 1.2,
+    "unit": "%",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired README p.2"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_05_13_01.image_plane",
+    "value": "z=-5",
+    "unit": "label",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired README p.2"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_05_13_01.dissertation_recommended",
+    "value": false,
+    "unit": "boolean",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired README p.2; blue-bold IDs"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_05_13_01.[E].cylinder_pressure_mean_cycle",
+    "value": null,
+    "unit": "0.5 CAD numeric array",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired README pp.3,5–6 confirms exact per-test workbooks; raw archive not ingested"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_05_13_01.[E].intake_port_pressure_trace",
+    "value": null,
+    "unit": "0.5 CAD numeric array",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired README pp.3,5–6 confirms exact per-test workbooks; raw archive not ingested"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_05_13_01.[E].exhaust_port_pressure_trace",
+    "value": null,
+    "unit": "0.5 CAD numeric array",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired README pp.3,5–6 confirms exact per-test workbooks; raw archive not ingested"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_05_13_01.[I].CA10",
+    "value": null,
+    "unit": "not extracted",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2H41PCD — per-cycle/heat-release workbook exists; numeric burn-angle field not shown in supplied README"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_05_13_01.[I].CA50",
+    "value": null,
+    "unit": "not extracted",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2H41PCD — per-cycle/heat-release workbook exists; numeric burn-angle field not shown in supplied README"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_05_13_01.[I].CA90",
+    "value": null,
+    "unit": "not extracted",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2H41PCD — per-cycle/heat-release workbook exists; numeric burn-angle field not shown in supplied README"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_05_13_01.[N].brake_data",
+    "value": null,
+    "unit": "not found",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2H41PCD"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_04_01_01.[E].speed",
+    "value": 1300,
+    "unit": "rpm",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired README p.2"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_04_01_01.[E].intake_MAP",
+    "value": 40,
+    "unit": "kPa abs",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired README p.2"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_04_01_01.[E].exhaust_pressure_setpoint",
+    "value": 101.5,
+    "unit": "kPa abs",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired README p.13/p.33"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_04_01_01.[E].intake_temperature",
+    "value": null,
+    "unit": "not found",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2H41PCD — supplied README"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_04_01_01.[E].delivered_air_mass_flow",
+    "value": null,
+    "unit": "not found",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2H41PCD — supplied README"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_04_01_01.[I].IMEP",
+    "value": 332,
+    "unit": "kPa",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired README p.2"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_04_01_01.[I].COV_IMEP",
+    "value": 1.1,
+    "unit": "%",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired README p.2"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_04_01_01.image_plane",
+    "value": "z=-30",
+    "unit": "label",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired README p.2"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_04_01_01.dissertation_recommended",
+    "value": false,
+    "unit": "boolean",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired README p.2; blue-bold IDs"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_04_01_01.[E].cylinder_pressure_mean_cycle",
+    "value": null,
+    "unit": "0.5 CAD numeric array",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired README pp.3,5–6 confirms exact per-test workbooks; raw archive not ingested"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_04_01_01.[E].intake_port_pressure_trace",
+    "value": null,
+    "unit": "0.5 CAD numeric array",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired README pp.3,5–6 confirms exact per-test workbooks; raw archive not ingested"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_04_01_01.[E].exhaust_port_pressure_trace",
+    "value": null,
+    "unit": "0.5 CAD numeric array",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired README pp.3,5–6 confirms exact per-test workbooks; raw archive not ingested"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_04_01_01.[I].CA10",
+    "value": null,
+    "unit": "not extracted",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2H41PCD — per-cycle/heat-release workbook exists; numeric burn-angle field not shown in supplied README"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_04_01_01.[I].CA50",
+    "value": null,
+    "unit": "not extracted",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2H41PCD — per-cycle/heat-release workbook exists; numeric burn-angle field not shown in supplied README"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_04_01_01.[I].CA90",
+    "value": null,
+    "unit": "not extracted",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2H41PCD — per-cycle/heat-release workbook exists; numeric burn-angle field not shown in supplied README"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_04_01_01.[N].brake_data",
+    "value": null,
+    "unit": "not found",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2H41PCD"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_04_03_02.[E].speed",
+    "value": 1300,
+    "unit": "rpm",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired README p.2"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_04_03_02.[E].intake_MAP",
+    "value": 40,
+    "unit": "kPa abs",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired README p.2"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_04_03_02.[E].exhaust_pressure_setpoint",
+    "value": 101.5,
+    "unit": "kPa abs",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired README p.13/p.33"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_04_03_02.[E].intake_temperature",
+    "value": null,
+    "unit": "not found",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2H41PCD — supplied README"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_04_03_02.[E].delivered_air_mass_flow",
+    "value": null,
+    "unit": "not found",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2H41PCD — supplied README"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_04_03_02.[I].IMEP",
+    "value": 329,
+    "unit": "kPa",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired README p.2"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_04_03_02.[I].COV_IMEP",
+    "value": 0.7,
+    "unit": "%",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired README p.2"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_04_03_02.image_plane",
+    "value": "z=-30",
+    "unit": "label",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired README p.2"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_04_03_02.dissertation_recommended",
+    "value": true,
+    "unit": "boolean",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired README p.2; blue-bold IDs"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_04_03_02.[E].cylinder_pressure_mean_cycle",
+    "value": null,
+    "unit": "0.5 CAD numeric array",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired README pp.3,5–6 confirms exact per-test workbooks; raw archive not ingested"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_04_03_02.[E].intake_port_pressure_trace",
+    "value": null,
+    "unit": "0.5 CAD numeric array",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired README pp.3,5–6 confirms exact per-test workbooks; raw archive not ingested"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_04_03_02.[E].exhaust_port_pressure_trace",
+    "value": null,
+    "unit": "0.5 CAD numeric array",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired README pp.3,5–6 confirms exact per-test workbooks; raw archive not ingested"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_04_03_02.[I].CA10",
+    "value": null,
+    "unit": "not extracted",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2H41PCD — per-cycle/heat-release workbook exists; numeric burn-angle field not shown in supplied README"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_04_03_02.[I].CA50",
+    "value": null,
+    "unit": "not extracted",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2H41PCD — per-cycle/heat-release workbook exists; numeric burn-angle field not shown in supplied README"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_04_03_02.[I].CA90",
+    "value": null,
+    "unit": "not extracted",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2H41PCD — per-cycle/heat-release workbook exists; numeric burn-angle field not shown in supplied README"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_04_03_02.[N].brake_data",
+    "value": null,
+    "unit": "not found",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2H41PCD"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_04_16_03_B.[E].speed",
+    "value": 1300,
+    "unit": "rpm",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired README p.2"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_04_16_03_B.[E].intake_MAP",
+    "value": 40,
+    "unit": "kPa abs",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired README p.2"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_04_16_03_B.[E].exhaust_pressure_setpoint",
+    "value": 101.5,
+    "unit": "kPa abs",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired README p.13/p.33"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_04_16_03_B.[E].intake_temperature",
+    "value": null,
+    "unit": "not found",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2H41PCD — supplied README"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_04_16_03_B.[E].delivered_air_mass_flow",
+    "value": null,
+    "unit": "not found",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2H41PCD — supplied README"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_04_16_03_B.[I].IMEP",
+    "value": 334,
+    "unit": "kPa",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired README p.2"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_04_16_03_B.[I].COV_IMEP",
+    "value": 0.6,
+    "unit": "%",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired README p.2"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_04_16_03_B.image_plane",
+    "value": "Fired SS",
+    "unit": "label",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired README p.2"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_04_16_03_B.dissertation_recommended",
+    "value": false,
+    "unit": "boolean",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired README p.2; blue-bold IDs"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_04_16_03_B.[E].cylinder_pressure_mean_cycle",
+    "value": null,
+    "unit": "0.5 CAD numeric array",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired README pp.3,5–6 confirms exact per-test workbooks; raw archive not ingested"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_04_16_03_B.[E].intake_port_pressure_trace",
+    "value": null,
+    "unit": "0.5 CAD numeric array",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired README pp.3,5–6 confirms exact per-test workbooks; raw archive not ingested"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_04_16_03_B.[E].exhaust_port_pressure_trace",
+    "value": null,
+    "unit": "0.5 CAD numeric array",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired README pp.3,5–6 confirms exact per-test workbooks; raw archive not ingested"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_04_16_03_B.[I].CA10",
+    "value": null,
+    "unit": "not extracted",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2H41PCD — per-cycle/heat-release workbook exists; numeric burn-angle field not shown in supplied README"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_04_16_03_B.[I].CA50",
+    "value": null,
+    "unit": "not extracted",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2H41PCD — per-cycle/heat-release workbook exists; numeric burn-angle field not shown in supplied README"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_04_16_03_B.[I].CA90",
+    "value": null,
+    "unit": "not extracted",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2H41PCD — per-cycle/heat-release workbook exists; numeric burn-angle field not shown in supplied README"
+  },
+  {
+    "name": "output.fired_full_view.test_S_2014_04_16_03_B.[N].brake_data",
+    "value": null,
+    "unit": "not found",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2H41PCD"
+  },
+  {
+    "name": "output.fired_full_view.canonical_reference_test_ID",
+    "value": "S_2014_02_13_02",
+    "unit": "ID",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired README p.2; blue-bold/dissertation-recommended x=0 test. Used as pack reference to avoid mixing tests."
+  },
+  {
+    "name": "output.fired_full_view.canonical_reference_start_of_ignition",
+    "value": 342,
+    "unit": "CAD ATDCE",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired README p.2"
+  },
+  {
+    "name": "output.fired_full_view.canonical_reference_phi",
+    "value": 1.0,
+    "unit": "equivalence ratio",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_01.speed",
+    "value": 1300,
+    "unit": "rpm",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — Spark Plug Region README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_01.MAP",
+    "value": 40,
+    "unit": "kPa abs",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — Spark Plug Region README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_01.SOIgn",
+    "value": 342,
+    "unit": "CAD ATDCE",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — Spark Plug Region README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_01.phi",
+    "value": 0.66,
+    "unit": "equivalence ratio",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — Spark Plug Region README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_01.O2_mass_flow",
+    "value": 0.48,
+    "unit": "g/s",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — Spark Plug Region README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_01.N2_mass_flow",
+    "value": 1.59,
+    "unit": "g/s",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — Spark Plug Region README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_01.primary_fuel_mass_flow",
+    "value": 0.07,
+    "unit": "g/s",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — Spark Plug Region README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_01.toluene_mass_flow",
+    "value": 0.012,
+    "unit": "g/s",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — Spark Plug Region README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_01.A_F_reported",
+    "value": 25.3,
+    "unit": "ratio",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — Spark Plug Region README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_01.IMEP",
+    "value": 212,
+    "unit": "kPa",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — Spark Plug Region README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_01.COV_IMEP",
+    "value": 8.3,
+    "unit": "%",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — Spark Plug Region README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_01.fuel",
+    "value": "CH4",
+    "unit": "composition",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_01.dilution",
+    "value": "air",
+    "unit": "description",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_01.lambda",
+    "value": 1.515152,
+    "unit": "lambda",
+    "grade": "R",
+    "source": "Arithmetic: lambda = 1/phi = 1/0.66"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_01.cylinder_pressure_mean_cycle",
+    "value": null,
+    "unit": "0.5 CAD numeric array",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — README p.4 confirms arrays; 134 GB raw archive not ingested"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_01.intake_port_pressure_trace",
+    "value": null,
+    "unit": "0.5 CAD numeric array",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — README p.4 confirms arrays; 134 GB raw archive not ingested"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_01.exhaust_port_pressure_trace",
+    "value": null,
+    "unit": "0.5 CAD numeric array",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — README p.4 confirms arrays; 134 GB raw archive not ingested"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_01.CA10",
+    "value": null,
+    "unit": "numeric field exists; value pending",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — README p.8 lists CA10 in 1/cycle Excel workbook; raw archive not ingested"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_01.CA50",
+    "value": null,
+    "unit": "numeric field exists; value pending",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — README p.8 lists CA50 in 1/cycle Excel workbook; raw archive not ingested"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_01.CA90",
+    "value": null,
+    "unit": "numeric field exists; value pending",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — README p.8 lists CA90 in 1/cycle Excel workbook; raw archive not ingested"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_02.speed",
+    "value": 1300,
+    "unit": "rpm",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — Spark Plug Region README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_02.MAP",
+    "value": 40,
+    "unit": "kPa abs",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — Spark Plug Region README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_02.SOIgn",
+    "value": 342,
+    "unit": "CAD ATDCE",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — Spark Plug Region README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_02.phi",
+    "value": 0.69,
+    "unit": "equivalence ratio",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — Spark Plug Region README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_02.O2_mass_flow",
+    "value": 0.48,
+    "unit": "g/s",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — Spark Plug Region README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_02.N2_mass_flow",
+    "value": 1.59,
+    "unit": "g/s",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — Spark Plug Region README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_02.primary_fuel_mass_flow",
+    "value": 0.075,
+    "unit": "g/s",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — Spark Plug Region README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_02.toluene_mass_flow",
+    "value": 0.012,
+    "unit": "g/s",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — Spark Plug Region README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_02.A_F_reported",
+    "value": 24.0,
+    "unit": "ratio",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — Spark Plug Region README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_02.IMEP",
+    "value": 250,
+    "unit": "kPa",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — Spark Plug Region README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_02.COV_IMEP",
+    "value": 4.5,
+    "unit": "%",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — Spark Plug Region README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_02.fuel",
+    "value": "CH4",
+    "unit": "composition",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_02.dilution",
+    "value": "air",
+    "unit": "description",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_02.lambda",
+    "value": 1.449275,
+    "unit": "lambda",
+    "grade": "R",
+    "source": "Arithmetic: lambda = 1/phi = 1/0.69"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_02.cylinder_pressure_mean_cycle",
+    "value": null,
+    "unit": "0.5 CAD numeric array",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — README p.4 confirms arrays; 134 GB raw archive not ingested"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_02.intake_port_pressure_trace",
+    "value": null,
+    "unit": "0.5 CAD numeric array",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — README p.4 confirms arrays; 134 GB raw archive not ingested"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_02.exhaust_port_pressure_trace",
+    "value": null,
+    "unit": "0.5 CAD numeric array",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — README p.4 confirms arrays; 134 GB raw archive not ingested"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_02.CA10",
+    "value": null,
+    "unit": "numeric field exists; value pending",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — README p.8 lists CA10 in 1/cycle Excel workbook; raw archive not ingested"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_02.CA50",
+    "value": null,
+    "unit": "numeric field exists; value pending",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — README p.8 lists CA50 in 1/cycle Excel workbook; raw archive not ingested"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_02.CA90",
+    "value": null,
+    "unit": "numeric field exists; value pending",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — README p.8 lists CA90 in 1/cycle Excel workbook; raw archive not ingested"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_03.speed",
+    "value": 1300,
+    "unit": "rpm",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — Spark Plug Region README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_03.MAP",
+    "value": 40,
+    "unit": "kPa abs",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — Spark Plug Region README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_03.SOIgn",
+    "value": 342,
+    "unit": "CAD ATDCE",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — Spark Plug Region README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_03.phi",
+    "value": 1.0,
+    "unit": "equivalence ratio",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — Spark Plug Region README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_03.O2_mass_flow",
+    "value": 0.47,
+    "unit": "g/s",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — Spark Plug Region README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_03.N2_mass_flow",
+    "value": 1.56,
+    "unit": "g/s",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — Spark Plug Region README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_03.primary_fuel_mass_flow",
+    "value": 0.109,
+    "unit": "g/s",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — Spark Plug Region README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_03.toluene_mass_flow",
+    "value": 0.012,
+    "unit": "g/s",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — Spark Plug Region README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_03.A_F_reported",
+    "value": 16.8,
+    "unit": "ratio",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — Spark Plug Region README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_03.IMEP",
+    "value": 328,
+    "unit": "kPa",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — Spark Plug Region README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_03.COV_IMEP",
+    "value": 1.3,
+    "unit": "%",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — Spark Plug Region README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_03.fuel",
+    "value": "CH4",
+    "unit": "composition",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_03.dilution",
+    "value": "air",
+    "unit": "description",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_03.lambda",
+    "value": 1.0,
+    "unit": "lambda",
+    "grade": "R",
+    "source": "Arithmetic: lambda = 1/phi = 1/1.0"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_03.cylinder_pressure_mean_cycle",
+    "value": null,
+    "unit": "0.5 CAD numeric array",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — README p.4 confirms arrays; 134 GB raw archive not ingested"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_03.intake_port_pressure_trace",
+    "value": null,
+    "unit": "0.5 CAD numeric array",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — README p.4 confirms arrays; 134 GB raw archive not ingested"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_03.exhaust_port_pressure_trace",
+    "value": null,
+    "unit": "0.5 CAD numeric array",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — README p.4 confirms arrays; 134 GB raw archive not ingested"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_03.CA10",
+    "value": null,
+    "unit": "numeric field exists; value pending",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — README p.8 lists CA10 in 1/cycle Excel workbook; raw archive not ingested"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_03.CA50",
+    "value": null,
+    "unit": "numeric field exists; value pending",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — README p.8 lists CA50 in 1/cycle Excel workbook; raw archive not ingested"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_03.CA90",
+    "value": null,
+    "unit": "numeric field exists; value pending",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — README p.8 lists CA90 in 1/cycle Excel workbook; raw archive not ingested"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_04.speed",
+    "value": 1300,
+    "unit": "rpm",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — Spark Plug Region README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_04.MAP",
+    "value": 40,
+    "unit": "kPa abs",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — Spark Plug Region README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_04.SOIgn",
+    "value": 342,
+    "unit": "CAD ATDCE",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — Spark Plug Region README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_04.phi",
+    "value": 1.21,
+    "unit": "equivalence ratio",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — Spark Plug Region README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_04.O2_mass_flow",
+    "value": 0.47,
+    "unit": "g/s",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — Spark Plug Region README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_04.N2_mass_flow",
+    "value": 1.54,
+    "unit": "g/s",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — Spark Plug Region README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_04.primary_fuel_mass_flow",
+    "value": 0.132,
+    "unit": "g/s",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — Spark Plug Region README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_04.toluene_mass_flow",
+    "value": 0.012,
+    "unit": "g/s",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — Spark Plug Region README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_04.A_F_reported",
+    "value": 14.0,
+    "unit": "ratio",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — Spark Plug Region README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_04.IMEP",
+    "value": 287,
+    "unit": "kPa",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — Spark Plug Region README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_04.COV_IMEP",
+    "value": 4.5,
+    "unit": "%",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — Spark Plug Region README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_04.fuel",
+    "value": "CH4",
+    "unit": "composition",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_04.dilution",
+    "value": "air",
+    "unit": "description",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_04.lambda",
+    "value": 0.826446,
+    "unit": "lambda",
+    "grade": "R",
+    "source": "Arithmetic: lambda = 1/phi = 1/1.21"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_04.cylinder_pressure_mean_cycle",
+    "value": null,
+    "unit": "0.5 CAD numeric array",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — README p.4 confirms arrays; 134 GB raw archive not ingested"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_04.intake_port_pressure_trace",
+    "value": null,
+    "unit": "0.5 CAD numeric array",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — README p.4 confirms arrays; 134 GB raw archive not ingested"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_04.exhaust_port_pressure_trace",
+    "value": null,
+    "unit": "0.5 CAD numeric array",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — README p.4 confirms arrays; 134 GB raw archive not ingested"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_04.CA10",
+    "value": null,
+    "unit": "numeric field exists; value pending",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — README p.8 lists CA10 in 1/cycle Excel workbook; raw archive not ingested"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_04.CA50",
+    "value": null,
+    "unit": "numeric field exists; value pending",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — README p.8 lists CA50 in 1/cycle Excel workbook; raw archive not ingested"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_04.CA90",
+    "value": null,
+    "unit": "numeric field exists; value pending",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — README p.8 lists CA90 in 1/cycle Excel workbook; raw archive not ingested"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_05.speed",
+    "value": 1300,
+    "unit": "rpm",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — Spark Plug Region README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_05.MAP",
+    "value": 40,
+    "unit": "kPa abs",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — Spark Plug Region README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_05.SOIgn",
+    "value": 342,
+    "unit": "CAD ATDCE",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — Spark Plug Region README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_05.phi",
+    "value": 0.67,
+    "unit": "equivalence ratio",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — Spark Plug Region README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_05.O2_mass_flow",
+    "value": 0.48,
+    "unit": "g/s",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — Spark Plug Region README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_05.N2_mass_flow",
+    "value": 1.58,
+    "unit": "g/s",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — Spark Plug Region README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_05.primary_fuel_mass_flow",
+    "value": 0.078,
+    "unit": "g/s",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — Spark Plug Region README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_05.toluene_mass_flow",
+    "value": 0.012,
+    "unit": "g/s",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — Spark Plug Region README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_05.A_F_reported",
+    "value": 23.0,
+    "unit": "ratio",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — Spark Plug Region README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_05.IMEP",
+    "value": 234,
+    "unit": "kPa",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — Spark Plug Region README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_05.COV_IMEP",
+    "value": 6.3,
+    "unit": "%",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — Spark Plug Region README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_05.fuel",
+    "value": "C3H8",
+    "unit": "composition",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_05.dilution",
+    "value": "air",
+    "unit": "description",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_05.lambda",
+    "value": 1.492537,
+    "unit": "lambda",
+    "grade": "R",
+    "source": "Arithmetic: lambda = 1/phi = 1/0.67"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_05.cylinder_pressure_mean_cycle",
+    "value": null,
+    "unit": "0.5 CAD numeric array",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — README p.4 confirms arrays; 134 GB raw archive not ingested"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_05.intake_port_pressure_trace",
+    "value": null,
+    "unit": "0.5 CAD numeric array",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — README p.4 confirms arrays; 134 GB raw archive not ingested"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_05.exhaust_port_pressure_trace",
+    "value": null,
+    "unit": "0.5 CAD numeric array",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — README p.4 confirms arrays; 134 GB raw archive not ingested"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_05.CA10",
+    "value": null,
+    "unit": "numeric field exists; value pending",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — README p.8 lists CA10 in 1/cycle Excel workbook; raw archive not ingested"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_05.CA50",
+    "value": null,
+    "unit": "numeric field exists; value pending",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — README p.8 lists CA50 in 1/cycle Excel workbook; raw archive not ingested"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_05.CA90",
+    "value": null,
+    "unit": "numeric field exists; value pending",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — README p.8 lists CA90 in 1/cycle Excel workbook; raw archive not ingested"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_06.speed",
+    "value": 1300,
+    "unit": "rpm",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — Spark Plug Region README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_06.MAP",
+    "value": 40,
+    "unit": "kPa abs",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — Spark Plug Region README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_06.SOIgn",
+    "value": 342,
+    "unit": "CAD ATDCE",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — Spark Plug Region README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_06.phi",
+    "value": 1.0,
+    "unit": "equivalence ratio",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — Spark Plug Region README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_06.O2_mass_flow",
+    "value": 0.47,
+    "unit": "g/s",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — Spark Plug Region README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_06.N2_mass_flow",
+    "value": 1.55,
+    "unit": "g/s",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — Spark Plug Region README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_06.primary_fuel_mass_flow",
+    "value": 0.119,
+    "unit": "g/s",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — Spark Plug Region README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_06.toluene_mass_flow",
+    "value": 0.012,
+    "unit": "g/s",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — Spark Plug Region README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_06.A_F_reported",
+    "value": 15.5,
+    "unit": "ratio",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — Spark Plug Region README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_06.IMEP",
+    "value": 337,
+    "unit": "kPa",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — Spark Plug Region README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_06.COV_IMEP",
+    "value": 0.8,
+    "unit": "%",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — Spark Plug Region README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_06.fuel",
+    "value": "C3H8",
+    "unit": "composition",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_06.dilution",
+    "value": "air",
+    "unit": "description",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_06.lambda",
+    "value": 1.0,
+    "unit": "lambda",
+    "grade": "R",
+    "source": "Arithmetic: lambda = 1/phi = 1/1.0"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_06.cylinder_pressure_mean_cycle",
+    "value": null,
+    "unit": "0.5 CAD numeric array",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — README p.4 confirms arrays; 134 GB raw archive not ingested"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_06.intake_port_pressure_trace",
+    "value": null,
+    "unit": "0.5 CAD numeric array",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — README p.4 confirms arrays; 134 GB raw archive not ingested"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_06.exhaust_port_pressure_trace",
+    "value": null,
+    "unit": "0.5 CAD numeric array",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — README p.4 confirms arrays; 134 GB raw archive not ingested"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_06.CA10",
+    "value": null,
+    "unit": "numeric field exists; value pending",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — README p.8 lists CA10 in 1/cycle Excel workbook; raw archive not ingested"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_06.CA50",
+    "value": null,
+    "unit": "numeric field exists; value pending",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — README p.8 lists CA50 in 1/cycle Excel workbook; raw archive not ingested"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_06.CA90",
+    "value": null,
+    "unit": "numeric field exists; value pending",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — README p.8 lists CA90 in 1/cycle Excel workbook; raw archive not ingested"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_07.speed",
+    "value": 1300,
+    "unit": "rpm",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — Spark Plug Region README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_07.MAP",
+    "value": 40,
+    "unit": "kPa abs",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — Spark Plug Region README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_07.SOIgn",
+    "value": 342,
+    "unit": "CAD ATDCE",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — Spark Plug Region README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_07.phi",
+    "value": 1.56,
+    "unit": "equivalence ratio",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — Spark Plug Region README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_07.O2_mass_flow",
+    "value": 0.46,
+    "unit": "g/s",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — Spark Plug Region README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_07.N2_mass_flow",
+    "value": 1.5,
+    "unit": "g/s",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — Spark Plug Region README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_07.primary_fuel_mass_flow",
+    "value": 0.185,
+    "unit": "g/s",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — Spark Plug Region README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_07.toluene_mass_flow",
+    "value": 0.012,
+    "unit": "g/s",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — Spark Plug Region README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_07.A_F_reported",
+    "value": 10.0,
+    "unit": "ratio",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — Spark Plug Region README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_07.IMEP",
+    "value": 259,
+    "unit": "kPa",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — Spark Plug Region README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_07.COV_IMEP",
+    "value": 6.3,
+    "unit": "%",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — Spark Plug Region README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_07.fuel",
+    "value": "C3H8",
+    "unit": "composition",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_07.dilution",
+    "value": "air",
+    "unit": "description",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_07.lambda",
+    "value": 0.641026,
+    "unit": "lambda",
+    "grade": "R",
+    "source": "Arithmetic: lambda = 1/phi = 1/1.56"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_07.cylinder_pressure_mean_cycle",
+    "value": null,
+    "unit": "0.5 CAD numeric array",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — README p.4 confirms arrays; 134 GB raw archive not ingested"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_07.intake_port_pressure_trace",
+    "value": null,
+    "unit": "0.5 CAD numeric array",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — README p.4 confirms arrays; 134 GB raw archive not ingested"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_07.exhaust_port_pressure_trace",
+    "value": null,
+    "unit": "0.5 CAD numeric array",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — README p.4 confirms arrays; 134 GB raw archive not ingested"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_07.CA10",
+    "value": null,
+    "unit": "numeric field exists; value pending",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — README p.8 lists CA10 in 1/cycle Excel workbook; raw archive not ingested"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_07.CA50",
+    "value": null,
+    "unit": "numeric field exists; value pending",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — README p.8 lists CA50 in 1/cycle Excel workbook; raw archive not ingested"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_07.CA90",
+    "value": null,
+    "unit": "numeric field exists; value pending",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — README p.8 lists CA90 in 1/cycle Excel workbook; raw archive not ingested"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_08.speed",
+    "value": 1300,
+    "unit": "rpm",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — Spark Plug Region README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_08.MAP",
+    "value": 40,
+    "unit": "kPa abs",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — Spark Plug Region README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_08.SOIgn",
+    "value": 342,
+    "unit": "CAD ATDCE",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — Spark Plug Region README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_08.phi",
+    "value": 0.79,
+    "unit": "equivalence ratio",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — Spark Plug Region README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_08.O2_mass_flow",
+    "value": 0.44,
+    "unit": "g/s",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — Spark Plug Region README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_08.N2_mass_flow",
+    "value": 1.62,
+    "unit": "g/s",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — Spark Plug Region README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_08.primary_fuel_mass_flow",
+    "value": 0.084,
+    "unit": "g/s",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — Spark Plug Region README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_08.toluene_mass_flow",
+    "value": 0.012,
+    "unit": "g/s",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — Spark Plug Region README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_08.A_F_reported",
+    "value": 19.6,
+    "unit": "ratio",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — Spark Plug Region README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_08.IMEP",
+    "value": 250,
+    "unit": "kPa",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — Spark Plug Region README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_08.COV_IMEP",
+    "value": 5.0,
+    "unit": "%",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — Spark Plug Region README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_08.fuel",
+    "value": "C3H8",
+    "unit": "composition",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_08.dilution",
+    "value": "9% N2 by mass",
+    "unit": "description",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_08.lambda",
+    "value": 1.265823,
+    "unit": "lambda",
+    "grade": "R",
+    "source": "Arithmetic: lambda = 1/phi = 1/0.79"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_08.cylinder_pressure_mean_cycle",
+    "value": null,
+    "unit": "0.5 CAD numeric array",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — README p.4 confirms arrays; 134 GB raw archive not ingested"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_08.intake_port_pressure_trace",
+    "value": null,
+    "unit": "0.5 CAD numeric array",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — README p.4 confirms arrays; 134 GB raw archive not ingested"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_08.exhaust_port_pressure_trace",
+    "value": null,
+    "unit": "0.5 CAD numeric array",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — README p.4 confirms arrays; 134 GB raw archive not ingested"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_08.CA10",
+    "value": null,
+    "unit": "numeric field exists; value pending",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — README p.8 lists CA10 in 1/cycle Excel workbook; raw archive not ingested"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_08.CA50",
+    "value": null,
+    "unit": "numeric field exists; value pending",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — README p.8 lists CA50 in 1/cycle Excel workbook; raw archive not ingested"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_08.CA90",
+    "value": null,
+    "unit": "numeric field exists; value pending",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — README p.8 lists CA90 in 1/cycle Excel workbook; raw archive not ingested"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_09.speed",
+    "value": 1300,
+    "unit": "rpm",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — Spark Plug Region README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_09.MAP",
+    "value": 40,
+    "unit": "kPa abs",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — Spark Plug Region README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_09.SOIgn",
+    "value": 342,
+    "unit": "CAD ATDCE",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — Spark Plug Region README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_09.phi",
+    "value": 1.0,
+    "unit": "equivalence ratio",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — Spark Plug Region README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_09.O2_mass_flow",
+    "value": 0.43,
+    "unit": "g/s",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — Spark Plug Region README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_09.N2_mass_flow",
+    "value": 1.6,
+    "unit": "g/s",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — Spark Plug Region README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_09.primary_fuel_mass_flow",
+    "value": 0.108,
+    "unit": "g/s",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — Spark Plug Region README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_09.toluene_mass_flow",
+    "value": 0.012,
+    "unit": "g/s",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — Spark Plug Region README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_09.A_F_reported",
+    "value": 15.5,
+    "unit": "ratio",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — Spark Plug Region README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_09.IMEP",
+    "value": 311,
+    "unit": "kPa",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — Spark Plug Region README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_09.COV_IMEP",
+    "value": 1.8,
+    "unit": "%",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — Spark Plug Region README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_09.fuel",
+    "value": "C3H8",
+    "unit": "composition",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_09.dilution",
+    "value": "9% N2 by mass",
+    "unit": "description",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_09.lambda",
+    "value": 1.0,
+    "unit": "lambda",
+    "grade": "R",
+    "source": "Arithmetic: lambda = 1/phi = 1/1.0"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_09.cylinder_pressure_mean_cycle",
+    "value": null,
+    "unit": "0.5 CAD numeric array",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — README p.4 confirms arrays; 134 GB raw archive not ingested"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_09.intake_port_pressure_trace",
+    "value": null,
+    "unit": "0.5 CAD numeric array",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — README p.4 confirms arrays; 134 GB raw archive not ingested"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_09.exhaust_port_pressure_trace",
+    "value": null,
+    "unit": "0.5 CAD numeric array",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — README p.4 confirms arrays; 134 GB raw archive not ingested"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_09.CA10",
+    "value": null,
+    "unit": "numeric field exists; value pending",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — README p.8 lists CA10 in 1/cycle Excel workbook; raw archive not ingested"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_09.CA50",
+    "value": null,
+    "unit": "numeric field exists; value pending",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — README p.8 lists CA50 in 1/cycle Excel workbook; raw archive not ingested"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_09.CA90",
+    "value": null,
+    "unit": "numeric field exists; value pending",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — README p.8 lists CA90 in 1/cycle Excel workbook; raw archive not ingested"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_10.speed",
+    "value": 1300,
+    "unit": "rpm",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — Spark Plug Region README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_10.MAP",
+    "value": 40,
+    "unit": "kPa abs",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — Spark Plug Region README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_10.SOIgn",
+    "value": 342,
+    "unit": "CAD ATDCE",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — Spark Plug Region README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_10.phi",
+    "value": 1.43,
+    "unit": "equivalence ratio",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — Spark Plug Region README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_10.O2_mass_flow",
+    "value": 0.42,
+    "unit": "g/s",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — Spark Plug Region README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_10.N2_mass_flow",
+    "value": 1.57,
+    "unit": "g/s",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — Spark Plug Region README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_10.primary_fuel_mass_flow",
+    "value": 0.154,
+    "unit": "g/s",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — Spark Plug Region README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_10.toluene_mass_flow",
+    "value": 0.012,
+    "unit": "g/s",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — Spark Plug Region README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_10.A_F_reported",
+    "value": 10.8,
+    "unit": "ratio",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — Spark Plug Region README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_10.IMEP",
+    "value": 278,
+    "unit": "kPa",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — Spark Plug Region README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_10.COV_IMEP",
+    "value": 5.5,
+    "unit": "%",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — Spark Plug Region README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_10.fuel",
+    "value": "C3H8",
+    "unit": "composition",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_10.dilution",
+    "value": "9% N2 by mass",
+    "unit": "description",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_10.lambda",
+    "value": 0.699301,
+    "unit": "lambda",
+    "grade": "R",
+    "source": "Arithmetic: lambda = 1/phi = 1/1.43"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_10.cylinder_pressure_mean_cycle",
+    "value": null,
+    "unit": "0.5 CAD numeric array",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — README p.4 confirms arrays; 134 GB raw archive not ingested"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_10.intake_port_pressure_trace",
+    "value": null,
+    "unit": "0.5 CAD numeric array",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — README p.4 confirms arrays; 134 GB raw archive not ingested"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_10.exhaust_port_pressure_trace",
+    "value": null,
+    "unit": "0.5 CAD numeric array",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — README p.4 confirms arrays; 134 GB raw archive not ingested"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_10.CA10",
+    "value": null,
+    "unit": "numeric field exists; value pending",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — README p.8 lists CA10 in 1/cycle Excel workbook; raw archive not ingested"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_10.CA50",
+    "value": null,
+    "unit": "numeric field exists; value pending",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — README p.8 lists CA50 in 1/cycle Excel workbook; raw archive not ingested"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_10.CA90",
+    "value": null,
+    "unit": "numeric field exists; value pending",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — README p.8 lists CA90 in 1/cycle Excel workbook; raw archive not ingested"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_11.speed",
+    "value": 1300,
+    "unit": "rpm",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — Spark Plug Region README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_11.MAP",
+    "value": 40,
+    "unit": "kPa abs",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — Spark Plug Region README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_11.SOIgn",
+    "value": 342,
+    "unit": "CAD ATDCE",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — Spark Plug Region README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_11.phi",
+    "value": 1.0,
+    "unit": "equivalence ratio",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — Spark Plug Region README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_11.O2_mass_flow",
+    "value": 0.38,
+    "unit": "g/s",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — Spark Plug Region README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_11.N2_mass_flow",
+    "value": 1.66,
+    "unit": "g/s",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — Spark Plug Region README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_11.primary_fuel_mass_flow",
+    "value": 0.096,
+    "unit": "g/s",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — Spark Plug Region README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_11.toluene_mass_flow",
+    "value": 0.012,
+    "unit": "g/s",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — Spark Plug Region README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_11.A_F_reported",
+    "value": 15.5,
+    "unit": "ratio",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — Spark Plug Region README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_11.IMEP",
+    "value": 212,
+    "unit": "kPa",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — Spark Plug Region README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_11.COV_IMEP",
+    "value": 8.2,
+    "unit": "%",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — Spark Plug Region README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_11.fuel",
+    "value": "C3H8",
+    "unit": "composition",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_11.dilution",
+    "value": "19% N2",
+    "unit": "description",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — README p.2"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_11.lambda",
+    "value": 1.0,
+    "unit": "lambda",
+    "grade": "R",
+    "source": "Arithmetic: lambda = 1/phi = 1/1.0"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_11.cylinder_pressure_mean_cycle",
+    "value": null,
+    "unit": "0.5 CAD numeric array",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — README p.4 confirms arrays; 134 GB raw archive not ingested"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_11.intake_port_pressure_trace",
+    "value": null,
+    "unit": "0.5 CAD numeric array",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — README p.4 confirms arrays; 134 GB raw archive not ingested"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_11.exhaust_port_pressure_trace",
+    "value": null,
+    "unit": "0.5 CAD numeric array",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — README p.4 confirms arrays; 134 GB raw archive not ingested"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_11.CA10",
+    "value": null,
+    "unit": "numeric field exists; value pending",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — README p.8 lists CA10 in 1/cycle Excel workbook; raw archive not ingested"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_11.CA50",
+    "value": null,
+    "unit": "numeric field exists; value pending",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — README p.8 lists CA50 in 1/cycle Excel workbook; raw archive not ingested"
+  },
+  {
+    "name": "output.spark_plug_region.separate_campaign.condition_11.CA90",
+    "value": null,
+    "unit": "numeric field exists; value pending",
+    "grade": "U",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — README p.8 lists CA90 in 1/cycle Excel workbook; raw archive not ingested"
+  },
+  {
+    "name": "model_derived.secondary_openfoam_cylinder_pressure_trace",
+    "value": "https://raw.githubusercontent.com/OpenFOAM/ICengines/master/tutorials/tcc3/constant/engineData/chamberPressure.txt",
+    "unit": "1440 points; 0–719.5 CAD; Δ=0.5 CAD; max 1826.65 kPa at 358.5 CAD",
+    "grade": "F",
+    "source": "https://github.com/OpenFOAM/ICengines/tree/master/tutorials/tcc3; already-tabulated source, no plot digitisation; operating point not explicitly labelled"
+  },
+  {
+    "name": "model_derived.secondary_openfoam_intake_pressure_trace",
+    "value": "https://raw.githubusercontent.com/OpenFOAM/ICengines/master/tutorials/tcc3/constant/engineData/intakePressure.txt",
+    "unit": "1440 points; -360–359.5 CAD; Δ=0.5 CAD; mean ≈94.2607 kPa",
+    "grade": "F",
+    "source": "https://github.com/OpenFOAM/ICengines/tree/master/tutorials/tcc3; already-tabulated source, no plot digitisation; operating point not explicitly labelled"
+  },
+  {
+    "name": "model_derived.secondary_openfoam_exhaust_pressure_trace",
+    "value": "https://raw.githubusercontent.com/OpenFOAM/ICengines/master/tutorials/tcc3/constant/engineData/exhaustPressure.txt",
+    "unit": "1440 points; -360–359.5 CAD; Δ=0.5 CAD; mean ≈101.7225 kPa",
+    "grade": "F",
+    "source": "https://github.com/OpenFOAM/ICengines/tree/master/tutorials/tcc3; already-tabulated source, no plot digitisation; operating point not explicitly labelled"
+  },
+  {
+    "name": "download.motored_full_view",
+    "value": "full Deep Blue ZIP (~30 GB; transfer currently pending)",
+    "unit": "archive",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2MS3QP; README p.1 describes deposit; p.6 shows internal structure"
+  },
+  {
+    "name": "download.fired_full_view",
+    "value": "full Deep Blue ZIP (~20 GB; not ingested)",
+    "unit": "archive",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2H41PCD; README p.1"
+  },
+  {
+    "name": "download.spark_plug_region",
+    "value": "full Deep Blue ZIP (~134 GB; not ingested)",
+    "unit": "archive",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP; README p.1"
+  },
+  {
+    "name": "download.motored_internal_directory.pressure_data",
+    "value": "pressure_data",
+    "unit": "directory",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2MS3QP — Motored README pp.6–7 screenshots"
+  },
+  {
+    "name": "download.motored_internal_directory.common_grid_flow_fields",
+    "value": "common_grid_flow_fields",
+    "unit": "directory",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2MS3QP — Motored README pp.6–7 screenshots"
+  },
+  {
+    "name": "download.motored_internal_directory.original_grid_flow_fields",
+    "value": "original_grid_flow_fields",
+    "unit": "directory",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2MS3QP — Motored README pp.6–7 screenshots"
+  },
+  {
+    "name": "download.motored_internal_directory.TCCIII_CFD_Geometry",
+    "value": "TCCIII_CFD_Geometry",
+    "unit": "directory",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2MS3QP — Motored README pp.6–7 screenshots"
+  },
+  {
+    "name": "download.motored_internal_directory.TCCIII_Valve_Lifts",
+    "value": "TCCIII_Valve_Lifts",
+    "unit": "directory",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2MS3QP — Motored README pp.6–7 screenshots"
+  },
+  {
+    "name": "download.motored_internal_file_types",
+    "value": [
+      ".xlsx pressure workbooks",
+      ".igs",
+      ".stl",
+      ".gtm",
+      ".gdx",
+      "PIV .txt"
+    ],
+    "unit": "file types",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2MS3QP — Motored README pp.3,6–7,25"
+  },
+  {
+    "name": "download.fired_pressure_workbooks",
+    "value": "one Excel pressure workbook per test with Test Info, Per_Run_Summary, Per_Cycle_Data, Ensemble_Average and five 0.5-CAD pressure worksheets",
+    "unit": "description",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2H41PCD — Fired README p.3"
+  },
+  {
+    "name": "download.spark_plug_consolidated_workbooks",
+    "value": "1/test workbook; 1/0.5CA ensemble pressure+heat-release workbook for all 34 tests; 1/cycle parameter workbook",
+    "unit": "description",
+    "grade": "D",
+    "source": "https://doi.org/10.7302/Z2CC0XNP — Spark Plug Region README p.4"
+  }
+]

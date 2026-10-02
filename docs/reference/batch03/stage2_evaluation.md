@@ -18,6 +18,29 @@ Judged against each engine's reference role (COVERAGE_MATRIX §3) and its [E] it
 | **P2 Honda GX160 (Ragan 2015)** | small SI; split charge vs efficiency | **Partial.** Same-test torque + BSFC vs speed (digitised, 316 g/kWh D at 2500), spark D, λ 0.95 at 2500 D, CR D, family cam-timing table and valve / carb dimensions. No full-load airflow; no usable pressure trace | **Calibrated engine with a held-out BSFC curve** |
 | **P5 Volvo D13** | large-bore heat transfer / friction; turbo | **Not met.** No fuel flow, air flow, BSFC, boost, TIT, pressure or injection data; operating points are inputs, not results | **Not usable as a reference.** Slot 7 needs a replacement |
 
+### P1 TCC-III (interim pack; Motored Full View archive still transferring)
+
+| Item | Status |
+|---|---|
+| Geometry: bore 92, stroke 86, rod 231, CR 10 (effective 8 at IVC), TDC volume, crevices, flat pancake chamber | D |
+| Valve events (EVC 12.8, IVC 240.8, EVO 484.8, IVO 712.8 CAD ATDCE), seat profile, port 25.4 mm | D |
+| Valve lift arrays | F now (OpenFOAM tcc3 numeric files); D pending archive |
+| Valve head diameter | U (seat 45° reference OD 29.9 mm bounds it) |
+| Plenum volumes / ordered 1-D runner table | U pending (`.gtm` / CAD); drawings and plenum dimensions D |
+| **Motored outputs, 3 conditions** (800 / 95, 1300 / 95, 1300 / 40 kPa): delivered air, IMEP, peak pressure and CAD, mean port pressures, wall temperature | **D scalars**; 0.5° pressure arrays pending |
+| **Fired Full View** 1300 rpm / 40 kPa / φ 1 propane, MBT spark 342 CAD (18° BTDC), IMEP 323 kPa, COV 0.5 % | D scalars; arrays pending |
+| **Spark Plug Region campaign**: CH4 / C3H8, φ 0.66-1.56, N2 dilution 0-19 %, measured O2 / N2 / fuel g/s, IMEP and COV per point | D scalars; CA10 / 50 / 90 and arrays pending |
+| Fuel LHV | U in pack; propane / methane LHV are standard property data (S) |
+
+**Verdict: physics reference, partially usable now.**
+- Usable now: the motored scalars (breathing, compression, heat transfer and pumping at two MAPs and two speeds), and the fired φ and dilution sweep (IMEP vs mixture, a direct flame-model test).
+- The pending archive completes 1-D pipe validation (port pressure arrays, runner geometry) and burn angles.
+
+**Simulator needs for TCC-III:**
+- fuel-specific laminar flame speed (Fuel::laminarBurningVelocity is gasoline-only; propane / methane Metghalchi-Keck / Gülder coefficients are published, S);
+- wall temperatures as engine inputs (optical engine: quartz liner ~314 K outside wall vs the fixed 573 / 503 / 423 K);
+- intake composition input for N2 dilution (shared with the ECN O2-dilution need).
+
 ## Data-quality corrections (do not use as labelled)
 
 1. **P3 AVL derived BSFC / fuel flow is invalid.**
