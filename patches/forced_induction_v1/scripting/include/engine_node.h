@@ -68,6 +68,12 @@ namespace es_script {
                     parameters.turbocharger.postTurbineExhaustIndex = 0;
                 }
             }
+            if (m_injectionRateProfile != nullptr
+                && parameters.compressionIgnition.injectionProfileDuration > 0.0)
+            {
+                parameters.compressionIgnition.injectionRateProfile =
+                    m_injectionRateProfile->generate(&context);
+            }
             engine->initialize(parameters);
 
             {
@@ -211,6 +217,8 @@ namespace es_script {
             addInput("compression_ignition", &m_parameters.compressionIgnition.enabled);
             addInput("max_fuel_mass_per_cycle", &m_parameters.compressionIgnition.maxFuelMassPerCycle);
             addInput("fuel_stop_curve", &m_fuelStopCurve);
+            addInput("injection_rate_profile", &m_injectionRateProfile);
+            addInput("injection_profile_duration", &m_parameters.compressionIgnition.injectionProfileDuration);
             addInput("component_friction", &m_frictionParameters.enabled);
             addInput("main_bearing_count", &m_frictionParameters.mainBearings);
             addInput("main_bearing_diameter", &m_frictionParameters.mainBearingDiameter);
@@ -309,6 +317,7 @@ namespace es_script {
         ThrottleNode *m_throttle = nullptr;
         IgnitionModuleNode *m_ignitionModule = nullptr;
         FunctionNode *m_fuelStopCurve = nullptr;
+        FunctionNode *m_injectionRateProfile = nullptr;
         EngineFrictionModel::Parameters m_frictionParameters;
         double m_chamberAreaRatio = 1.0;
         double m_pistonWallTemperature = 573.0;

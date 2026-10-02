@@ -105,6 +105,8 @@ private node _engine => __engine_sim__engine {
     input compression_ignition [bool];
     input max_fuel_mass_per_cycle [float];
     input fuel_stop_curve [function];
+    input injection_rate_profile [function];
+    input injection_profile_duration [float];
     input component_friction [bool];
     input main_bearing_count [int];
     input main_bearing_diameter [float];
@@ -211,6 +213,10 @@ public node engine {
     // Full-load delivery versus engine speed as a fraction of the fuel stop
     // (a mechanical pump's torque-control curve). Default: flat.
     input fuel_stop_curve: flat_fuel_stop_curve();
+    // Prescribed injection-rate profile (relative rate vs time since start of
+    // injection, s); active when injection_profile_duration > 0.
+    input injection_rate_profile: function();
+    input injection_profile_duration: 0.0;
     // Component mechanical friction (Patton-Nitschke-Heywood). Off by
     // default: the stock per-piston side-thrust friction is used.
     input component_friction: false;
@@ -327,6 +333,8 @@ public node engine {
             compression_ignition: compression_ignition,
             max_fuel_mass_per_cycle: max_fuel_mass_per_cycle,
             fuel_stop_curve: fuel_stop_curve,
+            injection_rate_profile: injection_rate_profile,
+            injection_profile_duration: injection_profile_duration,
             component_friction: component_friction,
             main_bearing_count: main_bearing_count,
             main_bearing_diameter: main_bearing_diameter,

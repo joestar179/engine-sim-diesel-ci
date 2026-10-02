@@ -2,6 +2,28 @@
 
 This log is part of the active Failure-Loop Guard. Repeated failures are recorded by signature so the same speculative repair cannot be retried indefinitely.
 
+## Input addition 4: prescribed injection-rate profile and multiple injections (2026-10-03)
+
+**Inputs:** engine `injection_rate_profile` (function: relative rate vs time since start of injection, s) and `injection_profile_duration` (s; 0 = off, the default). Plumbed to `CompressionIgnitionModel::Parameters`.
+- The profile integral is computed once (4000-point midpoint rule). The event's fuel mass is delivered with that shape; any remainder at the end of the profile is injected then, so mass is conserved.
+- Pilot / main injections are just several pulses in one profile.
+- Jet velocity: Bernoulli at `injection_pressure` when given, else continuity through the holes.
+- `usesInjectionHardware()` accepts the profile path. Pins updated (CI model .h / .cpp, engine_node.h, objects.mr).
+
+**Bit-identity:** reference outputs byte-identical.
+
+**Functional check** (DF150 2400, run copy; fuel 3.8202 g/s conserved in every case):
+
+| Delivery | Torque | CA10 / 50 / 90 | Peak |
+|---|---|---|---|
+| pump (baseline) | 239.27 | −1.4 / 13.0 / 30.2 | 74.8 bar |
+| rectangle 2.15 ms | 232.26 | −2.9 / 5.8 / 37.4 | 92.9 bar |
+| pilot 10 % (0.2 ms) + gap 0.3 ms + main | 241.99 | −2.9 / 1.4 / 31.7 | 100.8 bar |
+| triangle 2.15 ms | 234.20 | 15.8 / 15.8 / 23.0 | 75.1 bar |
+
+- The rectangle differs from the pump because its jet velocity is the 241 bar opening-pressure Bernoulli value rather than the pump continuity velocity.
+- All four input additions are complete. Next (execution order): reference set-ups and baseline scoring with current physics.
+
 ## Input addition 3: fuel-specific laminar burning velocity coefficients (2026-10-03)
 
 **Inputs:** `fuel` gains `laminar_peak_mixture`, `laminar_peak_speed`, `laminar_speed_curvature`, `laminar_alpha0/1/2`, `laminar_beta0/1/2`. The form is S_L = (B_m + B_x (x - x_m)^2) (T/298)^alpha (p/atm)^beta, with alpha = a0 + a1 x^a2 and beta = b0 + b1 x^b2. Defaults are the stock gasoline constants.

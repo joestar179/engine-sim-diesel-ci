@@ -1,4 +1,5 @@
 #include "../include/compression_ignition_model.h"
+#include "../include/function.h"
 
 #include <algorithm>
 #include <cmath>
@@ -18,6 +19,15 @@ void CompressionIgnitionModel::initialize(const Parameters &parameters) {
     m_parameters.injectionDuration = std::max(0.0, m_parameters.injectionDuration);
     m_parameters.ignitionDelay = std::max(0.0, m_parameters.ignitionDelay);
     m_parameters.combustionDuration = std::max(0.0, m_parameters.combustionDuration);
+    m_profileIntegral = 0.0;
+    if (m_parameters.injectionRateProfile != nullptr && m_parameters.injectionProfileDuration > 0.0) {
+        constexpr int N = 4000;
+        const double h = m_parameters.injectionProfileDuration / N;
+        for (int i = 0; i < N; ++i) {
+            m_profileIntegral += h * std::max(0.0,
+                m_parameters.injectionRateProfile->sampleTriangle((i + 0.5) * h));
+        }
+    }
 }
 
 void CompressionIgnitionModel::beginEvent(
@@ -74,7 +84,24 @@ CompressionIgnitionModel::StepResult CompressionIgnitionModel::stepHardware(
         constexpr double Pi = 3.14159265358979;
         const double holeArea = p.nozzleHoles * 0.25 * Pi * p.nozzleHoleDiameter * p.nozzleHoleDiameter;
         double v = 0.0, massRate = 0.0;
-        if (usesMechanicalPump()) {
+        if (usesRateProfile()) {
+            // Prescribed profile: mass rate = event fuel mass x shape / integral;
+            // whatever remains at the end of the profile is injected then.
+            const double targetMass = event.targetFuelMoles * event.fuelMolecularMass;
+            const double tMid = event.elapsed + 0.5 * dt;
+            if (event.elapsed >= p.injectionProfileDuration) {
+                massRate = remaining * event.fuelMolecularMass / dt;
+            }
+            else {
+                const double shape = std::max(0.0, p.injectionRateProfile->sampleTriangle(tMid));
+                massRate = targetMass * shape / m_profileIntegral;
+            }
+            const double dp = std::max(0.0, p.injectionPressure - cylinderPressure);
+            v = (p.injectionPressure > 0.0)
+                ? std::sqrt(2.0 * dp / event.fuelDensity)
+                : massRate / event.fuelDensity / std::max(1.0e-12, p.nozzleDischargeCoefficient * holeArea);
+        }
+        else if (usesMechanicalPump()) {
             const double plungerArea = p.pumpPlungers * 0.25 * Pi * p.pumpPlungerDiameter * p.pumpPlungerDiameter;
             const double volumeRate = plungerArea * p.pumpCamLiftRate * event.omega;
             massRate = event.fuelDensity * volumeRate;

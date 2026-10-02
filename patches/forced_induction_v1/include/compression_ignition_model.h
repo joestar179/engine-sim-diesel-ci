@@ -1,6 +1,8 @@
 #ifndef ATG_ENGINE_SIM_COMPRESSION_IGNITION_MODEL_H
 #define ATG_ENGINE_SIM_COMPRESSION_IGNITION_MODEL_H
 
+class Function;
+
 class CompressionIgnitionModel {
 public:
     struct Parameters {
@@ -45,6 +47,14 @@ public:
         int pumpPlungers = 0;                   // > 0 selects the mechanical pump
         double pumpPlungerDiameter = 0.0;       // m
         double pumpCamLiftRate = 0.0;           // m of plunger lift per crank radian
+        // Prescribed (measured) injection-rate profile: relative rate vs time
+        // since the start of injection (s); the event's fuel mass is delivered
+        // with this shape (pilot / main pulses are simply several pulses).
+        // Active when injectionProfileDuration > 0; replaces the pump / rail
+        // delivery rate. Jet velocity: Bernoulli at injectionPressure when
+        // given, else continuity through the nozzle holes.
+        Function *injectionRateProfile = nullptr;
+        double injectionProfileDuration = 0.0;  // s
     };
 
     struct Event {
@@ -92,9 +102,13 @@ public:
     bool usesMechanicalPump() const {
         return m_parameters.pumpPlungers > 0 && m_parameters.pumpPlungerDiameter > 0.0 && m_parameters.pumpCamLiftRate > 0.0;
     }
+    bool usesRateProfile() const {
+        return m_parameters.injectionRateProfile != nullptr
+            && m_parameters.injectionProfileDuration > 0.0 && m_profileIntegral > 0.0;
+    }
     bool usesInjectionHardware() const {
         return m_parameters.nozzleHoles > 0 && m_parameters.nozzleHoleDiameter > 0.0
-            && (usesMechanicalPump() || m_parameters.injectionPressure > 0.0);
+            && (usesMechanicalPump() || m_parameters.injectionPressure > 0.0 || usesRateProfile());
     }
 
     void beginEvent(Event &event, double fuelMass, double fuelMolecularMass, double engineSpeedRadPerSec) const;
@@ -109,6 +123,7 @@ public:
 
 private:
     Parameters m_parameters;
+    double m_profileIntegral = 0.0;     // integral of the profile over its duration (s)
 };
 
 #endif
