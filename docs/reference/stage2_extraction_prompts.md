@@ -68,14 +68,16 @@ D. [E] fuel (composition / LHV / stoichiometric AFR)
 E. [I] wall temperatures (head, liner, piston)
    [N] coolant / oil temperatures
 
-Outputs needed for each published operating condition (motored and fired):
-- speed, intake (MAP) and exhaust pressure, intake temperature;
-- trapped / delivered air mass or air flow;
-- crank-angle cylinder pressure (mean cycle; numeric, crank-angle resolution);
-- crank-angle intake-port and exhaust-port / runner pressure traces (needed to
-  validate 1-D pipe dynamics);
-- IMEP, COV of IMEP, burn angles (CA10 / 50 / 90) if published;
-- any brake data (unlikely; mark U).
+Outputs needed for each published operating condition (motored and fired), with the
+same importance tags:
+- [E] speed, intake (MAP) and exhaust pressure, intake temperature;
+- [E] trapped / delivered air mass or air flow;
+- [E] crank-angle cylinder pressure (mean cycle; numeric, crank-angle resolution),
+      fired and motored;
+- [E] crank-angle intake-port and exhaust-port / runner pressure traces (needed to
+      validate 1-D pipe dynamics);
+- [I] IMEP, COV of IMEP, burn angles (CA10 / 50 / 90);
+- [N] any brake data (unlikely; mark U).
 ```
 
 ---
@@ -132,16 +134,19 @@ D. [E] spark timing (fixed advance)
    [I] fuel properties (LHV, density, octane)
 E. [N] cylinder-head / oil temperature
 
-Outputs needed (per study, same configuration):
-- full-load torque and power vs speed (numeric);
-- BSFC (or fuel flow) vs speed at full load, and at part load if available;
-- AIR FLOW vs speed (critical: separates breathing from efficiency);
-- cylinder pressure traces at stated speed / load (numeric), plus burn angles if
-  given;
-- intake and exhaust pressure traces if measured;
-- exhaust temperature, intake depression;
-- motoring / friction data if any.
-State which of these come from the same physical test set-up.
+Outputs needed (per study, same configuration), with the same importance tags:
+- [E] full-load torque and power vs speed (numeric);
+- [E] AIR FLOW vs speed at full load (critical: separates breathing from efficiency);
+- [E] BSFC (or fuel flow) vs speed at full load;
+- [I] BSFC / fuel flow and air flow at part load;
+- [I] cylinder pressure traces at stated speed / load (numeric), plus burn angles if
+      given (splits indicated efficiency from friction and pumping);
+- [I] motoring / friction data (splits brake from indicated);
+- [I] intake depression;
+- [N] intake and exhaust pressure traces;
+- [N] exhaust temperature.
+State which of these come from the same physical test set-up. The [E] outputs are
+only useful together: torque, air flow and fuel flow must come from the same test.
 ```
 
 ---
@@ -191,13 +196,14 @@ D. [E] TV1: pump type, plunger diameter and cam lift rate; AVL: rail pressure
    [N] spray penetration / liquid length
 E. [N] coolant / oil temperatures
 
-Outputs needed (each operating point, same set-up):
-- speed, load (torque or BMEP), fuel flow, AIR FLOW, BSFC;
-- crank-angle cylinder pressure and heat-release rate (numeric);
-- ignition delay, combustion duration;
-- exhaust temperature;
-- governor characteristic (TV1: speed vs load / droop) if published;
-- motoring pressure / friction if available.
+Outputs needed (each operating point, same set-up), with the same importance tags:
+- [E] speed, load (torque or BMEP), fuel flow, AIR FLOW, BSFC;
+- [E] crank-angle cylinder pressure (numeric) at the same points;
+- [I] heat-release rate (numeric; derivable from pressure if not given);
+- [I] exhaust temperature;
+- [I] motoring pressure trace / friction;
+- [N] ignition delay and combustion duration as reported (derivable from pressure);
+- [N] governor characteristic (TV1: speed vs load / droop).
 ```
 
 ---
@@ -251,11 +257,15 @@ D. [E] injector holes x diameter and rail pressure
 E. [I] wall temperatures
    [N] coolant / oil temperatures
 
-Outputs needed for each published operating point:
-- speed, intake pressure / temperature, O2 concentration (EGR), fuel mass per cycle;
-- crank-angle cylinder pressure and apparent heat-release rate (numeric);
-- IMEP; motored pressure trace;
-- emissions / soot only if alongside the above.
+Outputs needed for each published operating point, with the same importance tags:
+- [E] speed, intake pressure / temperature, O2 concentration (EGR), fuel mass per
+      cycle;
+- [E] crank-angle cylinder pressure (numeric);
+- [I] apparent heat-release rate (numeric; derivable from pressure if not given);
+- [I] motored pressure trace at the same intake conditions (compression and heat
+      transfer check);
+- [I] IMEP;
+- [N] emissions / soot, only if alongside the above.
 ```
 
 ---
@@ -304,13 +314,17 @@ E. [E] injection: holes x diameter, rail pressure, SOI and quantity per point
    [E] fuel lower heating value and density
    [I] coolant / oil temperatures
 
-Outputs needed for each ESC point (and any full-load curve):
-- speed, torque / BMEP, fuel flow, air flow, BSFC;
-- boost, exhaust manifold pressure, turbine inlet temperature, EGR rate;
-- cylinder pressure and burn rate (numeric);
-- intake / exhaust runner pressure traces if published;
-- motoring / FMEP data if available.
-Also give the documented full-load torque / power curve of the same rating.
+Outputs needed for each ESC point (and any full-load curve), with the same importance
+tags:
+- [E] speed, torque / BMEP, fuel flow, air flow, BSFC;
+- [E] boost, exhaust manifold pressure, turbine inlet temperature;
+- [E] cylinder pressure (numeric; gives indicated work, so separates friction and
+      heat transfer at large bore);
+- [I] EGR rate (essential at any point where EGR is active);
+- [I] burn rate (derivable from pressure if not given);
+- [I] motoring / FMEP data;
+- [I] documented full-load torque / power curve of the same rating;
+- [N] intake / exhaust runner pressure traces.
 ```
 
 ---
