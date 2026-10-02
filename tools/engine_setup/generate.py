@@ -59,7 +59,9 @@ def resolve(spec):
     put('backpressure_kpa', spec.get('backpressure_kpa'), bp)
     put('exhaust_cfm', spec.get('exhaust_cfm'), D.exhaust_outlet_cfm(air_gs, v['backpressure_kpa']))
     put('plenum_l', spec.get('plenum_l'), D.plenum_volume_l(disp_l, ncyl))
-    put('runner_mm', spec.get('runner_mm'), D.intake_runner_length_mm(spec.get('peak_rpm', 0.7 * spec['rated_rpm'])))
+    rin, rex = D.runner_class_lengths(spec.get('engine_class', 'automotive'), spec.get('peak_rpm', 0.7 * spec['rated_rpm']))
+    put('runner_mm', spec.get('runner_mm'), rin)
+    put('primary_mm', spec.get('primary_mm'), rex)
     put('lambda', spec.get('lambda'), D.full_load_lambda(spec['fuel_system']))
     put('port_cd', spec.get('port_cd'), D.PORT_CD)
     vt, src = D.valvetrain_friction(spec['valvetrain'])
@@ -104,7 +106,7 @@ def generate(spec, out_path):
         adds = '\n'.join(('        .add_cylinder(\n            piston: piston(piston_params, blowby: k_28inH2O(0.05)),\n'
                           '            connecting_rod: connecting_rod(rod_params),\n'
                           '            rod_journal: rj%d, intake: intake, exhaust_system: exhaust0,\n'
-                          '            ignition_wire: wires.wire%d, primary_length: 300 * units.mm)') % (pin_of[i], i + 1) for i in cyls)
+                          '            ignition_wire: wires.wire%d, primary_length: 0 * units.mm)') % (pin_of[i], i + 1) for i in cyls)
         banks.append('    cylinder_bank b%d(bank_params, angle: %.1f * units.deg)\n    b%d\n%s\n    engine.add_cylinder_bank(b%d)' % (bi, ang, bi, adds, bi))
         # Each bank's head sees the shared camshaft; lobe index = cylinder index within the bank order.
         heads.append(('    b%d.set_cylinder_head(generic_cylinder_head(\n'
@@ -291,7 +293,7 @@ public node {node} {{
 
     exhaust_system_parameters es_params(
         outlet_flow_rate: k_carb({v['exhaust_cfm']:.1f}),
-        primary_tube_length: 300 * units.mm,
+        primary_tube_length: {v['primary_mm']:.0f} * units.mm,
         primary_flow_rate: k_carb(300.0),
         velocity_decay: 1.0,
         volume: {max(1.5, 2.0 * v['displacement_l']):.2f} * units.L

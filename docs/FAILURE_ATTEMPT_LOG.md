@@ -1134,6 +1134,27 @@ The shape is flat. Set: DF150 46°, TF250 37°.
 - 46°/37° rated injection is long for rotary pumps (typical 20–30°): either the jet mixing is somewhat fast (e.g. no wall impingement: x_st ≈ 85 mm > bore/2 = 53 mm) or a loss is missing.
 - TF250 at 1000 rpm is +7.5 %.
 
+## Gas-path defaults by architecture class (2026-10-02)
+
+**Problem:** the generator's runner rule (425 mm × 4000 / peak-torque rpm, anchored on an automotive engine) gave the GX390 a 680 mm and the Kohler a 530 mm intake column, i.e. low-rpm tuning. It also hard-coded a 600 mm exhaust primary for every engine. Small industrial engines are not length-tuned (carburettor on a short spacer into the port; exhaust port into a muffler).
+
+**Fix** (`defaults.runner_class_lengths`, spec `engine_class`):
+
+| Class | Intake path | Exhaust primary |
+|---|---|---|
+| small_industrial | 150 mm (100-200) | 100 mm (50-200) |
+| automotive | tuning rule | 600 mm (Mazda 4-2-1 ≥ 600 mm, F) |
+
+**Sanity pass** (defaults, ×CF vs documented):
+
+| Engine | Inertial off | Inertial on |
+|---|---|---|
+| GX390 (2000/2500/3600) | +19 / +6 / +4 % | +17 / +7 / +3 % |
+| Kohler (2200/3200/3600) | +15 / +10 / +10 % | +15 / +12 / +12 % |
+
+- With realistic short paths the inertial effect on small engines is ±2 %, as expected for untuned short columns.
+- The small-engine low-speed excess (+15-19 %) is therefore not a runner effect. It remains an open Layer-1/2 finding. Candidates: default cam timing (IVC) for small engines, the fixed-k carburettor restriction, and low-speed heat loss; no airflow data to separate them.
+
 ## Inertial runners — isolation test, start procedure, coarse calibration (2026-10-02)
 
 **Isolated pipe test** (`dyno_sweep --pipe-test zeta dp0`; 2.0 L + 0.3 L, pipe 10 cm² × 0.4 m):

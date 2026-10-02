@@ -94,6 +94,18 @@ def plenum_volume_l(displacement_l, cylinders):
     k = 0.75 if cylinders == 1 else 1.25
     return d(k * displacement_l, 0.5 * displacement_l, 2.0 * displacement_l, 'C (GX390 0.77 x, Mazda 1.25 x)')
 
+def runner_class_lengths(engine_class, tuning_rpm):
+    """Intake path (carb/throttle to valve) and exhaust primary by architecture.
+    small_industrial: carburettor on a short spacer straight into the port,
+      exhaust port into a muffler box (GX390 ~100-150 mm intake path) — not
+      length-tuned. automotive: tuned runners (1/rpm rule) and long primaries
+      (Mazda 4-2-1 path >= 600 mm, F patent JP4816383B2)."""
+    if engine_class == 'small_industrial':
+        return (d(150.0, 100.0, 200.0, 'C small industrial (GX390 carb+spacer+port ~100-150 mm)'),
+                d(100.0, 50.0, 200.0, 'C small industrial (exhaust port into muffler)'))
+    return (intake_runner_length_mm(tuning_rpm),
+            d(600.0, 300.0, 900.0, 'F Mazda 4-2-1 path >= 600 mm / C'))
+
 def intake_runner_length_mm(tuning_rpm):
     # Tuned intake length scales ~1/rpm (wave/Helmholtz tuning, Heywood ch. 7):
     # ~400-450 mm for a ~4000 rpm peak-torque 2 L (Mazda class), longer for
