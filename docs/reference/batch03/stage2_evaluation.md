@@ -205,3 +205,25 @@ Raw file: `Torres2024_GX160_EFI_ethanol_supplementary-data.xlsx` (Mendeley yvb7k
 - **Do not change physics on this.** Rather, the "too efficient" finding now depends on which build and rating basis the ALCO model claims. Resolve this when the ALCO is set up (phase 4).
 
 **Verdict:** EMD still fails the minimum (no fuel); Wärtsilä unchanged (calibrated-grade thermal / system); ALCO calibrated-grade fragments, valuable as model inputs (valve timing, nozzles, firing order, boost, SFC basis).
+
+## P5 replacement: Cummins ISX 15 L (P5A) + CAT 3401 single-cylinder (P5B)
+
+| | Volvo D13 (rejected) | ISX 15 L | CAT 3401 |
+|---|---|---|---|
+| Fuel / air at the same points | measured, unpublished | **5 points: fuel, fresh air, EGR (D)** | measured, unpublished |
+| Boundaries | none | **intake and exhaust manifold p / T (D)** | intake / exhaust p controlled (D) |
+| Cylinder pressure | none | none | **measured; digitised at 5° (±2-3 bar), 2 loads** |
+| Injection / fuel | none | none | rail 525 bar, SOI −18° at 75 %; LHV / density / CN (D) |
+| Minimum met | no | **yes** | pressure-shape check only |
+
+**ISX consistency:**
+- BSFC 203-222 g/kWh (~41 % brake);
+- AFR 19-29, EGR 16-27 %;
+- exhaust manifold pressure > intake at every point;
+- VE ~0.86 at A-100 from fresh air + EGR and manifold state.
+- All plausible.
+
+**Grades:**
+- ISX: heavy-duty reference for brake / air / fuel / boundaries (impose manifold p / T and intake composition; no turbo map needed).
+- CAT 3401: partial (combustion shape and phasing at large bore, no fuel mass).
+- The heavy-duty slot is closed.

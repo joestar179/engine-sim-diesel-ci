@@ -1,0 +1,1375 @@
+[
+  {
+    "name": "cylinders",
+    "value": 6,
+    "unit": "count",
+    "grade": "D",
+    "source": "https://www.osti.gov/servlets/purl/1045212 §2.2.1",
+    "engine": "P5A Cummins ISX DOE five-mode"
+  },
+  {
+    "name": "bore",
+    "value": 137,
+    "unit": "mm",
+    "grade": "D",
+    "source": "https://www.osti.gov/servlets/purl/1045212 §2.2.1",
+    "engine": "P5A Cummins ISX DOE five-mode"
+  },
+  {
+    "name": "stroke",
+    "value": 169,
+    "unit": "mm",
+    "grade": "D",
+    "source": "https://www.osti.gov/servlets/purl/1045212 §2.2.1",
+    "engine": "P5A Cummins ISX DOE five-mode"
+  },
+  {
+    "name": "displacement",
+    "value": 14.95,
+    "unit": "L",
+    "grade": "D",
+    "source": "https://www.osti.gov/servlets/purl/1045212 §2.2.1",
+    "engine": "P5A Cummins ISX DOE five-mode"
+  },
+  {
+    "name": "turbo_type",
+    "value": "VGT",
+    "unit": null,
+    "grade": "D",
+    "source": "https://www.osti.gov/servlets/purl/1045212 §2.2.1",
+    "engine": "P5A Cummins ISX DOE five-mode"
+  },
+  {
+    "name": "intercooler",
+    "value": "present",
+    "unit": null,
+    "grade": "D",
+    "source": "https://www.osti.gov/servlets/purl/1045212 §2.2.1",
+    "engine": "P5A Cummins ISX DOE five-mode"
+  },
+  {
+    "name": "egr_cooler",
+    "value": "present",
+    "unit": null,
+    "grade": "D",
+    "source": "https://www.osti.gov/servlets/purl/1045212 §2.2.1",
+    "engine": "P5A Cummins ISX DOE five-mode"
+  },
+  {
+    "name": "compression_ratio",
+    "value": 17,
+    "unit": ":1",
+    "grade": "F",
+    "source": "https://afdc.energy.gov/files/pdfs/35911.pdf p.4; related ISX build",
+    "engine": "P5A Cummins ISX DOE five-mode"
+  },
+  {
+    "name": "A-25_speed",
+    "value": 1230,
+    "unit": "rpm",
+    "grade": "D",
+    "source": "https://www.osti.gov/servlets/purl/1045212 Table 2.1 pp.13-14",
+    "engine": "P5A Cummins ISX DOE five-mode"
+  },
+  {
+    "name": "A-25_torque",
+    "value": 640.15,
+    "unit": "Nm",
+    "grade": "R",
+    "source": "https://www.osti.gov/servlets/purl/1045212 Table 2.1 pp.13-14",
+    "engine": "P5A Cummins ISX DOE five-mode"
+  },
+  {
+    "name": "A-25_bmep",
+    "value": 5.381,
+    "unit": "bar",
+    "grade": "R",
+    "source": "https://www.osti.gov/servlets/purl/1045212 Table 2.1 pp.13-14",
+    "engine": "P5A Cummins ISX DOE five-mode"
+  },
+  {
+    "name": "A-25_brake_power",
+    "value": 82.46,
+    "unit": "kW",
+    "grade": "D",
+    "source": "https://www.osti.gov/servlets/purl/1045212 Table 2.1 pp.13-14",
+    "engine": "P5A Cummins ISX DOE five-mode"
+  },
+  {
+    "name": "A-25_fuel_flow",
+    "value": 18.28,
+    "unit": "kg/h",
+    "grade": "D",
+    "source": "https://www.osti.gov/servlets/purl/1045212 Table 2.1 pp.13-14",
+    "engine": "P5A Cummins ISX DOE five-mode"
+  },
+  {
+    "name": "A-25_fresh_air_flow",
+    "value": 539.14,
+    "unit": "kg/h",
+    "grade": "R",
+    "source": "https://www.osti.gov/servlets/purl/1045212 Table 2.1 pp.13-14",
+    "engine": "P5A Cummins ISX DOE five-mode"
+  },
+  {
+    "name": "A-25_bsfc",
+    "value": 221.68,
+    "unit": "g/kWh",
+    "grade": "R",
+    "source": "https://www.osti.gov/servlets/purl/1045212 Table 2.1 pp.13-14",
+    "engine": "P5A Cummins ISX DOE five-mode"
+  },
+  {
+    "name": "A-25_afr_fresh_air",
+    "value": 29.493,
+    "unit": "kg/kg",
+    "grade": "R",
+    "source": "https://www.osti.gov/servlets/purl/1045212 Table 2.1 pp.13-14",
+    "engine": "P5A Cummins ISX DOE five-mode"
+  },
+  {
+    "name": "A-25_egr_flow",
+    "value": 195.408,
+    "unit": "kg/h",
+    "grade": "R",
+    "source": "https://www.osti.gov/servlets/purl/1045212 Table 2.1 pp.13-14",
+    "engine": "P5A Cummins ISX DOE five-mode"
+  },
+  {
+    "name": "A-25_egr_fraction",
+    "value": 0.27,
+    "unit": "1",
+    "grade": "D",
+    "source": "https://www.osti.gov/servlets/purl/1045212 Table 2.1 pp.13-14",
+    "engine": "P5A Cummins ISX DOE five-mode"
+  },
+  {
+    "name": "A-25_intake_manifold_pressure",
+    "value": 1.47,
+    "unit": "bar abs",
+    "grade": "D",
+    "source": "https://www.osti.gov/servlets/purl/1045212 Table 2.1 pp.13-14",
+    "engine": "P5A Cummins ISX DOE five-mode"
+  },
+  {
+    "name": "A-25_intake_manifold_temperature",
+    "value": 322.08,
+    "unit": "K",
+    "grade": "D",
+    "source": "https://www.osti.gov/servlets/purl/1045212 Table 2.1 pp.13-14",
+    "engine": "P5A Cummins ISX DOE five-mode"
+  },
+  {
+    "name": "A-25_exhaust_manifold_pressure",
+    "value": 1.62,
+    "unit": "bar abs",
+    "grade": "D",
+    "source": "https://www.osti.gov/servlets/purl/1045212 Table 2.1 pp.13-14",
+    "engine": "P5A Cummins ISX DOE five-mode"
+  },
+  {
+    "name": "A-25_exhaust_manifold_temperature",
+    "value": 662.74,
+    "unit": "K",
+    "grade": "D",
+    "source": "https://www.osti.gov/servlets/purl/1045212 Table 2.1 pp.13-14",
+    "engine": "P5A Cummins ISX DOE five-mode"
+  },
+  {
+    "name": "A-100_speed",
+    "value": 1230,
+    "unit": "rpm",
+    "grade": "D",
+    "source": "https://www.osti.gov/servlets/purl/1045212 Table 2.1 pp.13-14",
+    "engine": "P5A Cummins ISX DOE five-mode"
+  },
+  {
+    "name": "A-100_torque",
+    "value": 2558.16,
+    "unit": "Nm",
+    "grade": "R",
+    "source": "https://www.osti.gov/servlets/purl/1045212 Table 2.1 pp.13-14",
+    "engine": "P5A Cummins ISX DOE five-mode"
+  },
+  {
+    "name": "A-100_bmep",
+    "value": 21.506,
+    "unit": "bar",
+    "grade": "R",
+    "source": "https://www.osti.gov/servlets/purl/1045212 Table 2.1 pp.13-14",
+    "engine": "P5A Cummins ISX DOE five-mode"
+  },
+  {
+    "name": "A-100_brake_power",
+    "value": 329.52,
+    "unit": "kW",
+    "grade": "D",
+    "source": "https://www.osti.gov/servlets/purl/1045212 Table 2.1 pp.13-14",
+    "engine": "P5A Cummins ISX DOE five-mode"
+  },
+  {
+    "name": "A-100_fuel_flow",
+    "value": 67.02,
+    "unit": "kg/h",
+    "grade": "D",
+    "source": "https://www.osti.gov/servlets/purl/1045212 Table 2.1 pp.13-14",
+    "engine": "P5A Cummins ISX DOE five-mode"
+  },
+  {
+    "name": "A-100_fresh_air_flow",
+    "value": 1300.359,
+    "unit": "kg/h",
+    "grade": "R",
+    "source": "https://www.osti.gov/servlets/purl/1045212 Table 2.1 pp.13-14",
+    "engine": "P5A Cummins ISX DOE five-mode"
+  },
+  {
+    "name": "A-100_bsfc",
+    "value": 203.39,
+    "unit": "g/kWh",
+    "grade": "R",
+    "source": "https://www.osti.gov/servlets/purl/1045212 Table 2.1 pp.13-14",
+    "engine": "P5A Cummins ISX DOE five-mode"
+  },
+  {
+    "name": "A-100_afr_fresh_air",
+    "value": 19.403,
+    "unit": "kg/kg",
+    "grade": "R",
+    "source": "https://www.osti.gov/servlets/purl/1045212 Table 2.1 pp.13-14",
+    "engine": "P5A Cummins ISX DOE five-mode"
+  },
+  {
+    "name": "A-100_egr_flow",
+    "value": 268.617,
+    "unit": "kg/h",
+    "grade": "R",
+    "source": "https://www.osti.gov/servlets/purl/1045212 Table 2.1 pp.13-14",
+    "engine": "P5A Cummins ISX DOE five-mode"
+  },
+  {
+    "name": "A-100_egr_fraction",
+    "value": 0.17,
+    "unit": "1",
+    "grade": "D",
+    "source": "https://www.osti.gov/servlets/purl/1045212 Table 2.1 pp.13-14",
+    "engine": "P5A Cummins ISX DOE five-mode"
+  },
+  {
+    "name": "A-100_intake_manifold_pressure",
+    "value": 3.07,
+    "unit": "bar abs",
+    "grade": "D",
+    "source": "https://www.osti.gov/servlets/purl/1045212 Table 2.1 pp.13-14",
+    "engine": "P5A Cummins ISX DOE five-mode"
+  },
+  {
+    "name": "A-100_intake_manifold_temperature",
+    "value": 323.03,
+    "unit": "K",
+    "grade": "D",
+    "source": "https://www.osti.gov/servlets/purl/1045212 Table 2.1 pp.13-14",
+    "engine": "P5A Cummins ISX DOE five-mode"
+  },
+  {
+    "name": "A-100_exhaust_manifold_pressure",
+    "value": 3.38,
+    "unit": "bar abs",
+    "grade": "D",
+    "source": "https://www.osti.gov/servlets/purl/1045212 Table 2.1 pp.13-14",
+    "engine": "P5A Cummins ISX DOE five-mode"
+  },
+  {
+    "name": "A-100_exhaust_manifold_temperature",
+    "value": 905.87,
+    "unit": "K",
+    "grade": "D",
+    "source": "https://www.osti.gov/servlets/purl/1045212 Table 2.1 pp.13-14",
+    "engine": "P5A Cummins ISX DOE five-mode"
+  },
+  {
+    "name": "B-62_speed",
+    "value": 1500,
+    "unit": "rpm",
+    "grade": "D",
+    "source": "https://www.osti.gov/servlets/purl/1045212 Table 2.1 pp.13-14",
+    "engine": "P5A Cummins ISX DOE five-mode"
+  },
+  {
+    "name": "B-62_torque",
+    "value": 1586.58,
+    "unit": "Nm",
+    "grade": "R",
+    "source": "https://www.osti.gov/servlets/purl/1045212 Table 2.1 pp.13-14",
+    "engine": "P5A Cummins ISX DOE five-mode"
+  },
+  {
+    "name": "B-62_bmep",
+    "value": 13.338,
+    "unit": "bar",
+    "grade": "R",
+    "source": "https://www.osti.gov/servlets/purl/1045212 Table 2.1 pp.13-14",
+    "engine": "P5A Cummins ISX DOE five-mode"
+  },
+  {
+    "name": "B-62_brake_power",
+    "value": 249.23,
+    "unit": "kW",
+    "grade": "D",
+    "source": "https://www.osti.gov/servlets/purl/1045212 Table 2.1 pp.13-14",
+    "engine": "P5A Cummins ISX DOE five-mode"
+  },
+  {
+    "name": "B-62_fuel_flow",
+    "value": 50.75,
+    "unit": "kg/h",
+    "grade": "D",
+    "source": "https://www.osti.gov/servlets/purl/1045212 Table 2.1 pp.13-14",
+    "engine": "P5A Cummins ISX DOE five-mode"
+  },
+  {
+    "name": "B-62_fresh_air_flow",
+    "value": 1271.238,
+    "unit": "kg/h",
+    "grade": "R",
+    "source": "https://www.osti.gov/servlets/purl/1045212 Table 2.1 pp.13-14",
+    "engine": "P5A Cummins ISX DOE five-mode"
+  },
+  {
+    "name": "B-62_bsfc",
+    "value": 203.63,
+    "unit": "g/kWh",
+    "grade": "R",
+    "source": "https://www.osti.gov/servlets/purl/1045212 Table 2.1 pp.13-14",
+    "engine": "P5A Cummins ISX DOE five-mode"
+  },
+  {
+    "name": "B-62_afr_fresh_air",
+    "value": 25.049,
+    "unit": "kg/kg",
+    "grade": "R",
+    "source": "https://www.osti.gov/servlets/purl/1045212 Table 2.1 pp.13-14",
+    "engine": "P5A Cummins ISX DOE five-mode"
+  },
+  {
+    "name": "B-62_egr_flow",
+    "value": 348.359,
+    "unit": "kg/h",
+    "grade": "R",
+    "source": "https://www.osti.gov/servlets/purl/1045212 Table 2.1 pp.13-14",
+    "engine": "P5A Cummins ISX DOE five-mode"
+  },
+  {
+    "name": "B-62_egr_fraction",
+    "value": 0.22,
+    "unit": "1",
+    "grade": "D",
+    "source": "https://www.osti.gov/servlets/purl/1045212 Table 2.1 pp.13-14",
+    "engine": "P5A Cummins ISX DOE five-mode"
+  },
+  {
+    "name": "B-62_intake_manifold_pressure",
+    "value": 2.56,
+    "unit": "bar abs",
+    "grade": "D",
+    "source": "https://www.osti.gov/servlets/purl/1045212 Table 2.1 pp.13-14",
+    "engine": "P5A Cummins ISX DOE five-mode"
+  },
+  {
+    "name": "B-62_intake_manifold_temperature",
+    "value": 318.94,
+    "unit": "K",
+    "grade": "D",
+    "source": "https://www.osti.gov/servlets/purl/1045212 Table 2.1 pp.13-14",
+    "engine": "P5A Cummins ISX DOE five-mode"
+  },
+  {
+    "name": "B-62_exhaust_manifold_pressure",
+    "value": 2.83,
+    "unit": "bar abs",
+    "grade": "D",
+    "source": "https://www.osti.gov/servlets/purl/1045212 Table 2.1 pp.13-14",
+    "engine": "P5A Cummins ISX DOE five-mode"
+  },
+  {
+    "name": "B-62_exhaust_manifold_temperature",
+    "value": 780.52,
+    "unit": "K",
+    "grade": "D",
+    "source": "https://www.osti.gov/servlets/purl/1045212 Table 2.1 pp.13-14",
+    "engine": "P5A Cummins ISX DOE five-mode"
+  },
+  {
+    "name": "B-100_speed",
+    "value": 1500,
+    "unit": "rpm",
+    "grade": "D",
+    "source": "https://www.osti.gov/servlets/purl/1045212 Table 2.1 pp.13-14",
+    "engine": "P5A Cummins ISX DOE five-mode"
+  },
+  {
+    "name": "B-100_torque",
+    "value": 2558.84,
+    "unit": "Nm",
+    "grade": "R",
+    "source": "https://www.osti.gov/servlets/purl/1045212 Table 2.1 pp.13-14",
+    "engine": "P5A Cummins ISX DOE five-mode"
+  },
+  {
+    "name": "B-100_bmep",
+    "value": 21.512,
+    "unit": "bar",
+    "grade": "R",
+    "source": "https://www.osti.gov/servlets/purl/1045212 Table 2.1 pp.13-14",
+    "engine": "P5A Cummins ISX DOE five-mode"
+  },
+  {
+    "name": "B-100_brake_power",
+    "value": 401.96,
+    "unit": "kW",
+    "grade": "D",
+    "source": "https://www.osti.gov/servlets/purl/1045212 Table 2.1 pp.13-14",
+    "engine": "P5A Cummins ISX DOE five-mode"
+  },
+  {
+    "name": "B-100_fuel_flow",
+    "value": 83.26,
+    "unit": "kg/h",
+    "grade": "D",
+    "source": "https://www.osti.gov/servlets/purl/1045212 Table 2.1 pp.13-14",
+    "engine": "P5A Cummins ISX DOE five-mode"
+  },
+  {
+    "name": "B-100_fresh_air_flow",
+    "value": 1729.548,
+    "unit": "kg/h",
+    "grade": "R",
+    "source": "https://www.osti.gov/servlets/purl/1045212 Table 2.1 pp.13-14",
+    "engine": "P5A Cummins ISX DOE five-mode"
+  },
+  {
+    "name": "B-100_bsfc",
+    "value": 207.14,
+    "unit": "g/kWh",
+    "grade": "R",
+    "source": "https://www.osti.gov/servlets/purl/1045212 Table 2.1 pp.13-14",
+    "engine": "P5A Cummins ISX DOE five-mode"
+  },
+  {
+    "name": "B-100_afr_fresh_air",
+    "value": 20.773,
+    "unit": "kg/kg",
+    "grade": "R",
+    "source": "https://www.osti.gov/servlets/purl/1045212 Table 2.1 pp.13-14",
+    "engine": "P5A Cummins ISX DOE five-mode"
+  },
+  {
+    "name": "B-100_egr_flow",
+    "value": 434.36,
+    "unit": "kg/h",
+    "grade": "R",
+    "source": "https://www.osti.gov/servlets/purl/1045212 Table 2.1 pp.13-14",
+    "engine": "P5A Cummins ISX DOE five-mode"
+  },
+  {
+    "name": "B-100_egr_fraction",
+    "value": 0.2,
+    "unit": "1",
+    "grade": "D",
+    "source": "https://www.osti.gov/servlets/purl/1045212 Table 2.1 pp.13-14",
+    "engine": "P5A Cummins ISX DOE five-mode"
+  },
+  {
+    "name": "B-100_intake_manifold_pressure",
+    "value": 3.49,
+    "unit": "bar abs",
+    "grade": "D",
+    "source": "https://www.osti.gov/servlets/purl/1045212 Table 2.1 pp.13-14",
+    "engine": "P5A Cummins ISX DOE five-mode"
+  },
+  {
+    "name": "B-100_intake_manifold_temperature",
+    "value": 327.86,
+    "unit": "K",
+    "grade": "D",
+    "source": "https://www.osti.gov/servlets/purl/1045212 Table 2.1 pp.13-14",
+    "engine": "P5A Cummins ISX DOE five-mode"
+  },
+  {
+    "name": "B-100_exhaust_manifold_pressure",
+    "value": 3.91,
+    "unit": "bar abs",
+    "grade": "D",
+    "source": "https://www.osti.gov/servlets/purl/1045212 Table 2.1 pp.13-14",
+    "engine": "P5A Cummins ISX DOE five-mode"
+  },
+  {
+    "name": "B-100_exhaust_manifold_temperature",
+    "value": 899.59,
+    "unit": "K",
+    "grade": "D",
+    "source": "https://www.osti.gov/servlets/purl/1045212 Table 2.1 pp.13-14",
+    "engine": "P5A Cummins ISX DOE five-mode"
+  },
+  {
+    "name": "C-100_speed",
+    "value": 1800,
+    "unit": "rpm",
+    "grade": "D",
+    "source": "https://www.osti.gov/servlets/purl/1045212 Table 2.1 pp.13-14",
+    "engine": "P5A Cummins ISX DOE five-mode"
+  },
+  {
+    "name": "C-100_torque",
+    "value": 2139.07,
+    "unit": "Nm",
+    "grade": "R",
+    "source": "https://www.osti.gov/servlets/purl/1045212 Table 2.1 pp.13-14",
+    "engine": "P5A Cummins ISX DOE five-mode"
+  },
+  {
+    "name": "C-100_bmep",
+    "value": 17.983,
+    "unit": "bar",
+    "grade": "R",
+    "source": "https://www.osti.gov/servlets/purl/1045212 Table 2.1 pp.13-14",
+    "engine": "P5A Cummins ISX DOE five-mode"
+  },
+  {
+    "name": "C-100_brake_power",
+    "value": 403.22,
+    "unit": "kW",
+    "grade": "D",
+    "source": "https://www.osti.gov/servlets/purl/1045212 Table 2.1 pp.13-14",
+    "engine": "P5A Cummins ISX DOE five-mode"
+  },
+  {
+    "name": "C-100_fuel_flow",
+    "value": 89.2,
+    "unit": "kg/h",
+    "grade": "D",
+    "source": "https://www.osti.gov/servlets/purl/1045212 Table 2.1 pp.13-14",
+    "engine": "P5A Cummins ISX DOE five-mode"
+  },
+  {
+    "name": "C-100_fresh_air_flow",
+    "value": 1862.087,
+    "unit": "kg/h",
+    "grade": "R",
+    "source": "https://www.osti.gov/servlets/purl/1045212 Table 2.1 pp.13-14",
+    "engine": "P5A Cummins ISX DOE five-mode"
+  },
+  {
+    "name": "C-100_bsfc",
+    "value": 221.22,
+    "unit": "g/kWh",
+    "grade": "R",
+    "source": "https://www.osti.gov/servlets/purl/1045212 Table 2.1 pp.13-14",
+    "engine": "P5A Cummins ISX DOE five-mode"
+  },
+  {
+    "name": "C-100_afr_fresh_air",
+    "value": 20.875,
+    "unit": "kg/kg",
+    "grade": "R",
+    "source": "https://www.osti.gov/servlets/purl/1045212 Table 2.1 pp.13-14",
+    "engine": "P5A Cummins ISX DOE five-mode"
+  },
+  {
+    "name": "C-100_egr_flow",
+    "value": 359.789,
+    "unit": "kg/h",
+    "grade": "R",
+    "source": "https://www.osti.gov/servlets/purl/1045212 Table 2.1 pp.13-14",
+    "engine": "P5A Cummins ISX DOE five-mode"
+  },
+  {
+    "name": "C-100_egr_fraction",
+    "value": 0.16,
+    "unit": "1",
+    "grade": "D",
+    "source": "https://www.osti.gov/servlets/purl/1045212 Table 2.1 pp.13-14",
+    "engine": "P5A Cummins ISX DOE five-mode"
+  },
+  {
+    "name": "C-100_intake_manifold_pressure",
+    "value": 3.11,
+    "unit": "bar abs",
+    "grade": "D",
+    "source": "https://www.osti.gov/servlets/purl/1045212 Table 2.1 pp.13-14",
+    "engine": "P5A Cummins ISX DOE five-mode"
+  },
+  {
+    "name": "C-100_intake_manifold_temperature",
+    "value": 330.44,
+    "unit": "K",
+    "grade": "D",
+    "source": "https://www.osti.gov/servlets/purl/1045212 Table 2.1 pp.13-14",
+    "engine": "P5A Cummins ISX DOE five-mode"
+  },
+  {
+    "name": "C-100_exhaust_manifold_pressure",
+    "value": 3.7,
+    "unit": "bar abs",
+    "grade": "D",
+    "source": "https://www.osti.gov/servlets/purl/1045212 Table 2.1 pp.13-14",
+    "engine": "P5A Cummins ISX DOE five-mode"
+  },
+  {
+    "name": "C-100_exhaust_manifold_temperature",
+    "value": 940.71,
+    "unit": "K",
+    "grade": "D",
+    "source": "https://www.osti.gov/servlets/purl/1045212 Table 2.1 pp.13-14",
+    "engine": "P5A Cummins ISX DOE five-mode"
+  },
+  {
+    "name": "bore",
+    "value": 137.2,
+    "unit": "mm",
+    "grade": "D",
+    "source": "https://www.frontiersin.org/journals/mechanical-engineering/articles/10.3389/fmech.2020.545416/full Table 1 / experimental setup",
+    "engine": "P5B CAT3401 NRC 2020"
+  },
+  {
+    "name": "stroke",
+    "value": 165.1,
+    "unit": "mm",
+    "grade": "D",
+    "source": "https://www.frontiersin.org/journals/mechanical-engineering/articles/10.3389/fmech.2020.545416/full Table 1 / experimental setup",
+    "engine": "P5B CAT3401 NRC 2020"
+  },
+  {
+    "name": "displacement",
+    "value": 2.44,
+    "unit": "L",
+    "grade": "D",
+    "source": "https://www.frontiersin.org/journals/mechanical-engineering/articles/10.3389/fmech.2020.545416/full Table 1 / experimental setup",
+    "engine": "P5B CAT3401 NRC 2020"
+  },
+  {
+    "name": "compression_ratio",
+    "value": 16.25,
+    "unit": ":1",
+    "grade": "D",
+    "source": "https://www.frontiersin.org/journals/mechanical-engineering/articles/10.3389/fmech.2020.545416/full Table 1 / experimental setup",
+    "engine": "P5B CAT3401 NRC 2020"
+  },
+  {
+    "name": "valves",
+    "value": 4,
+    "unit": "count",
+    "grade": "D",
+    "source": "https://www.frontiersin.org/journals/mechanical-engineering/articles/10.3389/fmech.2020.545416/full Table 1 / experimental setup",
+    "engine": "P5B CAT3401 NRC 2020"
+  },
+  {
+    "name": "injector_holes",
+    "value": 6,
+    "unit": "count",
+    "grade": "D",
+    "source": "https://www.frontiersin.org/journals/mechanical-engineering/articles/10.3389/fmech.2020.545416/full Table 1 / experimental setup",
+    "engine": "P5B CAT3401 NRC 2020"
+  },
+  {
+    "name": "fuel_system",
+    "value": "common rail direct injection",
+    "unit": null,
+    "grade": "D",
+    "source": "https://www.frontiersin.org/journals/mechanical-engineering/articles/10.3389/fmech.2020.545416/full Table 1 / experimental setup",
+    "engine": "P5B CAT3401 NRC 2020"
+  },
+  {
+    "name": "diesel_density",
+    "value": 814.8,
+    "unit": "kg/m3",
+    "grade": "D",
+    "source": "https://www.frontiersin.org/journals/mechanical-engineering/articles/10.3389/fmech.2020.545416/full Table 1 / experimental setup",
+    "engine": "P5B CAT3401 NRC 2020"
+  },
+  {
+    "name": "diesel_cetane_number",
+    "value": 44,
+    "unit": "1",
+    "grade": "D",
+    "source": "https://www.frontiersin.org/journals/mechanical-engineering/articles/10.3389/fmech.2020.545416/full Table 1 / experimental setup",
+    "engine": "P5B CAT3401 NRC 2020"
+  },
+  {
+    "name": "diesel_lhv",
+    "value": 44.64,
+    "unit": "MJ/kg",
+    "grade": "D",
+    "source": "https://www.frontiersin.org/journals/mechanical-engineering/articles/10.3389/fmech.2020.545416/full Table 1 / experimental setup",
+    "engine": "P5B CAT3401 NRC 2020"
+  },
+  {
+    "name": "diesel_H_C",
+    "value": 1.9,
+    "unit": "mol/mol",
+    "grade": "D",
+    "source": "https://www.frontiersin.org/journals/mechanical-engineering/articles/10.3389/fmech.2020.545416/full Table 1 / experimental setup",
+    "engine": "P5B CAT3401 NRC 2020"
+  },
+  {
+    "name": "coolant_temperature",
+    "value": 85,
+    "unit": "degC",
+    "grade": "D",
+    "source": "https://www.frontiersin.org/journals/mechanical-engineering/articles/10.3389/fmech.2020.545416/full Table 1 / experimental setup",
+    "engine": "P5B CAT3401 NRC 2020"
+  },
+  {
+    "name": "oil_temperature",
+    "value": 85,
+    "unit": "degC",
+    "grade": "D",
+    "source": "https://www.frontiersin.org/journals/mechanical-engineering/articles/10.3389/fmech.2020.545416/full Table 1 / experimental setup",
+    "engine": "P5B CAT3401 NRC 2020"
+  },
+  {
+    "name": "pressure_sensor",
+    "value": "Kistler 6041A",
+    "unit": null,
+    "grade": "D",
+    "source": "https://www.frontiersin.org/journals/mechanical-engineering/articles/10.3389/fmech.2020.545416/full Table 1 / experimental setup",
+    "engine": "P5B CAT3401 NRC 2020"
+  },
+  {
+    "name": "pressure_native_resolution",
+    "value": 0.2,
+    "unit": "degCA",
+    "grade": "D",
+    "source": "https://www.frontiersin.org/journals/mechanical-engineering/articles/10.3389/fmech.2020.545416/full Table 1 / experimental setup",
+    "engine": "P5B CAT3401 NRC 2020"
+  },
+  {
+    "name": "pressure_cycles",
+    "value": 100,
+    "unit": "cycles",
+    "grade": "D",
+    "source": "https://www.frontiersin.org/journals/mechanical-engineering/articles/10.3389/fmech.2020.545416/full Table 1 / experimental setup",
+    "engine": "P5B CAT3401 NRC 2020"
+  },
+  {
+    "name": "connecting_rod",
+    "value": 261.62,
+    "unit": "mm",
+    "grade": "F",
+    "source": "related NRC CAT3401 publications; not printed in selected 2020 paper",
+    "engine": "P5B CAT3401 NRC 2020"
+  },
+  {
+    "name": "injector_hole_diameter",
+    "value": null,
+    "unit": "mm",
+    "grade": "U",
+    "source": "not established for exact Ganser six-hole injector in selected paper",
+    "engine": "P5B CAT3401 NRC 2020"
+  },
+  {
+    "name": "75pct_diesel_baseline_speed",
+    "value": 1010,
+    "unit": "rpm",
+    "grade": "D",
+    "source": "https://www.frontiersin.org/journals/mechanical-engineering/articles/10.3389/fmech.2020.545416/full Table 2 p.4",
+    "engine": "P5B CAT3401 NRC 2020"
+  },
+  {
+    "name": "75pct_diesel_baseline_bmep",
+    "value": 12.86,
+    "unit": "bar",
+    "grade": "D",
+    "source": "https://www.frontiersin.org/journals/mechanical-engineering/articles/10.3389/fmech.2020.545416/full Table 2 p.4",
+    "engine": "P5B CAT3401 NRC 2020"
+  },
+  {
+    "name": "75pct_diesel_baseline_brake_power",
+    "value": 26.41,
+    "unit": "kW",
+    "grade": "R",
+    "source": "https://www.frontiersin.org/journals/mechanical-engineering/articles/10.3389/fmech.2020.545416/full Table 2 p.4",
+    "engine": "P5B CAT3401 NRC 2020"
+  },
+  {
+    "name": "75pct_diesel_baseline_torque",
+    "value": 249.701,
+    "unit": "Nm",
+    "grade": "R",
+    "source": "https://www.frontiersin.org/journals/mechanical-engineering/articles/10.3389/fmech.2020.545416/full Table 2 p.4",
+    "engine": "P5B CAT3401 NRC 2020"
+  },
+  {
+    "name": "75pct_diesel_baseline_intake_temperature",
+    "value": 40,
+    "unit": "degC",
+    "grade": "D",
+    "source": "https://www.frontiersin.org/journals/mechanical-engineering/articles/10.3389/fmech.2020.545416/full Table 2 p.4",
+    "engine": "P5B CAT3401 NRC 2020"
+  },
+  {
+    "name": "75pct_diesel_baseline_injection_pressure",
+    "value": 525,
+    "unit": "bar",
+    "grade": "D",
+    "source": "https://www.frontiersin.org/journals/mechanical-engineering/articles/10.3389/fmech.2020.545416/full Table 2 p.4",
+    "engine": "P5B CAT3401 NRC 2020"
+  },
+  {
+    "name": "75pct_diesel_baseline_intake_pressure",
+    "value": 1.6,
+    "unit": "bar abs",
+    "grade": "D",
+    "source": "https://www.frontiersin.org/journals/mechanical-engineering/articles/10.3389/fmech.2020.545416/full Table 2 p.4",
+    "engine": "P5B CAT3401 NRC 2020"
+  },
+  {
+    "name": "75pct_diesel_baseline_exhaust_pressure",
+    "value": 1.3,
+    "unit": "bar abs",
+    "grade": "D",
+    "source": "https://www.frontiersin.org/journals/mechanical-engineering/articles/10.3389/fmech.2020.545416/full Table 2 p.4",
+    "engine": "P5B CAT3401 NRC 2020"
+  },
+  {
+    "name": "75pct_diesel_baseline_egr_rate",
+    "value": 0,
+    "unit": "%",
+    "grade": "D",
+    "source": "https://www.frontiersin.org/journals/mechanical-engineering/articles/10.3389/fmech.2020.545416/full Table 2 p.4",
+    "engine": "P5B CAT3401 NRC 2020"
+  },
+  {
+    "name": "75pct_diesel_baseline_diesel_soi",
+    "value": -18.0,
+    "unit": "degCA ATDC",
+    "grade": "D",
+    "source": "https://www.frontiersin.org/journals/mechanical-engineering/articles/10.3389/fmech.2020.545416/full Fig.3 p.5",
+    "engine": "P5B CAT3401 NRC 2020"
+  },
+  {
+    "name": "100pct_diesel_baseline_speed",
+    "value": 1120,
+    "unit": "rpm",
+    "grade": "D",
+    "source": "https://www.frontiersin.org/journals/mechanical-engineering/articles/10.3389/fmech.2020.545416/full Table 2 p.4",
+    "engine": "P5B CAT3401 NRC 2020"
+  },
+  {
+    "name": "100pct_diesel_baseline_bmep",
+    "value": 17.65,
+    "unit": "bar",
+    "grade": "D",
+    "source": "https://www.frontiersin.org/journals/mechanical-engineering/articles/10.3389/fmech.2020.545416/full Table 2 p.4",
+    "engine": "P5B CAT3401 NRC 2020"
+  },
+  {
+    "name": "100pct_diesel_baseline_brake_power",
+    "value": 40.195,
+    "unit": "kW",
+    "grade": "R",
+    "source": "https://www.frontiersin.org/journals/mechanical-engineering/articles/10.3389/fmech.2020.545416/full Table 2 p.4",
+    "engine": "P5B CAT3401 NRC 2020"
+  },
+  {
+    "name": "100pct_diesel_baseline_torque",
+    "value": 342.708,
+    "unit": "Nm",
+    "grade": "R",
+    "source": "https://www.frontiersin.org/journals/mechanical-engineering/articles/10.3389/fmech.2020.545416/full Table 2 p.4",
+    "engine": "P5B CAT3401 NRC 2020"
+  },
+  {
+    "name": "100pct_diesel_baseline_intake_temperature",
+    "value": 40,
+    "unit": "degC",
+    "grade": "D",
+    "source": "https://www.frontiersin.org/journals/mechanical-engineering/articles/10.3389/fmech.2020.545416/full Table 2 p.4",
+    "engine": "P5B CAT3401 NRC 2020"
+  },
+  {
+    "name": "100pct_diesel_baseline_injection_pressure",
+    "value": 525,
+    "unit": "bar",
+    "grade": "D",
+    "source": "https://www.frontiersin.org/journals/mechanical-engineering/articles/10.3389/fmech.2020.545416/full Table 2 p.4",
+    "engine": "P5B CAT3401 NRC 2020"
+  },
+  {
+    "name": "100pct_diesel_baseline_intake_pressure",
+    "value": 2.2,
+    "unit": "bar abs",
+    "grade": "D",
+    "source": "https://www.frontiersin.org/journals/mechanical-engineering/articles/10.3389/fmech.2020.545416/full Table 2 p.4",
+    "engine": "P5B CAT3401 NRC 2020"
+  },
+  {
+    "name": "100pct_diesel_baseline_exhaust_pressure",
+    "value": 1.6,
+    "unit": "bar abs",
+    "grade": "D",
+    "source": "https://www.frontiersin.org/journals/mechanical-engineering/articles/10.3389/fmech.2020.545416/full Table 2 p.4",
+    "engine": "P5B CAT3401 NRC 2020"
+  },
+  {
+    "name": "100pct_diesel_baseline_egr_rate",
+    "value": 0,
+    "unit": "%",
+    "grade": "D",
+    "source": "https://www.frontiersin.org/journals/mechanical-engineering/articles/10.3389/fmech.2020.545416/full Table 2 p.4",
+    "engine": "P5B CAT3401 NRC 2020"
+  },
+  {
+    "name": "75pct_p_trace_00",
+    "value": {
+      "ca_degATDC": -30,
+      "pressure_bar": 22
+    },
+    "unit": null,
+    "grade": "D",
+    "source": "https://www.frontiersin.org/journals/mechanical-engineering/articles/10.3389/fmech.2020.545416/full Fig.3A p.5; manually digitised ~5 CAD, ±2-3 bar",
+    "engine": "P5B CAT3401 NRC 2020"
+  },
+  {
+    "name": "75pct_p_trace_01",
+    "value": {
+      "ca_degATDC": -25,
+      "pressure_bar": 27
+    },
+    "unit": null,
+    "grade": "D",
+    "source": "https://www.frontiersin.org/journals/mechanical-engineering/articles/10.3389/fmech.2020.545416/full Fig.3A p.5; manually digitised ~5 CAD, ±2-3 bar",
+    "engine": "P5B CAT3401 NRC 2020"
+  },
+  {
+    "name": "75pct_p_trace_02",
+    "value": {
+      "ca_degATDC": -20,
+      "pressure_bar": 35
+    },
+    "unit": null,
+    "grade": "D",
+    "source": "https://www.frontiersin.org/journals/mechanical-engineering/articles/10.3389/fmech.2020.545416/full Fig.3A p.5; manually digitised ~5 CAD, ±2-3 bar",
+    "engine": "P5B CAT3401 NRC 2020"
+  },
+  {
+    "name": "75pct_p_trace_03",
+    "value": {
+      "ca_degATDC": -15,
+      "pressure_bar": 45
+    },
+    "unit": null,
+    "grade": "D",
+    "source": "https://www.frontiersin.org/journals/mechanical-engineering/articles/10.3389/fmech.2020.545416/full Fig.3A p.5; manually digitised ~5 CAD, ±2-3 bar",
+    "engine": "P5B CAT3401 NRC 2020"
+  },
+  {
+    "name": "75pct_p_trace_04",
+    "value": {
+      "ca_degATDC": -10,
+      "pressure_bar": 56
+    },
+    "unit": null,
+    "grade": "D",
+    "source": "https://www.frontiersin.org/journals/mechanical-engineering/articles/10.3389/fmech.2020.545416/full Fig.3A p.5; manually digitised ~5 CAD, ±2-3 bar",
+    "engine": "P5B CAT3401 NRC 2020"
+  },
+  {
+    "name": "75pct_p_trace_05",
+    "value": {
+      "ca_degATDC": -5,
+      "pressure_bar": 65
+    },
+    "unit": null,
+    "grade": "D",
+    "source": "https://www.frontiersin.org/journals/mechanical-engineering/articles/10.3389/fmech.2020.545416/full Fig.3A p.5; manually digitised ~5 CAD, ±2-3 bar",
+    "engine": "P5B CAT3401 NRC 2020"
+  },
+  {
+    "name": "75pct_p_trace_06",
+    "value": {
+      "ca_degATDC": 0,
+      "pressure_bar": 85
+    },
+    "unit": null,
+    "grade": "D",
+    "source": "https://www.frontiersin.org/journals/mechanical-engineering/articles/10.3389/fmech.2020.545416/full Fig.3A p.5; manually digitised ~5 CAD, ±2-3 bar",
+    "engine": "P5B CAT3401 NRC 2020"
+  },
+  {
+    "name": "75pct_p_trace_07",
+    "value": {
+      "ca_degATDC": 5,
+      "pressure_bar": 98
+    },
+    "unit": null,
+    "grade": "D",
+    "source": "https://www.frontiersin.org/journals/mechanical-engineering/articles/10.3389/fmech.2020.545416/full Fig.3A p.5; manually digitised ~5 CAD, ±2-3 bar",
+    "engine": "P5B CAT3401 NRC 2020"
+  },
+  {
+    "name": "75pct_p_trace_08",
+    "value": {
+      "ca_degATDC": 10,
+      "pressure_bar": 106
+    },
+    "unit": null,
+    "grade": "D",
+    "source": "https://www.frontiersin.org/journals/mechanical-engineering/articles/10.3389/fmech.2020.545416/full Fig.3A p.5; manually digitised ~5 CAD, ±2-3 bar",
+    "engine": "P5B CAT3401 NRC 2020"
+  },
+  {
+    "name": "75pct_p_trace_09",
+    "value": {
+      "ca_degATDC": 15,
+      "pressure_bar": 101
+    },
+    "unit": null,
+    "grade": "D",
+    "source": "https://www.frontiersin.org/journals/mechanical-engineering/articles/10.3389/fmech.2020.545416/full Fig.3A p.5; manually digitised ~5 CAD, ±2-3 bar",
+    "engine": "P5B CAT3401 NRC 2020"
+  },
+  {
+    "name": "75pct_p_trace_10",
+    "value": {
+      "ca_degATDC": 20,
+      "pressure_bar": 87
+    },
+    "unit": null,
+    "grade": "D",
+    "source": "https://www.frontiersin.org/journals/mechanical-engineering/articles/10.3389/fmech.2020.545416/full Fig.3A p.5; manually digitised ~5 CAD, ±2-3 bar",
+    "engine": "P5B CAT3401 NRC 2020"
+  },
+  {
+    "name": "75pct_p_trace_11",
+    "value": {
+      "ca_degATDC": 25,
+      "pressure_bar": 71
+    },
+    "unit": null,
+    "grade": "D",
+    "source": "https://www.frontiersin.org/journals/mechanical-engineering/articles/10.3389/fmech.2020.545416/full Fig.3A p.5; manually digitised ~5 CAD, ±2-3 bar",
+    "engine": "P5B CAT3401 NRC 2020"
+  },
+  {
+    "name": "75pct_p_trace_12",
+    "value": {
+      "ca_degATDC": 30,
+      "pressure_bar": 58
+    },
+    "unit": null,
+    "grade": "D",
+    "source": "https://www.frontiersin.org/journals/mechanical-engineering/articles/10.3389/fmech.2020.545416/full Fig.3A p.5; manually digitised ~5 CAD, ±2-3 bar",
+    "engine": "P5B CAT3401 NRC 2020"
+  },
+  {
+    "name": "100pct_retarded_p_trace_00",
+    "value": {
+      "ca_degATDC": -15,
+      "pressure_bar": 66
+    },
+    "unit": null,
+    "grade": "D",
+    "source": "https://www.frontiersin.org/journals/mechanical-engineering/articles/10.3389/fmech.2020.545416/full Fig.4A p.5; manually digitised ~5 CAD, ±3 bar; exact SOI not assigned",
+    "engine": "P5B CAT3401 NRC 2020"
+  },
+  {
+    "name": "100pct_retarded_p_trace_01",
+    "value": {
+      "ca_degATDC": -10,
+      "pressure_bar": 76
+    },
+    "unit": null,
+    "grade": "D",
+    "source": "https://www.frontiersin.org/journals/mechanical-engineering/articles/10.3389/fmech.2020.545416/full Fig.4A p.5; manually digitised ~5 CAD, ±3 bar; exact SOI not assigned",
+    "engine": "P5B CAT3401 NRC 2020"
+  },
+  {
+    "name": "100pct_retarded_p_trace_02",
+    "value": {
+      "ca_degATDC": -5,
+      "pressure_bar": 89
+    },
+    "unit": null,
+    "grade": "D",
+    "source": "https://www.frontiersin.org/journals/mechanical-engineering/articles/10.3389/fmech.2020.545416/full Fig.4A p.5; manually digitised ~5 CAD, ±3 bar; exact SOI not assigned",
+    "engine": "P5B CAT3401 NRC 2020"
+  },
+  {
+    "name": "100pct_retarded_p_trace_03",
+    "value": {
+      "ca_degATDC": 0,
+      "pressure_bar": 105
+    },
+    "unit": null,
+    "grade": "D",
+    "source": "https://www.frontiersin.org/journals/mechanical-engineering/articles/10.3389/fmech.2020.545416/full Fig.4A p.5; manually digitised ~5 CAD, ±3 bar; exact SOI not assigned",
+    "engine": "P5B CAT3401 NRC 2020"
+  },
+  {
+    "name": "100pct_retarded_p_trace_04",
+    "value": {
+      "ca_degATDC": 5,
+      "pressure_bar": 122
+    },
+    "unit": null,
+    "grade": "D",
+    "source": "https://www.frontiersin.org/journals/mechanical-engineering/articles/10.3389/fmech.2020.545416/full Fig.4A p.5; manually digitised ~5 CAD, ±3 bar; exact SOI not assigned",
+    "engine": "P5B CAT3401 NRC 2020"
+  },
+  {
+    "name": "100pct_retarded_p_trace_05",
+    "value": {
+      "ca_degATDC": 10,
+      "pressure_bar": 132
+    },
+    "unit": null,
+    "grade": "D",
+    "source": "https://www.frontiersin.org/journals/mechanical-engineering/articles/10.3389/fmech.2020.545416/full Fig.4A p.5; manually digitised ~5 CAD, ±3 bar; exact SOI not assigned",
+    "engine": "P5B CAT3401 NRC 2020"
+  },
+  {
+    "name": "100pct_retarded_p_trace_06",
+    "value": {
+      "ca_degATDC": 15,
+      "pressure_bar": 130
+    },
+    "unit": null,
+    "grade": "D",
+    "source": "https://www.frontiersin.org/journals/mechanical-engineering/articles/10.3389/fmech.2020.545416/full Fig.4A p.5; manually digitised ~5 CAD, ±3 bar; exact SOI not assigned",
+    "engine": "P5B CAT3401 NRC 2020"
+  },
+  {
+    "name": "100pct_retarded_p_trace_07",
+    "value": {
+      "ca_degATDC": 20,
+      "pressure_bar": 119
+    },
+    "unit": null,
+    "grade": "D",
+    "source": "https://www.frontiersin.org/journals/mechanical-engineering/articles/10.3389/fmech.2020.545416/full Fig.4A p.5; manually digitised ~5 CAD, ±3 bar; exact SOI not assigned",
+    "engine": "P5B CAT3401 NRC 2020"
+  },
+  {
+    "name": "100pct_retarded_p_trace_08",
+    "value": {
+      "ca_degATDC": 25,
+      "pressure_bar": 102
+    },
+    "unit": null,
+    "grade": "D",
+    "source": "https://www.frontiersin.org/journals/mechanical-engineering/articles/10.3389/fmech.2020.545416/full Fig.4A p.5; manually digitised ~5 CAD, ±3 bar; exact SOI not assigned",
+    "engine": "P5B CAT3401 NRC 2020"
+  },
+  {
+    "name": "100pct_retarded_p_trace_09",
+    "value": {
+      "ca_degATDC": 30,
+      "pressure_bar": 83
+    },
+    "unit": null,
+    "grade": "D",
+    "source": "https://www.frontiersin.org/journals/mechanical-engineering/articles/10.3389/fmech.2020.545416/full Fig.4A p.5; manually digitised ~5 CAD, ±3 bar; exact SOI not assigned",
+    "engine": "P5B CAT3401 NRC 2020"
+  },
+  {
+    "name": "100pct_retarded_p_trace_10",
+    "value": {
+      "ca_degATDC": 35,
+      "pressure_bar": 68
+    },
+    "unit": null,
+    "grade": "D",
+    "source": "https://www.frontiersin.org/journals/mechanical-engineering/articles/10.3389/fmech.2020.545416/full Fig.4A p.5; manually digitised ~5 CAD, ±3 bar; exact SOI not assigned",
+    "engine": "P5B CAT3401 NRC 2020"
+  },
+  {
+    "name": "100pct_retarded_p_trace_11",
+    "value": {
+      "ca_degATDC": 40,
+      "pressure_bar": 56
+    },
+    "unit": null,
+    "grade": "D",
+    "source": "https://www.frontiersin.org/journals/mechanical-engineering/articles/10.3389/fmech.2020.545416/full Fig.4A p.5; manually digitised ~5 CAD, ±3 bar; exact SOI not assigned",
+    "engine": "P5B CAT3401 NRC 2020"
+  },
+  {
+    "name": "100pct_retarded_p_trace_12",
+    "value": {
+      "ca_degATDC": 45,
+      "pressure_bar": 45
+    },
+    "unit": null,
+    "grade": "D",
+    "source": "https://www.frontiersin.org/journals/mechanical-engineering/articles/10.3389/fmech.2020.545416/full Fig.4A p.5; manually digitised ~5 CAD, ±3 bar; exact SOI not assigned",
+    "engine": "P5B CAT3401 NRC 2020"
+  },
+  {
+    "name": "100pct_advanced_p_trace_00",
+    "value": {
+      "ca_degATDC": -15,
+      "pressure_bar": 66
+    },
+    "unit": null,
+    "grade": "D",
+    "source": "https://www.frontiersin.org/journals/mechanical-engineering/articles/10.3389/fmech.2020.545416/full Fig.4A p.5; manually digitised ~5 CAD, ±3 bar; exact SOI not assigned",
+    "engine": "P5B CAT3401 NRC 2020"
+  },
+  {
+    "name": "100pct_advanced_p_trace_01",
+    "value": {
+      "ca_degATDC": -10,
+      "pressure_bar": 79
+    },
+    "unit": null,
+    "grade": "D",
+    "source": "https://www.frontiersin.org/journals/mechanical-engineering/articles/10.3389/fmech.2020.545416/full Fig.4A p.5; manually digitised ~5 CAD, ±3 bar; exact SOI not assigned",
+    "engine": "P5B CAT3401 NRC 2020"
+  },
+  {
+    "name": "100pct_advanced_p_trace_02",
+    "value": {
+      "ca_degATDC": -5,
+      "pressure_bar": 95
+    },
+    "unit": null,
+    "grade": "D",
+    "source": "https://www.frontiersin.org/journals/mechanical-engineering/articles/10.3389/fmech.2020.545416/full Fig.4A p.5; manually digitised ~5 CAD, ±3 bar; exact SOI not assigned",
+    "engine": "P5B CAT3401 NRC 2020"
+  },
+  {
+    "name": "100pct_advanced_p_trace_03",
+    "value": {
+      "ca_degATDC": 0,
+      "pressure_bar": 118
+    },
+    "unit": null,
+    "grade": "D",
+    "source": "https://www.frontiersin.org/journals/mechanical-engineering/articles/10.3389/fmech.2020.545416/full Fig.4A p.5; manually digitised ~5 CAD, ±3 bar; exact SOI not assigned",
+    "engine": "P5B CAT3401 NRC 2020"
+  },
+  {
+    "name": "100pct_advanced_p_trace_04",
+    "value": {
+      "ca_degATDC": 5,
+      "pressure_bar": 137
+    },
+    "unit": null,
+    "grade": "D",
+    "source": "https://www.frontiersin.org/journals/mechanical-engineering/articles/10.3389/fmech.2020.545416/full Fig.4A p.5; manually digitised ~5 CAD, ±3 bar; exact SOI not assigned",
+    "engine": "P5B CAT3401 NRC 2020"
+  },
+  {
+    "name": "100pct_advanced_p_trace_05",
+    "value": {
+      "ca_degATDC": 10,
+      "pressure_bar": 145
+    },
+    "unit": null,
+    "grade": "D",
+    "source": "https://www.frontiersin.org/journals/mechanical-engineering/articles/10.3389/fmech.2020.545416/full Fig.4A p.5; manually digitised ~5 CAD, ±3 bar; exact SOI not assigned",
+    "engine": "P5B CAT3401 NRC 2020"
+  },
+  {
+    "name": "100pct_advanced_p_trace_06",
+    "value": {
+      "ca_degATDC": 15,
+      "pressure_bar": 139
+    },
+    "unit": null,
+    "grade": "D",
+    "source": "https://www.frontiersin.org/journals/mechanical-engineering/articles/10.3389/fmech.2020.545416/full Fig.4A p.5; manually digitised ~5 CAD, ±3 bar; exact SOI not assigned",
+    "engine": "P5B CAT3401 NRC 2020"
+  },
+  {
+    "name": "100pct_advanced_p_trace_07",
+    "value": {
+      "ca_degATDC": 20,
+      "pressure_bar": 124
+    },
+    "unit": null,
+    "grade": "D",
+    "source": "https://www.frontiersin.org/journals/mechanical-engineering/articles/10.3389/fmech.2020.545416/full Fig.4A p.5; manually digitised ~5 CAD, ±3 bar; exact SOI not assigned",
+    "engine": "P5B CAT3401 NRC 2020"
+  },
+  {
+    "name": "100pct_advanced_p_trace_08",
+    "value": {
+      "ca_degATDC": 25,
+      "pressure_bar": 104
+    },
+    "unit": null,
+    "grade": "D",
+    "source": "https://www.frontiersin.org/journals/mechanical-engineering/articles/10.3389/fmech.2020.545416/full Fig.4A p.5; manually digitised ~5 CAD, ±3 bar; exact SOI not assigned",
+    "engine": "P5B CAT3401 NRC 2020"
+  },
+  {
+    "name": "100pct_advanced_p_trace_09",
+    "value": {
+      "ca_degATDC": 30,
+      "pressure_bar": 84
+    },
+    "unit": null,
+    "grade": "D",
+    "source": "https://www.frontiersin.org/journals/mechanical-engineering/articles/10.3389/fmech.2020.545416/full Fig.4A p.5; manually digitised ~5 CAD, ±3 bar; exact SOI not assigned",
+    "engine": "P5B CAT3401 NRC 2020"
+  },
+  {
+    "name": "100pct_advanced_p_trace_10",
+    "value": {
+      "ca_degATDC": 35,
+      "pressure_bar": 68
+    },
+    "unit": null,
+    "grade": "D",
+    "source": "https://www.frontiersin.org/journals/mechanical-engineering/articles/10.3389/fmech.2020.545416/full Fig.4A p.5; manually digitised ~5 CAD, ±3 bar; exact SOI not assigned",
+    "engine": "P5B CAT3401 NRC 2020"
+  },
+  {
+    "name": "100pct_advanced_p_trace_11",
+    "value": {
+      "ca_degATDC": 40,
+      "pressure_bar": 55
+    },
+    "unit": null,
+    "grade": "D",
+    "source": "https://www.frontiersin.org/journals/mechanical-engineering/articles/10.3389/fmech.2020.545416/full Fig.4A p.5; manually digitised ~5 CAD, ±3 bar; exact SOI not assigned",
+    "engine": "P5B CAT3401 NRC 2020"
+  },
+  {
+    "name": "100pct_advanced_p_trace_12",
+    "value": {
+      "ca_degATDC": 45,
+      "pressure_bar": 44
+    },
+    "unit": null,
+    "grade": "D",
+    "source": "https://www.frontiersin.org/journals/mechanical-engineering/articles/10.3389/fmech.2020.545416/full Fig.4A p.5; manually digitised ~5 CAD, ±3 bar; exact SOI not assigned",
+    "engine": "P5B CAT3401 NRC 2020"
+  },
+  {
+    "name": "net_hrr_numeric",
+    "value": null,
+    "unit": "J/degCA",
+    "grade": "U",
+    "source": "https://www.frontiersin.org/journals/mechanical-engineering/articles/10.3389/fmech.2020.545416/full Figs.3B/4B; curves exist but accessible raster insufficient for defensible digitisation",
+    "engine": "P5B CAT3401 NRC 2020"
+  },
+  {
+    "name": "motoring_speed",
+    "value": 600,
+    "unit": "rpm",
+    "grade": "D",
+    "source": "https://www.frontiersin.org/journals/mechanical-engineering/articles/10.3389/fmech.2020.545416/full experimental procedure",
+    "engine": "P5B CAT3401 NRC 2020"
+  },
+  {
+    "name": "fmep",
+    "value": null,
+    "unit": "bar",
+    "grade": "U",
+    "source": "numeric motoring torque/FMEP not found",
+    "engine": "P5B CAT3401 NRC 2020"
+  }
+]

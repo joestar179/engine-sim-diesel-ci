@@ -182,6 +182,19 @@ Group-B deviations are accepted as recorded findings, not work items:
 | 5 | Capability gaps, ordered by impact and rework risk (COVERAGE_MATRIX §5): (1) 1-D intake / exhaust pipes, (2) two-stroke cycle, (3) petrol direct injection with the diesel spray physics, (4) boost / VGT control, (5) carburettor metering (float and diaphragm), (6) supercharger and scavenge blowers (common on petrol cars; last for implementation dependencies, not importance) | Per item, each validated on a reference |
 | 6 | Sound: GUI rebuild, before/after source comparison, listening checks | Sound gate per engine |
 
+**Data freeze (user decision 2026-10-03).** The reference data search is closed: data need only be sufficient to model, not perfect. Gaps are filled by Layer-2 defaults and declared knobs and lower an engine's grade; they do not stop work. New data are requested only when a specific build hits a gap that no reasonable default covers, and then only that item. The TCC-III archive is used if it arrives. Evaluation: `docs/reference/batch03/stage2_evaluation.md`.
+
+Reference set at the freeze:
+
+| Area | Reference | Partial | Calibrated |
+|---|---|---|---|
+| SI | Mazda; TCC-III (scalars; traces if the archive arrives) | — | GX160 (Honda curve, Ragan BSFC), GX390, Kohler |
+| Diesel | ECN small-bore (6 CDC9 cases complete) | AVL 5402 | Deere DF150 / TF250, Kirloskar TV1 |
+| Heavy-duty | Cummins ISX 15 (5 points: fuel, air, EGR, manifold p / T) | CAT 3401 (pressure) | — |
+| Medium-speed | — | Wärtsilä 8L26, EMD 16-710G3B | ALCO 251 fragments |
+| Supercharger | — | GM LSA, VW 1.4 TSI Twincharger | — |
+| Two-stroke (small) | — | Husqvarna chainsaw thesis (`research data/Exjobb_13.pdf`, unreviewed) | — |
+
 Design rules for the range (leaf blower to large turbo diesel):
 - **inputs describe hardware, never model internals** (pipe lengths / diameters / tapers, port timings and areas, blower displacement and drive ratio), so they survive model upgrades such as lumped → 1-D pipes; model artefacts are derived or are declared knobs;
 - 1-D pipes replace runner / primary elements inside the locked turbo topology (§1), never the topology;
