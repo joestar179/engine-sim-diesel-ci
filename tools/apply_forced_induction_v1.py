@@ -142,7 +142,7 @@ PINNED_PRODUCTION_TEMPLATES = {
     "src/simulator.cpp": "66eee8e78eae8638b10ba89fe0b900f879633e53c2accb4ad9dcd4224c465c43",
     "src/diesel_governor.cpp": "b0f1e8fa6b629bc14099b80b326351594d8bf5b21be8e3235ecc72b62083b6df",
     "include/diesel_governor.h": "77b27b5b3b25ec18d8ff5846c33909a200c5d4c30ec50807fecf63a0b3a29698",
-    "src/gas_system.cpp": "21382c737215d68b2daf71141a96eaad8a10ba251aba09ed4873656e449beb21",
+    "src/gas_system.cpp": "da695475f9e6744beea33b05622c5aad6ddb8df0b0a814685eeea3be22c24b5f",
     "include/gas_system.h": "f6886ec607822ad0750541d43c6f06ae801626d38b1188062761564618ef6ab7",
     "src/compression_ignition_model.cpp": "f2643f25d417ba2370ffaea7e78ce0a729e2f751f18cc3f282c5ab3e6ce1517d",
     "include/compression_ignition_model.h": "00da6abfb8d5f5ec8d610e79a0055e404a9669f0a21f79bed2cd777004be085c",

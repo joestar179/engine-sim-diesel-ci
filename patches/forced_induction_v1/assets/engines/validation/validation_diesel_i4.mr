@@ -808,9 +808,10 @@ public node deere_4045tf250 {
     input turbo_enabled: true;
     // C, range 1.6-2.4 (small fixed-geometry turbo diesel: turbine expansion
     // ratio near or below the compressor ratio, documented 2.10-2.34): set on the
-    // documented 109-133 kPa boost at rated (2026-10-02, inertial exhaust;
-    // 1.8 -> 110 kPa, 1.9 -> 122 kPa). EGT and airflow are held-out checks.
-    input turbine_design_pressure_ratio: 1.9;
+    // documented 109-133 kPa boost at rated (2026-10-02, inertial exhaust with
+    // momentum-consistent transfer; 2.1 -> 110, 2.2 -> 115, 2.3 -> 127 kPa).
+    // EGT and airflow are held-out checks.
+    input turbine_design_pressure_ratio: 2.2;
     input port_cd: 0.6;                                   // C
     alias output __out:
         validation_diesel_i4(
@@ -848,15 +849,15 @@ public node deere_4045tf250 {
             // F: RE48786 nozzles (CTM207): 4 holes x 0.29 mm, opening
             // 255-260 bar. A: injection pressure = opening pressure midpoint
             // Mechanical rotary pump (Delphi/Lucas, CTM207 p. 152); C as for
-            // the DF150, set on the rated torque: 0.0408 mm/deg = rated full
-            // delivery (72.3 mg) over ~27 crank degrees (re-set 2026-10-02 with
-            // the inertial exhaust and turbine ratio 1.9; was 0.035 = 32 deg, re-derived 2026-10-01;
+            // the DF150, set on the rated torque: 0.0447 mm/deg = rated full
+            // delivery (72.3 mg) over ~25 crank degrees (re-set 2026-10-02 with
+            // the inertial exhaust and turbine ratio 2.2; was 0.035 = 32 deg, re-derived 2026-10-01;
             // was 0.03022 = 37 deg). Sweep at 2400 rpm: 37/32/28/24 deg ->
             // -4.3/-0.3/+3.3/+4.6 %.
             nozzle_hole_count: 4,
             pump_plunger_count: 2,
             pump_plunger_diameter: 7 * units.mm,
-            pump_cam_lift_rate: 0.0408 * units.mm / units.deg,
+            pump_cam_lift_rate: 0.0447 * units.mm / units.deg,
             nozzle_hole_diameter: 0.29 * units.mm,
             injection_pressure: 25.75 * units.MPa,
             turbo_enabled: turbo_enabled,

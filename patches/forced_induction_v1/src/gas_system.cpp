@@ -111,10 +111,25 @@ double GasSystem::inertialFlow(GasSystem *a, GasSystem *b, double &mdot,
         mdot = (mdot >= 0.0 ? 1.0 : -1.0) * moles * molarMass / dt;
     }
     if (moles <= 0.0) return 0.0;
+    // Same transfer bookkeeping as GasSystem::flow (stage 1): the gas carries
+    // its share of the source momentum, and the change in total bulk kinetic
+    // energy is taken from thermal energy. Without this the source kept its
+    // momentum while losing mass, so its bulk kinetic energy grew unpaid and
+    // velocity damping turned it into heat (energy created: exhaust runner).
+    const double fraction = moles / source->n();
+    const double E_k_bulk0 = source->bulkKineticEnergy() + sink->bulkKineticEnergy();
     const double h = source->enthalpyPerMol();
     const Mix mix = source->mix();
     sink->gainN(moles, h, mix);
     source->loseN(moles, h);
+    const double dp_x = source->m_state.momentum[0] * fraction;
+    const double dp_y = source->m_state.momentum[1] * fraction;
+    source->m_state.momentum[0] -= dp_x;
+    source->m_state.momentum[1] -= dp_y;
+    sink->m_state.momentum[0] += dp_x;
+    sink->m_state.momentum[1] += dp_y;
+    const double E_k_bulk1 = source->bulkKineticEnergy() + sink->bulkKineticEnergy();
+    sink->m_state.E_k -= (E_k_bulk1 - E_k_bulk0);
     return (mdot >= 0.0) ? moles : -moles;
 }
 

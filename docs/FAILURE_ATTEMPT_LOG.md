@@ -1134,6 +1134,42 @@ The shape is flat. Set: DF150 46°, TF250 37°.
 - 46°/37° rated injection is long for rotary pumps (typical 20–30°): either the jet mixing is somewhat fast (e.g. no wall impingement: x_st ≈ 85 mm > bore/2 = 53 mm) or a loss is missing.
 - TF250 at 1000 rpm is +7.5 %.
 
+## Energy creation in GasSystem::inertialFlow found and fixed; Deere re-set (2026-10-02)
+
+**Diagnosis** (DF150 rated; `--energy` now also prints the flow-weighted outlet temperature and sampled intake/outlet moles):
+- Exhaust share of released heat, inertial off → on: 40.8 → 42.8 % (+3.4 kW).
+- Yet the outlet flow-weighted temperature rose 780.6 → 923.9 K, and airflow rose 6 % (intake moles 0.2278 → 0.2426, equal to the outflow).
+- So exhaust enthalpy flow rose ~38 %: energy was created between the exhaust valve and the outlet.
+
+**Cause:** `inertialFlow` moved moles and enthalpy but not momentum.
+- The source volume lost mass but kept its momentum (the exhaust runner is continuously filled by the valve jet through `GasSystem::flow`), so its bulk kinetic energy P²/2m grew unpaid.
+- Velocity damping (`dissipateExcessVelocity` / `updateVelocity`) turned that kinetic energy into heat.
+- The neck/cavity fix (runner volume 0.76 → 0.20 L) magnified it. The isolated pipe test had zero-momentum vessels and could not see it.
+
+**Fix** (production, `gas_system.cpp`, pin updated): the same stage-1 bookkeeping as `GasSystem::flow`. The gas carries its share of source momentum, and the change in total bulk kinetic energy is taken from thermal energy.
+- Pipe test unchanged (5.861 vs 5.849 ms).
+- DF150 rated: outlet 801.2 K (+21 K vs inertial off, consistent with the balance); torque 227.2 (unchanged).
+
+**TF250 re-set** (the turbine sees less exhaust energy):
+- At ER 1.9: boost 86 kPa (below range).
+- ER 2.1 / 2.2 / 2.3 → 109.5 / 114.5 / 126.8 kPa. Set **2.2** (C, range 1.6-2.4).
+- Pump 0.0447 mm/deg (~25° rated delivery, inside the 20-30° rotary range).
+
+**Scores** (EGT = flow-weighted outlet temperature, which replaces the time-mean volume temperature):
+
+| | DF150 (cal.: pump on rated torque) | TF250 (cal.: pump on rated torque, ER on boost) |
+|---|---|---|
+| Torque curve | −1.2..+2.3 % | −2.1..+4.9 % |
+| BSFC | −1.8..+1.5 % | −3.6..−1.0 % above 1400; −11.4 / −9.8 % at 1000/1200 (known smoke-limiter point) |
+| EGT at rated | 528 C vs 582: **−54 K (bound ±50: marginal FAIL)** | 462 C vs 495: −33 K |
+| Air at rated | — | 169 g/s vs ~167 |
+| Boost | — | 113.5 kPa (calibrated) |
+| Pump delivery | ~31° | ~25° |
+
+- The superseded entry above ("EGT bound fails +67/+68 K") was caused by this defect.
+- SI engines at their coarse knobs move ≤1.4 % (GX390 +0.7..+1.4, Kohler +0.3..+0.8, Mazda −0.8..+0.7): calibrations stand.
+- **Sound:** the fix lowers exhaust-runner gas energy (the exhaust-channel source). Before/after pulses not compared; listening check still owed.
+
 ## Deere re-calibration under the inertial exhaust — EGT bound fails; STOPPED (2026-10-02)
 
 **1. Exhaust valve flow** (F): `deere_exhaust_flow` set to the CTM104 42.5 mm valve head (was C 40 mm).

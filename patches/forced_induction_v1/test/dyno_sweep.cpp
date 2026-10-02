@@ -104,7 +104,19 @@ struct EnergyProbe {
             }
             c.prevDV = dV; c.prevV = V; c.prevP = p;
         }
+        // Flow-weighted outlet temperature (gas leaving to atmosphere carries
+        // the exhaust-system state; last fluid sub-step of each step).
+        if (active) {
+            for (int e = 0; e < engine->getExhaustSystemCount(); ++e) {
+                const double n = engine->getExhaustSystem(e)->getFlow();
+                if (n != 0.0) { const double T = engine->getExhaustSystem(e)->getSystem()->temperature(); if (n < 0.0) { outN -= n; outNT -= n * T; } else { inN += n; } }
+            }
+            for (int i = 0; i < engine->getIntakeCount(); ++i) {
+                airN += engine->getIntake(i)->m_flow;
+            }
+        }
     }
+    double outN = 0.0, outNT = 0.0, inN = 0.0, airN = 0.0;   // exhaust getFlow < 0: out to atmosphere; intake m_flow > 0: in
 };
 #else
 struct EnergyProbe { void step(Engine *, double) {} };
@@ -428,6 +440,7 @@ int main(int argc, char **argv) {
                 (net - brake) / released, brake / released, 1.0 - (net + wall) / released,
                 net > 0.0 ? brake / net : 0.0, probe.a10 * k, probe.a50 * k, probe.a90 * k,
                 probe.peakP * k / 1.0e5, probe.aPeak * k, probe.firings);
+            std::printf("energy: outlet flow-weighted T %.1f K; sampled moles out %.4f, back-flow %.4f, intake %.4f\n", probe.outN > 0.0 ? probe.outNT / probe.outN : 0.0, probe.outN, probe.inN, probe.airN);
         }
 #endif
         std::fflush(stdout);
