@@ -1,0 +1,16 @@
+Traceback (most recent call last):
+  File "C:\es\overlay\tools\engine_setup\calibrate.py", line 111, in <module>
+    main()
+  File "C:\es\overlay\tools\engine_setup\calibrate.py", line 42, in main
+    res = run(spec, [test], dict(knobs, **{'spark_%d' % r: '%d * units.deg' % adv}))
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\es\overlay\tools\engine_setup\calibrate.py", line 20, in run
+    fd, path = tempfile.mkstemp(suffix='_main.mr', dir='assets'); os.write(fd, body.encode()); os.close(fd)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rajpa\AppData\Local\Programs\Python\Python312\Lib\tempfile.py", line 357, in mkstemp
+    return _mkstemp_inner(dir, prefix, suffix, flags, output_type)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rajpa\AppData\Local\Programs\Python\Python312\Lib\tempfile.py", line 256, in _mkstemp_inner
+    fd = _os.open(file, flags, 0o600)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'C:\\es\\overlay\\tools\\engine_setup\\assets\\tmpnaeehweb_main.mr'

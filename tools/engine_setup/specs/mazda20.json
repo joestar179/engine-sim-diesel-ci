@@ -1,0 +1,83 @@
+{
+ "name": "Mazda SKYACTIV-G 2.0 (spec-sheet setup)",
+ "node": "gen_mazda20",
+ "layout": "i4",
+ "bore_mm": 83.5,
+ "stroke_mm": 91.2,
+ "cr": 13.0,
+ "valves_per_cyl": 4,
+ "valvetrain": "dohc_roller_finger",
+ "fuel_system": "efi",
+ "fuel": "gasoline",
+ "rated_kw": 115.0,
+ "rated_rpm": 6000,
+ "peak_nm": 203.0,
+ "peak_rpm": 4000,
+ "idle_rpm": 700,
+ "redline_rpm": 6500,
+ "rating_cf": 0.973,
+ "main_bearings": 5,
+ "curve": [
+  [
+   1000,
+   141.05
+  ],
+  [
+   1250,
+   152.66
+  ],
+  [
+   1500,
+   161.12
+  ],
+  [
+   1750,
+   170.66
+  ],
+  [
+   2000,
+   186.48
+  ],
+  [
+   2250,
+   191.67
+  ],
+  [
+   2500,
+   185.71
+  ],
+  [
+   2750,
+   191.43
+  ],
+  [
+   3000,
+   201.38
+  ],
+  [
+   3250,
+   203.47
+  ],
+  [
+   3500,
+   200.75
+  ],
+  [
+   3750,
+   201.24
+  ],
+  [
+   4000,
+   201.85
+  ],
+  [
+   4250,
+   201.62
+  ],
+  [
+   4500,
+   200.05
+  ]
+ ],
+ "curve_note": "EPA NVFEL Tier 2 max-torque sweep (D), x1.017 to J1349 (cell 97.6 kPa)"
+}
