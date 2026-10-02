@@ -40,6 +40,14 @@ class Intake : public Part {
             bool AirOnly = false;
             double AtmospherePressure = units::pressure(1.0, units::atm);
             double AtmosphereTemperature = units::celcius(25.0);
+
+            // Intake charge composition (mole fractions of the air part).
+            // OxygenFraction < 0 keeps the legacy composition (20.95 % O2 for
+            // air-only intakes, the stock 25 % for premixed intakes).
+            // ProductsFraction is CO2 + H2O (EGR / synthetic dilution); the
+            // remainder is N2.
+            double OxygenFraction = -1.0;
+            double ProductsFraction = 0.0;
         };
 
     public:
@@ -83,6 +91,8 @@ class Intake : public Part {
         bool m_airOnly = false;
         double m_atmospherePressure = units::pressure(1.0, units::atm);
         double m_atmosphereTemperature = units::celcius(25.0);
+        double m_oxygenFraction = -1.0;
+        double m_productsFraction = 0.0;
         bool m_forcedInductionFeed = false;
         Engine *m_engine = nullptr;
 

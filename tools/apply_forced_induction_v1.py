@@ -55,6 +55,7 @@ EXPECTED_BASELINE = {
     "assets/engines/alco/alco_251d_diesel_turbo.mr": "c007e5d953a64a9f35524e4e86910e4a52d1c787ad1dfef89679677a50e0d0da",
     "src/fuel_rack_governor_model.cpp": "53278710f70970d78e28f4edc958ceaf146cce888d425ee8f2534390eacf2b41",
     "scripting/include/throttle_nodes.h": "417bf240163ddf3d6498aa047f412ef91759f648ca075a9f6e509c6e6c355c9b",
+    "scripting/include/intake_node.h": "e9eb48a32f7d61b0b30934b101bdc0dcee11c55536492193c2e743e6ff906ac6",
 }
 
 # The public v0.1.14a script library uses engine_channel at the three native
@@ -111,12 +112,12 @@ PINNED_PRODUCTION_TEMPLATES = {
     "include/camshaft.h": "03b3be27040576846fafc0479a7bc1e8b72a4189e219227a53fe45bb263b7928",
     "assets/alco_16_251b_main.mr": "de603c279f374f62bd5b47ef0edebbabfbe083b01bdc2ab057620ff1af4c61f4",
     "assets/engines/alco/alco_16_251b_native.mr": "3788fab67ba888cbc4612b41dc387fa0bf1a91321f30a296f8152a4856e9c303",
-    "es/objects/objects.mr": "59a82eae63ea54d723ccd2cb9d5a697a4a3a316fefd5aa9607249b71f4e8921b",
+    "es/objects/objects.mr": "71f6cf24bc46f010a7c4f8f4829849a3ebf6a17a5e02370955f1709fe9dba341",
     "include/combustion_chamber.h": "ba37da0c54c9c154810c3ae306c29e8002d91b31877f1391a6c935c2d50eec9c",
     "include/engine.h": "163e4024e858e0690fb7abb2a7d4674178b95279cc1c0d77e00f98aff93c646b",
     "include/exhaust_system.h": "050d489bb2fc579b0bf350b14797e55bb26e902908f941069d0b2d275e42df90",
     "include/forced_induction_system.h": "57c6bc6a9084bdda1f99d60851a3c6ea53ec0059be36610a8a5e8a151b68ce22",
-    "include/intake.h": "4053725fe40e38e69c0bdcad93577a9022e9060e97fb192dc15c3ae8a4b169b3",
+    "include/intake.h": "a378dc8497ca363a334a5e2626da6f24a99dac7d5672606e7d99829cca3eeb78",
     "include/turbocharger_model.h": "37e92d401cca5f94073e858ebab134d16a1f1fd528e72563c63ea2abcb7fbece",
     "scripting/include/engine_node.h": "db5876d9beebeffb5a6669f52c818dfa76ebff088962ca9af9b4e561193a9999",
     "scripting/include/exhaust_system_node.h": "d5f3436f866d9f3608efcd808aa61d079e0eb6f207a9134c046b0a0940755c3d",
@@ -125,7 +126,7 @@ PINNED_PRODUCTION_TEMPLATES = {
     "src/engine.cpp": "05a615b2ea76a1cc8aec82e8c6059c4f65503393365e697917277abafb76ebb8",
     "src/exhaust_system.cpp": "82371111c1405bfd72a581be18d2b2274bd63819d92103d73b0970a5f7895d20",
     "src/forced_induction_system.cpp": "c00aca6bf47080b95f00d70e0536634c5e8f1a46c4517aba2af0e0b2f3725609",
-    "src/intake.cpp": "6ec2f9497ae3cb7a780782508950d2197f398c94caa38626966e01287ccc93df",
+    "src/intake.cpp": "09c01dc131d80a28a3138f5ca08ab06af94010d7efd314390445380abb3d26d2",
     "src/piston_engine_simulator.cpp": "33a92b7592b53b7eda5d10cfeee39d9458b095a8a38853074fe06d4fc27dfb11",
     "src/turbocharger_model.cpp": "c64f89a3228ebb97afd974042c1ff8576587c3df3350744f16f5080d4eef68b7",
     "include/telemetry_log.h": "d3776a08765e4335b8d27b392bcda73ac70ae72f53fb6d951da69fa186aeed63",
@@ -151,6 +152,7 @@ PINNED_PRODUCTION_TEMPLATES = {
     "include/piston_engine_simulator.h": "750dd40aab247153189abb07f053f550ad90ce769d875e92e8298472b06eb649",
     "include/engine_friction_model.h": "1625beb2dc54a1f93f1c1e1a56d0e57c5fd0ba32a711544a3a0aee136b57a6c6",
     "src/engine_friction_model.cpp": "331d0eb2a9f6ce9345d12d2165c9c7c3ba86cc98b7eb817891337505f6a269c6",
+    "scripting/include/intake_node.h": "b15dca6fd4ca9e2a44d9d2d8e02b9508cf42a590acd9b19338b7e2e49fab1b49",
 }
 
 NEW_FILES = {

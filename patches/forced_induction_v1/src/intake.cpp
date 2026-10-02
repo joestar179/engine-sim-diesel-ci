@@ -61,6 +61,8 @@ void Intake::initialize(Parameters &params) {
     m_airOnly = params.AirOnly;
     m_atmospherePressure = params.AtmospherePressure;
     m_atmosphereTemperature = params.AtmosphereTemperature;
+    m_oxygenFraction = params.OxygenFraction;
+    m_productsFraction = params.ProductsFraction;
 }
 
 void Intake::destroy() {
@@ -77,6 +79,11 @@ void Intake::process(double dt) {
         // their calibrations) overstates the oxygen a diesel can burn by 19 %.
         fuelAirMix.p_inert = 1.0 - 0.2095;
         fuelAirMix.p_o2 = 0.2095;
+        if (m_oxygenFraction >= 0.0) {
+            fuelAirMix.p_inert = 1.0 - m_oxygenFraction;
+            fuelAirMix.p_o2 = m_oxygenFraction;
+            fuelAirMix.p_products = m_productsFraction;
+        }
         fuelMix = fuelAirMix;
     }
     else {
@@ -85,12 +92,22 @@ void Intake::process(double dt) {
         fuelAirMix.p_fuel = 1 - p_air;
         fuelAirMix.p_inert = p_air * 0.75;
         fuelAirMix.p_o2 = p_air * 0.25;
+        if (m_oxygenFraction >= 0.0) {
+            fuelAirMix.p_inert = p_air * (1.0 - m_oxygenFraction);
+            fuelAirMix.p_o2 = p_air * m_oxygenFraction;
+            fuelAirMix.p_products = p_air * m_productsFraction;
+        }
 
         const double idle_afr = 2.0;
         const double p_idle_air = idle_afr / (1 + idle_afr);
         fuelMix.p_fuel = (1.0 - p_idle_air);
         fuelMix.p_inert = p_idle_air * 0.75;
         fuelMix.p_o2 = p_idle_air * 0.25;
+        if (m_oxygenFraction >= 0.0) {
+            fuelMix.p_inert = p_idle_air * (1.0 - m_oxygenFraction);
+            fuelMix.p_o2 = p_idle_air * m_oxygenFraction;
+            fuelMix.p_products = p_idle_air * m_productsFraction;
+        }
     }
 
     GasSystem::FlowParameters flowParams;

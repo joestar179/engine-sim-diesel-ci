@@ -774,6 +774,10 @@ public node intake_parameters {
     input runner_length: 4.0 * units.inch;
     input runner_flow_rate: k_carb(200.0);
     input velocity_decay: 0.25;
+    // Charge composition of the air part (mole fractions). -1 keeps the
+    // legacy air; products = CO2 + H2O (EGR / synthetic dilution).
+    input oxygen_fraction: -1.0;
+    input products_fraction: 0.0;
 }
 
 private node _intake => __engine_sim__intake {
@@ -787,6 +791,8 @@ private node _intake => __engine_sim__intake {
     input throttle_gamma [float];
     input runner_length [float];
     input velocity_decay [float];
+    input oxygen_fraction [float];
+    input products_fraction [float];
     alias output __out [intake_channel];
 }
 
@@ -802,6 +808,8 @@ public node intake {
     input throttle_gamma: parameters.throttle_gamma;
     input runner_length: parameters.runner_length;
     input velocity_decay: parameters.velocity_decay;
+    input oxygen_fraction: parameters.oxygen_fraction;
+    input products_fraction: parameters.products_fraction;
     alias output __out [_intake]:
         _intake(
             plenum_volume: plenum_volume,
@@ -813,7 +821,9 @@ public node intake {
             idle_throttle_plate_position: idle_throttle_plate_position,
             throttle_gamma: throttle_gamma,
             runner_length: runner_length,
-            velocity_decay: velocity_decay
+            velocity_decay: velocity_decay,
+            oxygen_fraction: oxygen_fraction,
+            products_fraction: products_fraction
         );
 }
 

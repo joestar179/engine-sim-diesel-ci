@@ -2,6 +2,30 @@
 
 This log is part of the active Failure-Loop Guard. Repeated failures are recorded by signature so the same speculative repair cannot be retried indefinitely.
 
+## Input addition 1: intake charge composition (2026-10-03)
+
+**Inputs:** `intake_parameters` / `intake` gain `oxygen_fraction` (default −1 = legacy: 20.95 % O2 for air-only intakes, stock 25 % for premixed) and `products_fraction` (CO2 + H2O, default 0). The remainder is N2. Applied in `Intake::process` to both the air-only and premixed branches (main and idle mixtures).
+- `scripting/include/intake_node.h` enters the overlay: baseline pin from the reconstructed upstream copy, plus production pin.
+- Pins updated for intake.h / intake.cpp / objects.mr.
+- The turbo compressor inlet (ForcedInductionSystem ambient) is not changed yet.
+
+**Bit-identity:** GX390 2500, DF150 2400 and TF250 2400 outputs are byte-identical before and after (dyno_sweep CSV diff).
+
+**Functional check** (DF150 2400, run copy):
+
+| O2 / products | torque | fuel | burned |
+|---|---|---|---|
+| 0.2095 / 0 | 239.27 | 3.8202 | 3.8164 (identical to legacy) |
+| 0.197 / 0.011 (ECN CDC9) | 239.49 | 3.8202 | 3.8166 |
+| 0.15 / 0 | 239.20 | 3.8202 | 3.8168 |
+
+**Physics gap exposed (not fixed in this step):** the diesel model barely responds to O2 dilution.
+- `stoichiometricAirFuel` for the jet-mixing length assumes 20.95 % O2: `combustion_chamber.cpp`, `MolecularAfr / 0.2095 ...`.
+- A diluted charge therefore needs no extra entrainment to reach stoichiometric. Physically the required ambient-gas / fuel ratio scales with 1 / Y_O2 (Siebers-type stoichiometric mixing length).
+- The ignition-delay correlation has no O2 term.
+- Candidate Layer-1 fix: the O2 mass fraction of the trapped charge in `stoichiometricAirFuel`, plus a sourced O2 dependence of ignition delay.
+- Validate on ECN CDC9 (19.7 % O2) vs LTC3 (10 % O2) and on the ISX EGR points.
+
 ## Active incident: generic forced-induction V1 implementation transport
 
 Failure signature: `patch/application integrity | encoded generic V1 payload decode/decompress | source-delivery layer`
