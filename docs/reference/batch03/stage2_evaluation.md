@@ -16,7 +16,7 @@ Judged against each engine's reference role (COVERAGE_MATRIX §3) and its [E] it
 | **P3 AVL 5402 (Pawlak 2026)** | small-bore CR diesel with pressure | **Partial.** Exact geometry, rail pressure, pilot / main SOI, fuel, λ sweep, p(θ) + VHRR at 25 / 35 N m (−20..+30°). Nozzle F, rate shape U, rod / valves F | **Partial reference** (combustion phasing with pilot + main) |
 | **P3 Kirloskar TV1 (Quadri 2018)** | small mechanical diesel with pressure | **Weak.** Pressure / NHRR trace at one point; pump internals, hole count and dynamic SOI U, so injection must be calibrated | **Calibrated engine** (adds little beyond Deere) |
 | **P2 Honda GX160 (Ragan 2015)** | small SI; split charge vs efficiency | **Partial.** Same-test torque + BSFC vs speed (digitised, 316 g/kWh D at 2500), spark D, λ 0.95 at 2500 D, CR D, family cam-timing table and valve / carb dimensions. No full-load airflow; no usable pressure trace | **Calibrated engine with a held-out BSFC curve** |
-| **P5 Volvo D13** | large-bore heat transfer / friction; turbo | **Not met.** No fuel flow, air flow, BSFC, boost, TIT, pressure or injection data; operating points are inputs, not results | **Not usable as a reference.** Slot 7 needs a replacement |
+| **P5 Volvo D13** (re-checked with `_COMPLETE` version: no new numbers; fuel / air / exhaust / cylinder pressure measured but unpublished) | large-bore heat transfer / friction; turbo | **Not met.** No fuel flow, air flow, BSFC, boost, TIT, pressure or injection data; operating points are inputs, not results | **Not usable as a reference.** Slot 7 needs a replacement |
 
 ### P1 TCC-III (interim pack; Motored Full View archive still transferring)
 
