@@ -12,11 +12,18 @@ Plan-driven additions (COVERAGE_MATRIX §5):
 - full pipe geometry for **1-D pipes** and runner pressure traces;
 - data for the **two-stroke**, **direct-injection**, **boost-control**, **carburettor-metering** and **supercharger** modules where the engine has them.
 
+Inputs in P1-P5 are tagged by importance for that engine's reference role:
+- **[E] essential:** the pack cannot serve its role without it;
+- **[I] important:** otherwise a default must replace it, weakening the reference;
+- **[N] nice to have.**
+
 Suggested order: P2, P1 (open physics questions), then P4, P3, P5; S8 / S9 / S10 any time.
 
 ---
 
 ## P1 — University of Michigan TCC-III (fundamental SI reference)
+
+Reference role: SI flame and heat transfer at a second size, gas exchange, 1-D pipe validation.
 
 ```
 Extract a validation-grade data pack for the University of Michigan TCC-III optical
@@ -34,21 +41,32 @@ Common requirements:
 - List every downloadable file (URL, name, contents) and extract the numeric tables
   requested.
 - Keep one test configuration; flag any mixing of builds.
-- Output a Markdown pack plus JSON {name, value, unit, grade, source}.
+- Output a Markdown pack plus JSON {name, value, unit, grade, importance, source}.
+
+Importance tags on each input: [E] essential (the pack cannot serve its reference
+role without it; search hardest for these), [I] important (otherwise a default must
+replace it, weakening the reference), [N] nice to have. Report U for anything not
+found, whatever its tag.
 
 Inputs needed:
-A. bore, stroke, connecting-rod length, compression ratio / clearance volume, piston
-   crown and head geometry (pent-roof, volume), wrist-pin offset.
-B. valve count, head / seat / stem diameters; intake and exhaust lift vs crank angle
-   (full arrays from the public files); TDC reference; valve clearance.
-C. Full intake and exhaust pipe geometry as run, suitable for a 1-D pipe model:
-   every pipe segment from the inlet / surge tank to the valve and from the valve to
-   the exhaust tank, with length, diameter (or area) along the length, tapers, bends,
-   junctions, plenum / surge-tank volumes and the boundary pressures; throttle
-   geometry; measured valve flow (flow or Cd vs lift) if published.
-D. fuel (composition / LHV / AFR), spark timing, lambda, swirl / tumble ratio at
-   each operating condition.
-E. coolant / oil / wall temperatures (head, liner, piston) if published.
+A. [E] bore, stroke, connecting-rod length, compression ratio / clearance volume
+   [I] piston crown and head geometry (pent-roof shape, chamber volume, surface areas)
+   [N] wrist-pin offset
+B. [E] valve count and head diameters
+   [E] intake and exhaust lift vs crank angle (full arrays from the public files)
+   [E] TDC / crank-angle reference used by the lift and pressure data
+   [I] seat and stem diameters, valve clearance
+C. [E] full intake and exhaust pipe geometry as run, suitable for a 1-D pipe model:
+       every segment from inlet / surge tank to valve and valve to exhaust tank, with
+       length, diameter (or area) along the length, tapers, bends, junctions
+   [E] plenum / surge-tank volumes and the boundary pressures / temperatures
+   [I] throttle geometry and position
+   [I] measured valve flow (flow or Cd vs lift)
+D. [E] fuel (composition / LHV / stoichiometric AFR)
+   [E] spark timing and lambda at each operating condition
+   [I] swirl / tumble ratio
+E. [I] wall temperatures (head, liner, piston)
+   [N] coolant / oil temperatures
 
 Outputs needed for each published operating condition (motored and fired):
 - speed, intake (MAP) and exhaust pressure, intake temperature;
@@ -63,6 +81,8 @@ Outputs needed for each published operating condition (motored and fired):
 ---
 
 ## P2 — Honda GX160 (small SI with brake performance)
+
+Reference role: small SI brake performance; settles the low-speed efficiency question (charge vs efficiency); carburettor metering later.
 
 ```
 Extract a validation-grade data pack for the Honda GX160 (163 cc, 68 x 45 mm,
@@ -82,21 +102,35 @@ Common requirements:
 - List every downloadable file and extract the numeric tables requested.
 - Keep ONE engine build and test set-up per study; never merge studies without
   flagging it.
-- Output a Markdown pack plus JSON {name, value, unit, grade, source}.
+- Output a Markdown pack plus JSON {name, value, unit, grade, importance, source}.
+
+Importance tags on each input: [E] essential (the pack cannot serve its reference
+role without it; search hardest for these), [I] important (otherwise a default must
+replace it, weakening the reference), [N] nice to have. Report U for anything not
+found, whatever its tag.
 
 Inputs needed:
-A. geometry: rod length, compression ratio (measured if available), pin offset.
-B. valve head / seat / stem diameters; lift vs crank angle, or max lift + opening /
-   closing angles with the lift threshold used; valve clearance.
-C. Intake path, suitable for a 1-D pipe model: air cleaner (type, volume, measured
-   restriction), carburettor bore and venturi diameter, throttle, insulator / spacer
-   and port, each with length and diameter. Exhaust: port, pipe and muffler with
-   internal geometry (chamber volumes, baffle / perforate dimensions, tailpipe) and
-   measured back-pressure. Any measured flow coefficients.
-D. Carburettor metering: main jet size, air-bleed / emulsion details, float level,
-   choke; measured lambda / AFR vs speed at full load and at part load. Spark timing
-   (fixed advance), fuel properties.
-E. cylinder-head / oil temperature if measured.
+A. [E] connecting-rod length
+   [E] compression ratio (measured if available; state how)
+   [N] piston-pin offset
+B. [E] valve head diameters
+   [E] lift vs crank angle, or max lift + opening / closing angles with the lift
+       threshold used
+   [I] valve clearance
+   [N] seat and stem diameters
+C. [E] carburettor bore and venturi diameter
+   [E] measured exhaust back-pressure (or muffler restriction) at the test points
+   [I] air cleaner (type, volume, measured restriction)
+   [I] intake path segments (carb, insulator / spacer, port): length and diameter
+   [I] exhaust port and pipe: length and diameter
+   [N] muffler internal geometry (chamber volumes, baffles / perforates, tailpipe)
+   [N] measured flow coefficients
+D. [E] spark timing (fixed advance)
+   [E] measured lambda / AFR vs speed at full load
+   [I] lambda / AFR at part load
+   [I] carburettor metering: main jet size, air-bleed / emulsion details, float level
+   [I] fuel properties (LHV, density, octane)
+E. [N] cylinder-head / oil temperature
 
 Outputs needed (per study, same configuration):
 - full-load torque and power vs speed (numeric);
@@ -114,6 +148,8 @@ State which of these come from the same physical test set-up.
 
 ## P3 — Kirloskar TV1 and AVL 5402 (small diesel)
 
+Reference role: small-bore diesel combustion with pressure traces; mechanical pump and governor (TV1); common rail (AVL).
+
 ```
 Extract validation-grade data packs for two small single-cylinder DI diesel research
 engines for a 0-D / 1-D engine simulator: (1) Kirloskar TV1 (661 cc, 87.5 x 110 mm,
@@ -130,19 +166,30 @@ Common requirements:
 - List every downloadable file and extract the numeric tables requested.
 - Keep one engine build and test set-up per study; flag any mixing (many labs modify
   these engines).
-- Output a Markdown pack plus JSON {name, value, unit, grade, source}.
+- Output a Markdown pack plus JSON {name, value, unit, grade, importance, source}.
+
+Importance tags on each input: [E] essential (the pack cannot serve its reference
+role without it; search hardest for these), [I] important (otherwise a default must
+replace it, weakening the reference), [N] nice to have. Report U for anything not
+found, whatever its tag.
 
 Inputs needed (each engine):
-A. bore, stroke, rod length, CR, bowl geometry (diameter, depth, volume).
-B. valve diameters, lift vs angle or max lift + timing, valve clearance.
-C. Intake and exhaust pipe geometry as installed in the test cell, suitable for a 1-D
-   pipe model (segment lengths and diameters, surge tanks / air box volumes), air-flow
-   measurement method.
-D. Injection hardware: pump type, plunger diameter and cam lift rate (TV1), rail
-   pressure (AVL), nozzle holes x diameter, spray angle, opening pressure, static and
-   dynamic injection timing, injection rate shape or duration if measured; spray
-   penetration / liquid length if published; fuel properties (LHV, cetane, density).
-E. coolant / oil temperatures.
+A. [E] bore, stroke, connecting-rod length, compression ratio
+   [I] bowl geometry (diameter, depth, volume)
+B. [E] valve head diameters and lift vs angle (or max lift + timing with threshold)
+   [N] valve clearance
+C. [I] intake and exhaust pipe geometry as installed in the test cell, suitable for a
+       1-D pipe model (segment lengths and diameters, surge tank / air box volumes)
+   [I] air-flow measurement method
+D. [E] TV1: pump type, plunger diameter and cam lift rate; AVL: rail pressure
+   [E] nozzle holes x diameter
+   [E] dynamic injection timing (start of injection at the test points)
+   [E] fuel lower heating value and density
+   [I] static timing, needle opening pressure, spray included angle
+   [I] measured injection rate shape or duration
+   [I] fuel cetane number
+   [N] spray penetration / liquid length
+E. [N] coolant / oil temperatures
 
 Outputs needed (each operating point, same set-up):
 - speed, load (torque or BMEP), fuel flow, AIR FLOW, BSFC;
@@ -156,6 +203,8 @@ Outputs needed (each operating point, same set-up):
 ---
 
 ## P4 — GM / Opel 1.9 L ECN small-bore diesel (diesel physics reference)
+
+Reference role: diesel combustion physics (spray, ignition, heat release); shared spray / evaporation physics for petrol direct injection.
 
 ```
 Extract a validation-grade data pack for the Sandia Engine Combustion Network (ECN)
@@ -175,19 +224,32 @@ Common requirements:
   requested.
 - State clearly which hardware version (optical or all-metal, piston bowl, CR) each
   data set belongs to.
-- Output a Markdown pack plus JSON {name, value, unit, grade, source}.
+- Output a Markdown pack plus JSON {name, value, unit, grade, importance, source}.
+
+Importance tags on each input: [E] essential (the pack cannot serve its reference
+role without it; search hardest for these), [I] important (otherwise a default must
+replace it, weakening the reference), [N] nice to have. Report U for anything not
+found, whatever its tag.
 
 Inputs needed:
-A. bore, stroke, rod length, CR, piston bowl geometry and volume, squish height.
-B. valve diameters, intake and exhaust lift vs crank angle (arrays), measured valve
-   flow coefficients and swirl ratio (vs lift).
-C. intake / exhaust plumbing as run (surge tanks, pipe lengths / diameters,
-   pressures), boost conditions.
-D. Injector: holes x diameter, included angle, rail pressure, injection rate shape
-   (numeric), SOI / duration commands and hydraulic delays; spray penetration, liquid
-   length and spreading angle vs time (engine or matching ECN spray-vessel data, with
-   the vessel conditions); fuel (composition, LHV, cetane, volatility / distillation).
-E. wall / coolant / oil temperatures.
+A. [E] bore, stroke, connecting-rod length, compression ratio
+   [E] piston bowl geometry and volume
+   [I] squish height
+B. [E] intake and exhaust lift vs crank angle (arrays) and valve diameters
+   [I] measured valve flow coefficients and swirl ratio (vs lift)
+C. [E] intake pressure / temperature and exhaust back-pressure at each point
+       (boundary conditions)
+   [I] intake / exhaust plumbing as run (surge tanks, pipe lengths / diameters)
+D. [E] injector holes x diameter and rail pressure
+   [E] injection rate shape (numeric)
+   [E] SOI / duration commands and hydraulic delays
+   [E] fuel composition, LHV, cetane
+   [I] spray included angle
+   [I] spray penetration, liquid length and spreading angle vs time (engine or
+       matching ECN spray-vessel data, with vessel conditions)
+   [I] fuel volatility / distillation
+E. [I] wall temperatures
+   [N] coolant / oil temperatures
 
 Outputs needed for each published operating point:
 - speed, intake pressure / temperature, O2 concentration (EGR), fuel mass per cycle;
@@ -199,6 +261,8 @@ Outputs needed for each published operating point:
 ---
 
 ## P5 — Volvo D13 (heavy-duty diesel)
+
+Reference role: heat transfer, friction and combustion at large bore; turbo / VGT and boost-control validation.
 
 ```
 Extract a validation-grade data pack for the Volvo D13 heavy-duty diesel (12.8 L
@@ -215,20 +279,30 @@ Common requirements:
 - Digitise plotted curves as (x, y) pairs at a stated resolution and say so.
 - List every downloadable file and extract the numeric tables requested.
 - Keep one engine build / rating; flag any mixing.
-- Output a Markdown pack plus JSON {name, value, unit, grade, source}.
+- Output a Markdown pack plus JSON {name, value, unit, grade, importance, source}.
+
+Importance tags on each input: [E] essential (the pack cannot serve its reference
+role without it; search hardest for these), [I] important (otherwise a default must
+replace it, weakening the reference), [N] nice to have. Report U for anything not
+found, whatever its tag.
 
 Inputs needed:
-A. rod length, CR, firing order, bowl geometry if published.
-B. valve diameters, lift profiles or timing; any engine-brake / VVA hardware.
-C. Intake and exhaust manifold and pipe geometry, suitable for a 1-D pipe model
-   (runner lengths / diameters, manifold volumes, pulse division); charge-air cooler
-   (volume, pressure drop); EGR route and cooler; turbocharger: VGT type, compressor /
-   turbine maps or measured operating points (pressure ratios, turbine inlet
-   temperature, shaft speed).
-D. Boost / VGT control: VGT vane or rack position per operating point, EGR valve
-   position, any described control strategy (set-points, limits).
-E. Injection: system, holes x diameter, rail pressure, SOI / quantity per point;
-   fuel properties. Coolant / oil temperatures.
+A. [E] connecting-rod length and compression ratio
+   [I] firing order
+   [N] bowl geometry
+B. [I] valve diameters, lift profiles or timing
+   [N] engine-brake / VVA hardware
+C. [E] turbocharger measured operating points per test point (compressor and
+       turbine pressure ratios, turbine inlet temperature, shaft speed), or maps
+   [I] intake and exhaust manifold and pipe geometry, suitable for a 1-D pipe model
+       (runner lengths / diameters, manifold volumes, pulse division)
+   [I] charge-air cooler (volume, pressure drop, outlet temperature)
+   [I] EGR route and cooler
+D. [I] VGT vane / rack position and EGR valve position per operating point
+   [N] described control strategy (set-points, limits)
+E. [E] injection: holes x diameter, rail pressure, SOI and quantity per point
+   [E] fuel lower heating value and density
+   [I] coolant / oil temperatures
 
 Outputs needed for each ESC point (and any full-load curve):
 - speed, torque / BMEP, fuel flow, air flow, BSFC;
