@@ -112,7 +112,7 @@ PINNED_PRODUCTION_TEMPLATES = {
     "assets/alco_16_251b_main.mr": "de603c279f374f62bd5b47ef0edebbabfbe083b01bdc2ab057620ff1af4c61f4",
     "assets/engines/alco/alco_16_251b_native.mr": "3788fab67ba888cbc4612b41dc387fa0bf1a91321f30a296f8152a4856e9c303",
     "es/objects/objects.mr": "59a82eae63ea54d723ccd2cb9d5a697a4a3a316fefd5aa9607249b71f4e8921b",
-    "include/combustion_chamber.h": "26c4c31b8cae3aa22e22c6f94374d77598aae4edf5d727a05eeb31c595250717",
+    "include/combustion_chamber.h": "48a4f68993da009bf279e47fb43902a4ba9afa1de90407ac2f96b24887915c3a",
     "include/engine.h": "163e4024e858e0690fb7abb2a7d4674178b95279cc1c0d77e00f98aff93c646b",
     "include/exhaust_system.h": "050d489bb2fc579b0bf350b14797e55bb26e902908f941069d0b2d275e42df90",
     "include/forced_induction_system.h": "57c6bc6a9084bdda1f99d60851a3c6ea53ec0059be36610a8a5e8a151b68ce22",
