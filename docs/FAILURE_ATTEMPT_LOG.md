@@ -1134,6 +1134,30 @@ The shape is flat. Set: DF150 46°, TF250 37°.
 - 46°/37° rated injection is long for rotary pumps (typical 20–30°): either the jet mixing is somewhat fast (e.g. no wall impingement: x_st ≈ 85 mm > bore/2 = 53 mm) or a loss is missing.
 - TF250 at 1000 rpm is +7.5 %.
 
+## Deere exhaust port area from CTM104 (option A, 2026-10-02)
+
+**Source:** John Deere CTM104 (PowerTech 4.5/6.8 L base engine, 30 JUN 05; dealer mirror, see the reference pack). Two-valve head (mechanical 4045):
+- exhaust valve head OD 42.37-42.63 mm; stem 7.848-7.874 mm; exhaust lift 11.51-11.94 mm at zero clearance;
+- intake valve head OD 46.47-46.73 mm; intake lift 11.77-12.21 mm (pp. 639, 656) [F].
+
+**Derived port area:**
+- throat ≈ 0.88 × 42.5 = 37.4 mm → 11.0 cm²;
+- net of stem ≈ 10.5 cm²;
+- exhaust port runner ≈ throat area → 10.5-11 cm² (R).
+- The script's 10 cm² (A) is confirmed within ~10 %.
+
+**Check at 11 cm²** (torque N m / BSFC / intake gauge kPa; script restored afterwards, not committed):
+
+| | 10 cm² | 11 cm² |
+|---|---|---|
+| TF250 1400 | 454.1 / 216.3 / 58.6 | 454.0 / 216.3 / 57.6 |
+| TF250 2400 | 353.0 / 232.4 / 144.6 | 354.6 / 231.4 / 140.3 |
+| DF150 2400 | 226.5 / 241.6 | 227.0 / 241.1 |
+
+- Option A does not resolve it: the documented geometry gives the same restriction, and TF250 boost stays above 109-133 kPa.
+- The exit-loss pipe (ζ ≈ 1.25 on the documented port area) is physically consistent. The old `k_carb(400)` primary orifice was ~2.3× freer than the documented port allows. The TF250 turbine C (expansion ratio 2.0) and the Deere pump rates were set against that freer path.
+- Also found: the script's valve flow tables use C 40 mm exhaust (doc 42.5) and an intake also below doc 46.6. Not changed; a separate step (the pump rates were calibrated with them).
+
 ## TF250 boost rise with inertial exhaust — diagnosis (option 2, 2026-10-02)
 
 The `ES_RUNNER_TRACE` (dyno_sweep, test tool) now also prints group-0 turbo telemetry. TF250, 2400 rpm, short manifold, 0.05 s per step trace:
