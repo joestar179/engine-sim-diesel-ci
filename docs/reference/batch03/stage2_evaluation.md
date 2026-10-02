@@ -141,3 +141,31 @@ S6 consistency check (CR 9.44, 3500 rpm): brake power 4.14 kW against fuel energ
 - Both anomalies point to fuel flow reading ~25-30 % low (EFI return / gravimetric set-up). The derived air flow is therefore not usable until the raw Mendeley data explain it.
 
 **GX160 status:** still a calibrated engine with a BSFC curve (S1) and a manufacturer torque curve (H1). The airflow gap stays open.
+
+### P2 S6 Torres 2024: raw-data follow-up
+
+Raw file: `Torres2024_GX160_EFI_ethanol_supplementary-data.xlsx` (Mendeley yvb7khhbrj v1, sha256 d08c4e98...). Sheets Raw (360 samples), Average, Std.Dev.
+
+1. The authors' own "Efficiency" column is 34-40 % (W0, CR 7.44 / 9.44). The implausible efficiency is in the source, not an extraction error.
+2. Fuel consumption is logged at 0.01 g/s resolution: ±4 % per sample at 2000 rpm.
+3. **The emissions contradict the stated λ 1.000 ± 0.015.**
+   - Dry O2 is 12.7-16.6 % with CO2 7.6-11.9 % and CO 0.5-0.9 %.
+   - O2 + CO2 = 23-27 %. Ethanol-air combustion cannot exceed ~20 % dry, even with sample dilution by air. The analyser data are therefore unreliable.
+   - Taken at face value, the O2 alone would mean λ well above 2.
+4. With λ 1 and a realistic brake efficiency (~27 %), fuel would be ~0.29 g/s at 2000 rpm vs 0.227 logged (22-28 % low), and VE would be ~0.81 (plausible). That is consistent with a fuel-flow under-reading.
+
+**Decision:** S6 is not validation-grade (fuel flow and emissions internally inconsistent). Torque values may still be usable as a modified-build brake check. The GX160 airflow gap stays open.
+
+### S10 extended (after G7)
+
+**LSA:**
+- No same-test WOT air / fuel / boost curve. All [E] items still U.
+- New: stock drive ratio 2.56 (exact build, secondary; supersedes 2.60 F); cam P/N 12623064 (198 / 216° @ 0.050, 0.480 in lift, LSA 122.5°, D); OEM-family bypass control data (closed by spring, opening ~10.2-33.9 kPa vacuum, ~4 psi boost trim); GM marine-family fuel-flow table.
+- The marine air and fuel tables give a smooth apparent AFR (14.7 → 10.4) including at 4400 rpm. The 4400 rpm dip is therefore common to both tables: these are marine requirement conditions, not WOT. Still not same-test with the J2723 torque table.
+- **Best lead:** SAE CPGM2_09CADCTSV (J1349 Certified Power Engine Data, Level 2, exact 2009 CTS-V LSA). According to its catalogue description it contains all J2723 measured test parameters. It is a paid SAE document.
+
+**BLG:**
+- Supercharger candidate Eaton M24, 0.390 L/rev (F, weak provenance). Consistent with 5:1 and 17 500 rpm at 3500 engine rpm. Usable only as an F initializer.
+- Air / fuel flow still U.
+
+**Verdict unchanged:** partial references (LSA blower flow and bypass logic; BLG twincharger control). Acquiring the SAE certified-power document is the single step that could make the LSA a quantitative reference.
