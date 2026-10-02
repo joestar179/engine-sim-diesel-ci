@@ -76,8 +76,13 @@ def main():
     V, _ = generate.resolve(spec)
     OVERLAP_CAP = spec.get('overlap_cap_deg', 70.0)   # C: Mazda EPA WOT phases reach ~62 deg at 0.050 in (D)
     lo0, hi0 = spec.get('idle_rpm', 1000), spec.get('redline_rpm', spec['rated_rpm'])
+    documented = spec.get('vvt_phases', {})   # {rpm: [intake adv, exhaust ret]} (D) — used, not optimised
+    for r, (i, e) in documented.items():
+        knobs['icam_%s' % r] = '%.1f * units.deg' % i
+        knobs['ecam_%s' % r] = '%.1f * units.deg' % e
+        print('VVT %s rpm documented: icam %.1f ecam %.1f' % (r, i, e), flush=True)
     if (ai or ae) and '--skip-vvt' not in sys.argv:
-        for r in [x for x in range(1000, 8000, 1000) if lo0 - 1000 < x <= hi0 + 1000]:
+        for r in [x for x in range(1000, 8000, 1000) if lo0 - 1000 < x <= hi0 + 1000 and str(x) not in documented]:
             test = min(max(r, lo0), hi0)
             for key, auth in (('icam_%d' % r, ai), ('ecam_%d' % r, ae)):
                 if not auth: continue

@@ -1134,6 +1134,34 @@ The shape is flat. Set: DF150 46°, TF250 37°.
 - 46°/37° rated injection is long for rotary pumps (typical 20–30°): either the jet mixing is somewhat fast (e.g. no wall impingement: x_st ≈ 85 mm > bore/2 = 53 mm) or a loss is missing.
 - TF250 at 1000 rpm is +7.5 %.
 
+## Coarse calibration with inertial runners + fixes; Deere re-score (2026-10-02)
+
+`calibrate.py` accepts documented VVT phases (`vvt_phases`, D) in place of the optimiser. Mazda: EPA tier-2 max-torque phases at 1000-4000 rpm; optimiser above 4000 (no data).
+
+| Engine | Knobs | Held-out curve (×CF vs documented) |
+|---|---|---|
+| GX390 | port_cd 0.483 (in range); intake centre 120 (edge, finding) | +12.9 % @ 2000, +5.6 % @ 2400, then within ±1.5 %; peak 2000 vs doc 2500 |
+| Kohler | port_cd 0.45 (edge, finding: 20.94 kW at the edge vs 20.1); centre 110.6 | +13.6 … +4.0 %; peak 2400 vs doc 3200 |
+| Mazda | port_cd 0.586 (in range); MBT 5-25 deg | −3.1 / +0.9 / +1.8 / **−8.7** / −2.0 / +0.3 % (1000-4500); peak 4500 vs doc 4000 (doc curve flat 200-203 from 3000) |
+
+- Mazda: whole curve within ±10 % for the first time (previously −16..−19 % mid-range).
+- GX390 and Kohler: low-speed excess remains (Layer-1 candidate; see the sensitivity entry).
+
+**Deere re-score: inertial runners off → on** (torque N m / BSFC g/kWh / intake gauge kPa):
+
+| rpm | DF150 torque | DF150 BSFC | TF250 torque | TF250 boost |
+|---|---|---|---|---|
+| 1000 | 286.0 → 283.0 (−1.0 %) | 230 → 232 | 375.9 → 393.5 (+4.7 %) | 17.5 → 26.0 |
+| 1400 | 280.4 → 276.6 (−1.4 %) | 225 → 228 | 427.1 → 454.8 (+6.5 %) | 36.6 → 61.8 |
+| 1800 | 262.9 → 258.0 (−1.9 %) | 225 → 230 | 431.4 → 427.0 (−1.0 %) | 65.9 → 96.2 |
+| 2200 | 243.7 → 234.5 (−3.8 %) | 229 → 238 | 390.8 → 379.1 (−3.0 %) | 94.6 → 140.8 |
+| 2400 | 236.2 → 226.5 (−4.1 %) | 232 → 242 | 367.0 → 350.2 (−4.6 %) | 102.1 → **153.8** |
+
+- **TF250 boost breaks the hard bound** (doc 109-133 kPa at rated).
+- DF150 rated torque falls ~4 % (BSFC +4 %): back-pressure in the runner rises.
+- The Deere script's exhaust primary is 12 in system + 10 in per cylinder (0.56 m, unsourced A). That is long for a turbo pulse manifold, and it was inert under the quasi-steady orifice.
+- The Deere frozen scores (§0d) currently do **not** hold with inertial runners on (default).
+
 ## Mazda reverse-flow attractor resolved (start-up phase lock); small-engine low-speed sensitivities (2026-10-02)
 
 **Mazda — cause found.** The reverse-flow loop is a start-up lock-in, not a breathing defect.

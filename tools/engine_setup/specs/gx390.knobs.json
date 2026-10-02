@@ -1,8 +1,8 @@
 {
  "spark_1000": "15 * units.deg",
  "spark_2000": "25 * units.deg",
- "spark_3000": "25 * units.deg",
+ "spark_3000": "35 * units.deg",
  "spark_4000": "35 * units.deg",
- "port_cd": "0.4641",
+ "port_cd": "0.4828",
  "intake_center": "120.00 * units.deg"
 }

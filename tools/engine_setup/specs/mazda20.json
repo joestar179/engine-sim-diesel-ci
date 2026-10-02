@@ -83,5 +83,24 @@
  "vvt_intake_authority": 75.0,
  "vvt_exhaust_authority": 45.0,
  "vvt_note": "EPA SAE 2016-01-1007 (D): intake 75 crank deg advance, exhaust 45 retard",
- "engine_class": "automotive"
+ "engine_class": "automotive",
+ "vvt_phases": {
+  "1000": [
+   44,
+   0
+  ],
+  "2000": [
+   64,
+   20
+  ],
+  "3000": [
+   75,
+   25
+  ],
+  "4000": [
+   67,
+   10
+  ]
+ },
+ "vvt_phases_note": "EPA tier2 steady state, phases at the max-torque point per speed (D); 5000+ not covered"
 }
