@@ -1134,6 +1134,41 @@ The shape is flat. Set: DF150 46°, TF250 37°.
 - 46°/37° rated injection is long for rotary pumps (typical 20–30°): either the jet mixing is somewhat fast (e.g. no wall impingement: x_st ≈ 85 mm > bore/2 = 53 mm) or a loss is missing.
 - TF250 at 1000 rpm is +7.5 %.
 
+## Inertial runners — defect found by a 1-minute sanity pass (2026-10-02)
+
+**Process correction (user):** long calibration runs were launched before basic sanity checks. They are now preceded by a sanity pass (all engines, 3 speeds, short settle; < 1 min).
+
+**Sanity pass** (defaults, inertial runners on, ×CF vs documented):
+
+| Engine | Result |
+|---|---|
+| GX390 | +20 / +1 / −3 % (2000 / 2500 / 3600) |
+| Kohler | not running |
+| Mazda (cams at rest) | −33..−39 % |
+
+- Kohler A/B at 3200: inertial off 61.3 N m; on: no flow (fuel ~0, plenum +0.9 kPa).
+- Mazda with its optimised VVT knobs: not running either.
+
+**Trace** (`ES_RUNNER_TRACE`, chamber 0, Kohler 3200 rpm WOT):
+
+| Location | Pressure |
+|---|---|
+| Intake runner | 114-120 kPa |
+| Plenum | 99-107 kPa |
+| Exhaust runner | 87-91 kPa |
+| Exhaust system | 94-101 kPa |
+| Cylinder peak | 964 kPa (compression only) |
+
+- The columns sustain a reverse circulation (exhaust → cylinder → intake) and the engine breathes its own exhaust.
+- Configurations affected: shared intake, large overlap (V-twin, Mazda at optimised cams). The hand GX390 runs (9.45 kW).
+
+**Suspects (not yet tested):**
+- energy accounting of the column (the column's KE is not taken from or returned to the reservoirs);
+- interaction with the valve-flow dynamic-pressure terms;
+- integration with very small runner volumes.
+
+**Next:** an isolated two-volume + pipe test against the analytic Helmholtz frequency and energy conservation before any engine runs. The inertial switch stays available but must not be used for scoring until fixed. VVT results (step 2) stand.
+
 ## Steps 1-3: harness robustness, variable cam timing, inertial runners (2026-10-02)
 
 **1. Harness** (`dyno_sweep --crank-control`, default 0; `calibrate.py`):

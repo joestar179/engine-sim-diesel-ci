@@ -123,6 +123,19 @@ void advance(Simulator *sim, double seconds, int frequency,
         while (done < steps && sim->simulateStep()) {
             ++done;
             if (probe != nullptr) probe->step(engine, 1.0 / frequency);
+#ifdef ENGINE_SIM_OVERLAY
+            static const bool trace = std::getenv("ES_RUNNER_TRACE") != nullptr;
+            static long long traceStep = 0;
+            if (trace && engine != nullptr && (++traceStep % (frequency / 20)) == 0) {
+                CombustionChamber *ch = engine->getChamber(0);
+                std::printf("trace mdot_in %.4f mdot_ex %.4f | p_cyl %.1f p_inrun %.1f p_plenum %.1f p_exrun %.1f p_exh %.1f kPa\n",
+                    ch->m_intakeRunnerMassFlow, ch->m_exhaustRunnerMassFlow,
+                    ch->m_system.pressure() / 1000, ch->m_intakeRunnerAndManifold.pressure() / 1000,
+                    engine->getIntake(0)->getSystem()->pressure() / 1000,
+                    ch->m_exhaustRunnerAndPrimary.pressure() / 1000,
+                    engine->getExhaustSystem(0)->getSystem()->pressure() / 1000);
+            }
+#endif
             if (torqueSum != nullptr) {
                 *torqueSum += sim->getFilteredDynoTorque();
                 *powerSum += sim->getDynoPower();
