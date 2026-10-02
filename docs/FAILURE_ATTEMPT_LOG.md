@@ -1134,6 +1134,28 @@ The shape is flat. Set: DF150 46°, TF250 37°.
 - 46°/37° rated injection is long for rotary pumps (typical 20–30°): either the jet mixing is somewhat fast (e.g. no wall impingement: x_st ≈ 85 mm > bore/2 = 53 mm) or a loss is missing.
 - TF250 at 1000 rpm is +7.5 %.
 
+## Small engines closed out — final full calibrations (2026-10-02)
+
+Full `calibrate.py` (not coarse), current physics: inertial runners with momentum-consistent transfer, class gas-path defaults.
+
+**GX390** (calibrated; family data):
+- Knobs: port_cd 0.455 (range 0.45-0.75, near the low edge); intake centre 120 (edge, finding); MBT 15/25/35/35 deg.
+- Curve, ×CF vs documented (rpm: error):
+
+| 2000 | 2200 | 2400 | 2500 | 2600 | 2800 | 3000 | 3200 | 3400 | 3600 (cal.) |
+|---|---|---|---|---|---|---|---|---|---|
+| **+14.2 %** | +9.3 % | +5.8 % | +3.9 % | +3.4 % | +1.2 % | −0.1 % | −1.0 % | −0.6 % | −0.2 % |
+
+- Within ±10 % from 2200 rpm up; 2000 rpm fails (+14.2 %, inside the ±15 % plausible band).
+- Peak-torque speed 2000 vs doc 2500 (fail).
+
+**Kohler CH750** (calibrated, incomplete data):
+- Knobs: port_cd 0.45 (edge: 21.11 kW at the edge vs 20.1 → rated +5.0 %, at the acceptable limit); intake centre 110.2; MBT 15/20/30/30 deg.
+- Curve: +14.3 / +12.9 / +11.5 / +10.3 / +9.4 / +7.6 / +6.2 / +4.9 % (2200-3600).
+- Peak-torque speed 2400 vs doc 3200 (fail).
+
+**Closure (user-agreed):** the low-speed excess is efficiency rising at low speed. For both engines the charge ratio alone reproduces the documented shape. No plausible equipment value explains it (see the decomposition entry). Both engines have family-level data with no airflow or BSFC vs speed, so under §0c their deviations are not a reason to change physics. Registered as an open Layer-1 question (CLAUDE.md §0b item 5), to revisit with a small engine with measured airflow/BSFC vs speed, or with TCC-III/ECN pressure-trace data.
+
 ## Small-engine low-speed excess — decomposition and remaining hypotheses (2026-10-02)
 
 **Decomposition** at the coarse-calibrated knobs (`--energy`; ratio low/high speed):

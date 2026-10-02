@@ -54,7 +54,7 @@ def run(fuel, r, extra, boundary='map'):
         else:
             target = ['--map', '%.2f' % float(r['Intake Manifold Press'])]
         out = subprocess.run([EXE, path, '%.0f' % float(r['Speed'])] + target +
-                             ['--settle', '4', '--measure', '2'], capture_output=True, text=True).stdout
+                             ['--settle', '4', '--measure', '2', '--start-mode', 'dyno'], capture_output=True, text=True).stdout
     finally:
         os.remove(path)
     v = out.strip().splitlines()[-1].split(',')

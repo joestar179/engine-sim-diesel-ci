@@ -208,6 +208,10 @@ Open issues (highest impact first):
    U, and documented airflow inconsistent (33 L/s implies volumetric
    efficiency 0.67).
 4b. **Physics layers 2026-10-01: SI two-zone burn fix and combustion-product heat capacity.** GX390 8.78 kW @ documented 22 deg (doc 8.7), but sim MBT ~37 deg: the SI mid-burn (10-50 %) is slow (next layer: turbulent flame speed). Kohler 16.9 kW at its C 20 deg timing. Deere pump rates re-derived (DF150 39 deg, TF250 32 deg): curves −3.2..+0.4 % / −5.0..+2.4 %. ALCO 2505 hp, SFC 155 (doc 168). GX390 parked as done (J1349 +5.2 %, curve −2..+10 %, fuel within family scatter).
+5a. **Small SI engines closed out (2026-10-02, spec-sheet library, full calibration).**
+   - GX390 (calibrated): curve within ±10 % from 2200 rpm, +14.2 % at 2000; peak 2000 vs 2500; port_cd 0.455, intake centre at its edge.
+   - Kohler (calibrated, incomplete): rated +5.0 % with port_cd at its edge; curve +14.3..+4.9 %; peak 2400 vs 3200.
+   - Open Layer-1 question: brake efficiency rises at low speed (GX390 pumping, Kohler gross indicated); the charge ratio alone matches the documented shapes. Not actionable on family data (§0c); revisit with airflow/BSFC vs speed or TCC-III/ECN data. Details: FAILURE_ATTEMPT_LOG.
 5. **Petrol: small-petrol validation engine is now the Honda GX390 (Kohler
    CH750 reclassified as a calibration engine, 2026-10-01).**
    - GX390 (`honda_gx390_validated.mr`, no value set from a rating):
