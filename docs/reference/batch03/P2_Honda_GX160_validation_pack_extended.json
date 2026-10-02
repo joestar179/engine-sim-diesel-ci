@@ -1,0 +1,1675 @@
+[
+  {
+    "name": "S1_displacement",
+    "value": 163,
+    "unit": "cm3",
+    "grade": "D",
+    "importance": "E",
+    "source": "Ragan et al. 2015 §2; https://www.researchgate.net/publication/306407837_PARAMETERS_OPTIMIZATION_OF_MINIMOTOR"
+  },
+  {
+    "name": "bore_S3",
+    "value": 68,
+    "unit": "mm",
+    "grade": "D",
+    "importance": "E",
+    "source": "Kocakulak et al. 2023 Table 1; https://dergipark.org.tr/tr/download/article-file/3285364"
+  },
+  {
+    "name": "stroke_S3",
+    "value": 45,
+    "unit": "mm",
+    "grade": "D",
+    "importance": "E",
+    "source": "Kocakulak et al. 2023 Table 1; https://dergipark.org.tr/tr/download/article-file/3285364"
+  },
+  {
+    "name": "swept_volume_from_68x45",
+    "value": 163.426,
+    "unit": "cm3",
+    "grade": "R",
+    "importance": "I",
+    "source": "pi/4*(68 mm)^2*(45 mm)"
+  },
+  {
+    "name": "connecting_rod_length_older_GX160",
+    "value": [
+      83.845,
+      84.392
+    ],
+    "unit": "mm centre-to-centre",
+    "grade": "R",
+    "importance": "E",
+    "source": "GX160 Technical Manual connecting-rod inspection dimensions; https://studylib.net/doc/18655427/honda-gx-160---tech-manual-updated-november-28--2012"
+  },
+  {
+    "name": "recommended_older_GX160_rod_input",
+    "value": 84.0,
+    "unit": "mm",
+    "grade": "F",
+    "importance": "I",
+    "source": "Older 25° BTDC GX160 family evidence"
+  },
+  {
+    "name": "compression_ratio_S1",
+    "value": 8.5,
+    "unit": ":1",
+    "grade": "D",
+    "importance": "E",
+    "source": "Ragan et al. 2015 §2"
+  },
+  {
+    "name": "measured_geometric_compression_ratio_S1",
+    "value": null,
+    "unit": ":1",
+    "grade": "U",
+    "importance": "E",
+    "source": "Not found"
+  },
+  {
+    "name": "nominal_clearance_volume",
+    "value": 21.79,
+    "unit": "cm3",
+    "grade": "R",
+    "importance": "E",
+    "source": "163.426/(8.5-1)"
+  },
+  {
+    "name": "piston_pin_offset_S1",
+    "value": 2,
+    "unit": "mm",
+    "grade": "D",
+    "importance": "N",
+    "source": "Ragan et al. 2015 §2.3"
+  },
+  {
+    "name": "cranking_compression_S2_standard_head",
+    "value": 5.9,
+    "unit": "bar",
+    "grade": "D",
+    "importance": "I",
+    "source": "Aprinaldi 2014 Chapter IV Table 4.8"
+  },
+  {
+    "name": "intake_valve_head_diameter",
+    "value": 25,
+    "unit": "mm",
+    "grade": "F",
+    "importance": "E",
+    "source": "Honda GX160/GX200 Assembly Information; https://manualzz.com/doc/62037288/honda-gx160--gx200-assembly-information"
+  },
+  {
+    "name": "exhaust_valve_head_diameter",
+    "value": 24,
+    "unit": "mm",
+    "grade": "F",
+    "importance": "E",
+    "source": "Honda GX160/GX200 Assembly Information; https://manualzz.com/doc/62037288/honda-gx160--gx200-assembly-information"
+  },
+  {
+    "name": "intake_valve_clearance_cold",
+    "value": 0.15,
+    "unit": "mm",
+    "grade": "F",
+    "importance": "I",
+    "source": "Honda GX120/GX160/GX200 UT2 Shop Manual, valve-clearance service specification; https://lightbournequipment.com/pdfs/GX120%2C%20GX160%2C%20GX200%20UT2%20SHOP%20MANUAL.pdf"
+  },
+  {
+    "name": "exhaust_valve_clearance_cold",
+    "value": 0.2,
+    "unit": "mm",
+    "grade": "F",
+    "importance": "I",
+    "source": "Honda GX120/GX160/GX200 UT2 Shop Manual, valve-clearance service specification; https://lightbournequipment.com/pdfs/GX120%2C%20GX160%2C%20GX200%20UT2%20SHOP%20MANUAL.pdf"
+  },
+  {
+    "name": "intake_valve_stem_OD",
+    "value": [
+      5.468,
+      5.48
+    ],
+    "unit": "mm",
+    "grade": "F",
+    "importance": "N",
+    "source": "Honda GX160 family service information, maintenance standards; https://lightbournequipment.com/pdfs/GX120%2C%20GX160%2C%20GX200%20UT2%20SHOP%20MANUAL.pdf"
+  },
+  {
+    "name": "exhaust_valve_stem_OD",
+    "value": [
+      5.425,
+      5.44
+    ],
+    "unit": "mm",
+    "grade": "F",
+    "importance": "N",
+    "source": "Honda GX160 family service information, maintenance standards; https://lightbournequipment.com/pdfs/GX120%2C%20GX160%2C%20GX200%20UT2%20SHOP%20MANUAL.pdf"
+  },
+  {
+    "name": "valve_guide_ID",
+    "value": [
+      5.5,
+      5.512
+    ],
+    "unit": "mm",
+    "grade": "F",
+    "importance": "N",
+    "source": "Honda GX160 family service information, maintenance standards; https://lightbournequipment.com/pdfs/GX120%2C%20GX160%2C%20GX200%20UT2%20SHOP%20MANUAL.pdf"
+  },
+  {
+    "name": "valve_seat_width",
+    "value": [
+      0.7,
+      0.9
+    ],
+    "unit": "mm",
+    "grade": "F",
+    "importance": "N",
+    "source": "Honda GX160 family service information, cylinder-head/seat inspection; https://lightbournequipment.com/pdfs/GX120%2C%20GX160%2C%20GX200%20UT2%20SHOP%20MANUAL.pdf"
+  },
+  {
+    "name": "valve_seat_diameter",
+    "value": null,
+    "unit": "mm",
+    "grade": "U",
+    "importance": "N",
+    "source": "Not found"
+  },
+  {
+    "name": "intake_max_valve_lift",
+    "value": 6.223,
+    "unit": "mm",
+    "grade": "F",
+    "importance": "E",
+    "source": "Older GX160 Technical Manual; 0.245 in at retainer, zero lash"
+  },
+  {
+    "name": "exhaust_max_valve_lift",
+    "value": 6.477,
+    "unit": "mm",
+    "grade": "F",
+    "importance": "E",
+    "source": "Older GX160 Technical Manual; 0.255 in at retainer, zero lash"
+  },
+  {
+    "name": "valve_timing_threshold",
+    "value": 1.27,
+    "unit": "mm tappet lift",
+    "grade": "F",
+    "importance": "E",
+    "source": "Older GX160 Technical Manual; 0.050 in threshold"
+  },
+  {
+    "name": "intake_timing_at_1.27mm",
+    "value": {
+      "rising": "10.5-14 ATDC",
+      "falling": "197.5-201 ATDC"
+    },
+    "unit": "degCA",
+    "grade": "F",
+    "importance": "E",
+    "source": "Older GX160 Technical Manual cam profile"
+  },
+  {
+    "name": "exhaust_timing_at_1.27mm",
+    "value": {
+      "rising": "207-210.5 BTDC",
+      "falling": "9-12.5 BTDC"
+    },
+    "unit": "degCA",
+    "grade": "F",
+    "importance": "E",
+    "source": "Older GX160 Technical Manual cam profile"
+  },
+  {
+    "name": "carburetor_intake_bore",
+    "value": 24.155,
+    "unit": "mm maximum",
+    "grade": "F",
+    "importance": "E",
+    "source": "Older GX160 Technical Manual carb inspection"
+  },
+  {
+    "name": "carburetor_throttle_end_bore",
+    "value": 18.034,
+    "unit": "mm maximum",
+    "grade": "F",
+    "importance": "E",
+    "source": "Older GX160 Technical Manual carb inspection"
+  },
+  {
+    "name": "carburetor_venturi",
+    "value": 13.284,
+    "unit": "mm no-go diameter",
+    "grade": "F",
+    "importance": "E",
+    "source": "Older GX160 Technical Manual carb inspection"
+  },
+  {
+    "name": "exact_S1_carb_code",
+    "value": null,
+    "unit": null,
+    "grade": "U",
+    "importance": "I",
+    "source": "Not found"
+  },
+  {
+    "name": "float_height_family",
+    "value": 13.7,
+    "unit": "mm",
+    "grade": "F",
+    "importance": "I",
+    "source": "Honda GX160 family service information"
+  },
+  {
+    "name": "air_cleaner_type_S1",
+    "value": null,
+    "unit": null,
+    "grade": "U",
+    "importance": "I",
+    "source": "Not found"
+  },
+  {
+    "name": "air_cleaner_volume_S1",
+    "value": null,
+    "unit": "cm3",
+    "grade": "U",
+    "importance": "I",
+    "source": "Not found"
+  },
+  {
+    "name": "air_cleaner_restriction_S1",
+    "value": null,
+    "unit": "Pa",
+    "grade": "U",
+    "importance": "I",
+    "source": "Not found"
+  },
+  {
+    "name": "tuned_intake_length_S1",
+    "value": 150,
+    "unit": "mm",
+    "grade": "D",
+    "importance": "I",
+    "source": "Ragan et al. 2015 §5"
+  },
+  {
+    "name": "tuned_intake_diameter_S1",
+    "value": null,
+    "unit": "mm",
+    "grade": "U",
+    "importance": "I",
+    "source": "Not found"
+  },
+  {
+    "name": "tuned_exhaust_length_S1",
+    "value": 800,
+    "unit": "mm",
+    "grade": "D",
+    "importance": "I",
+    "source": "Ragan et al. 2015 §5"
+  },
+  {
+    "name": "tuned_exhaust_diameter_S1",
+    "value": null,
+    "unit": "mm",
+    "grade": "U",
+    "importance": "I",
+    "source": "Not found"
+  },
+  {
+    "name": "intake_port_diameter_at_valve",
+    "value": [
+      22.86,
+      23.24
+    ],
+    "unit": "mm",
+    "grade": "F",
+    "importance": "I",
+    "source": "Older GX160 Technical Manual stock-port inspection"
+  },
+  {
+    "name": "exhaust_port_diameter_at_valve",
+    "value": [
+      21.79,
+      21.92
+    ],
+    "unit": "mm",
+    "grade": "F",
+    "importance": "I",
+    "source": "Older GX160 Technical Manual stock-port inspection"
+  },
+  {
+    "name": "stock_muffler_internal_geometry",
+    "value": null,
+    "unit": null,
+    "grade": "U",
+    "importance": "N",
+    "source": "Not found"
+  },
+  {
+    "name": "measured_exhaust_backpressure_S1",
+    "value": null,
+    "unit": "kPa(g)",
+    "grade": "U",
+    "importance": "E",
+    "source": "Not found"
+  },
+  {
+    "name": "Honda_family_exhaust_backpressure_limit",
+    "value": 11,
+    "unit": "kPa(g)",
+    "grade": "F",
+    "importance": "E",
+    "source": "Honda GX120/160/200 application/OEM technical material, Exhaust Back Pressure Measurement: tap 50 mm downstream, 3060 rpm, rated continuous load; https://manualzz.com/doc/79522615/honda-gx120-160-200-owner-s-manual"
+  },
+  {
+    "name": "measured_flow_coefficients",
+    "value": null,
+    "unit": null,
+    "grade": "U",
+    "importance": "N",
+    "source": "Not found"
+  },
+  {
+    "name": "spark_advance_S1",
+    "value": 25,
+    "unit": "degCA BTDC",
+    "grade": "D",
+    "importance": "E",
+    "source": "Ragan et al. 2015 conclusion item 1"
+  },
+  {
+    "name": "lambda_S1_2500rpm_full_load",
+    "value": 0.95,
+    "unit": "lambda",
+    "grade": "D",
+    "importance": "E",
+    "source": "Ragan et al. 2015 conclusion item 1"
+  },
+  {
+    "name": "lambda_S1_full_load_vs_speed",
+    "value": null,
+    "unit": "lambda vs rpm",
+    "grade": "U",
+    "importance": "E",
+    "source": "Only one exact S1 point found"
+  },
+  {
+    "name": "fuel_octane_S1",
+    "value": 95,
+    "unit": "RON",
+    "grade": "D",
+    "importance": "I",
+    "source": "Ragan et al. 2015 compression-ratio tests"
+  },
+  {
+    "name": "fuel_density_S1",
+    "value": null,
+    "unit": "kg/m3",
+    "grade": "U",
+    "importance": "I",
+    "source": "Not found"
+  },
+  {
+    "name": "fuel_LHV_S1",
+    "value": null,
+    "unit": "MJ/kg",
+    "grade": "U",
+    "importance": "I",
+    "source": "Not found"
+  },
+  {
+    "name": "fuel_density_S3",
+    "value": 746,
+    "unit": "kg/m3",
+    "grade": "D",
+    "importance": "I",
+    "source": "Kocakulak et al. 2023 fuel-property table"
+  },
+  {
+    "name": "fuel_octane_S3",
+    "value": 95,
+    "unit": "RON",
+    "grade": "D",
+    "importance": "I",
+    "source": "Kocakulak et al. 2023 fuel-property table"
+  },
+  {
+    "name": "fuel_latent_heat_S3",
+    "value": 331.6,
+    "unit": "kJ/kg",
+    "grade": "D",
+    "importance": "I",
+    "source": "Kocakulak et al. 2023 fuel-property table"
+  },
+  {
+    "name": "S1_head_temperature",
+    "value": null,
+    "unit": "degC",
+    "grade": "U",
+    "importance": "N",
+    "source": "Not found"
+  },
+  {
+    "name": "S1_oil_temperature",
+    "value": null,
+    "unit": "degC",
+    "grade": "U",
+    "importance": "N",
+    "source": "Not found"
+  },
+  {
+    "name": "S1_main_speed_torque_curve",
+    "value": [
+      [
+        1000,
+        9.4
+      ],
+      [
+        1500,
+        10.0
+      ],
+      [
+        2000,
+        9.85
+      ],
+      [
+        2500,
+        10.2
+      ],
+      [
+        3000,
+        10.0
+      ],
+      [
+        3500,
+        9.3
+      ],
+      [
+        4000,
+        8.2
+      ]
+    ],
+    "unit": "rpm,Nm",
+    "grade": "R",
+    "importance": "E",
+    "source": "Ragan et al. 2015 Figure 2; coarse digitisation at 500-rpm spacing"
+  },
+  {
+    "name": "S1_main_speed_power_curve",
+    "value": [
+      [
+        1000,
+        0.98
+      ],
+      [
+        1500,
+        1.57
+      ],
+      [
+        2000,
+        2.06
+      ],
+      [
+        2500,
+        2.67
+      ],
+      [
+        3000,
+        3.14
+      ],
+      [
+        3500,
+        3.41
+      ],
+      [
+        4000,
+        3.43
+      ]
+    ],
+    "unit": "rpm,kW",
+    "grade": "R",
+    "importance": "E",
+    "source": "Calculated from S1 digitised torque using P=T*n/9550"
+  },
+  {
+    "name": "S1_main_speed_BSFC_curve",
+    "value": [
+      [
+        1000,
+        344
+      ],
+      [
+        1500,
+        329
+      ],
+      [
+        2000,
+        324
+      ],
+      [
+        2500,
+        316
+      ],
+      [
+        3000,
+        320
+      ],
+      [
+        3500,
+        335
+      ],
+      [
+        4000,
+        350
+      ]
+    ],
+    "unit": "rpm,g/kWh",
+    "grade": "R",
+    "importance": "E",
+    "source": "Ragan et al. 2015 Figure 2; 2500-rpm 316-g/kWh point directly stated D"
+  },
+  {
+    "name": "S1_full_load_airflow_curve",
+    "value": null,
+    "unit": "kg/s vs rpm",
+    "grade": "U",
+    "importance": "E",
+    "source": "Not measured/published"
+  },
+  {
+    "name": "S2_standard_raw_air_velocity",
+    "value": [
+      [
+        4623,
+        0.8
+      ],
+      [
+        4472,
+        0.7
+      ],
+      [
+        4252,
+        0.7
+      ],
+      [
+        4023,
+        0.6
+      ],
+      [
+        3851,
+        0.5
+      ]
+    ],
+    "unit": "rpm,m/s",
+    "grade": "D",
+    "importance": "I",
+    "source": "Aprinaldi 2014 Chapter IV Table 4.2"
+  },
+  {
+    "name": "S2_standard_air_mass_flow",
+    "value": [
+      [
+        4623,
+        0.00236329
+      ],
+      [
+        4472,
+        0.002067878
+      ],
+      [
+        4252,
+        0.002067878
+      ],
+      [
+        4023,
+        0.001772467
+      ],
+      [
+        3851,
+        0.001477056
+      ]
+    ],
+    "unit": "rpm,kg/s",
+    "grade": "R",
+    "importance": "I",
+    "source": "Aprinaldi 2014 Table 4.9; derived from measured air velocity"
+  },
+  {
+    "name": "S2_standard_fuel_mass_flow",
+    "value": [
+      [
+        4623,
+        0.000243
+      ],
+      [
+        4472,
+        0.000241
+      ],
+      [
+        4252,
+        0.000238
+      ],
+      [
+        4023,
+        0.000237
+      ],
+      [
+        3851,
+        0.000233
+      ]
+    ],
+    "unit": "rpm,kg/s",
+    "grade": "R",
+    "importance": "I",
+    "source": "Aprinaldi 2014 Table 4.9; derived from 4-mL fuel timing"
+  },
+  {
+    "name": "S2_standard_AFR",
+    "value": [
+      [
+        4623,
+        9.73
+      ],
+      [
+        4472,
+        8.597
+      ],
+      [
+        4252,
+        8.701
+      ],
+      [
+        4023,
+        7.488
+      ],
+      [
+        3851,
+        6.333
+      ]
+    ],
+    "unit": "rpm,AFR",
+    "grade": "R",
+    "importance": "I",
+    "source": "Aprinaldi 2014 Table 4.9"
+  },
+  {
+    "name": "S2_standard_torque",
+    "value": [
+      [
+        4623,
+        0.392
+      ],
+      [
+        4472,
+        0.4508
+      ],
+      [
+        4252,
+        0.5488
+      ],
+      [
+        4023,
+        0.8036
+      ],
+      [
+        3851,
+        0.98
+      ]
+    ],
+    "unit": "rpm,Nm",
+    "grade": "R",
+    "importance": "I",
+    "source": "Aprinaldi 2014 Table 4.9"
+  },
+  {
+    "name": "S2_standard_power",
+    "value": [
+      [
+        4623,
+        0.2544
+      ],
+      [
+        4472,
+        0.283
+      ],
+      [
+        4252,
+        0.3275
+      ],
+      [
+        4023,
+        0.4538
+      ],
+      [
+        3851,
+        0.5297
+      ]
+    ],
+    "unit": "rpm,hp",
+    "grade": "R",
+    "importance": "I",
+    "source": "Aprinaldi 2014 Table 4.9"
+  },
+  {
+    "name": "S2_airbox_effective_area",
+    "value": 0.002462,
+    "unit": "m2",
+    "grade": "R",
+    "importance": "I",
+    "source": "Derived from Q/V in Aprinaldi Table 4.9"
+  },
+  {
+    "name": "S2_airbox_equivalent_diameter",
+    "value": 56.0,
+    "unit": "mm",
+    "grade": "R",
+    "importance": "I",
+    "source": "sqrt(4*A/pi)"
+  },
+  {
+    "name": "S3_WOT_gasoline_torque_curve",
+    "value": [
+      [
+        2400,
+        7.7
+      ],
+      [
+        2800,
+        8.4
+      ],
+      [
+        3200,
+        7.1
+      ],
+      [
+        3600,
+        6.7
+      ],
+      [
+        4000,
+        6.5
+      ]
+    ],
+    "unit": "rpm,Nm",
+    "grade": "R",
+    "importance": "E",
+    "source": "Kocakulak et al. 2023 Figure 3a coarse digitisation"
+  },
+  {
+    "name": "S3_WOT_gasoline_power_curve",
+    "value": [
+      [
+        2400,
+        1.94
+      ],
+      [
+        2800,
+        2.46
+      ],
+      [
+        3200,
+        2.38
+      ],
+      [
+        3600,
+        2.53
+      ],
+      [
+        4000,
+        2.72
+      ]
+    ],
+    "unit": "rpm,kW",
+    "grade": "R",
+    "importance": "E",
+    "source": "Calculated from digitised S3 torque; cross-checked against Figure 3b"
+  },
+  {
+    "name": "S3_WOT_gasoline_SFC_curve",
+    "value": [
+      [
+        2400,
+        0.46
+      ],
+      [
+        2800,
+        0.42
+      ],
+      [
+        3200,
+        0.46
+      ],
+      [
+        3600,
+        0.5
+      ],
+      [
+        4000,
+        0.58
+      ]
+    ],
+    "unit": "rpm,kg/kWh",
+    "grade": "R",
+    "importance": "E",
+    "source": "Kocakulak et al. 2023 Figure 4 coarse digitisation"
+  },
+  {
+    "name": "S3_WOT_airflow_curve",
+    "value": null,
+    "unit": "kg/s vs rpm",
+    "grade": "U",
+    "importance": "E",
+    "source": "Not measured/published"
+  },
+  {
+    "name": "exact_Honda_pressure_trace_at_stated_speed_load",
+    "value": null,
+    "unit": "pressure vs degCA",
+    "grade": "U",
+    "importance": "I",
+    "source": "Ragan Figure 3 pressure exists but speed/load unstated"
+  },
+  {
+    "name": "burn_angles_CA10_CA50_CA90",
+    "value": null,
+    "unit": "degCA",
+    "grade": "U",
+    "importance": "I",
+    "source": "Not found"
+  },
+  {
+    "name": "motoring_or_friction_data",
+    "value": null,
+    "unit": null,
+    "grade": "U",
+    "importance": "I",
+    "source": "Not found"
+  },
+  {
+    "name": "intake_depression",
+    "value": null,
+    "unit": "Pa",
+    "grade": "U",
+    "importance": "I",
+    "source": "Not found"
+  },
+  {
+    "name": "intake_pressure_trace",
+    "value": null,
+    "unit": "pressure vs degCA",
+    "grade": "U",
+    "importance": "N",
+    "source": "Not found"
+  },
+  {
+    "name": "exhaust_pressure_trace",
+    "value": null,
+    "unit": "pressure vs degCA",
+    "grade": "U",
+    "importance": "N",
+    "source": "Not found"
+  },
+  {
+    "name": "S5_full_load_test_speeds",
+    "value": [
+      2000,
+      2300,
+      2600,
+      2900,
+      3200,
+      3500
+    ],
+    "unit": "rpm",
+    "grade": "D",
+    "importance": "E",
+    "source": "Çelebi, Demir & Ergen 2022, https://dergipark.org.tr/en/download/article-file/2398680; p.230, Conclusions"
+  },
+  {
+    "name": "S5_gasoline_torque_curve",
+    "value": [
+      [
+        2000,
+        6.75
+      ],
+      [
+        2300,
+        7.13
+      ],
+      [
+        2600,
+        7.22
+      ],
+      [
+        2900,
+        7.18
+      ],
+      [
+        3200,
+        6.88
+      ],
+      [
+        3500,
+        6.33
+      ]
+    ],
+    "unit": "rpm,Nm",
+    "grade": "R",
+    "importance": "E",
+    "source": "Çelebi, Demir & Ergen 2022, https://dergipark.org.tr/en/download/article-file/2398680; p.228, Fig.3; digitised at the six stated test speeds, approx ±0.05–0.10 Nm"
+  },
+  {
+    "name": "S5_gasoline_power_curve",
+    "value": [
+      [
+        2000,
+        1.41
+      ],
+      [
+        2300,
+        1.72
+      ],
+      [
+        2600,
+        1.96
+      ],
+      [
+        2900,
+        2.18
+      ],
+      [
+        3200,
+        2.3
+      ],
+      [
+        3500,
+        2.3
+      ]
+    ],
+    "unit": "rpm,kW",
+    "grade": "R",
+    "importance": "E",
+    "source": "Çelebi, Demir & Ergen 2022, https://dergipark.org.tr/en/download/article-file/2398680; p.228, Fig.2; digitised at the six stated test speeds, approx ±0.03–0.05 kW"
+  },
+  {
+    "name": "S5_gasoline_BSFC_curve",
+    "value": [
+      [
+        2000,
+        493
+      ],
+      [
+        2300,
+        458
+      ],
+      [
+        2600,
+        439
+      ],
+      [
+        2900,
+        423
+      ],
+      [
+        3200,
+        418
+      ],
+      [
+        3500,
+        422
+      ]
+    ],
+    "unit": "rpm,g/kWh",
+    "grade": "R",
+    "importance": "E",
+    "source": "Çelebi, Demir & Ergen 2022, https://dergipark.org.tr/en/download/article-file/2398680; p.228, Fig.4; digitised at the six stated test speeds, approx ±3–5 g/kWh"
+  },
+  {
+    "name": "S5_gasoline_fuel_mass_flow_curve",
+    "value": [
+      [
+        2000,
+        0.00019309
+      ],
+      [
+        2300,
+        0.00021882
+      ],
+      [
+        2600,
+        0.00023901
+      ],
+      [
+        2900,
+        0.00025615
+      ],
+      [
+        3200,
+        0.00026706
+      ],
+      [
+        3500,
+        0.00026961
+      ]
+    ],
+    "unit": "rpm,kg/s",
+    "grade": "R",
+    "importance": "E",
+    "source": "Derived from Çelebi, Demir & Ergen 2022, https://dergipark.org.tr/en/download/article-file/2398680 p.228 Figs.2 & 4: m_dot=BSFC*P/3600/1000"
+  },
+  {
+    "name": "S5_gasoline_lambda_range_full_load",
+    "value": [
+      0.814,
+      1.0
+    ],
+    "unit": "lambda",
+    "grade": "D",
+    "importance": "E",
+    "source": "Çelebi, Demir & Ergen 2022, https://dergipark.org.tr/en/download/article-file/2398680; p.228, text adjacent to Fig.4"
+  },
+  {
+    "name": "S5_gasoline_lambda_vs_speed",
+    "value": null,
+    "unit": "lambda vs rpm",
+    "grade": "U",
+    "importance": "E",
+    "source": "Individual lambda values by rpm not published in Çelebi et al. 2022"
+  },
+  {
+    "name": "S5_gasoline_EGT_curve",
+    "value": [
+      [
+        2000,
+        263
+      ],
+      [
+        2300,
+        292
+      ],
+      [
+        2600,
+        316
+      ],
+      [
+        2900,
+        335
+      ],
+      [
+        3200,
+        356
+      ],
+      [
+        3500,
+        375
+      ]
+    ],
+    "unit": "rpm,degC",
+    "grade": "R",
+    "importance": "N",
+    "source": "Çelebi, Demir & Ergen 2022, https://dergipark.org.tr/en/download/article-file/2398680; p.229, Fig.7; digitised, approx ±3–5 °C"
+  },
+  {
+    "name": "S5_gasoline_density",
+    "value": 0.73,
+    "unit": "g/ml",
+    "grade": "D",
+    "importance": "I",
+    "source": "Çelebi, Demir & Ergen 2022, https://dergipark.org.tr/en/download/article-file/2398680; p.227, Table 2"
+  },
+  {
+    "name": "S5_gasoline_LHV",
+    "value": 43.4,
+    "unit": "MJ/kg",
+    "grade": "D",
+    "importance": "I",
+    "source": "Çelebi, Demir & Ergen 2022, https://dergipark.org.tr/en/download/article-file/2398680; p.227, Table 2"
+  },
+  {
+    "name": "S5_gasoline_stoich_AFR",
+    "value": 14.7,
+    "unit": "mass ratio",
+    "grade": "D",
+    "importance": "I",
+    "source": "Çelebi, Demir & Ergen 2022, https://dergipark.org.tr/en/download/article-file/2398680; p.227, Table 2"
+  },
+  {
+    "name": "S6_engine_base",
+    "value": "Honda GX160 OHV, factory carburetion converted to EFI",
+    "unit": null,
+    "grade": "D",
+    "importance": "E",
+    "source": "Torres et al. 2024, §4.1 Tables 15–16; https://pmc.ncbi.nlm.nih.gov/articles/PMC11033082/"
+  },
+  {
+    "name": "S6_tested_compression_ratios",
+    "value": [
+      7.44,
+      9.44
+    ],
+    "unit": ":1",
+    "grade": "D",
+    "importance": "E",
+    "source": "Torres et al. 2024, §3 and §4.2–4.3; https://pmc.ncbi.nlm.nih.gov/articles/PMC11033082/"
+  },
+  {
+    "name": "S6_WOT_lambda",
+    "value": "1.000 ± 0.015",
+    "unit": "lambda",
+    "grade": "D",
+    "importance": "E",
+    "source": "Torres et al. 2024, §4.3; https://pmc.ncbi.nlm.nih.gov/articles/PMC11033082/"
+  },
+  {
+    "name": "S6_E100_stoich_AFR",
+    "value": 8.91,
+    "unit": "mass ratio",
+    "grade": "D",
+    "importance": "E",
+    "source": "Torres et al. 2024, Table 17; https://pmc.ncbi.nlm.nih.gov/articles/PMC11033082/"
+  },
+  {
+    "name": "S6_E100_LHV",
+    "value": 26.9,
+    "unit": "MJ/kg",
+    "grade": "D",
+    "importance": "I",
+    "source": "Torres et al. 2024, Table 17; https://pmc.ncbi.nlm.nih.gov/articles/PMC11033082/"
+  },
+  {
+    "name": "S6_lowCR_WOT_torque",
+    "value": [
+      [
+        2000,
+        10.12
+      ],
+      [
+        2500,
+        10.72
+      ],
+      [
+        3000,
+        10.7
+      ],
+      [
+        3500,
+        11.18
+      ],
+      [
+        4000,
+        10.83
+      ]
+    ],
+    "unit": "rpm,Nm",
+    "grade": "D",
+    "importance": "E",
+    "source": "Torres et al. 2024, Table 1, low CR 7.44:1, E100/W0; https://pmc.ncbi.nlm.nih.gov/articles/PMC11033082/"
+  },
+  {
+    "name": "S6_lowCR_WOT_power",
+    "value": [
+      [
+        2000,
+        2.12
+      ],
+      [
+        2500,
+        2.81
+      ],
+      [
+        3000,
+        3.36
+      ],
+      [
+        3500,
+        4.1
+      ],
+      [
+        4000,
+        4.54
+      ]
+    ],
+    "unit": "rpm,kW",
+    "grade": "R",
+    "importance": "E",
+    "source": "Torres et al. 2024, Table 2, low CR 7.44:1, E100/W0; author-calculated from torque/speed; https://pmc.ncbi.nlm.nih.gov/articles/PMC11033082/"
+  },
+  {
+    "name": "S6_lowCR_WOT_fuel_flow",
+    "value": [
+      [
+        2000,
+        0.000227
+      ],
+      [
+        2500,
+        0.00028
+      ],
+      [
+        3000,
+        0.000352
+      ],
+      [
+        3500,
+        0.000412
+      ],
+      [
+        4000,
+        0.000487
+      ]
+    ],
+    "unit": "rpm,kg/s",
+    "grade": "D",
+    "importance": "E",
+    "source": "Torres et al. 2024, Table 3, low CR 7.44:1, E100/W0; gravimetric fuel consumption; https://pmc.ncbi.nlm.nih.gov/articles/PMC11033082/"
+  },
+  {
+    "name": "S6_lowCR_WOT_air_flow",
+    "value": [
+      [
+        2000,
+        0.00202257
+      ],
+      [
+        2500,
+        0.0024948
+      ],
+      [
+        3000,
+        0.00313632
+      ],
+      [
+        3500,
+        0.00367092
+      ],
+      [
+        4000,
+        0.00433917
+      ]
+    ],
+    "unit": "rpm,kg/s",
+    "grade": "R",
+    "importance": "E",
+    "source": "Derived from Torres et al. 2024 Table 3 + Table 17 + §4.3: m_air=m_fuel*8.91*lambda, nominal lambda=1.000; https://pmc.ncbi.nlm.nih.gov/articles/PMC11033082/"
+  },
+  {
+    "name": "S6_lowCR_WOT_BSFC",
+    "value": [
+      [
+        2000,
+        385
+      ],
+      [
+        2500,
+        360
+      ],
+      [
+        3000,
+        377
+      ],
+      [
+        3500,
+        362
+      ],
+      [
+        4000,
+        386
+      ]
+    ],
+    "unit": "rpm,g/kWh",
+    "grade": "R",
+    "importance": "E",
+    "source": "Torres et al. 2024, Table 4, low CR 7.44:1, E100/W0; author-calculated; https://pmc.ncbi.nlm.nih.gov/articles/PMC11033082/"
+  },
+  {
+    "name": "S6_lowCR_WOT_EGT",
+    "value": [
+      [
+        2000,
+        569.7
+      ],
+      [
+        2500,
+        616.8
+      ],
+      [
+        3000,
+        674.5
+      ],
+      [
+        3500,
+        685.2
+      ],
+      [
+        4000,
+        703.0
+      ]
+    ],
+    "unit": "rpm,degC",
+    "grade": "D",
+    "importance": "N",
+    "source": "Torres et al. 2024, Table 8, low CR 7.44:1, E100/W0; https://pmc.ncbi.nlm.nih.gov/articles/PMC11033082/"
+  },
+  {
+    "name": "S6_highCR_WOT_torque",
+    "value": [
+      [
+        2000,
+        10.68
+      ],
+      [
+        2500,
+        11.13
+      ],
+      [
+        3000,
+        11.18
+      ],
+      [
+        3500,
+        11.3
+      ],
+      [
+        4000,
+        11.45
+      ]
+    ],
+    "unit": "rpm,Nm",
+    "grade": "D",
+    "importance": "E",
+    "source": "Torres et al. 2024, Table 1, high CR 9.44:1, E100/W0; https://pmc.ncbi.nlm.nih.gov/articles/PMC11033082/"
+  },
+  {
+    "name": "S6_highCR_WOT_power",
+    "value": [
+      [
+        2000,
+        2.24
+      ],
+      [
+        2500,
+        2.91
+      ],
+      [
+        3000,
+        3.51
+      ],
+      [
+        3500,
+        4.14
+      ],
+      [
+        4000,
+        4.8
+      ]
+    ],
+    "unit": "rpm,kW",
+    "grade": "R",
+    "importance": "E",
+    "source": "Torres et al. 2024, Table 2, high CR 9.44:1, E100/W0; author-calculated; https://pmc.ncbi.nlm.nih.gov/articles/PMC11033082/"
+  },
+  {
+    "name": "S6_highCR_WOT_fuel_flow",
+    "value": [
+      [
+        2000,
+        0.000217
+      ],
+      [
+        2500,
+        0.000273
+      ],
+      [
+        3000,
+        0.000332
+      ],
+      [
+        3500,
+        0.000387
+      ],
+      [
+        4000,
+        0.00045
+      ]
+    ],
+    "unit": "rpm,kg/s",
+    "grade": "D",
+    "importance": "E",
+    "source": "Torres et al. 2024, Table 3, high CR 9.44:1, E100/W0; gravimetric fuel consumption; https://pmc.ncbi.nlm.nih.gov/articles/PMC11033082/"
+  },
+  {
+    "name": "S6_highCR_WOT_air_flow",
+    "value": [
+      [
+        2000,
+        0.00193347
+      ],
+      [
+        2500,
+        0.00243243
+      ],
+      [
+        3000,
+        0.00295812
+      ],
+      [
+        3500,
+        0.00344817
+      ],
+      [
+        4000,
+        0.0040095
+      ]
+    ],
+    "unit": "rpm,kg/s",
+    "grade": "R",
+    "importance": "E",
+    "source": "Derived from Torres et al. 2024 Table 3 + Table 17 + §4.3: m_air=m_fuel*8.91*lambda, nominal lambda=1.000; https://pmc.ncbi.nlm.nih.gov/articles/PMC11033082/"
+  },
+  {
+    "name": "S6_highCR_WOT_BSFC",
+    "value": [
+      [
+        2000,
+        349
+      ],
+      [
+        2500,
+        338
+      ],
+      [
+        3000,
+        340
+      ],
+      [
+        3500,
+        336
+      ],
+      [
+        4000,
+        338
+      ]
+    ],
+    "unit": "rpm,g/kWh",
+    "grade": "R",
+    "importance": "E",
+    "source": "Torres et al. 2024, Table 4, high CR 9.44:1, E100/W0; author-calculated; https://pmc.ncbi.nlm.nih.gov/articles/PMC11033082/"
+  },
+  {
+    "name": "S6_highCR_WOT_EGT",
+    "value": [
+      [
+        2000,
+        513.8
+      ],
+      [
+        2500,
+        563.5
+      ],
+      [
+        3000,
+        614.9
+      ],
+      [
+        3500,
+        641.9
+      ],
+      [
+        4000,
+        667.8
+      ]
+    ],
+    "unit": "rpm,degC",
+    "grade": "D",
+    "importance": "N",
+    "source": "Torres et al. 2024, Table 8, high CR 9.44:1, E100/W0; https://pmc.ncbi.nlm.nih.gov/articles/PMC11033082/"
+  },
+  {
+    "name": "H1_official_GX160_compression_ratio",
+    "value": 9.0,
+    "unit": ":1",
+    "grade": "D",
+    "importance": "I",
+    "source": "Honda GX160 Technical Sheet Sept. 2023, PDF p.4; https://www.honda-engines-eu.com/files/files/technical-sheet-gx160-v23.pdf"
+  },
+  {
+    "name": "H1_official_net_power_rating",
+    "value": [
+      3600,
+      3.6
+    ],
+    "unit": "rpm,kW",
+    "grade": "D",
+    "importance": "I",
+    "source": "Honda GX160 Technical Sheet Sept. 2023, PDF p.4; SAE J1349; https://www.honda-engines-eu.com/files/files/technical-sheet-gx160-v23.pdf"
+  },
+  {
+    "name": "H1_official_max_net_torque_rating",
+    "value": [
+      2500,
+      10.3
+    ],
+    "unit": "rpm,Nm",
+    "grade": "D",
+    "importance": "I",
+    "source": "Honda GX160 Technical Sheet Sept. 2023, PDF p.4; SAE J1349; https://www.honda-engines-eu.com/files/files/technical-sheet-gx160-v23.pdf"
+  },
+  {
+    "name": "H1_official_continuous_rated_power",
+    "value": [
+      [
+        3000,
+        2.5
+      ],
+      [
+        3600,
+        2.9
+      ]
+    ],
+    "unit": "rpm,kW",
+    "grade": "D",
+    "importance": "I",
+    "source": "Honda GX160 Technical Sheet Sept. 2023, PDF p.4; https://www.honda-engines-eu.com/files/files/technical-sheet-gx160-v23.pdf"
+  },
+  {
+    "name": "H1_official_fuel_consumption_continuous",
+    "value": [
+      3600,
+      1.4
+    ],
+    "unit": "rpm,L/h",
+    "grade": "D",
+    "importance": "I",
+    "source": "Honda GX160 Technical Sheet Sept. 2023, PDF p.4; https://www.honda-engines-eu.com/files/files/technical-sheet-gx160-v23.pdf"
+  },
+  {
+    "name": "H1_official_net_torque_curve",
+    "value": [
+      [
+        2000,
+        10.1
+      ],
+      [
+        2500,
+        10.3
+      ],
+      [
+        3000,
+        10.1
+      ],
+      [
+        3600,
+        9.55
+      ]
+    ],
+    "unit": "rpm,Nm",
+    "grade": "R",
+    "importance": "I",
+    "source": "Honda GX160 Technical Sheet Sept. 2023, PDF p.3 performance curve; digitised at printed speed ticks; 2500 point exact D, 3600 torque constrained by exact 3.6 kW rating; https://www.honda-engines-eu.com/files/files/technical-sheet-gx160-v23.pdf"
+  },
+  {
+    "name": "H1_official_net_power_curve",
+    "value": [
+      [
+        2000,
+        2.1
+      ],
+      [
+        2500,
+        2.7
+      ],
+      [
+        3000,
+        3.2
+      ],
+      [
+        3600,
+        3.6
+      ]
+    ],
+    "unit": "rpm,kW",
+    "grade": "R",
+    "importance": "I",
+    "source": "Honda GX160 Technical Sheet Sept. 2023, PDF p.3 performance curve; digitised at printed speed ticks; 3600 point exact D; https://www.honda-engines-eu.com/files/files/technical-sheet-gx160-v23.pdf"
+  },
+  {
+    "name": "H1_official_rating_basis",
+    "value": "Net power tested on a production engine for the engine model and measured in accordance with SAE J1349 at a specified rpm; production and installed-engine output may vary",
+    "unit": null,
+    "grade": "D",
+    "importance": "I",
+    "source": "Honda GX160 Technical Sheet Sept. 2023, PDF p.3 rating note; https://www.honda-engines-eu.com/files/files/technical-sheet-gx160-v23.pdf"
+  },
+  {
+    "name": "stock_carb_full_load_lambda_vs_speed_pointwise",
+    "value": null,
+    "unit": "lambda vs rpm",
+    "grade": "U",
+    "importance": "E",
+    "source": "Best stock exact-Honda evidence is S5 Çelebi 2022 p.228: measured gasoline lambda range 0.814–1.000 over six full-load speeds, but point-by-point mapping is not published"
+  },
+  {
+    "name": "stock_muffler_measured_backpressure_full_load",
+    "value": null,
+    "unit": "kPa(g) vs rpm/load",
+    "grade": "U",
+    "importance": "E",
+    "source": "Not found; Honda family 11 kPa(g) value is an allowable installation limit, not a measured stock-muffler curve"
+  },
+  {
+    "name": "Ragan_Fig3_speed_load",
+    "value": null,
+    "unit": "rpm and load",
+    "grade": "U",
+    "importance": "I",
+    "source": "Ragan et al. 2015 Fig.3 does not state a usable speed/load pair; bounded related-author/thesis search did not resolve it"
+  },
+  {
+    "name": "GX160_GX200_measured_FMEP_motoring",
+    "value": null,
+    "unit": "bar or Nm",
+    "grade": "U",
+    "importance": "I",
+    "source": "No validation-grade measured motoring/FMEP dataset recovered in bounded search"
+  }
+]

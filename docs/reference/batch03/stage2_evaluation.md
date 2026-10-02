@@ -105,3 +105,39 @@ Until then, large-bore physics rests on the published correlations' own validati
 Implied Roots volumetric efficiency (air / (1.9 L × SC speed × 1.18 kg/m³)): ~0.68 at 2000 rising to ~0.87 at 5200 engine rpm. Plausible, R.
 
 Gap prompts: `stage2_gap_prompts.md` G6 (S9) and G7 (S10).
+
+## Extended packs (after gap prompts G2-G4), 2026-10-02
+
+### P4 ECN extended: essential gaps closed for the CDC9 cases
+
+| Item | Result |
+|---|---|
+| DPRF58 LHV / density / stoichiometric AFR | 43.9 MJ/kg; 682 kg/m3 at 436 K; 14.90 dry air (R from the ECN fuels table / formula) |
+| CDC9 intake composition and temperature | O2 19.7 / N2 79.2 / CO2 1.1 / H2O 0 vol %, dry synthetic charge (D); 353 K (D) |
+| Exhaust back-pressure | 145.7 kPa abs constant (D, CDC9); U for LTC3 and close-coupled |
+| LTC3 composition | 10 % O2, 9 % CO2 (F) |
+| Valve head OD, fuel-off motored trace, measured wall temperatures, 1-D runners | still U (I / N); inert non-combusting traces remain the F motored substitute |
+
+**Verdict:** a complete closed-cycle diesel physics reference for the six CDC9 bowl-study cases. Use these first; LTC3 and close-coupled are secondary.
+
+### P3 extended
+
+- The AVL ηth-derived BSFC / fuel flow is **retracted** in the pack itself (ηth undefined in the source). AVL fuel and air flow remain U. The paper states the data are available from the corresponding author on request.
+- AVL spray angle 162° (F, same group). Hole count x diameter still U.
+- TV1 Çakmak 2023 (3.5 kW, same rig type): full-load BSFC 0.207 kg/kWh implies ~41 % brake efficiency for a 0.66 L single at 1500 rpm. **Implausible**; do not use. Its air flow is measured but unpublished.
+- No change to grades: AVL partial reference, TV1 calibrated.
+
+### P2 extended
+
+| Source | Content | Assessment |
+|---|---|---|
+| H1 Honda official GX160 sheet (CR 9.0, SAE J1349) | 10.1 / 10.3 / 10.1 / 9.55 N m at 2000 / 2500 / 3000 / 3600; 3.6 kW at 3600; 1.4 L/h at 2.9 kW continuous (3600) | Good. Consistent with S1 Ragan. Use as the manufacturer curve |
+| S5 Çelebi 2022 (stock, full load) | torque 6.3-7.2 N m; BSFC 418-493 g/kWh; λ range 0.814-1.000 (not per speed); EGT | **Low-output rig:** ~70 % of rated torque, brake efficiency 17-20 %. Not a reference |
+| S6 Torres 2024 (EFI, E100, CR 7.44 / 9.44, WOT, λ 1 ± 0.015, measured torque + fuel) | air derived = fuel x 8.91 | **Internally implausible**, see below |
+
+S6 consistency check (CR 9.44, 3500 rpm): brake power 4.14 kW against fuel energy 0.387 g/s x 26.9 MJ/kg = 10.41 kW, i.e. brake efficiency **40 %**. At CR 7.44 / 2000 rpm it is 35 %.
+- Both are far above what a 163 cc air-cooled SI engine can reach. The ideal Otto efficiency at CR 9.44 is ~49 %; 40 % brake would need ~80 % of ideal after friction.
+- The derived air (λ 1) gives volumetric efficiency of only 0.63-0.68, yet torque is above the stock engine's.
+- Both anomalies point to fuel flow reading ~25-30 % low (EFI return / gravimetric set-up). The derived air flow is therefore not usable until the raw Mendeley data explain it.
+
+**GX160 status:** still a calibrated engine with a BSFC curve (S1) and a manufacturer torque curve (H1). The airflow gap stays open.
