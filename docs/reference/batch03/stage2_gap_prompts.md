@@ -196,3 +196,102 @@ output, plus either cylinder pressure or turbo boundary data (boost, exhaust
 pressure, turbine inlet temperature). Give URLs, data form and gaps. Conclude with a
 recommended candidate.
 ```
+
+---
+
+## G6 — Medium-speed diesel (S9): EMD 710 port geometry and fuel; Wärtsilä 26 missing data; ALCO 251
+
+```
+Extend the S9 medium-speed diesel validation pack (S9_medium_speed_diesel_validation_
+pack). Return the FULL pack with previous content plus additions; do not summarise
+earlier tables.
+
+Common requirements: numbers with unit, exact source (URL / document + page / table /
+figure) and grade (D exact configuration, F family, R derived with arithmetic, U not
+found); hardware separate from MODEL-DERIVED; digitise plots as (x, y) pairs and say
+so; keep each engine build separate, no silent mixing; Markdown + JSON {name, value,
+unit, grade, importance, source}.
+
+EMD 16-710G3B (locked RDSO build):
+[E] Fuel consumption (BSFC or fuel flow) at rated and, ideally, at each throttle notch,
+    with the matching power and speed (RDSO acceptance / type-test data, EMD databook
+    or 710 locomotive test reports).
+[E] Liner scavenge-port geometry: port count, width, height, tangential / vertical
+    angles, and effective open area vs crank angle (full SAE 920782 text and figures,
+    EMD drawings or the 710 databook).
+[E] Exhaust-valve events: the original RDSO Annexure 1 scan value for exhaust-valve
+    closing (the transcribed "61 deg ATDC" contradicts the documented sequence), plus
+    exhaust-valve head diameter and lift, or the cam profile.
+[I] Turbo: exact assembly identity for the locked build, engine-to-turbo gear ratio,
+    compressor / turbine maps or measured boost, air-box pressure (state absolute or
+    gauge), turbine temperatures at more than one load; overrunning-clutch behaviour
+    (load / speed at which the turbine takes over).
+[I] Injection: nozzle hole diameter, spray angle, unit-injector timing and opening
+    pressure.
+[I] Air flow at more than one load; peak cylinder pressure at more than one load.
+[N] Any measured cylinder-pressure trace for a 710 or 645 engine; friction / motoring.
+
+Wärtsilä 8L26 AE/DE Tier 2 (locked 2018 product-guide build):
+[E] Compression ratio and connecting-rod length for this build.
+[E] Charge-air pressure (boost) and turbine-inlet temperature at the 4 declared loads.
+[I] Inlet and exhaust valve timing and lift for this build, and the variable inlet
+    valve closing schedule vs load.
+[I] Injection timing and injection pressure / pump data vs load.
+[I] Any measured cylinder-pressure trace (test-bed, commissioning or research data) for
+    a W26 engine, with operating point.
+[N] Friction / mechanical efficiency, firing order.
+
+ALCO 251 (named in the original search, not covered):
+[E] For the ALCO 251B / 251C (prefer 16-cylinder locomotive build): bore, stroke, rod,
+    CR, valve timing, injection system (pump, nozzle holes x diameter, timing), turbo
+    and aftercooler, and any published performance data: power vs speed or notch,
+    SFC, air flow, boost, exhaust temperature, peak cylinder pressure. Sources: ALCO
+    MI-series manuals (e.g. MI-1016B, MI-1000, MI-1003), Indian Railways / RDSO / DLW
+    WDM-2 / WDM-3 data, Bombardier / MLW 251 documentation.
+```
+
+---
+
+## G7 — Supercharged petrol (S10): LSA blower map and same-test data; BLG supercharger
+
+```
+Extend the S10 supercharged petrol validation pack (S10_supercharged_petrol_
+validation_pack). Return the FULL pack with previous content plus additions; do not
+summarise earlier tables.
+
+Common requirements: numbers with unit, exact source (URL / document + page / table /
+figure) and grade (D exact configuration, F family, R derived with arithmetic, U not
+found); hardware separate from MODEL-DERIVED; digitise plots as (x, y) pairs and say
+so; keep each engine build separate, no silent mixing; Markdown + JSON {name, value,
+unit, grade, importance, source}.
+
+GM LSA 6.2 (2009 Cadillac CTS-V, stock):
+[E] Air flow measured on the automotive build at wide-open throttle vs speed, on the
+    same test as torque. (The GM OEM manual's table is labelled marine-engine airflow
+    requirements, and its 4400 rpm value is inconsistent with the torque table:
+    explain the table's test conditions if found.)
+[E] Boost (manifold pressure) vs engine speed at WOT, stock pulley (GM data, SAE
+    papers, or instrumented dyno studies of a stock LSA / CTS-V, stating set-up).
+[E] Fuel flow / BSFC at WOT on the same test as torque and air flow.
+[I] Eaton TVS1900 (R1900) production map for this application, or measured blower
+    speed, pressure ratio, outlet temperature and drive power; bypass-valve behaviour.
+[I] Charge-air temperature after the supercharger and after the charge cooler vs speed.
+[I] Valve timing (seat or 0.050 in opening / closing angles, lobe centres) and
+    connecting-rod length for the LSA.
+[N] Cylinder pressure; WOT spark and lambda.
+
+VW 1.4 TSI Twincharger BLG (125 kW):
+[E] Mechanical supercharger displacement per revolution (and supplier / model, e.g.
+    from VW / Eaton / SAE / MTZ technical papers).
+[E] Air flow or fuel flow vs speed at full load.
+[I] Supercharger and turbocharger maps or measured pressure ratios, charge temperature
+    (G520 / G299 / G42 positions) and supercharger drive power vs speed.
+[I] Valve sizes, lift and timing; inlet cam phasing vs speed at full load;
+    connecting-rod length.
+[N] Cylinder pressure; WOT spark and lambda.
+
+Alternative (optional): any supercharged production petrol engine with a public
+dataset of same-test torque + air flow + fuel flow + boost vs speed (e.g. EPA / ANL
+vehicle benchmarking of a supercharged engine). Score it D / P / U on the same items
+and recommend whether it should replace the LSA as the primary case.
+```

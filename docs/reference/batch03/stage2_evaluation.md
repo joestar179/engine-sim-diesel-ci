@@ -82,3 +82,26 @@ D13 public data stop at the operating map. Search options (Stage 1):
 - the medium-speed slot 9 for large bore.
 
 Until then, large-bore physics rests on the published correlations' own validation plus the calibrated engines.
+
+## S9 medium-speed diesel (EMD 16-710G3B, Wärtsilä 8L26)
+
+| Engine | Outcome | Grade |
+|---|---|---|
+| EMD 16-710G3B (two-stroke, 230 mm) | Geometry D; scavenge-port timing D; one rated point (power, air 6.0 kg/s, turbo speed, TIT / TOT, pmax 108 bar). **No fuel at any load**; port dimensions U (scavenging cannot be validated); EVC transcription contradicts the event sequence (not used) | Rated-point consistency only |
+| Wärtsilä 8L26 (four-stroke, 260 mm) | Declared BSFC at 4 loads (85 % guaranteed), air and exhaust flow, exhaust temperature, full heat-rejection split. Rod U, CR family-only, valve / VIVC timing family-only, boost and TIT U, no pressure trace | Calibrated-grade large-bore thermal / system check |
+
+- Neither meets the minimum (same-point fuel + air + output, plus pressure traces or turbo boundaries).
+- The ALCO 251 and GE FDL named in the prompt were not evaluated.
+
+## S10 supercharged petrol (GM LSA, VW 1.4 TSI Twincharger BLG)
+
+| Engine | Outcome | Grade |
+|---|---|---|
+| GM LSA 6.2 (Roots) | Displacement 1.9 L/rev D, drive 2.6 F, no clutch, peak boost 9 psi D, torque curve (F, marine variant), 6 airflow points (F). Fuel, map, bypass, charge temperature, drive power U | Partial: blower flow model |
+| VW BLG Twincharger | Ratio 5:1, 17 500 rpm, clutch, bypass flap, operating ranges (D); SC and combined pressure-ratio vs speed (digitised); torque curve. **SC displacement U, air and fuel U** | Partial: series SC + turbo topology / control |
+
+**LSA airflow table is not consistent with its torque table.** Air per cycle per unit torque is 0.0176 / 0.0153 / 0.0169 / 0.0147 / 0.0196 g/(lb-ft) at 2000-5200 rpm. At 4400 rpm the air is below that at 3600 while torque is higher. GM labels it "marine-engine airflow requirements". Use it as a rough check only, not a held-out target.
+
+Implied Roots volumetric efficiency (air / (1.9 L × SC speed × 1.18 kg/m³)): ~0.68 at 2000 rising to ~0.87 at 5200 engine rpm. Plausible, R.
+
+Gap prompts: `stage2_gap_prompts.md` G6 (S9) and G7 (S10).
