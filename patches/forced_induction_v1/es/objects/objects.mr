@@ -108,6 +108,9 @@ private node _engine => __engine_sim__engine {
     input valvetrain_oscillating_mixed [float];
     input oil_viscosity_ratio [float];
     input chamber_area_ratio [float];
+    input piston_wall_temperature [float];
+    input head_wall_temperature [float];
+    input liner_wall_temperature [float];
     input injection_duration [float];
     input ignition_delay [float];
     input combustion_duration [float];
@@ -214,6 +217,10 @@ public node engine {
     input oil_viscosity_ratio: 1.0;
     // Fire-deck and piston-crown surface relative to the bore area (flat 1.0).
     input chamber_area_ratio: 1.0;
+    // Gas-side wall surface temperatures (K): piston crown, head, liner.
+    input piston_wall_temperature: 573.0;
+    input head_wall_temperature: 503.0;
+    input liner_wall_temperature: 423.0;
     input injection_duration: 0 * units.deg;
     input ignition_delay: 0 * units.deg;
     input combustion_duration: 0 * units.deg;
@@ -323,6 +330,9 @@ public node engine {
             valvetrain_oscillating_mixed: valvetrain_oscillating_mixed,
             oil_viscosity_ratio: oil_viscosity_ratio,
             chamber_area_ratio: chamber_area_ratio,
+            piston_wall_temperature: piston_wall_temperature,
+            head_wall_temperature: head_wall_temperature,
+            liner_wall_temperature: liner_wall_temperature,
             injection_duration: injection_duration,
             ignition_delay: ignition_delay,
             combustion_duration: combustion_duration,

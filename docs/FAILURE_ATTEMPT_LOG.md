@@ -2,6 +2,21 @@
 
 This log is part of the active Failure-Loop Guard. Repeated failures are recorded by signature so the same speculative repair cannot be retried indefinitely.
 
+## Input addition 2: gas-side wall temperatures (2026-10-03)
+
+**Inputs:** engine `piston_wall_temperature`, `head_wall_temperature`, `liner_wall_temperature` (K; defaults 573 / 503 / 423, the former constants) → `CombustionChamber::Parameters` → unified Hohenberg heat transfer. Pins updated (combustion_chamber.h / .cpp, engine_node.h, objects.mr).
+
+**Bit-identity:** GX390 / DF150 / TF250 reference outputs byte-identical.
+
+**Functional check** (GX390 2500, walls 450 / 420 / 380 K vs defaults):
+- wall heat share 13.7 → 14.6 % of released;
+- fuel 0.6268 → 0.6395 g/s (denser charge from less intake heating);
+- torque 29.35 → 29.70 N m;
+- brake efficiency 0.300 → 0.299.
+- Directions physical.
+
+Use: optical (TCC-III quartz liner ~314 K outside) and air- vs water-cooled defaults (Layer 2).
+
 ## Input addition 1: intake charge composition (2026-10-03)
 
 **Inputs:** `intake_parameters` / `intake` gain `oxygen_fraction` (default −1 = legacy: 20.95 % O2 for air-only intakes, stock 25 % for premixed) and `products_fraction` (CO2 + H2O, default 0). The remainder is N2. Applied in `Intake::process` to both the air-only and premixed branches (main and idle mixtures).

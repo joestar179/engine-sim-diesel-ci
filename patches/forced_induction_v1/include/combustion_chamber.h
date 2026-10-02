@@ -36,6 +36,12 @@ class CombustionChamber : public atg_scs::ForceGenerator {
             // chambers (valve recesses, chamber pocket, squish band, bowl) are
             // larger. Equipment geometry; affects the wall heat-transfer area.
             double ChamberAreaRatio = 1.0;
+            // Gas-side surface temperatures (K) for wall heat transfer:
+            // piston crown, head fire deck, exposed liner. Defaults are typical
+            // full-load DI-diesel values (Heywood ch. 12).
+            double PistonWallTemperature = 573.0;
+            double HeadWallTemperature = 503.0;
+            double LinerWallTemperature = 423.0;
         };
 
         struct FlameEvent {
@@ -133,6 +139,9 @@ class CombustionChamber : public atg_scs::ForceGenerator {
         double m_intakeRunnerLength = 0.0;
         double m_exhaustRunnerLength = 0.0;
         double m_chamberAreaRatio = 1.0;
+        double m_pistonWallTemperature = 573.0;
+        double m_headWallTemperature = 503.0;
+        double m_linerWallTemperature = 423.0;
 
     protected:
         double calculateFrictionForce(double v) const;

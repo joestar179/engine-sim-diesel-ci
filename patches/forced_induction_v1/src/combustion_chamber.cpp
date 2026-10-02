@@ -59,6 +59,9 @@ void CombustionChamber::initialize(const Parameters &params) {
     m_crankcasePressure = params.CrankcasePressure;
     m_meanPistonSpeedToTurbulence = params.MeanPistonSpeedToTurbulence;
     m_chamberAreaRatio = params.ChamberAreaRatio;
+    m_pistonWallTemperature = params.PistonWallTemperature;
+    m_headWallTemperature = params.HeadWallTemperature;
+    m_linerWallTemperature = params.LinerWallTemperature;
 
     m_pistonSpeed = new double[StateSamples];
     m_pressure = new double[StateSamples];
@@ -426,9 +429,11 @@ void CombustionChamber::flow(double dt) {
         // ICE Fundamentals, ch. 12: piston crown ~300 C, head ~230 C, liner
         // ~150 C). The coolant-temperature wall (90 C) cooled the incoming
         // charge too little and overstated heat loss during combustion.
-        constexpr double PistonCrownTemperature = 573.0;
-        constexpr double HeadTemperature = 503.0;
-        constexpr double LinerTemperature = 423.0;
+        // Engine inputs (defaults as above); e.g. air-cooled or optical
+        // engines differ.
+        const double PistonCrownTemperature = m_pistonWallTemperature;
+        const double HeadTemperature = m_headWallTemperature;
+        const double LinerTemperature = m_linerWallTemperature;
         const double linerArea = cylinderHeight * constants::pi * m_head->getCylinderBank()->getBore();
         const double wallTemperature =
             (endArea * (PistonCrownTemperature + HeadTemperature)
