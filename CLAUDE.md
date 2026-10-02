@@ -208,9 +208,12 @@ Open issues (highest impact first):
    U, and documented airflow inconsistent (33 L/s implies volumetric
    efficiency 0.67).
 4b. **Physics layers 2026-10-01: SI two-zone burn fix and combustion-product heat capacity.** GX390 8.78 kW @ documented 22 deg (doc 8.7), but sim MBT ~37 deg: the SI mid-burn (10-50 %) is slow (next layer: turbulent flame speed). Kohler 16.9 kW at its C 20 deg timing. Deere pump rates re-derived (DF150 39 deg, TF250 32 deg): curves −3.2..+0.4 % / −5.0..+2.4 %. ALCO 2505 hp, SFC 155 (doc 168). GX390 parked as done (J1349 +5.2 %, curve −2..+10 %, fuel within family scatter).
-5a. **Small SI engines closed out (2026-10-02, spec-sheet library, full calibration).**
+5a. **Small SI engines closed out (2026-10-02, spec-sheet library, full calibration). Main issue: torque-curve shape.**
+   - **Curve character is wrong on both (primary finding).** Sim torque falls monotonically with speed; documented curves rise to a flat top (GX390) or stay flat (Kohler).
+     - Torque rise (rated → peak) fails §0c ±5 points: GX390 22.5 vs 14.8 (+7.7), Kohler 8.7 vs 2.4 (+6.3).
    - GX390 (calibrated): curve within ±10 % from 2200 rpm, +14.2 % at 2000; peak 2000 vs 2500; port_cd 0.455, intake centre at its edge.
-   - Kohler (calibrated, incomplete): rated +5.0 % with port_cd at its edge; curve +14.3..+4.9 %; peak 2400 vs 3200.
+   - Kohler (calibrated, incomplete): rated +5.0 % with port_cd at its edge; curve +14.3..+4.9 %; peak 2400 vs a spec peak of 3200.
+     - The spec peak is inconsistent with the digitised curve (peak at 2800-3000), and the curve is too flat for peak speed to be meaningful.
    - Open Layer-1 question: brake efficiency rises at low speed (GX390 pumping, Kohler gross indicated); the charge ratio alone matches the documented shapes. Not actionable on family data (§0c); revisit with airflow/BSFC vs speed or TCC-III/ECN data. Details: FAILURE_ATTEMPT_LOG.
 5. **Petrol: small-petrol validation engine is now the Honda GX390 (Kohler
    CH750 reclassified as a calibration engine, 2026-10-01).**

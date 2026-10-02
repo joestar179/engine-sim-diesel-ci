@@ -1154,6 +1154,15 @@ Full `calibrate.py` (not coarse), current physics: inertial runners with momentu
 - Curve: +14.3 / +12.9 / +11.5 / +10.3 / +9.4 / +7.6 / +6.2 / +4.9 % (2200-3600).
 - Peak-torque speed 2400 vs doc 3200 (fail).
 
+**Curve shape — the primary deviation (user review):** the torque curves have the wrong *character*, which matters more than the level.
+- GX390: documented torque rises ~7 % from 2000 to 2500 rpm, then a flat top (2400-2800 within 0.8 %). The sim falls monotonically from 2000 (−2.4 % to 2500), a ~10-point slope swing. Genuine.
+- Kohler: the documented curve is flat (~3 % over 2200-3600), so its peak position is ill-defined (2400 is only 1.5 % below the peak). The genuine deviation is the slope: the sim falls 8 % from 2400 to 3600 vs doc 2.4 %.
+- **Torque rise (rated → peak; §0c ±5 points) fails on both:**
+  - GX390 doc 14.8 vs sim 22.5 points (+7.7);
+  - Kohler doc 2.4 vs sim 8.7 points (+6.3).
+  - For flat curves, torque rise is the meaningful shape check, not peak speed.
+- **Kohler data inconsistency:** spec `peak_rpm` 3200 (OEM table, 55.9 N m) vs the digitised curve's peak of 54.7 N m at 2800-3000. The peak-speed check used 3200.
+
 **Closure (user-agreed):** the low-speed excess is efficiency rising at low speed. For both engines the charge ratio alone reproduces the documented shape. No plausible equipment value explains it (see the decomposition entry). Both engines have family-level data with no airflow or BSFC vs speed, so under §0c their deviations are not a reason to change physics. Registered as an open Layer-1 question (CLAUDE.md §0b item 5), to revisit with a small engine with measured airflow/BSFC vs speed, or with TCC-III/ECN pressure-trace data.
 
 ## Small-engine low-speed excess — decomposition and remaining hypotheses (2026-10-02)
