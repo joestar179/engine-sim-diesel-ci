@@ -158,7 +158,9 @@ def main():
         idx = [round(i * (len(curve) - 1) / 5) for i in range(6)]
         curve = [curve[i] for i in sorted(set(idx))]
     if curve:
-        res = run(spec, [c[0] for c in curve], knobs)
+        rated_rpm = spec['rated_rpm']
+        speeds = sorted(set([c[0] for c in curve] + [rated_rpm]))
+        res = run(spec, speeds, knobs)
         print(' rpm   sim_Nm  doc_Nm   err')
         errs = []
         for rpm, doc in curve:
@@ -167,6 +169,22 @@ def main():
             print('%5d %7.2f %7.2f %+6.1f%%' % (rpm, sim, doc, errs[-1]))
         pk_sim = max(curve, key=lambda c: (res[c[0]] or (-1, 0))[0])[0]
         print('max |err| %.1f%%; peak-torque speed sim %d vs doc %d' % (max(abs(e) for e in errs), pk_sim, spec.get('peak_rpm', 0)))
+        # Shape checks (CLAUDE.md 0c): torque rise rated -> peak within +-5
+        # points; peak-torque speed within one data step (~200 rpm), reported
+        # as not meaningful where the documented curve is flat (< 2 % between
+        # its peak and its value at the sim peak speed).
+        rated_doc = spec['rated_kw'] * 1000 / (rated_rpm * math.pi / 30)
+        peak_doc = max([d for _, d in curve] + [spec.get('peak_nm', 0)])
+        rated_sim = res[rated_rpm][0] * cf if res[rated_rpm] else float('nan')
+        peak_sim = max([res[r][0] * cf for r in speeds if res[r]] + [rated_sim])
+        rise_doc, rise_sim = 100 * (peak_doc / rated_doc - 1), 100 * (peak_sim / rated_sim - 1)
+        print('torque rise doc %.1f / sim %.1f points: %+.1f -> %s' % (
+            rise_doc, rise_sim, rise_sim - rise_doc, 'PASS' if abs(rise_sim - rise_doc) <= 5 else 'FAIL'))
+        doc_at = dict(curve)
+        pk_doc = max(curve, key=lambda c: c[1])[0]
+        flat = pk_sim in doc_at and doc_at[pk_sim] >= 0.98 * peak_doc
+        print('peak-torque speed sim %d vs doc curve %d: %s' % (pk_sim, pk_doc,
+            'PASS' if abs(pk_sim - pk_doc) <= 200 else ('not meaningful (doc curve flat)' if flat else 'FAIL')))
     json.dump(knobs, open(os.path.splitext(spec_path)[0] + '.knobs.json', 'w'), indent=1)
 
 if __name__ == '__main__':

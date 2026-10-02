@@ -1134,6 +1134,27 @@ The shape is flat. Set: DF150 46°, TF250 37°.
 - 46°/37° rated injection is long for rotary pumps (typical 20–30°): either the jet mixing is somewhat fast (e.g. no wall impingement: x_st ≈ 85 mm > bore/2 = 53 mm) or a loss is missing.
 - TF250 at 1000 rpm is +7.5 %.
 
+## Mazda MBT and motoring re-checks under inertial runners — motoring regression (2026-10-02)
+
+**MBT** (spark sweep at the measured MAP, cams and λ; hand script): consistent with the ECU.
+- 3994 rpm / 100 N m: sim MBT 24° (EPA 23.4°).
+- 2496 rpm / 120 N m: sim MBT 20° (EPA 21.7°).
+
+**Motoring** (λ 3, throttle at stop, cams at rest; dyno start):
+
+| rpm | 2500 | 3000 | 4000 | 4400 |
+|---|---|---|---|---|
+| measured N m | −23.9 | −27.5 | −32.2 | −34.8 |
+| frozen (run with old procedure) | −28.5 (+19 %) | −30.2 (+10 %) | −34.2 (+6 %) | −35.3 (+1 %) |
+| inertial on | −31.2 (+30 %) | −35.0 (+27 %) | −44.3 (+38 %) | −47.0 (+35 %) |
+
+- A/B on the same harness: inertial off −28.4 / −35.4, on −31.2 / −47.0 N m (2500 / 4400). The runners add 2.8 and 11.6 N m (5.3 kW at 4400) at closed throttle.
+- Plenum gauge −88.7 vs −86.4 kPa; exhaust +0.6 vs +0.1 kPa.
+- **Regression on a physics-reference check; not yet diagnosed.**
+  - Candidates: a column resonance at low plenum density dissipating through ζ (physical in kind, magnitude unverified);
+  - or the hand script's runner geometry (area/length) feeding the inertial element.
+- Stopped per procedure. The tools also gained a torque-rise / peak-speed pass/fail report (`calibrate.py`).
+
 ## Mazda physics-reference re-score under inertial runners (run5) and shape checks (2026-10-02)
 
 **Run:** `mazda_epa_compare.py tier2 … --boundary air`, now with `--start-mode dyno`. All 124 points ran; no start-up lock-in with fixed cam phases. Same scoring as run4 (points with sim airflow within 3 %): run4 106 points, run5 99.
