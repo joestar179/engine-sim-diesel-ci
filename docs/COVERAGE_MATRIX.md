@@ -59,7 +59,7 @@ Each module has its own inputs, defaults and evidence, and is inert when absent.
 | | **1-D wave dynamics** (intake / exhaust pipes) | ❌ | — | 1, 3, 4 (part load), 6, 10 | Fixes motoring / overrun and scavenging; prerequisite for two-stroke |
 | | Turbocharger (generic V1, multi-group, wastegate / VGT / bypass hardware) | ✅ hardware | C (TF250) | 5, 8, 9, 10 | No maps (reduced-order) |
 | | Boost / VGT controllers | ❌ | — | 5, 8, 9 | Architecture exposes the boundary |
-| | **Supercharger** (mechanically driven) | ❌ | — | 6 (some), 10 (some), 3 (rare) | Can reuse the compressor model |
+| | **Supercharger** (mechanically driven; Roots / screw / centrifugal; scavenge blowers) | ❌ | — | 4-6 (common on petrol automotive), 1 / 10 (two-stroke scavenge blowers) | Reuses the compressor model; designed after 1-D pipes and two-stroke |
 | | Charge-air cooler | ✅ | C | 5, 8-10 | |
 | | EGR | ❌ | — | 8, 9 | Architecture exposes branches |
 | Control | Mechanical governor (droop, k_p, crank limit) | ✅ | C | 2, 7, 9, 10 | |
@@ -112,15 +112,22 @@ Rules:
 
 ---
 
-## 5. Proposed phase-5 order (capability gaps)
+## 5. Phase-5 order (capability gaps), agreed 2026-10-02
 
-| # | Item | Why this position | Validation |
-|---|---|---|---|
-| 1 | **1-D intake / exhaust pipes** | Fixes the motoring / overrun error and overrun sound; Mazda part-load scavenging; prerequisite for two-stroke | Mazda motoring and part load; TCC-III gas exchange |
-| 2 | **Supercharger** | Small: reuses the compressor model and shaft, with mechanical drive instead of turbine | Reference to be found (slot 3 / 4 area) |
-| 3 | **Carburettor metering** | Small; affects class 1-3 mixture vs speed | GX160 (slot 1b) |
-| 4 | **Two-stroke cycle** | Large; needs item 1 | Slot 8 |
-| 5 | **Petrol direct injection** (charge cooling, stratification) | Medium; refines class 4-5 | Mazda (DI), slot 3 |
+The order is set by **impact and by rework risk**: what each gap changes underneath, and what would have to be redone if it came later. Implementation cost does not set the order.
+
+| # | Item | What it changes underneath | Why here | Validation |
+|---|---|---|---|---|
+| 1 | **1-D intake / exhaust pipes** | The gas-path foundation (runner / primary / collector / duct elements; main exhaust sound source) | Affects every class. Fixes a known error (motoring / overrun +30 %, overrun sound). Prerequisite for two-stroke pipes, carburettor metering under pulsating flow, supercharger ducting and turbo pulse behaviour. Replaces runner / primary elements **inside** the locked turbo topology (CLAUDE.md §1), never the topology | Mazda motoring and part load; TCC-III gas exchange |
+| 2 | **Two-stroke cycle** | Cylinder-level assumptions: piston-controlled ports, the crankcase as a gas volume, scavenging, firing every revolution; friction (no valvetrain), injection scheduling, governor timing, audio firing frequency, setup library | Opens classes 1 and 10 (EMD) and outboard / motorcycle two-strokes, which cannot be simulated today. Settling the cycle-level design early prevents rework of everything built after it | Slot 8; slot 9 (two-stroke candidate) |
+| 3 | **Petrol direct injection** (charge cooling, stratification, evaporation) | In-cylinder mixing | Most modern automotive petrol engines. Designed together with the diesel spray model (shared spray / evaporation physics), after the ECN diesel reference | Mazda (DI), slot 3; ECN for the shared spray physics |
+| 4 | **Boost / VGT control** | Controller policies on the existing wastegate / VGT / bypass hardware | Needed for most modern turbo engines (classes 5, 8, 9) to run realistically | Slot 3 (turbo SI), slot 7 (D13 VGT) |
+| 5 | **Carburettor metering** (float and diaphragm) | Mixture vs airflow under pulsating flow | After 1-D pipes (venturi flow pulses) and two-stroke (diaphragm carburettors driven by crankcase pulses), so one design covers both | GX160 (slot 1b); slot 8 |
+| 6 | **Supercharger** (Roots / screw / centrifugal; scavenge blowers) | Mechanically driven compressor on the gas path | Common on petrol automotive engines. Placed last for implementation reasons: it depends on 1-D pipes (ducting) and on the two-stroke design (gear-driven scavenge blowers, EMD's gear-driven turbo with an overrunning clutch), so it is designed once for automotive superchargers and blowers alike | Reference to be sourced (supercharged petrol; slot 9 two-stroke) |
+
+**Design rule for inputs (applies to phase 4 and every module):** inputs describe **hardware**, never model internals.
+- Pipe lengths / diameters / tapers, port timings and areas, blower displacement and drive ratio are physical, so they survive the move from lumped to 1-D models.
+- Model artefacts (e.g. a lumped "runner flow rating") are not schema inputs; where one is needed it is derived from hardware inputs or is a declared calibration knob.
 
 Separate open physics questions (not capability gaps), to be tested as the references arrive:
 - small-SI low-speed efficiency (§0b 5a) → GX160;
