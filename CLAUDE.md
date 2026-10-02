@@ -168,6 +168,18 @@ Data reality: per-engine breathing and injection detail is proprietary for almos
 
 ## 0f. Agreed plan (user-agreed 2026-10-02)
 
+**Execution order (user decision 2026-10-03; supersedes the phase numbering below where they differ):**
+1. Input addition 4: injection-rate profile with multiple injections. Additions 1-3 are done (intake composition, wall temperatures, laminar flame-speed coefficients).
+2. Set up the new references and **score them with the current physics, unchanged**: TCC-III motored, ECN CDC9, Cummins ISX (harness mode with imposed manifold p / T), GX160.
+3. Physics fixes one at a time, each re-scored on every reference:
+   - A: SI flame speed lambda vs phi;
+   - B: diesel O2 dilution;
+   - then a decision on C (small-SI low-speed efficiency, GX160).
+4. **1-D intake / exhaust pipes before the generator**; also fixes D (motoring / overrun).
+5. Generator for diesel / turbo with tiered inputs; ALCO (resolves the SFC-basis question E), Cummins.
+6. Remaining capability items (two-stroke, petrol DI, boost / VGT control, carburettor metering, supercharger).
+7. Sound.
+
 Group-B deviations are accepted as recorded findings, not work items:
 - DF150 EGT −54 K;
 - Mazda −10.4 / −10.3 % at 2000 / 3000 rpm;
