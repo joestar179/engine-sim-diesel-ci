@@ -1,0 +1,180 @@
+condition,test,quantity,value
+0800rpm_95kPa,S_2014_05_20_02,CA PIV resolution [CA],5
+0800rpm_95kPa,S_2014_05_20_02,# Cycles recorded,235
+0800rpm_95kPa,S_2014_05_20_02,P_Intk_Plen_In(kPa),95.07
+0800rpm_95kPa,S_2014_05_20_02,T_Intk_Plen_In_(C),47.33
+0800rpm_95kPa,S_2014_05_20_02,P_Intk_Port(kPa),94.66
+0800rpm_95kPa,S_2014_05_20_02,T_Intk_Port_(C),44.07
+0800rpm_95kPa,S_2014_05_20_02,P_Exh_Plen_Out(kPa),101.64
+0800rpm_95kPa,S_2014_05_20_02,T_Cyl_Surf_(C),36.39
+0800rpm_95kPa,S_2014_05_20_02,StDev,0
+0800rpm_95kPa,S_2014_05_20_02,MF_Air_Crit_(g/s),3.272
+0800rpm_95kPa,S_2014_05_20_02,MF_Air_Seed_(g/s),0.23
+0800rpm_95kPa,S_2014_05_20_02,MF_Air_Total_(g/s),3.503
+0800rpm_95kPa,S_2014_05_20_02,RPM,799.08
+0800rpm_95kPa,S_2014_05_20_02,StDev,0.7
+0800rpm_95kPa,S_2014_05_20_02,MF_Fuel_Mtr_(mg/s),0
+0800rpm_95kPa,S_2014_05_20_02,Equivalence_ratio_massflow_calc_(),0
+0800rpm_95kPa,S_2014_05_20_02,P_CylIMEP(kPa),-42.05
+0800rpm_95kPa,S_2014_05_20_02,StDev,0.66
+0800rpm_95kPa,S_2014_05_20_02,P_Cyl_PP(kPa),1801.84
+0800rpm_95kPa,S_2014_05_20_02,StDev,4.28
+0800rpm_95kPa,S_2014_05_20_02,P_Cyl_Loc_PP(CA aTDCe),358.6
+0800rpm_95kPa,S_2014_05_20_02,StDev,0.22
+0800rpm_95kPa,S_2014_05_20_02,CA10 (CA aTDCe),0
+0800rpm_95kPa,S_2014_05_20_02,StDev,0
+0800rpm_95kPa,S_2014_05_20_02,CA50 (CA aTDCe),0
+0800rpm_95kPa,S_2014_05_20_02,StDev,0
+0800rpm_95kPa,S_2014_05_20_02,CA90 (CA aTDCe),0
+0800rpm_95kPa,S_2014_05_20_02,StDev,0
+0800rpm_95kPa,S_2014_05_20_02,CA_Ignition (CA aTDCe),0
+1300rpm_95kPa,S_2014_05_20_01,CA PIV resolution [CA],5
+1300rpm_95kPa,S_2014_05_20_01,# Cycles recorded,235
+1300rpm_95kPa,S_2014_05_20_01,P_Intk_Plen_In(kPa),94.93
+1300rpm_95kPa,S_2014_05_20_01,T_Intk_Plen_In_(C),49.63
+1300rpm_95kPa,S_2014_05_20_01,P_Intk_Port(kPa),94.26
+1300rpm_95kPa,S_2014_05_20_01,T_Intk_Port_(C),44.58
+1300rpm_95kPa,S_2014_05_20_01,P_Exh_Plen_Out(kPa),101.59
+1300rpm_95kPa,S_2014_05_20_01,T_Cyl_Surf_(C),38.24
+1300rpm_95kPa,S_2014_05_20_01,StDev,0
+1300rpm_95kPa,S_2014_05_20_01,MF_Air_Crit_(g/s),5.668
+1300rpm_95kPa,S_2014_05_20_01,MF_Air_Seed_(g/s),0.23
+1300rpm_95kPa,S_2014_05_20_01,MF_Air_Total_(g/s),5.899
+1300rpm_95kPa,S_2014_05_20_01,RPM,1301.11
+1300rpm_95kPa,S_2014_05_20_01,StDev,0.34
+1300rpm_95kPa,S_2014_05_20_01,MF_Fuel_Mtr_(mg/s),0
+1300rpm_95kPa,S_2014_05_20_01,Equivalence_ratio_massflow_calc_(),0
+1300rpm_95kPa,S_2014_05_20_01,P_CylIMEP(kPa),-37.85
+1300rpm_95kPa,S_2014_05_20_01,StDev,0.49
+1300rpm_95kPa,S_2014_05_20_01,P_Cyl_PP(kPa),1957.73
+1300rpm_95kPa,S_2014_05_20_01,StDev,2.97
+1300rpm_95kPa,S_2014_05_20_01,P_Cyl_Loc_PP(CA aTDCe),358.72
+1300rpm_95kPa,S_2014_05_20_01,StDev,0.25
+1300rpm_95kPa,S_2014_05_20_01,CA10 (CA aTDCe),0
+1300rpm_95kPa,S_2014_05_20_01,StDev,0
+1300rpm_95kPa,S_2014_05_20_01,CA50 (CA aTDCe),0
+1300rpm_95kPa,S_2014_05_20_01,StDev,0
+1300rpm_95kPa,S_2014_05_20_01,CA90 (CA aTDCe),0
+1300rpm_95kPa,S_2014_05_20_01,StDev,0
+1300rpm_95kPa,S_2014_05_20_01,CA_Ignition (CA aTDCe),0
+1300rpm_40kPa,S_2013_10_24_01,P_CylIMEP(kPa),-18.96
+1300rpm_40kPa,S_2013_10_24_01,P_Cyl_PP(kPa),811.92
+1300rpm_40kPa,S_2013_10_24_01,P_Cyl_Loc_PP(CA aTDCe),358.55
+1300rpm_40kPa,S_2013_10_24_01,MAP_Intk_(kPaA),40.47
+1300rpm_40kPa,S_2013_10_24_01,P_Intk_Plen_In(kPa),40.05
+1300rpm_40kPa,S_2013_10_24_01,P_Intk_Plen_In_PP(kPa),41.27
+1300rpm_40kPa,S_2013_10_24_01,P_Intk_Plen_In_Loc_PP(CA aTDCe),30.47
+1300rpm_40kPa,S_2013_10_24_01,T_Intk_Plen_In_(C),42.38
+1300rpm_40kPa,S_2013_10_24_01,P_Intk_Port(kPa),39.82
+1300rpm_40kPa,S_2013_10_24_01,P_Intk_Port_PP(kPa),44.26
+1300rpm_40kPa,S_2013_10_24_01,P_Intk_Port_Loc_PP(CA aTDCe),7.15
+1300rpm_40kPa,S_2013_10_24_01,T_Intk_Port_(C),44.54
+1300rpm_40kPa,S_2013_10_24_01,P_Exh_Port(kPa),101.34
+1300rpm_40kPa,S_2013_10_24_01,P_Exh_Port_PP(kPa),113
+1300rpm_40kPa,S_2013_10_24_01,P_Exh_Port_Loc_PP(CA aTDCe),581.95
+1300rpm_40kPa,S_2013_10_24_01,T_Exh_Port_(C),82.59
+1300rpm_40kPa,S_2013_10_24_01,MAP_Exh_(kPaA),102.04
+1300rpm_40kPa,S_2013_10_24_01,P_Exh_Plen_Out(kPa),101.59
+1300rpm_40kPa,S_2013_10_24_01,P_Exh_Plen_Out_PP(kPa),103.37
+1300rpm_40kPa,S_2013_10_24_01,P_Exh_Plen_Out_Loc_PP(CA aTDCe),145.86
+1300rpm_40kPa,S_2013_10_24_01,Burn0010 (CA),-290.42
+1300rpm_40kPa,S_2013_10_24_01,Burn1090 (CA),0
+1300rpm_40kPa,S_2013_10_24_01,CA10 (CA aTDCe),0
+1300rpm_40kPa,S_2013_10_24_01,CA50 (CA aTDCe),0
+1300rpm_40kPa,S_2013_10_24_01,CA90 (CA aTDCe),0
+1300rpm_40kPa,S_2013_10_24_01,CA_Ignition (CA aTDCe),0
+1300rpm_40kPa,S_2013_10_24_01,Dwell (CA),0
+1300rpm_40kPa,S_2013_10_24_01,HR_Total (J),0.05
+1300rpm_40kPa,S_2013_10_24_01,T_Exh_Plen_Out_(C),50.04
+1300rpm_40kPa,S_2013_10_24_01,MF_Air_Mtr_(g/s),1.836
+1300rpm_40kPa,S_2013_10_24_01,T_Cyl_Surf_(C),41.94
+1300rpm_40kPa,S_2013_10_24_01,T_Coolant_Out_(C),46.22
+1300rpm_40kPa,S_2013_10_24_01,MF_Air_Crit_(g/s),1.88
+1300rpm_40kPa,S_2013_10_24_01,P_Air_Crit_(kPaA),400
+1300rpm_40kPa,S_2013_10_24_01,T_Air_Crit_(C),23.62
+1300rpm_40kPa,S_2013_10_24_01,MF_Air_Seed_(g/s),0.23
+1300rpm_40kPa,S_2013_10_24_01,P_Air_Seed_(kPaA),159.47
+1300rpm_40kPa,S_2013_10_24_01,MF_Air_Total_(g/s),2.115
+1300rpm_40kPa,S_2013_10_24_01,P_Ambient_(kPaA),98.5
+1300rpm_40kPa,S_2013_10_24_01,T_Ambient_(C),22.2
+1300rpm_40kPa,S_2013_10_24_01,P_Oil_(kPaG),323.24
+1300rpm_40kPa,S_2013_10_24_01,T_Oil_In_(C),42.41
+1300rpm_40kPa,S_2013_10_24_01,RPM,1299.34
+1300rpm_40kPa,S_2013_10_24_01,T_Air_Heater_(C),80.15
+1300rpm_40kPa,S_2013_10_24_01,T_Intk_Runner_Surf_(C),44.25
+1300rpm_40kPa,S_2013_10_24_01,T_Exh_Runner_Surf_(C),71.4
+1300rpm_40kPa,S_2013_10_24_01,T_Transducer_Exh_Plen_(C),46.29
+1300rpm_40kPa,S_2013_10_24_01,P_Fuel_(kPaA),40.38
+1300rpm_40kPa,S_2013_10_24_01,.125in_Orifice,0
+1300rpm_40kPa,S_2013_10_24_01,.088in_Orifice,0
+1300rpm_40kPa,S_2013_10_24_01,.0633in_Orifice,1
+1300rpm_40kPa,S_2013_10_24_01,MF_Fuel_Mtr_(mg/s),1.09
+1300rpm_40kPa,S_2013_10_24_01,P_crit_air_(kPaA),408.67
+1300rpm_40kPa,S_2013_10_24_01,.0022in_Orifice_Fuel,0
+1300rpm_40kPa,S_2013_10_24_01,.0011in_Orifice_Fuel,0
+1300rpm_40kPa,S_2013_10_24_01,MF_Fuel_Crit_(mg/s),0
+1300rpm_40kPa,S_2013_10_24_01,T_Transducer_Exh_Port_(C),46.53
+1300rpm_40kPa,S_2013_10_24_01,O2_(%),-0.01
+1300rpm_40kPa,S_2013_10_24_01,CO2_(%),0
+1300rpm_40kPa,S_2013_10_24_01,HC_(ppm),-2.17
+1300rpm_40kPa,S_2013_10_24_01,CO_(%),0
+1300rpm_40kPa,S_2013_10_24_01,NOx_(ppm),2.21
+1300rpm_40kPa,S_2013_10_24_01,Equivalence_ratio_emission_analyzer_(),0.86
+1300rpm_40kPa,S_2013_10_24_01,Equivalence_ratio_massflow_calc_(),0
+1300rpm_40kPa,S_2013_10_24_01,A/F_ratio_massflow_calc_,0
+1300rpm_40kPa,S_2013_10_24_01,Total_Spark_Energy (J),0
+1300rpm_40kPa,S_2013_10_24_01,StdDev P_CylIMEP(kPa),0.31
+1300rpm_40kPa,S_2013_10_24_01,StdDev P_Cyl_PP(kPa),1.48
+1300rpm_40kPa,S_2013_10_24_01,StdDev P_Cyl_Loc_PP(CA aTDCe),0.34
+1300rpm_40kPa,S_2013_10_24_01,StdDev MAP_Intk_(kPaA),0
+1300rpm_40kPa,S_2013_10_24_01,StdDev P_Intk_Plen_In_PP(kPa),0.07
+1300rpm_40kPa,S_2013_10_24_01,StdDev P_Intk_Plen_In_Loc_PP(CA aTDCe),3.63
+1300rpm_40kPa,S_2013_10_24_01,StdDev T_Intk_Plen_In_(C),0
+1300rpm_40kPa,S_2013_10_24_01,StdDev P_Intk_Port_PP(kPa),0.12
+1300rpm_40kPa,S_2013_10_24_01,StdDev P_Intk_Port_Loc_PP(CA aTDCe),1.05
+1300rpm_40kPa,S_2013_10_24_01,StdDev T_Intk_Port_(C),0
+1300rpm_40kPa,S_2013_10_24_01,StdDev P_Exh_Port_PP(kPa),0.16
+1300rpm_40kPa,S_2013_10_24_01,StdDev P_Exh_Port_Loc_PP(CA aTDCe),0.95
+1300rpm_40kPa,S_2013_10_24_01,StdDev T_Exh_Port_(C),0
+1300rpm_40kPa,S_2013_10_24_01,StdDev MAP_Exh_(kPaA),0
+1300rpm_40kPa,S_2013_10_24_01,StdDev P_Exh_Plen_Out_PP(kPa),0.07
+1300rpm_40kPa,S_2013_10_24_01,StdDev P_Exh_Plen_Out_Loc_PP(CA aTDCe),281.5
+1300rpm_40kPa,S_2013_10_24_01,StdDev Burn0010 (CA),120.25
+1300rpm_40kPa,S_2013_10_24_01,StdDev Burn1090 (CA),0
+1300rpm_40kPa,S_2013_10_24_01,StdDev CA10 (CA aTDCe),0
+1300rpm_40kPa,S_2013_10_24_01,StdDev CA50 (CA aTDCe),0
+1300rpm_40kPa,S_2013_10_24_01,StdDev CA90 (CA aTDCe),0
+1300rpm_40kPa,S_2013_10_24_01,StdDev CA_Ignition (CA aTDCe),0
+1300rpm_40kPa,S_2013_10_24_01,StdDev Dwell (CA),0
+1300rpm_40kPa,S_2013_10_24_01,StdDev HR_Total (J),0.05
+1300rpm_40kPa,S_2013_10_24_01,StdDev T_Exh_Plen_Out_(C),0
+1300rpm_40kPa,S_2013_10_24_01,StdDev MF_Air_Mtr_(g/s),0
+1300rpm_40kPa,S_2013_10_24_01,StdDev T_Cyl_Surf_(C),0
+1300rpm_40kPa,S_2013_10_24_01,StdDev T_Coolant_Out_(C),0
+1300rpm_40kPa,S_2013_10_24_01,StdDev MF_Air_Crit_(g/s),0
+1300rpm_40kPa,S_2013_10_24_01,StdDev P_Air_Crit_(kPaA),0
+1300rpm_40kPa,S_2013_10_24_01,StdDev T_Air_Crit_(C),0
+1300rpm_40kPa,S_2013_10_24_01,StdDev MF_Air_Seed_(g/s),0
+1300rpm_40kPa,S_2013_10_24_01,StdDev P_Air_Seed_(kPaA),0
+1300rpm_40kPa,S_2013_10_24_01,StdDev MF_Air_Total_(g/s),0
+1300rpm_40kPa,S_2013_10_24_01,StdDev P_Ambient_(kPaA),0
+1300rpm_40kPa,S_2013_10_24_01,StdDev T_Ambient_(C),0
+1300rpm_40kPa,S_2013_10_24_01,StdDev P_Oil_(kPaG),0
+1300rpm_40kPa,S_2013_10_24_01,StdDev T_Oil_In_(C),0
+1300rpm_40kPa,S_2013_10_24_01,StdDev RPM,0.23
+1300rpm_40kPa,S_2013_10_24_01,StdDev T_Air_Heater_(C),0
+1300rpm_40kPa,S_2013_10_24_01,StdDev T_Intk_Runner_Surf_(C),0
+1300rpm_40kPa,S_2013_10_24_01,StdDev T_Exh_Runner_Surf_(C),0
+1300rpm_40kPa,S_2013_10_24_01,StdDev T_Transducer_Exh_Plen_(C),0
+1300rpm_40kPa,S_2013_10_24_01,StdDev P_Fuel_(kPaA),0
+1300rpm_40kPa,S_2013_10_24_01,StdDev .0633in_Orifice,0
+1300rpm_40kPa,S_2013_10_24_01,StdDev MF_Fuel_Mtr_(mg/s),0.010900000000000002
+1300rpm_40kPa,S_2013_10_24_01,StdDev P_crit_air_(kPaA),0
+1300rpm_40kPa,S_2013_10_24_01,StdDev T_Transducer_Exh_Port_(C),0
+1300rpm_40kPa,S_2013_10_24_01,StdDev O2_(%),0.0024
+1300rpm_40kPa,S_2013_10_24_01,StdDev CO2_(%),0
+1300rpm_40kPa,S_2013_10_24_01,StdDev HC_(ppm),1.4972999999999999
+1300rpm_40kPa,S_2013_10_24_01,StdDev CO_(%),0
+1300rpm_40kPa,S_2013_10_24_01,StdDev NOx_(ppm),0.6408999999999999
+1300rpm_40kPa,S_2013_10_24_01,StdDev Equivalence_ratio_emission_analyzer_(),0.08600000000000001
+1300rpm_40kPa,S_2013_10_24_01,StdDev Total_Spark_Energy (J),0

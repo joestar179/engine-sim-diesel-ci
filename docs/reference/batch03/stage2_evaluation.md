@@ -227,3 +227,10 @@ Raw file: `Torres2024_GX160_EFI_ethanol_supplementary-data.xlsx` (Mendeley yvb7k
 - ISX: heavy-duty reference for brake / air / fuel / boundaries (impose manifold p / T and intake composition; no turbo map needed).
 - CAT 3401: partial (combustion shape and phasing at large bore, no fuel mass).
 - The heavy-duty slot is closed.
+
+## TCC-III archive extracted (2026-10-03)
+
+The Motored Full View archive arrived. Primary valve lifts, valve Cd vs L/D, the GT-Power pipe network and 0.5° ensemble traces of all five pressure channels (plus the measured scalars) are extracted for the three motored conditions: `tcc3/` and its README.
+- This closes the TCC-III [E] items for motored gas exchange and 1-D pipe validation.
+- Fired data (Fired Full View / Spark Plug Region archives) were not supplied; the fired scalars in the interim pack remain.
+- **TCC-III is now a full motored / gas-exchange physics reference.**
