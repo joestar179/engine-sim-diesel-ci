@@ -68,6 +68,18 @@ public node fuel => __engine_sim__fuel {
     input low_efficiency_attenuation [float]: 0.6;
     input max_turbulence_effect [float]: 2.0;
     input max_dilution_effect [float]: 10.0;
+    // Laminar burning velocity coefficients (defaults = stock gasoline):
+    // S_L = (peak_speed + curvature (x - peak_mixture)^2) (T/298)^alpha (p/atm)^beta,
+    // alpha = alpha0 + alpha1 x^alpha2, beta = beta0 + beta1 x^beta2.
+    input laminar_peak_mixture [float]: 1.21;
+    input laminar_peak_speed [float]: 30.5 * units.cm / units.sec;
+    input laminar_speed_curvature [float]: -54.9 * units.cm / units.sec;
+    input laminar_alpha0 [float]: 2.4;
+    input laminar_alpha1 [float]: -0.271;
+    input laminar_alpha2 [float]: 3.51;
+    input laminar_beta0 [float]: -0.357;
+    input laminar_beta1 [float]: 0.14;
+    input laminar_beta2 [float]: 2.77;
     alias output __out [fuel_channel];
 }
 

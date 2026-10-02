@@ -2,6 +2,30 @@
 
 This log is part of the active Failure-Loop Guard. Repeated failures are recorded by signature so the same speculative repair cannot be retried indefinitely.
 
+## Input addition 3: fuel-specific laminar burning velocity coefficients (2026-10-03)
+
+**Inputs:** `fuel` gains `laminar_peak_mixture`, `laminar_peak_speed`, `laminar_speed_curvature`, `laminar_alpha0/1/2`, `laminar_beta0/1/2`. The form is S_L = (B_m + B_x (x - x_m)^2) (T/298)^alpha (p/atm)^beta, with alpha = a0 + a1 x^a2 and beta = b0 + b1 x^b2. Defaults are the stock gasoline constants.
+- `fuel.h`, `fuel.cpp` and `fuel_node.h` enter the overlay (baseline pins from the reconstructed upstream copies, plus production pins); objects.mr pin updated.
+- Sourced coefficient sets (e.g. Metghalchi & Keck 1982 propane / isooctane / methanol, alpha = 2.18 - 0.8 (phi - 1), beta = -0.16 + 0.22 (phi - 1)) go in engine scripts with their citation, not in code.
+
+**Bit-identity:** reference outputs byte-identical.
+
+**Functional check** (GX390 2500, peak speed 30.5 → 40 cm/s): CA10 / 50 / 90 −4.5 / 13.5 / 22.5 → −9.0 / 6.0 / 13.5 °ATDC; peak pressure 46.6 → 57.5 bar; torque 29.35 → 29.75 N m.
+
+**Physics issue found (upstream; not fixed in this step):** the mixture variable passed to the correlation is lambda, not phi.
+- `CombustionChamber::ignite` computes `afr = p_o2 / p_fuel` and `Fuel::laminarBurningVelocity` uses `er = afr / molecularAfr`, which is the O2/fuel ratio relative to stoichiometric, i.e. lambda.
+- The Metghalchi-Keck / Rhodes-Keck form is written in phi. The peak therefore sits at lambda 1.21 (lean) instead of phi 1.21 (rich), and the curvature and the alpha / beta exponents are evaluated at the wrong side of stoichiometric.
+- Effect on the gasoline coefficients:
+
+| | sim (x = λ) | correct (x = φ) |
+|---|---|---|
+| S_L0 at λ 0.9 (rich) | 25.2 cm/s | 29.9 cm/s |
+| S_L0 at λ 1.2 (lean) | 30.5 cm/s | 22.7 cm/s |
+| S_L0 at λ 1 | identical | identical |
+
+- Candidate Layer-1 fix: x = 1 / er. It affects every SI engine that is not at λ 1, so it needs re-scoring.
+- Validate on the TCC-III φ 0.66-1.56 IMEP sweep, plus the Mazda MBT / BTE checks.
+
 ## Input addition 2: gas-side wall temperatures (2026-10-03)
 
 **Inputs:** engine `piston_wall_temperature`, `head_wall_temperature`, `liner_wall_temperature` (K; defaults 573 / 503 / 423, the former constants) → `CombustionChamber::Parameters` → unified Hohenberg heat transfer. Pins updated (combustion_chamber.h / .cpp, engine_node.h, objects.mr).
