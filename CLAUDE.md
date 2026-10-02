@@ -81,6 +81,36 @@ before it is considered done:
   surging idle, turbo whine) alongside the physics result;
 - never accept a physics fix that silently degrades or breaks the audio path.
 
+## 0d. Model freeze (2026-10-02, tag `model-freeze-2026-10-02`)
+
+Physics is frozen while complete-input validation engines are sourced. Do not change physics until those engines are scored against this baseline.
+
+Frozen layers (all default on, each with a diagnostic switch):
+- real-gas N2/O2 vibration and enthalpy flow;
+- combustion products CO2/H2O as their own species;
+- unified Hohenberg heat transfer;
+- SI two-zone flame burning (entrainment) with burned-state E;
+- unbiased SI burning efficiency;
+- PNH friction;
+- diesel common framework (ignition delay, jet mixing, pump/common rail);
+- fuel counter net of intake reversion.
+
+Baseline scores:
+
+| Engine | Score |
+|---|---|
+| Deere DF150 / TF250 curves | −3.2..+0.4 % / −5.0..+2.4 % (pump rate C on rated torque) |
+| GX390 (J1349) | +11 % rated, no air cleaner |
+| Mazda SKYACTIV-G (EPA, airflow boundary) | BTE −5 % at ≥ 80 N m; MBT and motoring consistent |
+| Kohler | 17.9 kW vs 20.1 (spark C) |
+| ALCO | not re-scored |
+
+Known structural limits:
+- no 1-D wave dynamics (scavenging);
+- no dissociation (~1-3 %);
+- premixed representation of direct injection;
+- no knock model.
+
 ## 0b. Open issues and parameter register (keep current)
 
 Status key: S = sourced, D = derived from documented data or measurement,
