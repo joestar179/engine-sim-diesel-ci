@@ -72,6 +72,9 @@ def main():
     # 0. Variable cam timing: WOT phase per speed for maximum torque within
     # the documented authority (ECU WOT criterion); intake first, then exhaust.
     ai, ae = spec.get('vvt_intake_authority', 0.0), spec.get('vvt_exhaust_authority', 0.0)
+    import generate
+    V, _ = generate.resolve(spec)
+    OVERLAP_CAP = spec.get('overlap_cap_deg', 70.0)   # C: Mazda EPA WOT phases reach ~62 deg at 0.050 in (D)
     lo0, hi0 = spec.get('idle_rpm', 1000), spec.get('redline_rpm', spec['rated_rpm'])
     if (ai or ae) and '--skip-vvt' not in sys.argv:
         for r in [x for x in range(1000, 8000, 1000) if lo0 - 1000 < x <= hi0 + 1000]:
@@ -82,6 +85,13 @@ def main():
                 steps = 3 if COARSE else 6
                 for k in range(steps):
                     ph = auth * k / (steps - 1.0)
+                    # Valve overlap at 0.050 in (deg) for this phase pair; skip
+                    # combinations beyond the plausibility cap.
+                    ic = float(knobs.get('icam_%d' % r, '0').split()[0]) if key.startswith('e') else ph
+                    ec = ph if key.startswith('e') else float(knobs.get('ecam_%d' % r, '0').split()[0])
+                    ivo = (V['intake_center'] - ic) - V['intake_duration'] / 2.0
+                    evc = -(V['exhaust_center'] - ec) + V['exhaust_duration'] / 2.0
+                    if evc - ivo > OVERLAP_CAP: continue
                     res = run(spec, [test], dict(knobs, **{key: '%.1f * units.deg' % ph}))
                     t = (res.get(test) or (float('-inf'), 0))[0]
                     if best is None or t > best[1]: best = (ph, t)

@@ -45,8 +45,8 @@ def resolve(spec):
     ai, ae = spec.get('vvt_intake_authority', 0.0), spec.get('vvt_exhaust_authority', 0.0)
     if spec.get('intake_center') is None and ai:
         v['intake_center'] += ai / 2.0; prov['intake_center'] += ' + vvt rest (+%.1f)' % (ai / 2.0)
-    if spec.get('exhaust_center') is None and ae:
-        v['exhaust_center'] += ae / 2.0; prov['exhaust_center'] += ' + vvt rest (+%.1f)' % (ae / 2.0)
+    # Exhaust phasers retard from a most-advanced rest = the conventional fixed
+    # timing (Mazda service: EVC 7 ATDC at rest), so the default centre is the rest.
     put('rod_mm', spec.get('rod_mm'), D.rod_length(spec['stroke_mm']))
     b = D.bearings(spec['bore_mm'])
     for k in b: put(k + '_mm', spec.get(k + '_mm'), b[k])
@@ -103,10 +103,10 @@ def generate(spec, out_path):
     banks, heads = [], []
     for bi, ang in enumerate(L['banks']):
         cyls = [i for i, c in enumerate(L['cyl']) if c[0] == bi]
-        adds = '\n'.join(('        .add_cylinder(\n            piston: piston(piston_params, blowby: k_28inH2O(0.05)),\n'
+        adds = '\n'.join(('        .add_cylinder(\n            piston: piston(piston_params, blowby: k_28inH2O(%s)),\n'
                           '            connecting_rod: connecting_rod(rod_params),\n'
                           '            rod_journal: rj%d, intake: intake, exhaust_system: exhaust0,\n'
-                          '            ignition_wire: wires.wire%d, primary_length: 0 * units.mm)') % (pin_of[i], i + 1) for i in cyls)
+                          '            ignition_wire: wires.wire%d, primary_length: 0 * units.mm)') % (spec.get('blowby_k', 0.05), pin_of[i], i + 1) for i in cyls)
         banks.append('    cylinder_bank b%d(bank_params, angle: %.1f * units.deg)\n    b%d\n%s\n    engine.add_cylinder_bank(b%d)' % (bi, ang, bi, adds, bi))
         # Each bank's head sees the shared camshaft; lobe index = cylinder index within the bank order.
         heads.append(('    b%d.set_cylinder_head(generic_cylinder_head(\n'
@@ -160,9 +160,12 @@ def generate(spec, out_path):
     # negative = earlier (Mazda check), so the intake schedule uses -icam.
     rpms = list(range(1000, 8001, 1000))
     vvt_inputs = '\n'.join('    input icam_%d: 0 * units.deg;\n    input ecam_%d: 0 * units.deg;' % (r, r) for r in rpms)
-    vvt_functions = ('    function intake_schedule(1000 * units.rpm)\n    intake_schedule\n        .add_sample(0 * units.rpm, -icam_1000)\n'
+    # Phasers are pin-locked at rest while cranking (released once oil
+    # pressure builds): starting with large overlap locks in reverse flow.
+    rest = '        .add_sample(0 * units.rpm, 0 * units.deg)\n        .add_sample(500 * units.rpm, 0 * units.deg)\n'
+    vvt_functions = ('    function intake_schedule(1000 * units.rpm)\n    intake_schedule\n' + rest
                      + '\n'.join('        .add_sample(%d * units.rpm, -icam_%d)' % (r, r) for r in rpms) + '\n'
-                     + '    function exhaust_schedule(1000 * units.rpm)\n    exhaust_schedule\n        .add_sample(0 * units.rpm, ecam_1000)\n'
+                     + '    function exhaust_schedule(1000 * units.rpm)\n    exhaust_schedule\n' + rest
                      + '\n'.join('        .add_sample(%d * units.rpm, ecam_%d)' % (r, r) for r in rpms) + '\n')
     mr = f'''import "engine_sim.mr"
 

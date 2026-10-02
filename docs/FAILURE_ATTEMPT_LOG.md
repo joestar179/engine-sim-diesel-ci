@@ -1134,6 +1134,43 @@ The shape is flat. Set: DF150 46°, TF250 37°.
 - 46°/37° rated injection is long for rotary pumps (typical 20–30°): either the jet mixing is somewhat fast (e.g. no wall impingement: x_st ≈ 85 mm > bore/2 = 53 mm) or a loss is missing.
 - TF250 at 1000 rpm is +7.5 %.
 
+## Mazda reverse-flow attractor resolved (start-up phase lock); small-engine low-speed sensitivities (2026-10-02)
+
+**Mazda — cause found.** The reverse-flow loop is a start-up lock-in, not a breathing defect.
+- Same knobs (EPA WOT phases, inertial on): started with the intake cam advanced 44° at cranking speed, the engine never fires at any test speed. Started with the cam at rest, it runs and stays running when the phasers move to 64-75°.
+- The generator's schedule had sampled `icam_1000` at 0 rpm.
+- Fix (generator, MR level): both phasers are held at rest at 0 and 500 rpm (pin-locked while cranking, as real phasers are).
+- Exhaust rest corrected: the default exhaust centre is the rest position (no +authority/2).
+- Optimiser overlap cap 70° at 0.050 in. EPA WOT phases reach ~62° (intake 64-75 adv, exhaust 10-30 ret), so the earlier "~30°" note was wrong.
+
+Mazda at EPA measured WOT phases (port_cd 0.586, coarse MBT; ×1.017 vs documented curve):
+
+| rpm | inertial off | inertial on |
+|---|---|---|
+| 1000 | +31 % vs EPA max-torque point | 142.9 (+1.3 %) |
+| 2000 | −8.0 % | 177.3 (−4.9 %) |
+| 3000 | −4.0 % | 192.1 (−4.6 %) |
+| 4000 | −6.2 % | 217.8 (+7.9 %) |
+
+Previous best (inertial off, optimised VVT): −16..−19 % mid-range. Not yet a scored calibration; the coarse pass must be rerun.
+
+**Small engines — one-at-a-time sensitivities** (defaults, ratio = low speed / rated):
+
+| Change | GX390 2000/3600 (doc ratio 1.070) | Kohler 2200/3600 (doc 0.994) |
+|---|---|---|
+| baseline | +17 / +3 %, 1.218 | +15 / +12 %, 1.016 |
+| IVC +10 | +10 / −2 %, 1.194 | +8 / +8 %, 0.996 |
+| IVC +20 | +5 / −1 %, 1.135 | +3 / +5 %, 0.978 |
+| carb k 1.8× | 1.350 | 1.057 |
+| carb k 3.0× | 1.152 | 0.994 |
+| λ 0.96 / plenum low end | ~no effect | ~no effect |
+| blow-by k 0.15 / 0.30 (×3/×6) | 1.201 / 1.181 | — |
+
+- Kohler: shape correct, level +12-15 % (consistent with port_cd below range; calibration-grade data).
+- GX390: level correct at rated, low-speed shape wrong. No equipment value inside a plausible range corrects it. IVC needs ~+20° (≈52° ABDC vs documented ~37°).
+- Remaining open Layer-1 candidates: low-speed heat loss, and charge trapping at low speed.
+- Generator: `blowby_k` is now a spec input (default 0.05, stock; ~0.2 mm² effective, plausible but unsourced).
+
 ## Gas-path defaults by architecture class (2026-10-02)
 
 **Problem:** the generator's runner rule (425 mm × 4000 / peak-torque rpm, anchored on an automotive engine) gave the GX390 a 680 mm and the Kohler a 530 mm intake column, i.e. low-rpm tuning. It also hard-coded a 600 mm exhaust primary for every engine. Small industrial engines are not length-tuned (carburettor on a short spacer into the port; exhaust port into a muffler).
