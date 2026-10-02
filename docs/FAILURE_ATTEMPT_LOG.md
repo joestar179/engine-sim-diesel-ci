@@ -1134,6 +1134,32 @@ The shape is flat. Set: DF150 46°, TF250 37°.
 - 46°/37° rated injection is long for rotary pumps (typical 20–30°): either the jet mixing is somewhat fast (e.g. no wall impingement: x_st ≈ 85 mm > bore/2 = 53 mm) or a loss is missing.
 - TF250 at 1000 rpm is +7.5 %.
 
+## Small-engine low-speed excess — decomposition and remaining hypotheses (2026-10-02)
+
+**Decomposition** at the coarse-calibrated knobs (`--energy`; ratio low/high speed):
+
+| | torque | fuel (charge) per cycle | brake efficiency | doc torque ratio |
+|---|---|---|---|---|
+| GX390 2000/3600 | 1.196 | 1.067 | 1.086 (pumping −0.9 vs −2.9 %, gross 0.379/0.375) | 1.070 |
+| Kohler 2200/3600 | 1.082 | 1.014 | 1.065 (gross 0.394/0.357) | 0.994 |
+
+- The charge ratios alone nearly equal the documented torque ratios. The excess is efficiency that rises at low speed.
+- GX390: mostly pumping (pmep ≈ 27 vs 78 kPa).
+- Kohler: gross indicated (exhaust share 44.7 vs 49.3 %).
+
+**Burn-speed scaling tested** (u′ = 0.5 Vp, S_T = f(u′/S_L) S_L; the default f has a 3 S_L floor):
+- GX390 10-90 burn 23° (2000) vs 30° (3600).
+- With f = 1.5 x (floor 1) the ratio goes 1.196 → 1.155, at unchanged spark. CA50 moved to 19° at 2000, so MBT re-optimisation would recover most of it.
+- Not the main cause. Run copy only, not committed.
+
+**Cam closing profile checked:** harmonic lobe γ 1.1 gives intake seat-to-seat 273° (205° at 0.050 in), i.e. IVC at the seat ≈ 66° ABDC. Realistic ramps; not a missing-backflow artefact.
+
+**Exhausted (no plausible equipment or physics lever found):**
+- intake runner length (class default), IVC at 0.050, carburettor k, λ, plenum, blow-by;
+- burn-speed scaling, cam ramp shape.
+
+**Remaining unverifiable:** the documented curve shape itself (family data; no airflow or BSFC vs speed to split charge from efficiency).
+
 ## Energy creation in GasSystem::inertialFlow found and fixed; Deere re-set (2026-10-02)
 
 **Diagnosis** (DF150 rated; `--energy` now also prints the flow-weighted outlet temperature and sampled intake/outlet moles):
