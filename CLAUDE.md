@@ -111,6 +111,48 @@ Known structural limits:
 - premixed representation of direct injection;
 - no knock model.
 
+## 0e. Engine setup philosophy (user-agreed 2026-10-02)
+
+Data reality: per-engine breathing and injection detail is proprietary for almost every production engine. Setup must work from a spec sheet. Evidence standards are therefore separated by layer.
+
+**Layer 1 — Physics** (shared by every engine; never tuned per engine).
+- Validated only on physics-reference engines with complete data: TCC-III / ECN (pressure traces), Mazda SKYACTIV-G (EPA airflow, BTE, MBT, motoring).
+- Changes follow the one-layer-at-a-time rule and are re-scored on all references.
+
+**Layer 2 — Equipment defaults** (size- and technology-continuous rules of thumb).
+- Every input a spec sheet lacks is set from a published engineering correlation.
+- Each default carries its source and a stated plausible range.
+- Defaults are fixed in advance, never adjusted to a target.
+- Library: `tools/engine_setup/` (defaults + generator).
+
+**Layer 3 — Per-engine calibration** (a small declared knob set; everything else is a check).
+
+| Knob | Set from | Range |
+|---|---|---|
+| Breathing scale (port/valve discharge coefficient) | documented rated power / torque | stated range |
+| Tuning (intake runner / cam timing class) | documented peak-torque speed | stated range |
+| Diesel: pump delivery rate (injection duration) | documented rated torque | 20-35 deg typical |
+| Spark | MBT rule (50 % burned ~8-10 deg ATDC) unless documented | — |
+
+- A knob at the edge of its range is a finding, logged; never extend the range.
+- A systematic trend of a knob with size or technology points to a Layer-1 or Layer-2 gap.
+
+**Engine grades / claims:**
+
+| Grade | Data | Claim |
+|---|---|---|
+| Physics reference | complete inputs + measured outputs | validates physics |
+| Calibrated engine | spec sheet + documented curve | rated values by construction; curve shape, fuel, idle and bounds are held-out checks (§0c tolerances) |
+| Plausible engine | spec sheet only | defaults only; expected within ~±10-15 % |
+
+**Complexity rule:** do not add physics whose inputs users cannot supply. The exception is sound, where coarse default geometry (exhaust and runner lengths, firing order) has a large audible effect.
+
+**Current classification:**
+- Physics reference: Mazda SKYACTIV-G (outputs; breathing structurally limited by the lumped gas path).
+- Calibrated: Deere DF150 / TF250, GX390.
+- Calibrated (incomplete): Kohler CH750.
+- Not yet set up: ALCO (after the matrix).
+
 ## 0b. Open issues and parameter register (keep current)
 
 Status key: S = sourced, D = derived from documented data or measurement,
